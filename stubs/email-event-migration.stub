@@ -1,0 +1,17 @@
+<?php
+
+declare(strict_types=1);
+
+use Illuminate\Database\Migrations\Migration;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Prajwal89\EmailManagement\Models\EmailEvent::create([
+            'name' => '{name}',
+            'slug' => '{slug}',
+            'description' => '{description}'
+        ]);
+    }
+};

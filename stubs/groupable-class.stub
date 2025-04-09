@@ -1,0 +1,22 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\EmailManagement\ReceivableGroups;
+
+use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
+use Prajwal89\EmailManagement\Interfaces\Groupable;
+
+class {class_name} implements Groupable
+{
+    public static function getQuery(): Builder
+    {
+        return User::query()->subscribedToEmails();
+    }
+
+    public static function getDescription(): string
+    {
+        return 'all users';
+    }
+}

@@ -1,0 +1,48 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\EmailManagement\EmailHandlers\{sendable_class_name};
+
+use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Mail\Mailable;
+use Prajwal89\EmailManagement\EmailHandlerBase;
+use {email_class_name_space};
+use Prajwal89\EmailManagement\Models\{sendable_model_name};
+use Override;
+
+class {email_handler_class_name} extends EmailHandlerBase
+{
+    public static $mail = {email_class}::class;
+
+    public Model $eventable;
+
+    public function __construct(public Model $receivable)
+    {
+        $this->eventable = {sendable_model_name}::query()->where('slug', '{event_slug}')->first();
+    }
+
+    #[Override]
+    public function qualifiesForSending(): bool
+    {
+        if (!$this->receivable->isSubscribedToEmails()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    #[Override]
+    public function buildEmail(): Mailable
+    {
+        return (new static::$mail($this->receivable))
+        ->withSymfonyMessage([$this, 'configureEmailHeaders']);
+    }
+    
+    #[Override]
+    public static function buildSampleEmail(): Mailable
+    {
+        return new static::$mail(User::inRandomOrder()->first());
+    }
+}

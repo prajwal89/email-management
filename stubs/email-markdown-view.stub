@@ -1,0 +1,12 @@
+@component('mail::message')
+# {name}
+
+Paragraph
+
+@component('mail::button', ['url' => url('')])
+Visit
+@endcomponent
+
+Thanks,<br>
+{{ config('app.name') }}
+@endcomponent

@@ -1,0 +1,33 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\EmailManagement\Emails\{sendable_class_name};
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Bus\Queueable;
+use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Queue\SerializesModels;
+
+class {email_class_name} extends Mailable
+{
+    use Queueable, SerializesModels;
+
+    public function __construct(public Model $receivable) {}
+
+    public function envelope(): Envelope
+    {
+        return new Envelope(
+            subject: '{email_subject}'
+        );
+    }
+
+    public function content(): Content
+    {
+        return new Content(
+            markdown: 'email-management::emails.{sendable_folder_name}.{email_view_file_name}'
+        );
+    }
+}

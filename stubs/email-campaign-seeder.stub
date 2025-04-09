@@ -1,0 +1,20 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Prajwal89\EmailManagement\Database\Seeders\EmailCampaigns;
+
+use Prajwal89\EmailManagement\Models\EmailCampaign;
+
+class {ClassName}
+{
+    public function run()
+    {
+        EmailCampaign::firstOrCreate([
+            'slug' => '{slug}',
+        ], [
+            'name' => '{name}',
+            'description' => '{description}'
+        ]);
+    }
+}

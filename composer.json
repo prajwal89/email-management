@@ -1,0 +1,24 @@
+{
+    "name": "prajwal89/email-management",
+    "description": "Manage Your Emails",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Prajwal89\\EmailManagement\\": "src/",
+            "Prajwal89\\EmailManagement\\Database\\": "database/"
+        }
+    },
+    "authors": [
+        {
+            "name": "prajwal89",
+            "email": "22263436+prajwal89@users.noreply.github.com"
+        }
+    ],
+    "require-dev": {
+        "laravel/pint": "^1.22"
+    },
+    "require": {
+        "spatie/laravel-honeypot": "^4.5",
+        "flowframe/laravel-trend": "^0.4.0"
+    }
+}
