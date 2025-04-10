@@ -19,6 +19,7 @@ class NewsletterEmailService
     }
 
     // todo write url decryption logic in function
+    // todo pass receivable also
     public static function getEmailVerificationUrl(Model $receivable): string
     {
         return URL::signedRoute('emails.newsletter.confirm-subscription', [

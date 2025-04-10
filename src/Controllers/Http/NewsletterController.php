@@ -9,7 +9,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Prajwal89\EmailManagement\Mail\NewsletterEmailVerificationEmail;
 use Prajwal89\EmailManagement\MailHandlers\EmailEvents\NewsletterEmailVerificationEmailHandler;
 use Prajwal89\EmailManagement\Models\NewsletterEmail;
 use Prajwal89\EmailManagement\Services\NewsletterEmailService;
@@ -47,9 +49,10 @@ class NewsletterController extends Controller
             ->first();
 
         if (!$newsletterEmail) {
+            // create new subscription
             $newsletterEmail = NewsletterEmailService::store(['email' => $email]);
 
-            (new NewsletterEmailVerificationEmailHandler($newsletterEmail))->sendEmail();
+            Mail::to($newsletterEmail)->send(new NewsletterEmailVerificationEmail($newsletterEmail));
 
             laraToast()->success('Verification email has been sent. Please check your inbox.');
 
@@ -62,7 +65,7 @@ class NewsletterController extends Controller
             return redirect()->back();
         }
 
-        (new NewsletterEmailVerificationEmailHandler($newsletterEmail))->sendEmail();
+        Mail::to($newsletterEmail)->send(new NewsletterEmailVerificationEmail($newsletterEmail));
 
         laraToast()->success('A new verification email has been sent. Please check your inbox.');
 
