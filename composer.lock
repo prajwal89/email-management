@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d1be121e7495b08196ba83e6adcc9e77",
+    "content-hash": "d4b53bf336e9f890a02050ffbb2442b9",
     "packages": [
         {
             "name": "brick/math",
@@ -1705,6 +1705,67 @@
                 }
             ],
             "time": "2025-03-27T12:57:33+00:00"
+        },
+        {
+            "name": "prajwal89/lara-toast",
+            "version": "v0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/prajwal89/lara-toast.git",
+                "reference": "701d0bb34abc59f2f1779e6567abb78ca5bee265"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/prajwal89/lara-toast/zipball/701d0bb34abc59f2f1779e6567abb78ca5bee265",
+                "reference": "701d0bb34abc59f2f1779e6567abb78ca5bee265",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^8.0|^9.0|^10.0|^11.0|^12.0",
+                "php": "~8.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.20"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Prajwal89\\LaraToast\\LaraToastsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Prajwal89\\LaraToast\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Prajwal Hallale",
+                    "email": "22263436+prajwal89@users.noreply.github.com"
+                }
+            ],
+            "description": "lightweight toast notification package for laravel",
+            "keywords": [
+                "alert",
+                "laravel",
+                "message",
+                "notification",
+                "toast"
+            ],
+            "support": {
+                "issues": "https://github.com/prajwal89/lara-toast/issues",
+                "source": "https://github.com/prajwal89/lara-toast/tree/v0.1.1"
+            },
+            "time": "2025-04-09T17:56:30+00:00"
         },
         {
             "name": "psr/clock",
