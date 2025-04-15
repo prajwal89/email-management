@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Mail;
+use Prajwal89\EmailManagement\Interfaces\EmailReceivable;
 use Prajwal89\EmailManagement\Models\SentEmail;
 
 /**
@@ -32,7 +33,7 @@ abstract class EmailHandlerBase
      * accept all parameter required for building email
      * in subclass with context
      */
-    public function __construct(public Model $receivable)
+    public function __construct(public EmailReceivable $receivable)
     {
         //
     }

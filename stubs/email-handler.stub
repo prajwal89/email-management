@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Mail\Mailable;
 use Prajwal89\EmailManagement\EmailHandlerBase;
+use Prajwal89\EmailManagement\Interfaces\EmailReceivable;
 use {email_class_name_space};
 use Prajwal89\EmailManagement\Models\{sendable_model_name};
 use Override;
@@ -18,7 +19,7 @@ class {email_handler_class_name} extends EmailHandlerBase
 
     public Model $eventable;
 
-    public function __construct(public Model $receivable)
+    public function __construct(public EmailReceivable $receivable)
     {
         $this->eventable = {sendable_model_name}::query()->where('slug', '{event_slug}')->first();
     }
@@ -27,6 +28,10 @@ class {email_handler_class_name} extends EmailHandlerBase
     public function qualifiesForSending(): bool
     {
         if (!$this->receivable->isSubscribedToEmails()) {
+            return false;
+        }
+
+        if ($this->wasEmailAlreadySentOnce()) {
             return false;
         }
 

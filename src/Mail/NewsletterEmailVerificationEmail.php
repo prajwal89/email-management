@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Mail;
 
-
 use Illuminate\Bus\Queueable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Mail\Mailable;

@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Prajwal89\EmailManagement\Mail\NewsletterEmailVerificationEmail;
-use Prajwal89\EmailManagement\MailHandlers\EmailEvents\NewsletterEmailVerificationEmailHandler;
 use Prajwal89\EmailManagement\Models\NewsletterEmail;
 use Prajwal89\EmailManagement\Services\NewsletterEmailService;
 
