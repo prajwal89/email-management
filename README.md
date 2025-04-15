@@ -35,3 +35,8 @@ These events emails are manually triggered like marketing emails eg. 15% off on 
 - Adds unsubscribe link to each email with list unsubscribe header for easy unsbscribtion
 - Handles unsbscribtion
 - Spam emails sending protection
+
+
+## Limitations
+
+- Does not track emails with Cc and Bcc
