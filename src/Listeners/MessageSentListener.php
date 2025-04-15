@@ -12,22 +12,23 @@ class MessageSentListener
 {
     public function handle(MessageSent $event): void
     {
-        //
         /** @var Email $sentMessage */
         $sentMessage = $event->message;
 
         $headers = $sentMessage->getHeaders();
-        // dump($headers);
-
-        $hash = $headers->getHeaderBody('X-Mailer-Hash');
-
-        $sentEmail = SentEmail::query()->where('hash', $hash)->first();
 
         // todo add flag as email is sent
-        // dd($sentEmail->toArray());
+        $sentEmail = SentEmail::query()
+            ->where('hash', $headers->getHeaderBody('X-Mailer-Hash'))
+            ->first();
 
-        if ($sentEmail) {
-            // dd($sentEmail);
+        if (!$sentEmail) {
+            // Optional: log or handle missing DB entry
+            return;
         }
+
+        $sentEmail->update([
+            'message_id' => $event->sent->getMessageId(),
+        ]);
     }
 }

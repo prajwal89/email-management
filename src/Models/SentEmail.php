@@ -25,6 +25,7 @@ class SentEmail extends Model
         'sender_email',
         'recipient_email',
         'email_content',
+        'message_id',
         'opened_at',
         'clicked_at',
         'created_at',
