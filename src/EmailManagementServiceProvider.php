@@ -27,10 +27,13 @@ class EmailManagementServiceProvider extends ServiceProvider
 
         $this->loadViewsFrom(config('email-management.view_dir'), 'email-management');
 
-        // publish cutome views
         $this->publishes([
             __DIR__ . '/../resources/views' => config('email-management.view_dir'),
         ], 'email-management-views');
+
+        $this->publishes([
+            __DIR__ . '/../config/email-management.php' => config_path('email-management.php'),
+        ], 'email-management-config');
 
         Event::listen(MessageSending::class, MessageSendingListener::class);
 
