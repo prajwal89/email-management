@@ -11,7 +11,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table): void {
-            $table->boolean('is_subscribed_for_emails')->after('provider_id')->default(1);
+            $table->boolean('is_subscribed_for_emails')->before('created_at')->default(1);
         });
 
         Schema::create('em_email_events', function (Blueprint $table): void {
@@ -26,19 +26,32 @@ return new class extends Migration
 
         Schema::create('em_email_logs', function (Blueprint $table): void {
             $table->id();
-            $table->string('message_id')->nullable();
+            $table->string('message_id')->unique();
+            $table->string('from');
+            $table->string('mailer');
+            $table->string('transport');
             $table->text('subject');
-            $table->unsignedBigInteger('receivable_id')->nullable();
-            $table->string('receivable_type')->nullable();
-            $table->unsignedBigInteger('eventable_id')->nullable();
-            $table->string('eventable_type')->nullable();
+            $table->morphs('receivable');
+            $table->morphs('eventable');
             $table->json('context')->nullable();
             $table->json('headers')->nullable();
-            $table->string('sender_email')->nullable();
-            $table->string('recipient_email')->nullable();
-            $table->text('email_content')->nullable();
-            $table->timestamp('opened_at')->nullable();
-            $table->timestamp('clicked_at')->nullable();
+
+            $table->text('html')->nullable();
+            $table->text('text')->nullable();
+
+            $table->unsignedInteger('opens')->default(0);
+            $table->unsignedInteger('clicks')->default(0);
+
+            $table->timestamp('sent_at')->nullable();
+            $table->timestamp('resent_at')->nullable();
+            $table->timestamp('accepted_at')->nullable();
+            $table->timestamp('delivered_at')->nullable();
+            $table->timestamp('last_opened_at')->nullable();
+            $table->timestamp('last_clicked_at')->nullable();
+            $table->timestamp('complained_at')->nullable();
+            $table->timestamp('soft_bounced_at')->nullable();
+            $table->timestamp('hard_bounced_at')->nullable();
+
             $table->timestamps();
 
             $table->index(['eventable_id', 'eventable_type']);
@@ -52,6 +65,8 @@ return new class extends Migration
             $table->string('ip');
             $table->string('message_id')->nullable();
             $table->timestamps();
+
+            $table->foreign('message_id')->references('message_id')->on('em_email_logs');
         });
 
         Schema::create('em_email_campaign', function (Blueprint $table): void {
@@ -70,7 +85,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-
         Schema::create('em_newsletter_emails', function (Blueprint $table): void {
             $table->id();
             $table->string('email')->unique();
@@ -82,37 +96,37 @@ return new class extends Migration
 
         Schema::create('em_cold_emails', function (Blueprint $table): void {
             $table->id();
-            $table->string('email');
+            $table->string('email')->unique();
             $table->string('collection_reason')->nullable();
             $table->string('collected_from')->nullable();
             $table->json('data')->nullable();
             $table->datetime('unsubscribed_at')->nullable();
             $table->timestamps();
-            $table->unique('email');
         });
 
-
-        Schema::create('em_newsletter_emails', function (Blueprint $table): void {
+        Schema::create('em_recipients', function (Blueprint $table) {
             $table->id();
-            $table->string('email')->unique();
-            $table->datetime('email_verified_at')->nullable();
-            $table->datetime('unsubscribed_at')->nullable();
-            $table->softDeletes();
-            $table->timestamps();
-        });
-
-
-        Schema::create('email_recipients', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('email_id')->constrained()->onDelete('cascade');
+            $table->string('message_id')->index();
             $table->string('email');
             $table->enum('type', ['to', 'cc', 'bcc']);
             $table->timestamps();
+
+            $table->foreign('message_id')->references('message_id')->on('em_email_logs')->cascadeOnDelete();
         });
     }
 
     public function down(): void
     {
+        Schema::table('users', function (Blueprint $table): void {
+            $table->dropColumn('is_subscribed_for_emails');
+        });
+
+        Schema::dropIfExists('email_recipients');
+        Schema::dropIfExists('em_cold_emails');
+        Schema::dropIfExists('em_newsletter_emails');
+        Schema::dropIfExists('em_email_campaign');
+        Schema::dropIfExists('em_email_visits');
+        Schema::dropIfExists('em_email_logs');
         Schema::dropIfExists('em_email_events');
     }
 };
