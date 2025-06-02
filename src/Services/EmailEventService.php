@@ -25,7 +25,7 @@ class EmailEventService
             DB::beginTransaction();
 
             // ! this can become heavy in terms of total queries
-            $emailEvent->sentEmails->map(function (SentEmail $sentEmail): void {
+            $emailEvent->sentEmails->map(function (EmailLog $sentEmail): void {
                 SentEmailService::destroy($sentEmail);
             });
 

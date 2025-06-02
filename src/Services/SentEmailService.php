@@ -9,7 +9,7 @@ use Prajwal89\EmailManagement\Models\SentEmail;
 
 class SentEmailService
 {
-    public static function destroy(SentEmail $sentEmail): bool
+    public static function destroy(EmailLog $sentEmail): bool
     {
         $sentEmail->load('emailVisits');
 
