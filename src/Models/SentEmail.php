@@ -9,13 +9,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
-class SentEmail extends Model
+class EmailLog extends Model
 {
-    protected $table = 'em_sent_emails';
+    protected $table = 'em_email_logs';
 
     protected $fillable = [
+        'message_id',
         'subject',
-        'hash',
         'receivable_id',
         'receivable_type',
         'eventable_id',
@@ -25,7 +25,6 @@ class SentEmail extends Model
         'sender_email',
         'recipient_email',
         'email_content',
-        'message_id',
         'opened_at',
         'clicked_at',
         'created_at',

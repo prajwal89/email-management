@@ -8,6 +8,8 @@ use Illuminate\Mail\Events\MessageSending;
 use Prajwal89\EmailManagement\Models\SentEmail;
 use Prajwal89\EmailManagement\Services\EmailContentModifiers;
 use Symfony\Component\Mime\Part\TextPart;
+use Illuminate\Mail\Events\MailSending;
+
 
 // todo add test for injected pixel and tracking urls
 
@@ -19,8 +21,13 @@ class MessageSendingListener
     public function handle(MessageSending $event): void
     {
         $message = $event->message;
-
         $headers = $message->getHeaders();
+
+        $messageId = $this->getMessageId($message);
+
+
+
+        // dd($headers);
 
         if (!$headers->has('X-Mailer-Hash')) {
             $hash = EmailContentModifiers::attachMailerHashHeader($headers);
@@ -67,5 +74,30 @@ class MessageSendingListener
             'headers' => $headers->toArray(),
             'context' => $eventContext ? json_decode($eventContext, true) : null,
         ]);
+    }
+
+
+    public function getMessageId($message)
+    {
+        $headers = $message->getHeaders();
+
+        $messageId = null;
+
+        // Correct way to get Message-ID
+        if ($headers->has('Message-ID')) {
+            $messageIdHeader = $headers->get('Message-ID');
+            if ($messageIdHeader instanceof \Symfony\Component\Mime\Header\IdentificationHeader) {
+                $messageId = $messageIdHeader->getId();
+            }
+        }
+
+        // Alternative: Generate one if not present
+        if (!$messageId) {
+            $messageId = uniqid() . '@' . (config('app.url') ? parse_url(config('app.url'), PHP_URL_HOST) : 'localhost');
+            // Set it properly as an IdentificationHeader
+            $headers->addIdHeader('Message-ID', $messageId);
+        }
+
+        return $messageId;
     }
 }
