@@ -15,7 +15,7 @@ class EmailCampaign extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'em_email_campaign';
+    protected $table = 'em_email_campaigns';
 
     protected $fillable = [
         'name',
@@ -36,20 +36,20 @@ class EmailCampaign extends Model
         ];
     }
 
-    public function sentEmails(): MorphMany
+    public function emailLogs(): MorphMany
     {
-        return $this->morphMany(SentEmail::class, 'eventable');
+        return $this->morphMany(EmailLog::class, 'eventable');
     }
 
     public function emailVisits(): HasManyThrough
     {
         return $this->hasManyThrough(
             related: EmailVisit::class,
-            through: SentEmail::class,
+            through: EmailLog::class,
             firstKey: 'eventable_id',
-            secondKey: 'email_hash',
+            secondKey: 'message_id',
             localKey: 'id',
-            secondLocalKey: 'hash',
+            secondLocalKey: 'message_id',
         )->where('eventable_type', self::class);
     }
 

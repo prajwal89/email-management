@@ -48,8 +48,9 @@ class EmailLog extends Model
 
     public function emailVisits(): HasMany
     {
-        return $this->hasMany(EmailVisit::class, 'email_hash', 'hash');
+        return $this->hasMany(EmailVisit::class, 'message_id', 'message_id');
     }
+
 
     /**
      * This can be EmailEvent, Campaign Model

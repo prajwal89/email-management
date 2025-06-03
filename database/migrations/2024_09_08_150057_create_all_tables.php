@@ -24,13 +24,29 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        Schema::create('em_email_campaigns', function (Blueprint $table): void {
+            $table->id();
+
+            $table->string('name', 255);
+            $table->string('slug', 255)->unique();
+            $table->text('description')->nullable();
+
+            $table->json('receivable_groups')->nullable();
+            $table->string('batch_id')->nullable();
+            $table->timestamp('started_on')->nullable();
+            $table->timestamp('ended_on')->nullable();
+
+            $table->softDeletes();
+            $table->timestamps();
+        });
+
         Schema::create('em_email_logs', function (Blueprint $table): void {
             $table->id();
             $table->string('message_id')->unique();
             $table->string('from');
             $table->string('mailer');
             $table->string('transport');
-            $table->text('subject');
+            $table->string('subject');
             $table->morphs('receivable');
             $table->morphs('eventable');
             $table->json('context')->nullable();
@@ -60,29 +76,13 @@ return new class extends Migration
 
         Schema::create('em_email_visits', function (Blueprint $table): void {
             $table->id();
+            $table->string('message_id')->nullable();
             $table->text('path');
             $table->string('session_id', 64);
             $table->string('ip');
-            $table->string('message_id')->nullable();
             $table->timestamps();
 
             $table->foreign('message_id')->references('message_id')->on('em_email_logs');
-        });
-
-        Schema::create('em_email_campaign', function (Blueprint $table): void {
-            $table->id();
-
-            $table->string('name', 255);
-            $table->string('slug', 255)->unique();
-            $table->text('description')->nullable();
-
-            $table->json('receivable_groups')->nullable();
-            $table->string('batch_id')->nullable();
-            $table->timestamp('started_on')->nullable();
-            $table->timestamp('ended_on')->nullable();
-
-            $table->softDeletes();
-            $table->timestamps();
         });
 
         Schema::create('em_newsletter_emails', function (Blueprint $table): void {
