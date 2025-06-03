@@ -47,8 +47,13 @@ return new class extends Migration
             $table->string('mailer');
             $table->string('transport');
             $table->string('subject');
-            $table->morphs('receivable');
-            $table->morphs('eventable');
+
+            $table->unsignedBigInteger('receivable_id')->nullable();
+            $table->string('receivable_type')->nullable();
+
+            $table->unsignedBigInteger('eventable_id')->nullable();
+            $table->string('eventable_type')->nullable();
+
             $table->json('context')->nullable();
             $table->json('headers')->nullable();
 
@@ -61,17 +66,18 @@ return new class extends Migration
             $table->timestamp('sent_at')->nullable();
             $table->timestamp('resent_at')->nullable();
             $table->timestamp('accepted_at')->nullable();
-            $table->timestamp('delivered_at')->nullable();
+            // $table->timestamp('delivered_at')->nullable();
             $table->timestamp('last_opened_at')->nullable();
             $table->timestamp('last_clicked_at')->nullable();
             $table->timestamp('complained_at')->nullable();
             $table->timestamp('soft_bounced_at')->nullable();
             $table->timestamp('hard_bounced_at')->nullable();
+            $table->timestamp('unsubscribed_at')->nullable();
 
             $table->timestamps();
 
-            $table->index(['eventable_id', 'eventable_type']);
             $table->index(['receivable_id', 'receivable_type']);
+            $table->index(['eventable_id', 'eventable_type']);
         });
 
         Schema::create('em_email_visits', function (Blueprint $table): void {
@@ -106,7 +112,7 @@ return new class extends Migration
 
         Schema::create('em_recipients', function (Blueprint $table) {
             $table->id();
-            $table->string('message_id')->index();
+            $table->string('message_id');
             $table->string('email');
             $table->enum('type', ['to', 'cc', 'bcc']);
             $table->timestamps();
@@ -117,16 +123,17 @@ return new class extends Migration
 
     public function down(): void
     {
+        // Drop tables in correct order (tables with foreign keys first)
+        Schema::dropIfExists('em_recipients');
+        Schema::dropIfExists('em_email_visits');
+        Schema::dropIfExists('em_cold_emails');
+        Schema::dropIfExists('em_newsletter_emails');
+        Schema::dropIfExists('em_email_logs');
+        Schema::dropIfExists('em_email_campaigns'); // Fixed: was 'em_email_campaign'
+        Schema::dropIfExists('em_email_events');
+
         Schema::table('users', function (Blueprint $table): void {
             $table->dropColumn('is_subscribed_for_emails');
         });
-
-        Schema::dropIfExists('email_recipients');
-        Schema::dropIfExists('em_cold_emails');
-        Schema::dropIfExists('em_newsletter_emails');
-        Schema::dropIfExists('em_email_campaign');
-        Schema::dropIfExists('em_email_visits');
-        Schema::dropIfExists('em_email_logs');
-        Schema::dropIfExists('em_email_events');
     }
 };

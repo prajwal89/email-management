@@ -15,6 +15,9 @@ class EmailLog extends Model
 
     protected $fillable = [
         'message_id',
+        'from',
+        'mailer',
+        'transport',
         'subject',
         'receivable_id',
         'receivable_type',
@@ -22,22 +25,36 @@ class EmailLog extends Model
         'eventable_type',
         'context',
         'headers',
-        'sender_email',
-        'recipient_email',
-        'email_content',
-        'opened_at',
-        'clicked_at',
-        'created_at',
-        'updated_at',
+        'html',
+        'text',
+        'opens',
+        'clicks',
+        'sent_at', // email has left from our app
+        'resent_at',
+        'accepted_at',
+        // 'delivered_at',
+        'last_opened_at',
+        'last_clicked_at',
+        'complained_at',
+        'soft_bounced_at',
+        'hard_bounced_at',
+        'unsubscribed_at', //user has unsubscribed bc of this email
     ];
 
     protected function casts(): array
     {
         return [
-            'headers' => 'array',
             'context' => 'array',
-            'opened_at' => 'datetime',
-            'clicked_at' => 'datetime',
+            'headers' => 'array',
+            'sent_at' => 'datetime',
+            'resent_at' => 'datetime',
+            'accepted_at' => 'datetime',
+            'delivered_at' => 'datetime',
+            'last_opened_at' => 'datetime',
+            'last_clicked_at' => 'datetime',
+            'complained_at' => 'datetime',
+            'soft_bounced_at' => 'datetime',
+            'hard_bounced_at' => 'datetime',
         ];
     }
 
@@ -51,6 +68,10 @@ class EmailLog extends Model
         return $this->hasMany(EmailVisit::class, 'message_id', 'message_id');
     }
 
+    public function recipients(): HasMany
+    {
+        return $this->hasMany(Recipient::class, 'message_id', 'message_id');
+    }
 
     /**
      * This can be EmailEvent, Campaign Model

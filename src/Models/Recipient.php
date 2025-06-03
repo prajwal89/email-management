@@ -3,6 +3,7 @@
 namespace Prajwal89\EmailManagement\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Prajwal89\EmailManagement\Enums\RecipientType;
 
 class Recipient extends Model
 {
@@ -14,6 +15,12 @@ class Recipient extends Model
         'type',
     ];
 
+    public function casts()
+    {
+        return [
+            'type' => RecipientType::class
+        ];
+    }
     /**
      * Get the email log this recipient belongs to.
      */

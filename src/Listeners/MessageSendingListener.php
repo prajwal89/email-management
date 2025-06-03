@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Listeners;
 
+use Exception;
 use Illuminate\Mail\Events\MessageSending;
 use Prajwal89\EmailManagement\Models\SentEmail;
 use Prajwal89\EmailManagement\Services\EmailContentModifiers;
 use Symfony\Component\Mime\Part\TextPart;
 use Illuminate\Mail\Events\MailSending;
-
+use Illuminate\Support\Facades\DB;
+use Prajwal89\EmailManagement\Enums\RecipientType;
+use Prajwal89\EmailManagement\Models\EmailLog;
+use Prajwal89\EmailManagement\Services\HeadersManager;
 
 // todo add test for injected pixel and tracking urls
 
@@ -20,84 +24,83 @@ class MessageSendingListener
 {
     public function handle(MessageSending $event): void
     {
+        $headersManager = new  HeadersManager($event->message);
+
         $message = $event->message;
         $headers = $message->getHeaders();
 
-        $messageId = $this->getMessageId($message);
+        $messageId = $headersManager->createMessageId();
+
+        // EmailContentModifiers::removeHeaders($headers);
+        // EmailContentModifiers::addUnsubscribeHeader($headers, $hash);
+
+        // $updatedHtml = str($message->getHtmlBody())
+        //     ->pipe(function ($html) use ($hash): string {
+        //         return EmailContentModifiers::injectTrackingUrls($html->toString(), $hash);
+        //     })
+        //     // todo enable this after testing (that email delivery is not affected)
+        //     // ->pipe(function ($html) use ($hash) {
+        //     //     return EmailContentModifiers::injectTrackingPixel($html->toString(), $hash);
+        //     // })
+        //     ->pipe(function ($html) use ($hash): string {
+        //         return EmailContentModifiers::injectUnsubscribeLink($html->toString(), $hash);
+        //     })
+        //     ->toString();
+        // $message->setBody(new TextPart($updatedHtml, 'utf-8', 'html'));
+
+        try {
+            DB::beginTransaction();
+
+            $emailLog = EmailLog::query()->create([
+                'message_id' => $messageId,
+
+                // todo: from can have multiple values also
+                'from' => $message->getFrom()[0]->getAddress(),
+
+                'eventable_type' => $headersManager->getEventable()['type'],
+                'eventable_id' => $headersManager->getEventable()['id'],
+                'receivable_type' => $headersManager->getReceivable()['type'],
+                'receivable_id' => $headersManager->getReceivable()['id'],
+
+                'subject' => $message->getSubject(),
+                'html' => $message->getHtmlBody(),
+                'text' => $message->getTextBody(),
+                'headers' => $headers->toArray(),
+                'context' => $headersManager->getEventContext(),
+
+                // todo: add this
+                // 'mailer' => $mailerName,
+                // 'transport' => $transportName,
+            ]);
 
 
 
-        // dd($headers);
-
-        if (!$headers->has('X-Mailer-Hash')) {
-            $hash = EmailContentModifiers::attachMailerHashHeader($headers);
-        } else {
-            $hash = $headers->getHeaderBody('X-Mailer-Hash');
-        }
-
-        $eventContext = $headers->has('X-Event-Context') ? $headers->getHeaderBody('X-Event-Context') : null;
-
-        $eventableType = $headers->has('X-Eventable-Type') ? $headers->getHeaderBody('X-Eventable-Type') : null;
-        $eventableId = $headers->has('X-Eventable-Id') ? $headers->getHeaderBody('X-Eventable-Id') : null;
-        $receivableType = $headers->has('X-Receivable-Type') ? $headers->getHeaderBody('X-Receivable-Type') : null;
-        $receivableId = $headers->has('X-Receivable-Id') ? $headers->getHeaderBody('X-Receivable-Id') : null;
-
-        EmailContentModifiers::removeHeaders($headers);
-        EmailContentModifiers::addUnsubscribeHeader($headers, $hash);
-
-        $updatedHtml = str($message->getHtmlBody())
-            ->pipe(function ($html) use ($hash): string {
-                return EmailContentModifiers::injectTrackingUrls($html->toString(), $hash);
-            })
-            // todo enable this after testing (that email delivery is not affected)
-            // ->pipe(function ($html) use ($hash) {
-            //     return EmailContentModifiers::injectTrackingPixel($html->toString(), $hash);
-            // })
-            ->pipe(function ($html) use ($hash): string {
-                return EmailContentModifiers::injectUnsubscribeLink($html->toString(), $hash);
-            })
-            ->toString();
-
-        $message->setBody(new TextPart($updatedHtml, 'utf-8', 'html'));
-
-        SentEmail::query()->create([
-            'hash' => $hash,
-            'eventable_type' => $eventableType,
-            'eventable_id' => $eventableId,
-            'receivable_type' => $receivableType,
-            'receivable_id' => $receivableId,
-            'subject' => $message->getSubject(),
-            // ! We are assuming single recipient and senderEmail
-            'sender_email' => $message->getFrom()[0]->getAddress() ?? null,
-            'recipient_email' => $message->getTo()[0]->getAddress() ?? null,
-            'email_content' => $updatedHtml,
-            'headers' => $headers->toArray(),
-            'context' => $eventContext ? json_decode($eventContext, true) : null,
-        ]);
-    }
-
-
-    public function getMessageId($message)
-    {
-        $headers = $message->getHeaders();
-
-        $messageId = null;
-
-        // Correct way to get Message-ID
-        if ($headers->has('Message-ID')) {
-            $messageIdHeader = $headers->get('Message-ID');
-            if ($messageIdHeader instanceof \Symfony\Component\Mime\Header\IdentificationHeader) {
-                $messageId = $messageIdHeader->getId();
+            foreach ($message->getTo() as $i => $to) {
+                $emailLog->recipients()->create([
+                    'type' => RecipientType::TO,
+                    'email' => $to->getAddress(),
+                ]);
             }
-        }
 
-        // Alternative: Generate one if not present
-        if (!$messageId) {
-            $messageId = uniqid() . '@' . (config('app.url') ? parse_url(config('app.url'), PHP_URL_HOST) : 'localhost');
-            // Set it properly as an IdentificationHeader
-            $headers->addIdHeader('Message-ID', $messageId);
-        }
+            foreach ($message->getCc() as $i => $cc) {
+                $emailLog->recipients()->create([
+                    'type' => RecipientType::CC,
+                    'email' => $cc->getAddress(),
+                ]);
+            }
 
-        return $messageId;
+            foreach ($message->getBcc() as $i => $bcc) {
+                $emailLog->recipients()->create([
+                    'type' => RecipientType::BCC,
+                    'email' => $bcc->getAddress(),
+                ]);
+            }
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            throw $e;
+        }
     }
 }
