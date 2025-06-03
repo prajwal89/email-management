@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Services;
 
+use Illuminate\Database\Eloquent\Model;
+use Prajwal89\EmailManagement\Interfaces\EmailReceivable;
 use Symfony\Component\Mime\Email;
 
 /**
@@ -12,6 +14,24 @@ use Symfony\Component\Mime\Email;
 class HeadersManager
 {
     public function __construct(public Email $email) {}
+
+    public function configureEmailHeaders(
+        Model $eventable,
+        EmailReceivable $receivable,
+        ?array $eventContext
+    ) {
+        $headers = $this->email->getHeaders();
+        $headers->addTextHeader('X-Eventable-Type', (string) get_class($eventable));
+        $headers->addTextHeader('X-Eventable-Id', (string) $eventable->getKey());
+        $headers->addTextHeader('X-Receivable-Type', (string) get_class($receivable));
+        $headers->addTextHeader('X-Receivable-Id', (string) $receivable->getKey());
+
+        if ($eventContext !== null) {
+            $headers->addTextHeader('X-Event-Context', json_encode($eventContext));
+        }
+
+        return;
+    }
 
     public function createOrGetMessageId(): string
     {
