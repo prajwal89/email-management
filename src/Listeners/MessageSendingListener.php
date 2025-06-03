@@ -6,14 +6,12 @@ namespace Prajwal89\EmailManagement\Listeners;
 
 use Exception;
 use Illuminate\Mail\Events\MessageSending;
-use Prajwal89\EmailManagement\Models\SentEmail;
-use Prajwal89\EmailManagement\Services\EmailContentModifiers;
-use Symfony\Component\Mime\Part\TextPart;
-use Illuminate\Mail\Events\MailSending;
 use Illuminate\Support\Facades\DB;
 use Prajwal89\EmailManagement\Enums\RecipientType;
 use Prajwal89\EmailManagement\Models\EmailLog;
+use Prajwal89\EmailManagement\Services\EmailContentModifiers;
 use Prajwal89\EmailManagement\Services\HeadersManager;
+use Symfony\Component\Mime\Part\TextPart;
 
 // todo add test for injected pixel and tracking urls
 
@@ -24,7 +22,7 @@ class MessageSendingListener
 {
     public function handle(MessageSending $event): void
     {
-        $headersManager = new  HeadersManager($event->message);
+        $headersManager = new HeadersManager($event->message);
 
         $message = $event->message;
         $headers = $message->getHeaders();
@@ -72,8 +70,6 @@ class MessageSendingListener
                 // 'mailer' => $mailerName,
                 // 'transport' => $transportName,
             ]);
-
-
 
             foreach ($message->getTo() as $i => $to) {
                 $emailLog->recipients()->create([

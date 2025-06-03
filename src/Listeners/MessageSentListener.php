@@ -6,15 +6,13 @@ namespace Prajwal89\EmailManagement\Listeners;
 
 use Illuminate\Mail\Events\MessageSent;
 use Prajwal89\EmailManagement\Models\EmailLog;
-use Prajwal89\EmailManagement\Models\SentEmail;
 use Prajwal89\EmailManagement\Services\HeadersManager;
-use Symfony\Component\Mime\Email;
 
 class MessageSentListener
 {
     public function handle(MessageSent $event): void
     {
-        $headersManager = new  HeadersManager($event->message);
+        $headersManager = new HeadersManager($event->message);
 
         $emailLog = EmailLog::query()
             ->where('message_id', $headersManager->getMessageId())

@@ -38,7 +38,7 @@ class EmailLog extends Model
         'complained_at',
         'soft_bounced_at',
         'hard_bounced_at',
-        'unsubscribed_at', //user has unsubscribed bc of this email
+        'unsubscribed_at', // user has unsubscribed bc of this email
     ];
 
     protected function casts(): array

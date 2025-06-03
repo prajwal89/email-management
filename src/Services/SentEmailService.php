@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Prajwal89\EmailManagement\Services;
 
 use Illuminate\Support\Facades\DB;
-use Prajwal89\EmailManagement\Models\SentEmail;
 
 class SentEmailService
 {

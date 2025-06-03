@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Prajwal89\EmailManagement\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -18,9 +20,10 @@ class Recipient extends Model
     public function casts()
     {
         return [
-            'type' => RecipientType::class
+            'type' => RecipientType::class,
         ];
     }
+
     /**
      * Get the email log this recipient belongs to.
      */
