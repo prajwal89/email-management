@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Override;
 use Prajwal89\EmailManagement\Interfaces\EmailReceivable;
+use Prajwal89\EmailManagement\Traits\InteractsWithEmails;
 
-class NewsletterEmail extends Model implements EmailReceivable
+class NewsletterEmail extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, InteractsWithEmails;
 
     protected $table = 'em_newsletter_emails';
 
@@ -40,7 +43,9 @@ class NewsletterEmail extends Model implements EmailReceivable
         return $this->email;
     }
 
-    public function scopeSubscribedToEmails(Builder $query): Builder
+    #[Override]
+    #[Scope]
+    public function subscribedToEmails(Builder $query): Builder
     {
         return $query
             ->whereNotNull('email_verified_at')
