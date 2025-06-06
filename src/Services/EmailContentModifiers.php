@@ -30,18 +30,21 @@ class EmailContentModifiers
     public function injectTrackingUrls()
     {
         $html = preg_replace_callback(
-            '/<body[^>]*>(.*?)<\/body>/is', // Regex to match the body content
-            function (array $matches): string {
+            pattern: '/<body[^>]*>(.*?)<\/body>/is', // Regex to match the body content
+            callback: function (array $matches): string {
                 $bodyContent = $matches[1]; // Extract content inside <body>
 
                 // Replace URLs in the body content
                 $updatedBodyContent = preg_replace_callback(
-                    '/https?:\/\/[^\s"]+/i', // Regex to match URLs
-                    function (array $urlMatches) use ($bodyContent) {
+                    pattern: '/https?:\/\/[^\s"]+/i', // Regex to match URLs
+                    callback: function (array $urlMatches) use ($bodyContent) {
                         $originalUrl = $urlMatches[0];
 
                         // Check if the URL is part of an <img> tag (this is a simple check for <img> tags, can be refined further)
-                        if (preg_match('/<img[^>]+src=["\']' . preg_quote($originalUrl, '/') . '["\'][^>]*>/i', $bodyContent)) {
+                        if (preg_match(
+                            pattern: '/<img[^>]+src=["\']' . preg_quote($originalUrl, '/') . '["\'][^>]*>/i',
+                            subject: $bodyContent
+                        )) {
                             // Return the URL as is if it is part of an <img> tag
                             return $originalUrl;
                         }
@@ -51,13 +54,13 @@ class EmailContentModifiers
                             'url' => urlencode($originalUrl),
                         ]);
                     },
-                    $bodyContent
+                    subject: $bodyContent
                 );
 
                 // Return the reconstructed body tag with updated content
                 return '<body>' . $updatedBodyContent . '</body>';
             },
-            $this->email->render()
+            subject: $this->email->render()
         );
 
         $this->email->html($html);
@@ -71,15 +74,15 @@ class EmailContentModifiers
      * e.g
      * <img border="0" width="1" alt="" height="1" src="http://127.0.0.1:8000/emails/pixel/Ea0TGWIeh6oVhDVhU0rX8bMXVFw2Q0rU" />
      */
-    public static function injectTrackingPixel(string $html, string $hash): string
+    public function injectTrackingPixel()
     {
-        $url = route('emails.pixel', ['hash' => $hash]);
+        $url = route('emails.pixel', ['message_id' => 'test']);
 
         // Append the tracking URL
         $trackingPixel = '<img border="0" width="1" alt="" height="1" src="' . $url . '" />';
 
         $lineBreak = str()->random(32);
-        $html = str_replace("\n", $lineBreak, $html);
+        $html = str_replace("\n", $lineBreak, $this->email->render());
 
         if (preg_match('/^(.*<body[^>]*>)(.*)$/', $html, $matches)) {
             $html = $matches[1] . $trackingPixel . $matches[2];
@@ -87,7 +90,11 @@ class EmailContentModifiers
             $html .= $trackingPixel;
         }
 
-        return str_replace($lineBreak, "\n", $html);
+        $html = str_replace($lineBreak, "\n", $html);
+
+        $this->email->html($html);
+
+        return $this;
     }
 
     public static function injectUnsubscribeLink(string $html, string $hash): string
