@@ -34,6 +34,8 @@ abstract class EmailHandlerBase
      */
     protected EmailEvent | EmailCampaign $eventable;
 
+    protected EmailReceivable $receivable;
+
     protected ?array $eventContext = null;
 
     /**
@@ -57,7 +59,7 @@ abstract class EmailHandlerBase
      * ! always implement this logic properly as this will prevent
      * email spamming
      */
-    public function qualifiesForSending(): bool
+    protected function qualifiesForSending(): bool
     {
         // Override in subclasses for custom logic
         if (!$this->receivable->isSubscribedToEmails()) {
@@ -73,14 +75,15 @@ abstract class EmailHandlerBase
     /**
      * Sends the email if it qualifies.
      */
-    public function sendEmail(): void
+    public function send(): void
     {
         if (!$this->qualifiesForSending()) {
             return;
         }
 
-        // !this will not attach CC etc
-        $this->buildEmail();
+        if (!$this->finalEmail) {
+            $this->buildEmail();
+        }
 
         Mail::to($this->receivable->getEmail())->send($this->finalEmail);
     }
@@ -92,10 +95,6 @@ abstract class EmailHandlerBase
     public function buildEmail()
     {
         $this->finalEmail = new static::$mail($this->receivable);
-
-        // if ($callback) {
-        //     $callback($this->finalEmail);
-        // }
 
         $this->finalEmail->withSymfonyMessage([$this, 'configureSymfonyMessage']);
 
@@ -120,11 +119,16 @@ abstract class EmailHandlerBase
         return $message;
     }
 
+    public function modifyEmailUsing(callable $callback): self
+    {
+        if (!$this->finalEmail) {
+            $this->buildEmail();
+        }
 
-    // public function modifyEmailUsing(callable $callback)
-    // {
-    //     $callback($this->finalEmail);
-    // }
+        $callback($this->finalEmail);
+
+        return $this;
+    }
 
     /**
      * Builds the email instance for preview.
