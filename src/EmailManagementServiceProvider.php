@@ -11,6 +11,7 @@ use Illuminate\Support\ServiceProvider;
 use Prajwal89\EmailManagement\Commands\CreateEmailCampaignCommand;
 use Prajwal89\EmailManagement\Commands\CreateEmailEventCommand;
 use Prajwal89\EmailManagement\Commands\CreateReceivableGroupCommand;
+use Prajwal89\EmailManagement\Commands\ScanMailboxCommand;
 use Prajwal89\EmailManagement\Commands\SeedEmailsDatabaseCommand;
 use Prajwal89\EmailManagement\Listeners\MessageSendingListener;
 use Prajwal89\EmailManagement\Listeners\MessageSentListener;
@@ -46,6 +47,7 @@ class EmailManagementServiceProvider extends ServiceProvider
                 CreateEmailCampaignCommand::class,
                 SeedEmailsDatabaseCommand::class,
                 CreateReceivableGroupCommand::class,
+                ScanMailboxCommand::class
             ]);
         }
     }

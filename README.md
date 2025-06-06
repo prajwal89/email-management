@@ -5,8 +5,15 @@
 - `composer require prajwal89/email-management`
 - `php artisan vendor:publish --tag=email-management-views`
 
+## Core Concepts
 
-## Email Event
+- Email Event
+
+   Email events are events that are automatically triggered by app eg. user registration
+
+- Email Campaign
+   Manually run email campaigns e.g notifing new feature
+  
 
 Email events are events that are automatically triggered by app eg. user registration
 

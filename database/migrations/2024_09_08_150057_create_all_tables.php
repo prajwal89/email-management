@@ -20,6 +20,14 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->boolean('is_enabled')->default(1);
+
+            $table->foreignId('parent_event_id')
+                ->nullable()
+                ->constrained('em_email_events')
+                ->restrictOnDelete();
+
+            $table->unsignedInteger('delay_hours')->nullable();
+
             $table->softDeletes();
             $table->timestamps();
         });
@@ -64,12 +72,16 @@ return new class extends Migration
             $table->unsignedInteger('clicks')->default(0);
 
             $table->timestamp('sent_at')->nullable();
-            $table->timestamp('resent_at')->nullable();
-            $table->timestamp('accepted_at')->nullable();
+            // $table->timestamp('resent_at')->nullable();
+            // $table->timestamp('accepted_at')->nullable();
             // $table->timestamp('delivered_at')->nullable();
             $table->timestamp('last_opened_at')->nullable();
             $table->timestamp('last_clicked_at')->nullable();
             $table->timestamp('complained_at')->nullable();
+
+            $table->string('in_reply_to')->nullable();
+            $table->timestamp('replied_at')->nullable();
+
             $table->timestamp('soft_bounced_at')->nullable();
             $table->timestamp('hard_bounced_at')->nullable();
             $table->timestamp('unsubscribed_at')->nullable();

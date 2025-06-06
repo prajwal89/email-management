@@ -8,4 +8,7 @@ return [
     'email_handlers_dir' => app_path('/EmailManagement/EmailHandlers'),
     'seeders_dir' => database_path('/seeders/EmailManagement'),
     'view_dir' => resource_path('/views/email-management'),
+
+    'mailer' => 'smtp',
+    'mailbox' => 'imap',
 ];

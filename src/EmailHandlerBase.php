@@ -9,7 +9,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Mail;
 use Prajwal89\EmailManagement\Interfaces\EmailReceivable;
+use Prajwal89\EmailManagement\Models\EmailLog;
 use Prajwal89\EmailManagement\Models\SentEmail;
+use Prajwal89\EmailManagement\Services\HeadersManager;
+use Symfony\Component\Mime\Email;
 
 /**
  * These classes are responsible for validating emails
@@ -21,6 +24,8 @@ abstract class EmailHandlerBase
      * This mail will be sent
      */
     public static $mail = Mailable::class;
+
+    public $finalEmail;
 
     /**
      * this event triggered the sending of email
@@ -81,18 +86,34 @@ abstract class EmailHandlerBase
             return;
         }
 
-        Mail::to($this->receivable->getEmail())
-            ->send($this->buildEmail());
+        $this->buildEmail();
+
+        Mail::to($this->receivable->getEmail())->send($this->finalEmail);
     }
 
     /**
      * Builds the email instance.
      * Extend this if required
      */
-    public function buildEmail(): Mailable
+    public function buildEmail(?callable $callback = null)
     {
-        return (new static::$mail($this->receivable))
-            ->withSymfonyMessage([$this, 'configureEmailHeaders']);
+        $this->finalEmail = new static::$mail($this->receivable);
+
+        if ($callback) {
+            $callback($this->finalEmail);
+        }
+
+        $this->finalEmail->withSymfonyMessage(function ($message) {
+            $headersManager = new HeadersManager($message);
+
+            $headersManager->configureEmailHeaders(
+                eventable: $this->eventable,
+                receivable: $this->receivable,
+                eventContext: $this->eventContext,
+            );
+        });
+
+        return $this;
     }
 
     /**
@@ -107,18 +128,15 @@ abstract class EmailHandlerBase
     /**
      * Configures email headers dynamically.
      */
-    public function configureEmailHeaders($message): void
+    public function configureEmailHeaders(Email $message): void
     {
-        $headers = $message->getHeaders();
-        $headers->addTextHeader('X-Eventable-Type', (string) get_class($this->eventable));
-        $headers->addTextHeader('X-Eventable-Id', (string) $this->eventable->getKey());
-        $headers->addTextHeader('X-Receivable-Type', (string) get_class($this->receivable));
-        $headers->addTextHeader('X-Receivable-Id', (string) $this->receivable->getKey());
+        $headersManager = new HeadersManager($message);
 
-        // todo add context json so we can record in sent_emails
-        if ($this->eventContext !== null) {
-            $headers->addTextHeader('X-Event-Context', json_encode($this->eventContext));
-        }
+        $headersManager->configureEmailHeaders(
+            eventable: $this->eventable,
+            receivable: $this->receivable,
+            eventContext: $this->eventContext,
+        );
     }
 
     /**
@@ -145,7 +163,7 @@ abstract class EmailHandlerBase
      */
     public function wasEmailAlreadySentOnce(?array $context = null): bool
     {
-        return SentEmail::query()
+        return EmailLog::query()
             ->where('receivable_id', $this->receivable->id)
             ->where('receivable_type', get_class($this->receivable))
             ->where('eventable_id', $this->eventable->id)

@@ -29,16 +29,22 @@ class EmailLog extends Model
         'text',
         'opens',
         'clicks',
-        'sent_at', // email has left from our app
-        'resent_at',
-        'accepted_at',
+        // email has left from our app
+        'sent_at',
+        // 'resent_at',
+        // 'accepted_at',
         // 'delivered_at',
         'last_opened_at',
         'last_clicked_at',
         'complained_at',
+
+        'in_reply_to',
+        'replied_at',
+
         'soft_bounced_at',
         'hard_bounced_at',
-        'unsubscribed_at', // user has unsubscribed bc of this email
+        // user has unsubscribed bc of this email
+        'unsubscribed_at',
     ];
 
     protected function casts(): array
@@ -55,6 +61,7 @@ class EmailLog extends Model
             'complained_at' => 'datetime',
             'soft_bounced_at' => 'datetime',
             'hard_bounced_at' => 'datetime',
+            'reply_at' => 'datetime',
         ];
     }
 
