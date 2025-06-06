@@ -8,8 +8,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Prajwal89\EmailManagement\Models\EmailLog;
-use Prajwal89\EmailManagement\Models\EmailVisit;
-use Prajwal89\EmailManagement\Models\SentEmail;
 use Prajwal89\EmailManagement\Services\EmailLogService;
 use Prajwal89\EmailManagement\Services\EmailVisitService;
 

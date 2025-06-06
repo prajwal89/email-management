@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Prajwal89\EmailManagement;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Mail;
 use Prajwal89\EmailManagement\Interfaces\EmailReceivable;
@@ -32,7 +31,7 @@ abstract class EmailHandlerBase
     /**
      * this event triggered the sending of email
      */
-    protected EmailEvent | EmailCampaign $eventable;
+    protected EmailEvent|EmailCampaign $eventable;
 
     protected EmailReceivable $receivable;
 

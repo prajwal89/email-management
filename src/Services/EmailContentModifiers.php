@@ -6,7 +6,6 @@ namespace Prajwal89\EmailManagement\Services;
 
 use Illuminate\Support\Facades\URL;
 use Symfony\Component\Mime\Email;
-use Symfony\Component\Mime\Header\Headers;
 
 /**
  * This class is responsible for modifying email content
