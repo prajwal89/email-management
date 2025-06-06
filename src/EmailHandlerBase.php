@@ -10,7 +10,6 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Mail;
 use Prajwal89\EmailManagement\Interfaces\EmailReceivable;
 use Prajwal89\EmailManagement\Models\EmailLog;
-use Prajwal89\EmailManagement\Models\SentEmail;
 use Prajwal89\EmailManagement\Services\EmailContentModifiers;
 use Prajwal89\EmailManagement\Services\HeadersManager;
 use Symfony\Component\Mime\Email;
@@ -87,7 +86,7 @@ abstract class EmailHandlerBase
             return;
         }
 
-        // !this will not attach CC etc 
+        // !this will not attach CC etc
         $this->buildEmail();
 
         Mail::to($this->receivable->getEmail())->send($this->finalEmail);
@@ -97,13 +96,14 @@ abstract class EmailHandlerBase
      * Builds the email instance.
      * Extend this if required
      */
-    public function buildEmail(?callable $callback = null)
+    public function buildEmail()
     {
+
         $this->finalEmail = new static::$mail($this->receivable);
 
-        if ($callback) {
-            $callback($this->finalEmail);
-        }
+        // if ($callback) {
+        //     $callback($this->finalEmail);
+        // }
 
         $this->finalEmail->withSymfonyMessage(function ($message) {
             $headersManager = new HeadersManager($message);
@@ -123,6 +123,11 @@ abstract class EmailHandlerBase
 
         return $this;
     }
+
+    // public function modifyEmailUsing(callable $callback)
+    // {
+    //     $callback($this->finalEmail);
+    // }
 
     /**
      * Builds the email instance for preview.

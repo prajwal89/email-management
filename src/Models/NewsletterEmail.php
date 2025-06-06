@@ -11,11 +11,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Override;
 use Prajwal89\EmailManagement\Interfaces\EmailReceivable;
 use Prajwal89\EmailManagement\Traits\HasEmailLogs;
-use Prajwal89\EmailManagement\Traits\InteractsWithEmails;
 
 class NewsletterEmail extends Model implements EmailReceivable
 {
-    use SoftDeletes, HasEmailLogs;
+    use HasEmailLogs, SoftDeletes;
 
     protected $table = 'em_newsletter_emails';
 

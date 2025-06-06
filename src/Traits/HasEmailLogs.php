@@ -1,9 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Prajwal89\EmailManagement\Traits;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Prajwal89\EmailManagement\Models\EmailLog;
 

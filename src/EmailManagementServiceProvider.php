@@ -47,7 +47,7 @@ class EmailManagementServiceProvider extends ServiceProvider
                 CreateEmailCampaignCommand::class,
                 SeedEmailsDatabaseCommand::class,
                 CreateReceivableGroupCommand::class,
-                ScanMailboxCommand::class
+                ScanMailboxCommand::class,
             ]);
         }
     }

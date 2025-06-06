@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
-use Prajwal89\EmailManagement\Controllers\Http\EmailAnalyticController;
 use Prajwal89\EmailManagement\Controllers\Http\NewsletterController;
 use Prajwal89\EmailManagement\Controllers\Http\TrackEmailOpenedController;
 use Prajwal89\EmailManagement\Controllers\Http\TrackEmailVisitController;

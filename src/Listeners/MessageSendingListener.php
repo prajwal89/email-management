@@ -28,7 +28,6 @@ class MessageSendingListener
 
         $headers = $message->getHeaders();
 
-
         // EmailContentModifiers::removeHeaders($headers);
         // EmailContentModifiers::addUnsubscribeHeader($headers, $hash);
 

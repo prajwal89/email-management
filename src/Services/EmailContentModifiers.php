@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Services;
 
-use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\URL;
-use Symfony\Component\Mime\Header\Headers;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Header\Headers;
 
 /**
  * This class is responsible for modifying email content
@@ -21,7 +20,6 @@ class EmailContentModifiers
         // dd($headersManager);
     }
 
-
     /**
      * Replaces all urls in email body except image urls
      * with the signed route for security
@@ -31,7 +29,7 @@ class EmailContentModifiers
      */
     public function injectTrackingUrls()
     {
-        $html =  preg_replace_callback(
+        $html = preg_replace_callback(
             '/<body[^>]*>(.*?)<\/body>/is', // Regex to match the body content
             function (array $matches): string {
                 $bodyContent = $matches[1]; // Extract content inside <body>

@@ -35,7 +35,6 @@ class HeadersManager
             $headers->addTextHeader('X-Event-Context', json_encode($eventContext));
         }
 
-        return;
     }
 
     public function createOrGetMessageId(): string

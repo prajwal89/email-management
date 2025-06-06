@@ -7,7 +7,6 @@ namespace Prajwal89\EmailManagement\Controllers\Http;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Prajwal89\EmailManagement\Models\EmailVisit;
 use Prajwal89\EmailManagement\Models\SentEmail;
 
 class TrackEmailOpenedController extends Controller
