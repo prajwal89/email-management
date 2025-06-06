@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Mail;
 use Prajwal89\EmailManagement\Interfaces\EmailReceivable;
+use Prajwal89\EmailManagement\Models\EmailCampaign;
+use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\Models\EmailLog;
 use Prajwal89\EmailManagement\Services\EmailContentModifiers;
 use Prajwal89\EmailManagement\Services\HeadersManager;
@@ -30,18 +32,9 @@ abstract class EmailHandlerBase
     /**
      * this event triggered the sending of email
      */
-    protected Model $eventable;
+    protected EmailEvent | EmailCampaign $eventable;
 
     protected ?array $eventContext = null;
-
-    /**
-     * accept all parameter required for building email
-     * in subclass with context
-     */
-    public function __construct(public EmailReceivable $receivable)
-    {
-        //
-    }
 
     /**
      * extra context for why we are sending this email for current email event
@@ -98,31 +91,35 @@ abstract class EmailHandlerBase
      */
     public function buildEmail()
     {
-
         $this->finalEmail = new static::$mail($this->receivable);
 
         // if ($callback) {
         //     $callback($this->finalEmail);
         // }
 
-        $this->finalEmail->withSymfonyMessage(function ($message) {
-            $headersManager = new HeadersManager($message);
-
-            $headersManager->configureEmailHeaders(
-                eventable: $this->eventable,
-                receivable: $this->receivable,
-                eventContext: $this->eventContext,
-            );
-
-            return $message;
-        });
+        $this->finalEmail->withSymfonyMessage([$this, 'configureSymfonyMessage']);
 
         $emailContentModifiers = new EmailContentModifiers($this->finalEmail);
 
         $emailContentModifiers->injectTrackingUrls();
+        $emailContentModifiers->injectTrackingPixel();
 
         return $this;
     }
+
+    public function configureSymfonyMessage($message)
+    {
+        $headersManager = new HeadersManager($message);
+
+        $headersManager->configureEmailHeaders(
+            eventable: $this->eventable,
+            receivable: $this->receivable,
+            eventContext: $this->eventContext,
+        );
+
+        return $message;
+    }
+
 
     // public function modifyEmailUsing(callable $callback)
     // {
