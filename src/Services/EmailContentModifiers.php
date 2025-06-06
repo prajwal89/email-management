@@ -4,14 +4,69 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Services;
 
+use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\URL;
 use Symfony\Component\Mime\Header\Headers;
+use Symfony\Component\Mime\Email;
 
 /**
  * This class is responsible for modifying email content
  */
 class EmailContentModifiers
 {
+    public function __construct(public $email)
+    {
+        // dd($email->getallheaders());
+        // $headersManager = new HeadersManager($email);
+        // dd($headersManager);
+    }
+
+
+    /**
+     * Replaces all urls in email body except image urls
+     * with the signed route for security
+     *
+     * e.g.
+     * http://127.0.0.1:8000/emails/v/Ea0TGWIeh6oVhDVhU0rX8bMXVFw2Q0rU/aHR0cDovLzEyNy4wLjAuMTo4MDAw?signature=042ffc6fc0513ec6ae5d4ad6064136f7e3d975d7b41b5025df347d55d39b0861
+     */
+    public function injectTrackingUrls()
+    {
+        $html =  preg_replace_callback(
+            '/<body[^>]*>(.*?)<\/body>/is', // Regex to match the body content
+            function (array $matches): string {
+                $bodyContent = $matches[1]; // Extract content inside <body>
+
+                // Replace URLs in the body content
+                $updatedBodyContent = preg_replace_callback(
+                    '/https?:\/\/[^\s"]+/i', // Regex to match URLs
+                    function (array $urlMatches) use ($bodyContent) {
+                        $originalUrl = $urlMatches[0];
+
+                        // Check if the URL is part of an <img> tag (this is a simple check for <img> tags, can be refined further)
+                        if (preg_match('/<img[^>]+src=["\']' . preg_quote($originalUrl, '/') . '["\'][^>]*>/i', $bodyContent)) {
+                            // Return the URL as is if it is part of an <img> tag
+                            return $originalUrl;
+                        }
+
+                        return URL::signedRoute('emails.redirect', [
+                            'message_id' => 'test',
+                            'url' => urlencode($originalUrl),
+                        ]);
+                    },
+                    $bodyContent
+                );
+
+                // Return the reconstructed body tag with updated content
+                return '<body>' . $updatedBodyContent . '</body>';
+            },
+            $this->email->render()
+        );
+
+        $this->email->html($html);
+
+        return $this;
+    }
+
     /**
      * Inject image pixel that will make get call to our server
      *
@@ -20,7 +75,7 @@ class EmailContentModifiers
      */
     public static function injectTrackingPixel(string $html, string $hash): string
     {
-        $url = route('emails.track.pixel', ['hash' => $hash]);
+        $url = route('emails.pixel', ['hash' => $hash]);
 
         // Append the tracking URL
         $trackingPixel = '<img border="0" width="1" alt="" height="1" src="' . $url . '" />';
@@ -35,47 +90,6 @@ class EmailContentModifiers
         }
 
         return str_replace($lineBreak, "\n", $html);
-    }
-
-    /**
-     * Replaces all urls in email body except image urls
-     * with the signed route for security
-     *
-     * e.g.
-     * http://127.0.0.1:8000/emails/v/Ea0TGWIeh6oVhDVhU0rX8bMXVFw2Q0rU/aHR0cDovLzEyNy4wLjAuMTo4MDAw?signature=042ffc6fc0513ec6ae5d4ad6064136f7e3d975d7b41b5025df347d55d39b0861
-     */
-    public static function injectTrackingUrls(string $html, string $hash): string
-    {
-        return preg_replace_callback(
-            '/<body[^>]*>(.*?)<\/body>/is', // Regex to match the body content
-            function (array $matches) use ($hash): string {
-                $bodyContent = $matches[1]; // Extract content inside <body>
-
-                // Replace URLs in the body content
-                $updatedBodyContent = preg_replace_callback(
-                    '/https?:\/\/[^\s"]+/i', // Regex to match URLs
-                    function (array $urlMatches) use ($hash, $bodyContent) {
-                        $originalUrl = $urlMatches[0];
-
-                        // Check if the URL is part of an <img> tag (this is a simple check for <img> tags, can be refined further)
-                        if (preg_match('/<img[^>]+src=["\']' . preg_quote($originalUrl, '/') . '["\'][^>]*>/i', $bodyContent)) {
-                            // Return the URL as is if it is part of an <img> tag
-                            return $originalUrl;
-                        }
-
-                        return URL::signedRoute('emails.track.visit', [
-                            'hash' => $hash,
-                            'url' => urlencode($originalUrl),
-                        ]);
-                    },
-                    $bodyContent
-                );
-
-                // Return the reconstructed body tag with updated content
-                return '<body>' . $updatedBodyContent . '</body>';
-            },
-            $html
-        );
     }
 
     public static function injectUnsubscribeLink(string $html, string $hash): string

@@ -5,6 +5,8 @@ declare(strict_types=1);
 use Illuminate\Support\Facades\Route;
 use Prajwal89\EmailManagement\Controllers\Http\EmailAnalyticController;
 use Prajwal89\EmailManagement\Controllers\Http\NewsletterController;
+use Prajwal89\EmailManagement\Controllers\Http\TrackEmailOpenedController;
+use Prajwal89\EmailManagement\Controllers\Http\TrackEmailVisitController;
 use Prajwal89\EmailManagement\Controllers\Http\UnsubscribeEmailController;
 use Spatie\Honeypot\ProtectAgainstSpam;
 
@@ -12,12 +14,8 @@ Route::prefix('emails')
     ->name('emails.')
     ->middleware(['web'])
     ->group(function (): void {
-        Route::name('track.')
-            ->controller(EmailAnalyticController::class)
-            ->group(function (): void {
-                Route::get('/pixel/{hash}', 'trackOpened')->name('pixel');
-                Route::get('/redirect/{hash}', 'trackVisit')->name('visit')->middleware('signed');
-            });
+        Route::get('/redirect', TrackEmailVisitController::class)->name('redirect')->middleware('signed');
+        Route::get('/pixel', TrackEmailOpenedController::class)->name('pixel');
 
         // Unsubscribe route for any received email
         Route::get('/unsubscribe/{hash}', [UnsubscribeEmailController::class, 'unsubscribe'])

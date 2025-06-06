@@ -15,11 +15,16 @@ class HeadersManager
 {
     public function __construct(public Email $email) {}
 
+    /**
+     * Initial set headers before message sending
+     */
     public function configureEmailHeaders(
         Model $eventable,
         EmailReceivable $receivable,
         ?array $eventContext
     ) {
+        $this->createMessageId();
+
         $headers = $this->email->getHeaders();
         $headers->addTextHeader('X-Eventable-Type', (string) get_class($eventable));
         $headers->addTextHeader('X-Eventable-Id', (string) $eventable->getKey());
@@ -47,7 +52,7 @@ class HeadersManager
     public function createMessageId(): string
     {
         $messageId = uniqid() . '@' . (config('app.url') ? parse_url(config('app.url'), PHP_URL_HOST) : 'localhost');
-        // Set it properly as an IdentificationHeader
+
         $this->email->getHeaders()->addIdHeader('Message-ID', $messageId);
 
         return $messageId;

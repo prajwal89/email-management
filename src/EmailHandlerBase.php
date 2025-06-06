@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Mail;
 use Prajwal89\EmailManagement\Interfaces\EmailReceivable;
 use Prajwal89\EmailManagement\Models\EmailLog;
 use Prajwal89\EmailManagement\Models\SentEmail;
+use Prajwal89\EmailManagement\Services\EmailContentModifiers;
 use Prajwal89\EmailManagement\Services\HeadersManager;
 use Symfony\Component\Mime\Email;
 
@@ -86,6 +87,7 @@ abstract class EmailHandlerBase
             return;
         }
 
+        // !this will not attach CC etc 
         $this->buildEmail();
 
         Mail::to($this->receivable->getEmail())->send($this->finalEmail);
@@ -111,7 +113,13 @@ abstract class EmailHandlerBase
                 receivable: $this->receivable,
                 eventContext: $this->eventContext,
             );
+
+            return $message;
         });
+
+        $emailContentModifiers = new EmailContentModifiers($this->finalEmail);
+
+        $emailContentModifiers->injectTrackingUrls();
 
         return $this;
     }
@@ -119,6 +127,7 @@ abstract class EmailHandlerBase
     /**
      * Builds the email instance for preview.
      * Extend this if required
+     * todo: this should have all modifications as well
      */
     public static function buildSampleEmail(): Mailable
     {

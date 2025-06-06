@@ -25,9 +25,9 @@ class MessageSendingListener
         $headersManager = new HeadersManager($event->message);
 
         $message = $event->message;
+
         $headers = $message->getHeaders();
 
-        $messageId = $headersManager->createMessageId();
 
         // EmailContentModifiers::removeHeaders($headers);
         // EmailContentModifiers::addUnsubscribeHeader($headers, $hash);
@@ -50,7 +50,7 @@ class MessageSendingListener
             DB::beginTransaction();
 
             $emailLog = EmailLog::query()->create([
-                'message_id' => $messageId,
+                'message_id' => $headersManager->getMessageId(),
 
                 // todo: from can have multiple values also
                 'from' => $message->getFrom()[0]->getAddress(),
