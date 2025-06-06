@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Prajwal89\EmailManagement\Services;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\URL;
 use Prajwal89\EmailManagement\Interfaces\EmailReceivable;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Header\IdentificationHeader;
 
 /**
  * Handle all CRUD options for the email headers
@@ -24,6 +26,11 @@ class HeadersManager
         ?array $eventContext
     ) {
         $this->createMessageId();
+        $this->addUnsubscribeHeader();
+
+        $this->email->returnPath(config('email-management.return_path'));
+
+        $this->email->replyTo(config('email-management.reply_to'));
 
         $headers = $this->email->getHeaders();
         $headers->addTextHeader('X-Eventable-Type', (string) get_class($eventable));
@@ -34,7 +41,6 @@ class HeadersManager
         if ($eventContext !== null) {
             $headers->addTextHeader('X-Event-Context', json_encode($eventContext));
         }
-
     }
 
     public function createOrGetMessageId(): string
@@ -66,7 +72,7 @@ class HeadersManager
         // Correct way to get Message-ID
         if ($headers->has('Message-ID')) {
             $messageIdHeader = $headers->get('Message-ID');
-            if ($messageIdHeader instanceof \Symfony\Component\Mime\Header\IdentificationHeader) {
+            if ($messageIdHeader instanceof IdentificationHeader) {
                 $messageId = $messageIdHeader->getId();
             }
         }
@@ -111,5 +117,37 @@ class HeadersManager
             'type' => $receivableType,
             'id' => $receivableId,
         ];
+    }
+
+    public function removeHeaders(): void
+    {
+        $headers = $this->email->getHeaders();
+
+        $headers->remove('X-Eventable-Type');
+        $headers->remove('X-Eventable-Id');
+        $headers->remove('X-Receivable-Type');
+        $headers->remove('X-Receivable-Id');
+        $headers->remove('X-Event-Context');
+    }
+
+    // public  function attachMailerHashHeader(): string
+    // {
+    //     // handles normal emails that are not sent from email hadler
+    //     // is this required ?
+    //     $hash = str()->random(32);
+    //     $headers->addTextHeader('X-Mailer-Hash', (string) $hash);
+
+    //     return $hash;
+    // }
+
+    public function addUnsubscribeHeader(): void
+    {
+        $unsubscribeUrl = URL::signedRoute('emails.unsubscribe', [
+            'hash' => 'test',
+        ]);
+
+        $this->email->getHeaders()->addTextHeader('List-Unsubscribe', '<' . $unsubscribeUrl . '>');
+
+        $this->email->getHeaders()->addTextHeader('List-Unsubscribe-Post', 'List-Unsubscribe=One-Click');
     }
 }

@@ -97,15 +97,21 @@ class EmailContentModifiers
         return $this;
     }
 
-    public static function injectUnsubscribeLink(string $html, string $hash): string
+    /**
+     * create a footer
+     */
+    public function injectUnsubscribeLink(): self
     {
-        $unsubscribeUrl = self::getUnsubscribeLink($hash);
+        $unsubscribeUrl = URL::signedRoute('emails.unsubscribe', [
+            'hash' => 'test',
+        ]);
+
         $unsubscribeLine = '<p style="text-align: center; font-size: 14px; color: #ddd;">
                                 <a href="' . $unsubscribeUrl . '" style="color: #007bff; text-decoration: underline;">unsubscribe</a>
                             </p>';
 
         $lineBreak = str()->random(32);
-        $html = str_replace("\n", $lineBreak, $html);
+        $html = str_replace("\n", $lineBreak, $this->email->render());
 
         // Append the unsubscribe line just before the closing </body> tag, or at the end of the HTML
         if (stripos($html, '</body>') !== false) {
@@ -114,41 +120,10 @@ class EmailContentModifiers
             $html .= $unsubscribeLine;
         }
 
-        return str_replace($lineBreak, "\n", $html);
-    }
+        $html = str_replace($lineBreak, "\n", $html);
 
-    /**
-     * Remove headers or it will get recorded in database
-     */
-    public static function removeHeaders(Headers &$headers): void
-    {
-        $headers->remove('X-Eventable-Type');
-        $headers->remove('X-Eventable-Id');
-        $headers->remove('X-Receivable-Type');
-        $headers->remove('X-Receivable-Id');
-    }
+        $this->email->html($html);
 
-    public static function attachMailerHashHeader(Headers &$headers): string
-    {
-        // handles normal emails that are not sent from email hadler
-        // is this required ?
-        $hash = str()->random(32);
-        $headers->addTextHeader('X-Mailer-Hash', (string) $hash);
-
-        return $hash;
-    }
-
-    public static function addUnsubscribeHeader(Headers &$headers, string $hash): void
-    {
-        $unsubscribeUrl = self::getUnsubscribeLink($hash);
-        $headers->addTextHeader('List-Unsubscribe', '<' . $unsubscribeUrl . '>');
-        $headers->addTextHeader('List-Unsubscribe-Post', 'List-Unsubscribe=One-Click');
-    }
-
-    public static function getUnsubscribeLink(string $hash): string
-    {
-        return URL::signedRoute('emails.unsubscribe', [
-            'hash' => $hash,
-        ]);
+        return $this;
     }
 }

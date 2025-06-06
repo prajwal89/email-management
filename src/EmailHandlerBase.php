@@ -100,13 +100,23 @@ abstract class EmailHandlerBase
 
         $emailContentModifiers = new EmailContentModifiers($this->finalEmail);
 
-        $emailContentModifiers->injectTrackingUrls();
-        $emailContentModifiers->injectTrackingPixel();
+        // todo check if this setting is enabled
+        if (config('email-management.track_visits')) {
+            $emailContentModifiers->injectTrackingUrls();
+        }
+
+        if (config('email-management.track_opens')) {
+            $emailContentModifiers->injectTrackingPixel();
+        }
+
+        if (config('email-management.inject_unsubscribe_link')) {
+            $emailContentModifiers->injectUnsubscribeLink();
+        }
 
         return $this;
     }
 
-    public function configureSymfonyMessage($message)
+    public function configureSymfonyMessage(Email $message)
     {
         $headersManager = new HeadersManager($message);
 
