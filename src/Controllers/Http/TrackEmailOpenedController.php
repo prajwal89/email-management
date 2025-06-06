@@ -7,26 +7,35 @@ namespace Prajwal89\EmailManagement\Controllers\Http;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Prajwal89\EmailManagement\Models\EmailLog;
 use Prajwal89\EmailManagement\Models\SentEmail;
+use Prajwal89\EmailManagement\Services\EmailLogService;
 
+/**
+ * Track and record email is opened with pixel
+ */
 class TrackEmailOpenedController extends Controller
 {
-    /**
-     * Track and record email is opened with pixel
-     */
-    public function __invoke(Request $request, string $hash): bool
+    public function __invoke(Request $request)
     {
-        $sentEmail = SentEmail::query()
-            ->where('hash', $hash)
+        if (!$request->has('message_id') && empty($request->message_id)) {
+            // todo record and redirect
+            return;
+        }
+
+        $emailLog = EmailLog::query()
+            ->where('message_id', $request->message_id)
             ->first();
 
-        if (!$sentEmail) {
-            Log::warning('Track Opened: Invalid hash', ['hash' => $hash]);
+        if (!$emailLog) {
+            Log::warning('Track Opened: Message Id', ['message_id' => $request->message_id]);
 
             return false;
         }
 
-        $sentEmail->update(['opened_at' => now()]);
+        EmailLogService::update($emailLog, ['last_opened_at' => now()]);
+
+        $emailLog->increments('opens');
 
         return true;
     }

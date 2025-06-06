@@ -7,17 +7,25 @@ namespace Prajwal89\EmailManagement\Controllers\Http;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Prajwal89\EmailManagement\Models\EmailLog;
 use Prajwal89\EmailManagement\Models\EmailVisit;
 use Prajwal89\EmailManagement\Models\SentEmail;
+use Prajwal89\EmailManagement\Services\EmailLogService;
+use Prajwal89\EmailManagement\Services\EmailVisitService;
 
+/**
+ * Track and redirect any visit from email
+ */
 class TrackEmailVisitController extends Controller
 {
-    /**
-     * Track and redirect any visit from email
-     */
     // todo check if user is bot as (email servers check links before serving email to users)
-    public function __invoke(Request $request, string $hash)
+    public function __invoke(Request $request)
     {
+        if (!$request->has('message_id') && empty($request->message_id)) {
+            // todo record and redirect
+            return;
+        }
+
         $urlBase64 = $request->input('url');
 
         if (!$urlBase64) {
@@ -36,27 +44,25 @@ class TrackEmailVisitController extends Controller
 
         $url = html_entity_decode($url);
 
-        $sentEmail = SentEmail::query()
-            ->where('hash', $hash)
+        $emailLog = EmailLog::query()
+            ->where('message_id', $request->message_id)
             ->first();
 
-        if (!$sentEmail) {
-            Log::warning('Track Visit: Email not found', ['hash' => $hash]);
+        if (!$emailLog) {
+            Log::warning('Track Visit: Email not found', ['message_id' => $request->message_id]);
 
             return redirect($url, 301);
         }
 
-        $sentEmail->update(['clicked_at' => now()]);
+        EmailLogService::update($emailLog, ['last_clicked_at' => now()]);
 
-        // Extract the path from the URL
-        $parsedUrl = parse_url($url);
-        $path = $parsedUrl['path'] ?? '/';
+        $emailLog->increments('clicks');
 
-        EmailVisit::query()->create([
-            'path' => $path,
+        EmailVisitService::store([
+            'path' => $request->path(),
             'ip' => $request->ip(),
             'session_id' => $request->session()->getId(),
-            'email_hash' => $hash,
+            'message_id' => $request->message_id,
         ]);
 
         return redirect($url, 301);
