@@ -5,19 +5,19 @@ declare(strict_types=1);
 namespace App\EmailManagement\EmailHandlers\{sendable_class_name};
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Mail\Mailable;
 use Prajwal89\EmailManagement\EmailHandlerBase;
 use Prajwal89\EmailManagement\Interfaces\EmailReceivable;
 use {email_class_name_space};
-use Prajwal89\EmailManagement\Models\{sendable_model_name};
+use Prajwal89\EmailManagement\Models\EmailEvent;
 use Override;
+use Prajwal89\EmailManagement\Models\EmailCampaign;
 
 class {email_handler_class_name} extends EmailHandlerBase
 {
     public static $mail = {email_class}::class;
 
-    public Model $eventable;
+    protected EmailEvent|EmailCampaign $eventable;
 
     public function __construct(public EmailReceivable $receivable)
     {
