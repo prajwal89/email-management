@@ -52,7 +52,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('name', 255);
-            $table->string('slug', 255)->unique();
+            $table->string('slug', 255);
 
             $table->unsignedBigInteger('eventable_id')->nullable();
             $table->string('eventable_type')->nullable();
@@ -62,6 +62,8 @@ return new class extends Migration
             $table->unsignedSmallInteger('exposure_percentage')->default(50);
 
             $table->timestamps();
+
+            $table->unique(['eventable_type', 'slug']);
         });
 
         Schema::create('em_email_logs', function (Blueprint $table): void {

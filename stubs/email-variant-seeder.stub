@@ -5,20 +5,26 @@ declare(strict_types=1);
 namespace Database\Seeders\EmailManagement\EmailVariants;
 
 use Prajwal89\EmailManagement\Models\{eventable_type};
+use Prajwal89\EmailManagement\Services\EmailVariantService;
 
 class {seeder_class_name}
 {
     public function run()
     {
-        {eventable_type}::query()
+        $eventable = {eventable_type}::query()
             ->where('slug','{eventable_slug}')
-            ->first()
-            ->emailVariants()
-            ->firstOrCreate([
+            ->first();
+
+        EmailVariantService::firstOrCreate(
+            eventable: $eventable,
+            find: [
                 'slug' => '{slug}',
-            ], [
+            ],
+            attributes: [
                 'name' => '{name}',
-                'exposure_percentage' => '{exposure_percentage}'
-            ]);
+                'exposure_percentage' => {exposure_percentage}
+            ]
+        );     
+
     }
 }

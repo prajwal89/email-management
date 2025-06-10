@@ -17,4 +17,29 @@ class EmailVariantService
     ): EmailVariant {
         return $eventable->emailVariants()->create($attributes);
     }
+
+    public static function firstOrCreate(
+        EmailEvent | EmailCampaign $eventable,
+        array $find,
+        array $attributes,
+    ): EmailVariant {
+        $emailVariant = EmailVariant::query()->where($find)->first();
+
+        if ($emailVariant) {
+            return $emailVariant;
+        }
+
+        return self::store($eventable, array_merge($find, $attributes));
+    }
+
+    public static function createDefaultVariant(EmailEvent | EmailCampaign $eventable): EmailVariant
+    {
+        $defaultAttributes = [
+            'name' => 'Default',
+            'slug' => 'default',
+            'exposure_percentage' => 50,
+        ];
+
+        return $eventable->emailVariants()->create($defaultAttributes);
+    }
 }

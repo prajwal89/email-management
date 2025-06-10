@@ -5,16 +5,19 @@ declare(strict_types=1);
 namespace Database\Seeders\EmailManagement\EmailEvents;
 
 use Prajwal89\EmailManagement\Models\EmailEvent;
+use Prajwal89\EmailManagement\Services\EmailVariantService;
 
 class {seeder_class_name}
 {
     public function run()
     {
-        EmailEvent::firstOrCreate([
+        $eventable = EmailEvent::firstOrCreate([
             'slug' => '{slug}',
         ], [
             'name' => '{name}',
             'description' => '{description}'
         ]);
+
+        EmailVariantService::createDefaultVariant($eventable);
     }
 }

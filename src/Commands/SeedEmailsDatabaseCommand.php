@@ -18,7 +18,7 @@ class SeedEmailsDatabaseCommand extends Command
 
     public function handle(): void
     {
-        // $this->seedEmailEvents();
+        $this->seedEmailEvents();
         // $this->seedEmailCampaigns();
         $this->seedEmailVariants();
     }
