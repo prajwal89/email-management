@@ -84,7 +84,7 @@ class CampaignManager
         $batch = Bus::batch(
             $allReceivables->map(function (Model $receivable) use ($handler): Closure {
                 return function () use ($handler, $receivable): void {
-                    (new $handler($receivable))->sendEmail();
+                    (new $handler($receivable))->send();
                 };
             })->toArray()
         )->then(function (Batch $batch): void {

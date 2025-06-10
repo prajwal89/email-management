@@ -50,7 +50,7 @@ class CreateEmailCampaignCommand extends Command
         $this->info('Implement email and Check if rending is correctly in filament panel');
         $this->info('Implement Handler Email Class');
         $this->info('Test sample email by sending to admin');
-        $this->info("Use in App by: (new $emailHandlerClassName)->sendEmail()");
+        $this->info("Use in App by: (new $emailHandlerClassName)->send()");
     }
 
     public function createSeederFile(array $data): void

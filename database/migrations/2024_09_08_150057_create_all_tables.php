@@ -63,7 +63,7 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->unique(['eventable_type', 'slug']);
+            $table->unique(['eventable_type', 'eventable_id', 'slug']);
         });
 
         Schema::create('em_email_logs', function (Blueprint $table): void {

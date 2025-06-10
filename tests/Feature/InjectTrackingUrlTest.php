@@ -16,7 +16,7 @@ it('attach tracking url with redirect payload to the email', function (): void {
 
     // eg. http://127.0.0.1:8000/emails/redirect/KCMfCaNTaERCQZOWd2E4Mb6trFNQG21s?url=http%253A%252F%252F127.0.0.1%253A8000&signature=1dc7e1510cb173a8349d95aad78ce454d86dc476abf816351f43e9977e4bcf19
 
-    (new UserWelcomeEmailHandler($user))->sendEmail();
+    (new UserWelcomeEmailHandler($user))->send();
 
     Mail::assertQueued(UserWelcomeEmail::class, function ($mail) use ($user) {
 

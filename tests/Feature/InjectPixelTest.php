@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
+use App\EmailManagement\EmailHandlers\EmailEvents\UserWelcomeEmailHandler;
+use App\EmailManagement\Emails\EmailEvents\UserWelcomeEmail;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
-use Prajwal89\EmailManagement\MailHandlers\EmailEvents\UserWelcomeEmailHandler;
-use Prajwal89\EmailManagement\Mails\EmailEvents\UserWelcomeEmail;
 use Prajwal89\EmailManagement\Services\EmailContentModifiers;
 
 // ! mock the user welcome email handler
@@ -23,7 +23,7 @@ it('attach tracking pixels to the email', function (): void {
     ])->create();
 
     // http://127.0.0.1:8000/emails/pixel/KCMfCaNTaERCQZOWd2E4Mb6trFNQG21s
-    (new UserWelcomeEmailHandler($user))->sendEmail();
+    (new UserWelcomeEmailHandler($user))->send();
 
     Mail::assertQueued(UserWelcomeEmail::class, function ($mail) use ($user) {
         // ! we can modify email content here and test
@@ -34,9 +34,9 @@ it('attach tracking pixels to the email', function (): void {
             // ->pipe(function ($html) use ($hash) {
             //     return EmailContentModifiers::injectTrackingUrls($html->toString(), $hash);
             // })
-            ->pipe(function ($html) use ($hash): string {
-                return EmailContentModifiers::injectTrackingPixel($html->toString(), $hash);
-            })
+            // ->pipe(function ($html) use ($hash): string {
+            //     return EmailContentModifiers::injectTrackingPixel($html->toString(), $hash);
+            // })
             // ->pipe(function ($html) use ($hash) {
             //     return EmailContentModifiers::injectUnsubscribeLink($html->toString(), $hash);
             // })

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
+use App\EmailManagement\EmailHandlers\EmailEvents\UserWelcomeEmailHandler;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Modules\Auth\Enums\ProviderType;
-use Prajwal89\EmailManagement\MailHandlers\EmailEvents\UserWelcomeEmailHandler;
 
 test('if email will not be sent to unsubscribed user', function (): void {
     Mail::fake();
@@ -20,7 +20,7 @@ test('if email will not be sent to unsubscribed user', function (): void {
 
     $user->unsubscribeFromEmails();
 
-    (new UserWelcomeEmailHandler($user))->sendEmail();
+    (new UserWelcomeEmailHandler($user))->send();
 
     Mail::assertNothingSent();
 });
