@@ -135,13 +135,12 @@ return new class extends Migration
 
     public function down(): void
     {
-        // Drop tables in correct order (tables with foreign keys first)
         Schema::dropIfExists('em_recipients');
         Schema::dropIfExists('em_email_visits');
         Schema::dropIfExists('em_cold_emails');
         Schema::dropIfExists('em_newsletter_emails');
         Schema::dropIfExists('em_email_logs');
-        Schema::dropIfExists('em_email_campaigns'); // Fixed: was 'em_email_campaign'
+        Schema::dropIfExists('em_email_campaigns');
         Schema::dropIfExists('em_email_events');
 
         Schema::table('users', function (Blueprint $table): void {

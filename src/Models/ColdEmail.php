@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -32,9 +33,9 @@ class ColdEmail extends Model implements EmailReceivable
         ];
     }
 
-    public function sentEmails(): MorphMany
+    public function emailLogs(): MorphMany
     {
-        return $this->morphMany(SentEmail::class, 'eventable');
+        return $this->morphMany(EmailLog::class, 'eventable');
     }
 
     public function getName(): string
@@ -47,7 +48,8 @@ class ColdEmail extends Model implements EmailReceivable
         return $this->email;
     }
 
-    public function scopeSubscribedToEmails(Builder $query): Builder
+    #[Scope]
+    public function subscribedToEmails(Builder $query): Builder
     {
         return $query->whereNull('unsubscribed_at');
     }

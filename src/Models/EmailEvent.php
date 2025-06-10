@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Prajwal89\EmailManagement\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -29,24 +31,33 @@ class EmailEvent extends Model
         ];
     }
 
+    public function emailLogs(): MorphMany
+    {
+        return $this->morphMany(EmailLog::class, 'eventable');
+    }
+
+    /**
+     * successfully sent emails
+     * 
+     */
     public function sentEmails(): MorphMany
     {
-        return $this->morphMany(SentEmail::class, 'eventable');
+        return $this->morphMany(EmailLog::class, 'eventable')->sent();
     }
 
     public function emailVisits(): HasManyThrough
     {
         return $this->hasManyThrough(
             related: EmailVisit::class,
-            through: SentEmail::class,
+            through: EmailLog::class,
             firstKey: 'eventable_id',
-            secondKey: 'email_hash',
+            secondKey: 'message_id',
             localKey: 'id',
-            secondLocalKey: 'hash',
+            secondLocalKey: 'message_id',
         )->where('eventable_type', self::class);
     }
 
-    // this is of no use as we are not using in  command
+    // this is of no use as we are not using in command
     public function emailHandlerClassName(): string
     {
         return str($this->slug)->studly() . 'EmailHandler';

@@ -15,11 +15,11 @@ class EmailVisit extends Model
         'path',
         'session_id',
         'ip',
-        'email_hash',
+        'message_id',
     ];
 
-    public function sentEmail(): BelongsTo
+    public function emailLogs(): BelongsTo
     {
-        return $this->belongsTo(SentEmail::class, 'email_hash', 'hash');
+        return $this->belongsTo(EmailLog::class, 'message_id', 'message_id');
     }
 }

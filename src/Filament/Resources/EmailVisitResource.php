@@ -17,6 +17,7 @@ use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 use Prajwal89\EmailManagement\Filament\Resources\EmailVisitResource\Pages;
 use Prajwal89\EmailManagement\Filament\Resources\EmailVisitResource\Pages\ListEmailVisits;
 use Prajwal89\EmailManagement\Filament\Resources\EmailVisitResource\Widgets\EmailVisitsTrendWidget;
+use Prajwal89\EmailManagement\Models\EmailLog;
 use Prajwal89\EmailManagement\Models\EmailVisit;
 use Prajwal89\EmailManagement\Models\SentEmail;
 
@@ -101,7 +102,7 @@ class EmailVisitResource extends Resource
                             });
                     })
                     ->options(function () {
-                        $result = SentEmail::query()
+                        $result = EmailLog::query()
                             ->select('eventable_type', 'eventable_id')
                             ->with(['eventable'])
                             ->whereNotNull('eventable_id')
@@ -110,7 +111,7 @@ class EmailVisitResource extends Resource
                             ->latest()
                             ->get()
                             ->filter()
-                            ->map(function (SentEmail $email) {
+                            ->map(function (EmailLog $email) {
                                 $eventable = $email->eventable;
                                 if ($eventable === null) {
                                     return null;
