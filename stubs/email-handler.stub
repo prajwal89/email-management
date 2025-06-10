@@ -39,15 +39,10 @@ class {email_handler_class_name} extends EmailHandlerBase
     }
 
     #[Override]
-    public function buildEmail(): Mailable
+    public static function sampleEmailData()
     {
-        return (new static::$mail($this->receivable))
-        ->withSymfonyMessage([$this, 'configureEmailHeaders']);
-    }
-    
-    #[Override]
-    public static function buildSampleEmail(): Mailable
-    {
-        return new static::$mail(User::inRandomOrder()->first());
+        return [
+            'receivable' => User::query()->inRandomOrder()->first(),
+        ];
     }
 }

@@ -159,15 +159,15 @@ abstract class EmailHandlerBase
             $emailContentModifiers->injectUnsubscribeLink();
         }
 
-        $sampleBuildEmail->withSymfonyMessage(function ($message) use ($sampleEmailData) {
-            $headersManager = new HeadersManager($message);
+        // $sampleBuildEmail->withSymfonyMessage(function ($message) use ($sampleEmailData) {
+        //     $headersManager = new HeadersManager($message);
 
-            $headersManager->configureEmailHeaders(
-                eventable: $sampleEmailData['receivable'],
-                receivable: User::query()->inRandomOrder()->first(),
-                eventContext: [],
-            );
-        });
+        //     $headersManager->configureEmailHeaders(
+        //         eventable: $sampleEmailData['receivable'],
+        //         receivable: User::query()->inRandomOrder()->first(),
+        //         eventContext: [],
+        //     );
+        // });
 
         // $symfonyEmail = new Email();
 
@@ -175,7 +175,7 @@ abstract class EmailHandlerBase
         //     $callback($symfonyEmail);
         // }
 
-        return  $sampleBuildEmail;
+        return $sampleBuildEmail;
     }
 
     public static function sampleEmailData()
