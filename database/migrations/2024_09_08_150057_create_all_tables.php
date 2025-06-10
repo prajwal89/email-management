@@ -48,6 +48,22 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        Schema::create('em_email_variants', function (Blueprint $table): void {
+            $table->id();
+
+            $table->string('name', 255);
+            $table->string('slug', 255)->unique();
+
+            $table->unsignedBigInteger('eventable_id')->nullable();
+            $table->string('eventable_type')->nullable();
+
+            $table->boolean('is_paused')->default(false);
+            $table->boolean('is_winner')->default(false);
+            $table->unsignedSmallInteger('exposure_percentage')->default(50);
+
+            $table->timestamps();
+        });
+
         Schema::create('em_email_logs', function (Blueprint $table): void {
             $table->id();
             $table->string('message_id')->unique();
@@ -61,6 +77,8 @@ return new class extends Migration
 
             $table->unsignedBigInteger('eventable_id')->nullable();
             $table->string('eventable_type')->nullable();
+
+            $table->unsignedBigInteger('email_variant_id')->nullable();
 
             $table->json('context')->nullable();
             $table->json('headers')->nullable();
@@ -88,6 +106,7 @@ return new class extends Migration
 
             $table->timestamps();
 
+            $table->foreign('email_variant_id')->references('id')->on('em_email_variants');
             $table->index(['receivable_id', 'receivable_type']);
             $table->index(['eventable_id', 'eventable_type']);
         });

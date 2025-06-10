@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Commands;
 
-use File;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 
-// php artisan email-management:seed-db
+/**
+ * php artisan email-management:seed-db
+ */
 class SeedEmailsDatabaseCommand extends Command
 {
     protected $signature = 'email-management:seed-db';
@@ -16,8 +18,9 @@ class SeedEmailsDatabaseCommand extends Command
 
     public function handle(): void
     {
-        $this->seedEmailEvents();
+        // $this->seedEmailEvents();
         // $this->seedEmailCampaigns();
+        $this->seedEmailVariants();
     }
 
     public function seedEmailEvents()
@@ -48,7 +51,26 @@ class SeedEmailsDatabaseCommand extends Command
         foreach ($allFiles as $file) {
             $className = pathinfo($file->getFilename(), PATHINFO_FILENAME);
 
-            $fullClassName = __NAMESPACE__ . '\\EmailCampaigns\\' . $className;
+            $fullClassName = 'Database\\Seeders\\EmailManagement\\EmailCampaigns\\' . $className;
+
+            if (class_exists($fullClassName)) {
+                (new $fullClassName)->run();
+            } else {
+                $this->fail("Class {$fullClassName} does not exist.");
+            }
+        }
+    }
+
+    public function seedEmailVariants()
+    {
+        $allFiles = File::allFiles(config('email-management.seeders_dir') . '/EmailVariants');
+
+        foreach ($allFiles as $file) {
+            $className = pathinfo($file->getFilename(), PATHINFO_FILENAME);
+
+            $fullClassName = 'Database\\Seeders\\EmailManagement\\EmailVariants\\' . $className;
+
+            // dd($fullClassName);
 
             if (class_exists($fullClassName)) {
                 (new $fullClassName)->run();

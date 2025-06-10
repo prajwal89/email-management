@@ -42,6 +42,11 @@ class EmailEvent extends Model
         return $this->morphMany(EmailLog::class, 'eventable')->sent();
     }
 
+    public function emailVariants(): MorphMany
+    {
+        return $this->morphMany(EmailVariant::class, 'eventable');
+    }
+
     public function emailVisits(): HasManyThrough
     {
         return $this->hasManyThrough(

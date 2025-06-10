@@ -1,0 +1,24 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Database\Seeders\EmailManagement\EmailVariants;
+
+use Prajwal89\EmailManagement\Models\{eventable_type};
+
+class {seeder_class_name}
+{
+    public function run()
+    {
+        {eventable_type}::query()
+            ->where('slug','{eventable_slug}')
+            ->first()
+            ->emailVariants()
+            ->firstOrCreate([
+                'slug' => '{slug}',
+            ], [
+                'name' => '{name}',
+                'exposure_percentage' => '{exposure_percentage}'
+            ]);
+    }
+}

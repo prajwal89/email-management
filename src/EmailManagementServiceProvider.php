@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Prajwal89\EmailManagement\Commands\CreateEmailCampaignCommand;
 use Prajwal89\EmailManagement\Commands\CreateEmailEventCommand;
+use Prajwal89\EmailManagement\Commands\CreateEmailVariantCommand;
 use Prajwal89\EmailManagement\Commands\CreateReceivableGroupCommand;
 use Prajwal89\EmailManagement\Commands\ScanMailboxCommand;
 use Prajwal89\EmailManagement\Commands\SeedEmailsDatabaseCommand;
@@ -48,6 +49,7 @@ class EmailManagementServiceProvider extends ServiceProvider
                 SeedEmailsDatabaseCommand::class,
                 CreateReceivableGroupCommand::class,
                 ScanMailboxCommand::class,
+                CreateEmailVariantCommand::class,
             ]);
         }
     }
