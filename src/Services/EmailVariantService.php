@@ -6,20 +6,19 @@ namespace Prajwal89\EmailManagement\Services;
 
 use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailEvent;
-use Prajwal89\EmailManagement\Models\EmailLog;
 use Prajwal89\EmailManagement\Models\EmailVariant;
 
 class EmailVariantService
 {
     public static function store(
-        EmailEvent | EmailCampaign $eventable,
+        EmailEvent|EmailCampaign $eventable,
         array $attributes
     ): EmailVariant {
         return $eventable->emailVariants()->create($attributes);
     }
 
     public static function firstOrCreate(
-        EmailEvent | EmailCampaign $eventable,
+        EmailEvent|EmailCampaign $eventable,
         array $find,
         array $attributes,
     ): EmailVariant {
@@ -32,7 +31,7 @@ class EmailVariantService
         return self::store($eventable, array_merge($find, $attributes));
     }
 
-    public static function createDefaultVariant(EmailEvent | EmailCampaign $eventable): EmailVariant
+    public static function createDefaultVariant(EmailEvent|EmailCampaign $eventable): EmailVariant
     {
         $defaultAttributes = [
             'name' => 'Default',

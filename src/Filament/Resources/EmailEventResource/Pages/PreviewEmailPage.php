@@ -23,7 +23,7 @@ class PreviewEmailPage extends Page
 
     public function mount(): void
     {
-        //@var Mailable
+        // @var Mailable
         $email = $this->record->resolveEmailHandler()::buildSampleEmail();
 
         // dd($email->subject);

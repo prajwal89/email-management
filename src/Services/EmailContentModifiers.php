@@ -114,7 +114,6 @@ class EmailContentModifiers
     </div>
 ';
 
-
         $lineBreak = str()->random(32);
         $html = str_replace("\n", $lineBreak, $this->email->render());
 
