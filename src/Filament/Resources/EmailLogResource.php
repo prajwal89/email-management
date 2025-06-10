@@ -34,7 +34,7 @@ class EmailLogResource extends Resource
 
     protected static ?string $navigationGroup = 'Emails';
 
-    protected static ?string $navigationLabel = 'Logs';
+    protected static ?string $navigationLabel = 'Email Logs';
 
     protected static ?int $navigationSort = 2;
 
