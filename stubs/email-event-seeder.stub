@@ -11,13 +11,13 @@ class {seeder_class_name}
 {
     public function run()
     {
-        $eventable = EmailEvent::firstOrCreate([
+        $sendable = EmailEvent::firstOrCreate([
             'slug' => '{slug}',
         ], [
             'name' => '{name}',
             'description' => '{description}'
         ]);
 
-        EmailVariantService::createDefaultVariant($eventable);
+        EmailVariantService::createDefaultVariant($sendable);
     }
 }

@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Mail;
 use Prajwal89\EmailManagement\Interfaces\EmailReceivable;
+use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\Models\EmailLog;
@@ -31,7 +32,7 @@ abstract class EmailHandlerBase
     /**
      * this event triggered the sending of email
      */
-    protected EmailEvent|EmailCampaign $eventable;
+    protected EmailSendable $sendable;
 
     protected EmailReceivable $receivable;
 
@@ -115,7 +116,7 @@ abstract class EmailHandlerBase
         $headersManager = new HeadersManager($message);
 
         $headersManager->configureEmailHeaders(
-            eventable: $this->eventable,
+            sendable: $this->sendable,
             receivable: $this->receivable,
             eventContext: $this->eventContext,
         );
@@ -163,7 +164,7 @@ abstract class EmailHandlerBase
         //     $headersManager = new HeadersManager($message);
 
         //     $headersManager->configureEmailHeaders(
-        //         eventable: $sampleEmailData['receivable'],
+        //         sendable: $sampleEmailData['receivable'],
         //         receivable: User::query()->inRandomOrder()->first(),
         //         eventContext: [],
         //     );
@@ -212,8 +213,8 @@ abstract class EmailHandlerBase
         return EmailLog::query()
             ->where('receivable_id', $this->receivable->id)
             ->where('receivable_type', get_class($this->receivable))
-            ->where('eventable_id', $this->eventable->id)
-            ->where('eventable_type', get_class($this->eventable))
+            ->where('sendable_id', $this->sendable->id)
+            ->where('sendable_type', get_class($this->sendable))
             ->when($context !== null, function ($query) use ($context) {
                 return $query->whereJsonContains('context', $context);
             })

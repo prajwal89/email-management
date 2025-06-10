@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Services;
 
+use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\Models\EmailVariant;
@@ -11,14 +12,14 @@ use Prajwal89\EmailManagement\Models\EmailVariant;
 class EmailVariantService
 {
     public static function store(
-        EmailEvent|EmailCampaign $eventable,
+        EmailSendable $sendable,
         array $attributes
     ): EmailVariant {
-        return $eventable->emailVariants()->create($attributes);
+        return $sendable->emailVariants()->create($attributes);
     }
 
     public static function firstOrCreate(
-        EmailEvent|EmailCampaign $eventable,
+        EmailSendable $sendable,
         array $find,
         array $attributes,
     ): EmailVariant {
@@ -28,10 +29,10 @@ class EmailVariantService
             return $emailVariant;
         }
 
-        return self::store($eventable, array_merge($find, $attributes));
+        return self::store($sendable, array_merge($find, $attributes));
     }
 
-    public static function createDefaultVariant(EmailEvent|EmailCampaign $eventable): EmailVariant
+    public static function createDefaultVariant(EmailSendable $sendable): EmailVariant
     {
         $defaultAttributes = [
             'name' => 'Default',
@@ -39,6 +40,6 @@ class EmailVariantService
             'exposure_percentage' => 50,
         ];
 
-        return $eventable->emailVariants()->firstOrCreate($defaultAttributes);
+        return $sendable->emailVariants()->firstOrCreate($defaultAttributes);
     }
 }

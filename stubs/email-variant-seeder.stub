@@ -11,12 +11,12 @@ class {seeder_class_name}
 {
     public function run()
     {
-        $eventable = {eventable_type}::query()
+        $sendable = {eventable_type}::query()
             ->where('slug','{eventable_slug}')
             ->first();
 
         EmailVariantService::firstOrCreate(
-            eventable: $eventable,
+            eventable: $sendable,
             find: [
                 'slug' => '{slug}',
             ],

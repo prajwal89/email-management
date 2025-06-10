@@ -123,12 +123,12 @@ class CreateEmailVariantCommand extends Command
     }
 
     public function createSeederFile(
-        EmailEvent|EmailCampaign $eventable,
+        EmailEvent|EmailCampaign $sendable,
         array $data
     ): void {
         $slug = str($data['name'])->slug();
 
-        $seederClassName = str($eventable->slug)->studly() . $slug->studly() . 'Seeder';
+        $seederClassName = str($sendable->slug)->studly() . $slug->studly() . 'Seeder';
 
         $seederStub = str(File::get(__DIR__ . '/../../stubs/email-variant-seeder.stub'))
             ->replace('{name}', $data['name'])
@@ -136,9 +136,9 @@ class CreateEmailVariantCommand extends Command
             ->replace('{exposure_percentage}', $data['exposure_percentage'])
             ->replace('{seeder_class_name}', $seederClassName)
 
-            // ->replace('{eventable_class_name}', basename($eventable))
-            ->replace('{eventable_type}', class_basename($eventable))
-            ->replace('{eventable_slug}', $eventable->slug);
+            // ->replace('{eventable_class_name}', basename($sendable))
+            ->replace('{eventable_type}', class_basename($sendable))
+            ->replace('{eventable_slug}', $sendable->slug);
 
         $seederFileName = "$seederClassName.php";
 
@@ -165,18 +165,18 @@ class CreateEmailVariantCommand extends Command
      * markdown view for email
      */
     public function createEmailView(
-        EmailEvent|EmailCampaign $eventable,
+        EmailEvent|EmailCampaign $sendable,
         array $data
     ): void {
         $variantSlug = str($data['name'])->slug();
 
-        $emailViewFileName = $eventable->slug . '-' . $variantSlug . '-email.blade.php';
+        $emailViewFileName = $sendable->slug . '-' . $variantSlug . '-email.blade.php';
 
         $emailHandlerStub = str(File::get(__DIR__ . '/../../stubs/email-markdown-view.stub'))
             ->replace('{name}', $data['name']);
 
-        $folderName = match (get_class($eventable)) {
-            EmailEvent::class => 'email-event',
+        $folderName = match (get_class($sendable)) {
+            EmailEvent::class => 'email-events',
             EmailCampaign::class => 'email-campaigns',
         };
 

@@ -11,13 +11,13 @@ class {ClassName}
 {
     public function run()
     {
-        $eventable = EmailCampaign::firstOrCreate([
+        $sendable = EmailCampaign::firstOrCreate([
             'slug' => '{slug}',
         ], [
             'name' => '{name}',
             'description' => '{description}'
         ]);
 
-        EmailVariantService::createDefaultVariant($eventable);
+        EmailVariantService::createDefaultVariant($sendable);
     }
 }

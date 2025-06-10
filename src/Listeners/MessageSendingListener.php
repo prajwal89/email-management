@@ -54,8 +54,9 @@ class MessageSendingListener
                 // todo: from can have multiple values also
                 'from' => $message->getFrom()[0]->getAddress(),
 
-                'eventable_type' => $headersManager->getEventable()['type'],
-                'eventable_id' => $headersManager->getEventable()['id'],
+                'sendable_type' => $headersManager->getSendable()['type'],
+                'sendable_id' => $headersManager->getSendable()['id'],
+
                 'receivable_type' => $headersManager->getReceivable()['type'],
                 'receivable_id' => $headersManager->getReceivable()['id'],
 

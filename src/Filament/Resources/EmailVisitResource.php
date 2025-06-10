@@ -91,13 +91,13 @@ class EmailVisitResource extends Resource
                                 });
                         }
 
-                        [$eventable_type, $eventable_id] = explode(':', $data['value']);
+                        [$sendable_type, $sendable_id] = explode(':', $data['value']);
 
                         return $query
-                            ->whereHas('sentEmail.eventable', function ($query) use ($eventable_type, $eventable_id): void {
+                            ->whereHas('sentEmail.eventable', function ($query) use ($sendable_type, $sendable_id): void {
                                 $query
-                                    ->where('eventable_type', $eventable_type)
-                                    ->where('eventable_id', $eventable_id);
+                                    ->where('eventable_type', $sendable_type)
+                                    ->where('eventable_id', $sendable_id);
                             });
                     })
                     ->options(function () {
@@ -111,16 +111,16 @@ class EmailVisitResource extends Resource
                             ->get()
                             ->filter()
                             ->map(function (EmailLog $email) {
-                                $eventable = $email->eventable;
-                                if ($eventable === null) {
+                                $sendable = $email->eventable;
+                                if ($sendable === null) {
                                     return null;
                                 }
 
                                 return [
-                                    get_class($eventable) . ':' . $eventable->id => $eventable->name,
+                                    get_class($sendable) . ':' . $sendable->id => $sendable->name,
                                 ];
                             })
-                            ->mapWithKeys(fn ($data) => $data)
+                            ->mapWithKeys(fn($data) => $data)
                             ->filter();
 
                         return $result->isEmpty()

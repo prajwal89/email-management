@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 
-class EmailEvent extends Model
+class EmailEvent extends Model implements EmailSendable
 {
     use SoftDeletes;
 
@@ -31,7 +32,7 @@ class EmailEvent extends Model
 
     public function emailLogs(): MorphMany
     {
-        return $this->morphMany(EmailLog::class, 'eventable');
+        return $this->morphMany(EmailLog::class, 'sendable');
     }
 
     /**
@@ -39,12 +40,12 @@ class EmailEvent extends Model
      */
     public function sentEmails(): MorphMany
     {
-        return $this->morphMany(EmailLog::class, 'eventable')->sent();
+        return $this->morphMany(EmailLog::class, 'sendable')->sent();
     }
 
     public function emailVariants(): MorphMany
     {
-        return $this->morphMany(EmailVariant::class, 'eventable');
+        return $this->morphMany(EmailVariant::class, 'sendable');
     }
 
     public function emailVisits(): HasManyThrough
@@ -52,11 +53,11 @@ class EmailEvent extends Model
         return $this->hasManyThrough(
             related: EmailVisit::class,
             through: EmailLog::class,
-            firstKey: 'eventable_id',
+            firstKey: 'sendable_id',
             secondKey: 'message_id',
             localKey: 'id',
             secondLocalKey: 'message_id',
-        )->where('eventable_type', self::class);
+        )->where('sendable_type', self::class);
     }
 
     // this is of no use as we are not using in command

@@ -7,6 +7,7 @@ namespace Prajwal89\EmailManagement\Services;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\URL;
 use Prajwal89\EmailManagement\Interfaces\EmailReceivable;
+use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Header\IdentificationHeader;
 
@@ -21,7 +22,7 @@ class HeadersManager
      * Initial set headers before message sending
      */
     public function configureEmailHeaders(
-        Model $eventable,
+        EmailSendable $sendable,
         EmailReceivable $receivable,
         ?array $eventContext
     ) {
@@ -33,8 +34,8 @@ class HeadersManager
         $this->email->replyTo(config('email-management.reply_to'));
 
         $headers = $this->email->getHeaders();
-        $headers->addTextHeader('X-Eventable-Type', (string) get_class($eventable));
-        $headers->addTextHeader('X-Eventable-Id', (string) $eventable->getKey());
+        $headers->addTextHeader('X-Sendable-Type', (string) get_class($sendable));
+        $headers->addTextHeader('X-Sendable-Id', (string) $sendable->getKey());
         $headers->addTextHeader('X-Receivable-Type', (string) get_class($receivable));
         $headers->addTextHeader('X-Receivable-Id', (string) $receivable->getKey());
 
@@ -89,17 +90,17 @@ class HeadersManager
 
     public function getEventable(): array
     {
-        $eventableType = $this->email->getHeaders()->has('X-Eventable-Type')
+        $sendableType = $this->email->getHeaders()->has('X-Eventable-Type')
             ? $this->email->getHeaders()->getHeaderBody('X-Eventable-Type')
             : null;
 
-        $eventableId = $this->email->getHeaders()->has('X-Eventable-Id')
+        $sendableId = $this->email->getHeaders()->has('X-Eventable-Id')
             ? $this->email->getHeaders()->getHeaderBody('X-Eventable-Id')
             : null;
 
         return [
-            'type' => $eventableType,
-            'id' => $eventableId,
+            'type' => $sendableType,
+            'id' => $sendableId,
         ];
     }
 

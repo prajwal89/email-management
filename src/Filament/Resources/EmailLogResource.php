@@ -109,7 +109,7 @@ class EmailLogResource extends Resource
             TextColumn::make('eventable')
                 ->label('Eventable')
                 ->hidden(
-                    fn ($livewire): bool => $livewire instanceof SentEmailsRelationManager
+                    fn($livewire): bool => $livewire instanceof SentEmailsRelationManager
                 )
                 ->getStateUsing(function ($record) {
                     return $record?->eventable?->name ?? '';
@@ -205,11 +205,11 @@ class EmailLogResource extends Resource
                             ->whereNull('eventable_id');
                     }
 
-                    [$eventable_type, $eventable_id] = explode(':', $data['value']);
+                    [$sendable_type, $sendable_id] = explode(':', $data['value']);
 
                     return $query
-                        ->where('eventable_type', $eventable_type)
-                        ->where('eventable_id', $eventable_id);
+                        ->where('eventable_type', $sendable_type)
+                        ->where('eventable_id', $sendable_id);
                 })
                 ->options(function () {
                     $result = EmailLog::query()
@@ -222,16 +222,16 @@ class EmailLogResource extends Resource
                         ->get()
                         ->filter()
                         ->map(function (EmailLog $email) {
-                            $eventable = $email->eventable;
-                            if ($eventable === null) {
+                            $sendable = $email->eventable;
+                            if ($sendable === null) {
                                 return null;
                             }
 
                             return [
-                                get_class($eventable) . ':' . $eventable->id => $eventable->name,
+                                get_class($sendable) . ':' . $sendable->id => $sendable->name,
                             ];
                         })
-                        ->mapWithKeys(fn ($data) => $data)
+                        ->mapWithKeys(fn($data) => $data)
                         ->filter();
 
                     if ($result->isEmpty()) {
@@ -245,11 +245,11 @@ class EmailLogResource extends Resource
 
             Filter::make('opened_at')
                 ->label('Opened')
-                ->query(fn (Builder $query): Builder => $query->whereNotNull('opened_at')),
+                ->query(fn(Builder $query): Builder => $query->whereNotNull('opened_at')),
 
             Filter::make('clicked_at')
                 ->label('Clicked')
-                ->query(fn (Builder $query): Builder => $query->whereNotNull('clicked_at')),
+                ->query(fn(Builder $query): Builder => $query->whereNotNull('clicked_at')),
         ];
     }
 }

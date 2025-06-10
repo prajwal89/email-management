@@ -54,8 +54,8 @@ return new class extends Migration
             $table->string('name', 255);
             $table->string('slug', 255);
 
-            $table->unsignedBigInteger('eventable_id')->nullable();
-            $table->string('eventable_type')->nullable();
+            $table->unsignedBigInteger('sendable_id')->nullable();
+            $table->string('sendable_type')->nullable();
 
             $table->boolean('is_paused')->default(false);
             $table->boolean('is_winner')->default(false);
@@ -63,7 +63,7 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->unique(['eventable_type', 'eventable_id', 'slug']);
+            $table->unique(['sendable_type', 'sendable_id', 'slug']);
         });
 
         Schema::create('em_email_logs', function (Blueprint $table): void {
@@ -77,8 +77,8 @@ return new class extends Migration
             $table->unsignedBigInteger('receivable_id')->nullable();
             $table->string('receivable_type')->nullable();
 
-            $table->unsignedBigInteger('eventable_id')->nullable();
-            $table->string('eventable_type')->nullable();
+            $table->unsignedBigInteger('sendable_id')->nullable();
+            $table->string('sendable_type')->nullable();
 
             $table->unsignedBigInteger('email_variant_id')->nullable();
 
@@ -110,7 +110,7 @@ return new class extends Migration
 
             $table->foreign('email_variant_id')->references('id')->on('em_email_variants');
             $table->index(['receivable_id', 'receivable_type']);
-            $table->index(['eventable_id', 'eventable_type']);
+            $table->index(['sendable_id', 'sendable_type']);
         });
 
         Schema::create('em_email_visits', function (Blueprint $table): void {

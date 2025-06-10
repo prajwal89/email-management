@@ -14,14 +14,14 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  * @property int $id
  * @property string $name
  * @property string $slug
- * @property int|null $eventable_id
- * @property string|null $eventable_type
+ * @property int|null $sendable_id
+ * @property string|null $sendable_type
  * @property bool $is_paused
  * @property bool $is_winner
  * @property int $exposure_percentage
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read Model|\Eloquent $eventable
+ * @property-read Model|\Eloquent $sendable
  */
 class EmailVariant extends Model
 {

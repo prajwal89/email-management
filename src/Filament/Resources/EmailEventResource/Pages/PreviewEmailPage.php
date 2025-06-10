@@ -26,7 +26,7 @@ class PreviewEmailPage extends Page
         // @var Mailable
         $email = $this->record->resolveEmailHandler()::buildSampleEmail();
 
-        // dd($email->subject);
+        // dd($this->record->emailVariants->first()->resolveEmailHandler());
         // dd($email->render());
 
         $this->emailContent = $email->render();
