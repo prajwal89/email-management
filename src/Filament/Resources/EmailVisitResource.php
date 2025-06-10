@@ -19,7 +19,6 @@ use Prajwal89\EmailManagement\Filament\Resources\EmailVisitResource\Pages\ListEm
 use Prajwal89\EmailManagement\Filament\Resources\EmailVisitResource\Widgets\EmailVisitsTrendWidget;
 use Prajwal89\EmailManagement\Models\EmailLog;
 use Prajwal89\EmailManagement\Models\EmailVisit;
-use Prajwal89\EmailManagement\Models\SentEmail;
 
 class EmailVisitResource extends Resource
 {
@@ -121,7 +120,7 @@ class EmailVisitResource extends Resource
                                     get_class($eventable) . ':' . $eventable->id => $eventable->name,
                                 ];
                             })
-                            ->mapWithKeys(fn($data) => $data)
+                            ->mapWithKeys(fn ($data) => $data)
                             ->filter();
 
                         return $result->isEmpty()

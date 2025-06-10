@@ -26,7 +26,6 @@ use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\Models\EmailLog;
 use Prajwal89\EmailManagement\Models\NewsletterEmail;
-use Prajwal89\EmailManagement\Models\SentEmail;
 
 class EmailLogResource extends Resource
 {
@@ -110,7 +109,7 @@ class EmailLogResource extends Resource
             TextColumn::make('eventable')
                 ->label('Eventable')
                 ->hidden(
-                    fn($livewire): bool => $livewire instanceof SentEmailsRelationManager
+                    fn ($livewire): bool => $livewire instanceof SentEmailsRelationManager
                 )
                 ->getStateUsing(function ($record) {
                     return $record?->eventable?->name ?? '';
@@ -232,7 +231,7 @@ class EmailLogResource extends Resource
                                 get_class($eventable) . ':' . $eventable->id => $eventable->name,
                             ];
                         })
-                        ->mapWithKeys(fn($data) => $data)
+                        ->mapWithKeys(fn ($data) => $data)
                         ->filter();
 
                     if ($result->isEmpty()) {
@@ -246,11 +245,11 @@ class EmailLogResource extends Resource
 
             Filter::make('opened_at')
                 ->label('Opened')
-                ->query(fn(Builder $query): Builder => $query->whereNotNull('opened_at')),
+                ->query(fn (Builder $query): Builder => $query->whereNotNull('opened_at')),
 
             Filter::make('clicked_at')
                 ->label('Clicked')
-                ->query(fn(Builder $query): Builder => $query->whereNotNull('clicked_at')),
+                ->query(fn (Builder $query): Builder => $query->whereNotNull('clicked_at')),
         ];
     }
 }

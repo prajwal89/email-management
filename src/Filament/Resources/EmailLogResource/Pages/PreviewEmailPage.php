@@ -8,7 +8,6 @@ use Filament\Actions\Action;
 use Filament\Resources\Pages\Page;
 use Prajwal89\EmailManagement\Filament\Resources\EmailLogResource;
 use Prajwal89\EmailManagement\Models\EmailLog;
-use Prajwal89\EmailManagement\Models\SentEmail;
 
 class PreviewEmailPage extends Page
 {

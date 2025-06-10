@@ -39,7 +39,7 @@ class EmailLog extends Model
         // 'accepted_at',
         // 'delivered_at',
 
-        // Tracked from tracking pixel 
+        // Tracked from tracking pixel
         'last_opened_at',
 
         // Last email visit time
@@ -207,7 +207,6 @@ class EmailLog extends Model
     //             ->orWhereNotNull('hard_bounced_at');
     //     });
     // }
-
 
     /**
      * Get the status of the email

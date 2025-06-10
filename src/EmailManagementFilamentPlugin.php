@@ -10,9 +10,9 @@ use Filament\Panel;
 use Prajwal89\EmailManagement\Filament\Resources\ColdEmailResource;
 use Prajwal89\EmailManagement\Filament\Resources\EmailCampaignResource;
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource;
+use Prajwal89\EmailManagement\Filament\Resources\EmailLogResource;
 use Prajwal89\EmailManagement\Filament\Resources\EmailVisitResource;
 use Prajwal89\EmailManagement\Filament\Resources\NewsletterEmailResource;
-use Prajwal89\EmailManagement\Filament\Resources\EmailLogResource;
 
 class EmailManagementFilamentPlugin implements Plugin
 {
