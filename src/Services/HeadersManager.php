@@ -88,14 +88,14 @@ class HeadersManager
             : null;
     }
 
-    public function getEventable(): array
+    public function getSendable(): array
     {
-        $sendableType = $this->email->getHeaders()->has('X-Eventable-Type')
-            ? $this->email->getHeaders()->getHeaderBody('X-Eventable-Type')
+        $sendableType = $this->email->getHeaders()->has('X-Sendable-Type')
+            ? $this->email->getHeaders()->getHeaderBody('X-Sendable-Type')
             : null;
 
-        $sendableId = $this->email->getHeaders()->has('X-Eventable-Id')
-            ? $this->email->getHeaders()->getHeaderBody('X-Eventable-Id')
+        $sendableId = $this->email->getHeaders()->has('X-Sendable-Id')
+            ? $this->email->getHeaders()->getHeaderBody('X-Sendable-Id')
             : null;
 
         return [
@@ -124,8 +124,8 @@ class HeadersManager
     {
         $headers = $this->email->getHeaders();
 
-        $headers->remove('X-Eventable-Type');
-        $headers->remove('X-Eventable-Id');
+        $headers->remove('X-Sendable-Type');
+        $headers->remove('X-Sendable-Id');
         $headers->remove('X-Receivable-Type');
         $headers->remove('X-Receivable-Id');
         $headers->remove('X-Event-Context');
