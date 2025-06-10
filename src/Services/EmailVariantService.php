@@ -39,6 +39,6 @@ class EmailVariantService
             'exposure_percentage' => 50,
         ];
 
-        return $eventable->emailVariants()->create($defaultAttributes);
+        return $eventable->emailVariants()->firstOrCreate($defaultAttributes);
     }
 }
