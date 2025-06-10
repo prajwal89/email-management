@@ -14,6 +14,9 @@ use function Laravel\Prompts\search;
 use function Laravel\Prompts\text;
 use function Laravel\Prompts\warning;
 
+/**
+ * pa email-management:create-email-variant
+ */
 class CreateEmailVariantCommand extends Command
 {
     /**
@@ -49,7 +52,7 @@ class CreateEmailVariantCommand extends Command
         $eventId = search(
             label: 'Which email event does this variant belong to?',
             placeholder: 'Start typing to search for an event...',
-            options: fn (string $value) => strlen($value) > 0
+            options: fn(string $value) => strlen($value) > 0
                 ? EmailEvent::where('name', 'like', "%{$value}%")->pluck('name', 'id')->all()
                 : $events->all(),
             scroll: 10
@@ -79,7 +82,7 @@ class CreateEmailVariantCommand extends Command
             label: 'What is the exposure percentage for this variant?',
             placeholder: 'Enter a number between 0 and 100',
             required: true,
-            validate: fn (string $value) => match (true) {
+            validate: fn(string $value) => match (true) {
                 !is_numeric($value) => 'The value must be a number.',
                 $value < 0 => 'The percentage cannot be less than 0.',
                 $value > 100 => 'The percentage cannot be greater than 100.',
@@ -99,6 +102,13 @@ class CreateEmailVariantCommand extends Command
             );
 
             // todo: create view file
+            $this->createEmailView(
+                eventable: $selectedEvent,
+                data: [
+                    'name' => $variantName,
+                    'exposure_percentage' => $exposurePercentage,
+                ]
+            );
 
             info("Successfully created variant: {$variantName}");
             // info("Successfully created variant '{$variant->name}' with {$variant->exposure_percentage}% exposure.");
@@ -158,14 +168,19 @@ class CreateEmailVariantCommand extends Command
         EmailEvent|EmailCampaign $eventable,
         array $data
     ): void {
-        $slug = str($data['name'])->slug();
+        $variantSlug = str($data['name'])->slug();
 
-        $emailViewFileName = $slug . '-email.blade.php';
+        $emailViewFileName = $eventable->slug . '-' . $variantSlug . '-email.blade.php';
 
         $emailHandlerStub = str(File::get(__DIR__ . '/../../stubs/email-markdown-view.stub'))
             ->replace('{name}', $data['name']);
 
-        $mailPath = config('email-management.view_dir') . '/emails/email-campaigns';
+        $folderName = match (get_class($eventable)) {
+            EmailEvent::class => 'email-event',
+            EmailCampaign::class => 'email-campaigns',
+        };
+
+        $mailPath = config('email-management.view_dir') . '/emails/' . $folderName;
 
         $mailViewPath = $mailPath . "/{$emailViewFileName}";
 
