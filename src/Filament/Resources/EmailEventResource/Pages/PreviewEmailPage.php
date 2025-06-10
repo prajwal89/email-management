@@ -23,8 +23,13 @@ class PreviewEmailPage extends Page
 
     public function mount(): void
     {
-        // dd($this->record->resolveEmailHandler());
-        $this->emailContent = $this->record->resolveEmailHandler()::renderEmailForPreview();
+        //@var Mailable
+        $email = $this->record->resolveEmailHandler()::buildSampleEmail();
+
+        // dd($email);
+        // dd($email->render());
+
+        $this->emailContent = $email->render();
     }
 
     protected function getHeaderActions(): array

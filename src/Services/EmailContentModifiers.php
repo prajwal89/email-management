@@ -102,12 +102,18 @@ class EmailContentModifiers
     public function injectUnsubscribeLink(): self
     {
         $unsubscribeUrl = URL::signedRoute('emails.unsubscribe', [
-            'hash' => 'test',
+            'message_id' => 'test',
         ]);
 
-        $unsubscribeLine = '<p style="text-align: center; font-size: 14px; color: #ddd;">
-                                <a href="' . $unsubscribeUrl . '" style="color: #007bff; text-decoration: underline;">unsubscribe</a>
-                            </p>';
+        $unsubscribeLine = '
+    <div style="background: transparent; text-align: center; font-size: 14px; color: #999; margin-top: 30px;">
+        <p style="margin: 0;">
+            If you’d prefer not to receive these emails, you can 
+            <a href="' . $unsubscribeUrl . '" style="color: #007bff; text-decoration: underline;">unsubscribe here</a>.
+        </p>
+    </div>
+';
+
 
         $lineBreak = str()->random(32);
         $html = str_replace("\n", $lineBreak, $this->email->render());

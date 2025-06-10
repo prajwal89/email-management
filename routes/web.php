@@ -17,7 +17,7 @@ Route::prefix('emails')
         Route::get('/pixel', TrackEmailOpenedController::class)->name('pixel');
 
         // Unsubscribe route for any received email
-        Route::get('/unsubscribe/{hash}', [UnsubscribeEmailController::class, 'unsubscribe'])
+        Route::get('/unsubscribe', UnsubscribeEmailController::class)
             ->middleware('signed')
             ->name('unsubscribe');
 

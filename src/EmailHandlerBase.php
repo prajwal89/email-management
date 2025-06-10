@@ -141,7 +141,48 @@ abstract class EmailHandlerBase
      */
     public static function buildSampleEmail(): Mailable
     {
-        return new static::$mail(User::inRandomOrder()->first());
+        $sampleEmailData = static::sampleEmailData();
+
+        $sampleBuildEmail = new static::$mail(...$sampleEmailData);
+
+        $emailContentModifiers = new EmailContentModifiers($sampleBuildEmail);
+
+        if (config('email-management.track_visits')) {
+            $emailContentModifiers->injectTrackingUrls();
+        }
+
+        if (config('email-management.track_opens')) {
+            $emailContentModifiers->injectTrackingPixel();
+        }
+
+        if (config('email-management.inject_unsubscribe_link')) {
+            $emailContentModifiers->injectUnsubscribeLink();
+        }
+
+        $sampleBuildEmail->withSymfonyMessage(function ($message) use ($sampleEmailData) {
+            $headersManager = new HeadersManager($message);
+
+            $headersManager->configureEmailHeaders(
+                eventable: $sampleEmailData['receivable'],
+                receivable: User::query()->inRandomOrder()->first(),
+                eventContext: [],
+            );
+        });
+
+        // $symfonyEmail = new Email();
+
+        // foreach ($sampleBuildEmail->callbacks ?? [] as $callback) {
+        //     $callback($symfonyEmail);
+        // }
+
+        return  $sampleBuildEmail;
+    }
+
+    public static function sampleEmailData()
+    {
+        return [
+            'receivable' => User::query()->inRandomOrder()->first(),
+        ];
     }
 
     /**
