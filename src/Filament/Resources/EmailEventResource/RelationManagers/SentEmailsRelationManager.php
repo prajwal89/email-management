@@ -12,7 +12,7 @@ use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Table;
-use Prajwal89\EmailManagement\Filament\Resources\SentEmailResource;
+use Prajwal89\EmailManagement\Filament\Resources\EmailLogResource;
 
 class SentEmailsRelationManager extends RelationManager
 {
@@ -36,14 +36,14 @@ class SentEmailsRelationManager extends RelationManager
             })
             ->recordTitleAttribute('subject')
             ->columns([
-                ...SentEmailResource::commonColumns(),
+                ...EmailLogResource::commonColumns(),
                 // Tables\Columns\TextColumn::make('test')
                 //     ->getStateUsing(function ($record) {
                 //         dd($record);
                 //     }),
             ])
             ->filters([
-                ...SentEmailResource::commonFilters(),
+                ...EmailLogResource::commonFilters(),
             ])
             ->headerActions([
                 // Tables\Actions\CreateAction::make(),
@@ -57,7 +57,7 @@ class SentEmailsRelationManager extends RelationManager
                     ->icon('heroicon-o-eye')
                     ->openUrlInNewTab()
                     ->url(function ($record): string {
-                        return SentEmailResource::getUrl('preview-email', ['record' => $record->id]);
+                        return EmailLogResource::getUrl('preview-email', ['record' => $record->id]);
                     }),
             ])
             ->bulkActions([

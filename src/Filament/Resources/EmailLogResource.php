@@ -19,22 +19,22 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 use Modules\Auth\Filament\Resources\UserResource;
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\RelationManagers\SentEmailsRelationManager;
-use Prajwal89\EmailManagement\Filament\Resources\SentEmailResource\Pages;
-use Prajwal89\EmailManagement\Filament\Resources\SentEmailResource\Pages\ListSentEmails;
-use Prajwal89\EmailManagement\Filament\Resources\SentEmailResource\Pages\PreviewEmailPage;
-use Prajwal89\EmailManagement\Filament\Resources\SentEmailResource\Widgets\SentEmailsTrendWidget;
+use Prajwal89\EmailManagement\Filament\Resources\EmailLogResource\Pages\ListSentEmails;
+use Prajwal89\EmailManagement\Filament\Resources\EmailLogResource\Pages\PreviewEmailPage;
+use Prajwal89\EmailManagement\Filament\Resources\EmailLogResource\Widgets\SentEmailsTrendWidget;
 use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailEvent;
+use Prajwal89\EmailManagement\Models\EmailLog;
 use Prajwal89\EmailManagement\Models\NewsletterEmail;
 use Prajwal89\EmailManagement\Models\SentEmail;
 
-class SentEmailResource extends Resource
+class EmailLogResource extends Resource
 {
-    protected static ?string $model = SentEmail::class;
+    protected static ?string $model = EmailLog::class;
 
     protected static ?string $navigationGroup = 'Emails';
 
-    protected static ?string $navigationLabel = 'Sent';
+    protected static ?string $navigationLabel = 'Logs';
 
     protected static ?int $navigationSort = 2;
 
@@ -110,7 +110,7 @@ class SentEmailResource extends Resource
             TextColumn::make('eventable')
                 ->label('Eventable')
                 ->hidden(
-                    fn ($livewire): bool => $livewire instanceof SentEmailsRelationManager
+                    fn($livewire): bool => $livewire instanceof SentEmailsRelationManager
                 )
                 ->getStateUsing(function ($record) {
                     return $record?->eventable?->name ?? '';
@@ -213,7 +213,7 @@ class SentEmailResource extends Resource
                         ->where('eventable_id', $eventable_id);
                 })
                 ->options(function () {
-                    $result = SentEmail::query()
+                    $result = EmailLog::query()
                         ->select('eventable_type', 'eventable_id')
                         ->with(['eventable'])
                         ->whereNotNull('eventable_id')
@@ -222,7 +222,7 @@ class SentEmailResource extends Resource
                         ->latest()
                         ->get()
                         ->filter()
-                        ->map(function (SentEmail $email) {
+                        ->map(function (EmailLog $email) {
                             $eventable = $email->eventable;
                             if ($eventable === null) {
                                 return null;
@@ -232,7 +232,7 @@ class SentEmailResource extends Resource
                                 get_class($eventable) . ':' . $eventable->id => $eventable->name,
                             ];
                         })
-                        ->mapWithKeys(fn ($data) => $data)
+                        ->mapWithKeys(fn($data) => $data)
                         ->filter();
 
                     if ($result->isEmpty()) {
@@ -246,11 +246,11 @@ class SentEmailResource extends Resource
 
             Filter::make('opened_at')
                 ->label('Opened')
-                ->query(fn (Builder $query): Builder => $query->whereNotNull('opened_at')),
+                ->query(fn(Builder $query): Builder => $query->whereNotNull('opened_at')),
 
             Filter::make('clicked_at')
                 ->label('Clicked')
-                ->query(fn (Builder $query): Builder => $query->whereNotNull('clicked_at')),
+                ->query(fn(Builder $query): Builder => $query->whereNotNull('clicked_at')),
         ];
     }
 }

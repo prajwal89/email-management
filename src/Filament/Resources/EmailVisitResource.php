@@ -53,7 +53,7 @@ class EmailVisitResource extends Resource
                     ->searchable()
                     ->openUrlInNewTab()
                     ->url(function ($record): string {
-                        return SentEmailResource::getUrl('preview-email', [
+                        return EmailLogResource::getUrl('preview-email', [
                             'record' => $record->sentEmail->id,
                         ]);
                     }),
@@ -120,7 +120,7 @@ class EmailVisitResource extends Resource
                                     get_class($eventable) . ':' . $eventable->id => $eventable->name,
                                 ];
                             })
-                            ->mapWithKeys(fn ($data) => $data)
+                            ->mapWithKeys(fn($data) => $data)
                             ->filter();
 
                         return $result->isEmpty()

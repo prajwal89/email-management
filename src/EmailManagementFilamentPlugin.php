@@ -12,7 +12,7 @@ use Prajwal89\EmailManagement\Filament\Resources\EmailCampaignResource;
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource;
 use Prajwal89\EmailManagement\Filament\Resources\EmailVisitResource;
 use Prajwal89\EmailManagement\Filament\Resources\NewsletterEmailResource;
-use Prajwal89\EmailManagement\Filament\Resources\SentEmailResource;
+use Prajwal89\EmailManagement\Filament\Resources\EmailLogResource;
 
 class EmailManagementFilamentPlugin implements Plugin
 {
@@ -29,7 +29,7 @@ class EmailManagementFilamentPlugin implements Plugin
                 EmailCampaignResource::class,
                 ColdEmailResource::class,
                 NewsletterEmailResource::class,
-                SentEmailResource::class,
+                EmailLogResource::class,
                 EmailVisitResource::class,
             ])
             ->navigationGroups([

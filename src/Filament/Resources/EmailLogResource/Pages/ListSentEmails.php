@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Prajwal89\EmailManagement\Filament\Resources\SentEmailResource\Pages;
+namespace Prajwal89\EmailManagement\Filament\Resources\EmailLogResource\Pages;
 
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
-use Prajwal89\EmailManagement\Filament\Resources\SentEmailResource;
-use Prajwal89\EmailManagement\Filament\Resources\SentEmailResource\Widgets\SentEmailsTrendWidget;
+use Prajwal89\EmailManagement\Filament\Resources\EmailLogResource;
+use Prajwal89\EmailManagement\Filament\Resources\EmailLogResource\Widgets\SentEmailsTrendWidget;
 
 class ListSentEmails extends ListRecords
 {
-    protected static string $resource = SentEmailResource::class;
+    protected static string $resource = EmailLogResource::class;
 
     protected function getHeaderActions(): array
     {
