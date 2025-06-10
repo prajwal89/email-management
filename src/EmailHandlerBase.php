@@ -87,10 +87,6 @@ abstract class EmailHandlerBase
         Mail::to($this->receivable->getEmail())->send($this->finalEmail);
     }
 
-    /**
-     * Builds the email instance.
-     * Extend this if required
-     */
     public function buildEmail()
     {
         $this->finalEmail = new static::$mail($this->receivable);
@@ -99,7 +95,6 @@ abstract class EmailHandlerBase
 
         $emailContentModifiers = new EmailContentModifiers($this->finalEmail);
 
-        // todo check if this setting is enabled
         if (config('email-management.track_visits')) {
             $emailContentModifiers->injectTrackingUrls();
         }
@@ -150,20 +145,6 @@ abstract class EmailHandlerBase
     }
 
     /**
-     * Configures email headers dynamically.
-     */
-    public function configureEmailHeaders(Email $message): void
-    {
-        $headersManager = new HeadersManager($message);
-
-        $headersManager->configureEmailHeaders(
-            eventable: $this->eventable,
-            receivable: $this->receivable,
-            eventContext: $this->eventContext,
-        );
-    }
-
-    /**
      * Renders a preview of the email.
      */
     public static function renderEmailForPreview(): string
@@ -180,10 +161,10 @@ abstract class EmailHandlerBase
     }
 
     /**
-     * useful for checking email events that will happen
+     * Useful for checking email events that will happen
      * once per user
      * ! downside is this will not work if we prune records from sent emails table
-     * * hint we can reduce sent_emails table by removing large column (i.e. email_content)
+     * Hint: we can reduce sent_emails table by removing large column (i.e. email_content)
      */
     public function wasEmailAlreadySentOnce(?array $context = null): bool
     {
