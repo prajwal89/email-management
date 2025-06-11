@@ -6,6 +6,7 @@ namespace Prajwal89\EmailManagement\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailEvent;
 
@@ -15,7 +16,7 @@ use function Laravel\Prompts\text;
 use function Laravel\Prompts\warning;
 
 /**
- * pa email-management:create-email-variant
+ * php artisan email-management:create-email-variant --sendable_type=EmailEvent
  */
 class CreateEmailVariantCommand extends Command
 {
@@ -24,7 +25,7 @@ class CreateEmailVariantCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'email-management:create-email-variant';
+    protected $signature = 'em:create-email-variant {--sendable_type=} {--sendable_slug=}';
 
     /**
      * The console command description.
@@ -38,8 +39,33 @@ class CreateEmailVariantCommand extends Command
      */
     public function handle(): int
     {
+        $sendableType = $this->option('sendable_type');
+
+        $allowedSendableTypes = [
+            'EmailEvent',
+            'EmailCampaign',
+        ];
+
+        if (!$sendableType) {
+            $this->error('--sendable_type is required.');
+            return 1;
+        }
+
+        if (!in_array($sendableType, $allowedSendableTypes)) {
+            $this->error("Invalid sendable type: {$sendableType}. Allowed values are:");
+            foreach ($allowedSendableTypes as $type) {
+                $this->line(" - {$type}");
+            }
+            return 1;
+        }
+
+        $sendableModel = match ($sendableType) {
+            'EmailEvent' => EmailEvent::class,
+            'EmailCampaign' => EmailCampaign::class,
+        };
+
         // Fetch all email events to search through them.
-        $events = EmailEvent::query()->pluck('name', 'id');
+        $events = $sendableModel::query()->pluck('name', 'id');
 
         // Check if any events exist before proceeding.
         if ($events->isEmpty()) {
@@ -48,25 +74,50 @@ class CreateEmailVariantCommand extends Command
             return self::FAILURE;
         }
 
-        // Use the 'search' prompt to find the parent email event.
-        $eventId = search(
-            label: 'Which email event does this variant belong to?',
-            placeholder: 'Start typing to search for an event...',
-            options: fn (string $value) => strlen($value) > 0
-                ? EmailEvent::where('name', 'like', "%{$value}%")->pluck('name', 'id')->all()
-                : $events->all(),
-            scroll: 10
-        );
 
-        $selectedEvent = EmailEvent::find($eventId);
 
-        if (!$selectedEvent) {
-            warning('Invalid selection. Aborting command.');
+        $slug = $this->option('sendable_slug');
 
-            return self::FAILURE;
+        if ($slug) {
+            $selectedEvent = $sendableModel::where('slug', $slug)->first();
+
+            if (!$selectedEvent) {
+                $this->error("No {$sendableType} found with slug '{$slug}'");
+                return self::FAILURE;
+            }
+
+            info("Using provided sendable. Selected {$sendableType}: '{$selectedEvent->name}'");
+        } else {
+            // Fetch all email events to search through them.
+            $events = $sendableModel::query()->pluck('name', 'id');
+
+            // Check if any events exist before proceeding.
+            if ($events->isEmpty()) {
+                warning('No email events found. Please create an event first using email-management:create-email-event');
+                return self::FAILURE;
+            }
+
+            // Use the 'search' prompt to find the parent email event.
+            $eventId = search(
+                label: 'Which email event does this variant belong to?',
+                placeholder: 'Start typing to search for an event...',
+                options: fn(string $value) => strlen($value) > 0
+                    ? $sendableModel::where('name', 'like', "%{$value}%")->pluck('name', 'id')->all()
+                    : $events->all(),
+                scroll: 10
+            );
+
+            $selectedEvent = $sendableModel::find($eventId);
+
+            if (!$selectedEvent) {
+                warning('Invalid selection. Aborting command.');
+                return self::FAILURE;
+            }
+
+            info("You have selected the event: '{$selectedEvent->name}'.");
         }
 
-        info("You have selected the event: '{$selectedEvent->name}'.");
+
 
         // --- New prompts for variant details ---
 
@@ -82,7 +133,7 @@ class CreateEmailVariantCommand extends Command
             label: 'What is the exposure percentage for this variant?',
             placeholder: 'Enter a number between 0 and 100',
             required: true,
-            validate: fn (string $value) => match (true) {
+            validate: fn(string $value) => match (true) {
                 !is_numeric($value) => 'The value must be a number.',
                 $value < 0 => 'The percentage cannot be less than 0.',
                 $value > 100 => 'The percentage cannot be greater than 100.',
@@ -90,9 +141,8 @@ class CreateEmailVariantCommand extends Command
             }
         );
 
-        // Create the email variant record
+        // create view and seeder files
         try {
-
             $this->createSeederFile(
                 sendable: $selectedEvent,
                 data: [
@@ -101,7 +151,6 @@ class CreateEmailVariantCommand extends Command
                 ]
             );
 
-            // todo: create view file
             $this->createEmailView(
                 sendable: $selectedEvent,
                 data: [
@@ -123,7 +172,7 @@ class CreateEmailVariantCommand extends Command
     }
 
     public function createSeederFile(
-        EmailEvent|EmailCampaign $sendable,
+        EmailSendable $sendable,
         array $data
     ): void {
         $slug = str($data['name'])->slug();
@@ -165,7 +214,7 @@ class CreateEmailVariantCommand extends Command
      * markdown view for email
      */
     public function createEmailView(
-        EmailEvent|EmailCampaign $sendable,
+        EmailSendable $sendable,
         array $data
     ): void {
         $variantSlug = str($data['name'])->slug();
