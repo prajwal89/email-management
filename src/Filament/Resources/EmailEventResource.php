@@ -24,6 +24,7 @@ use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\Pages;
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\Pages\EditEmailEvent;
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\Pages\ListEmailEvents;
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\Pages\PreviewEmailPage;
+use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\RelationManagers\EmailVariantsRelationManager;
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\RelationManagers\SentEmailsRelationManager;
 use Prajwal89\EmailManagement\Models\EmailEvent;
 
@@ -63,6 +64,10 @@ class EmailEventResource extends Resource
                     ->label('Visits')
                     ->counts('emailVisits')
                     ->sortable(),
+                TextColumn::make('email_variants_count')
+                    ->label('Variants')
+                    ->counts('emailVariants')
+                    ->sortable(),
             ])
             ->filters([
                 TrashedFilter::make(),
@@ -91,6 +96,7 @@ class EmailEventResource extends Resource
     {
         return [
             SentEmailsRelationManager::class,
+            EmailVariantsRelationManager::class,
         ];
     }
 
@@ -98,7 +104,6 @@ class EmailEventResource extends Resource
     {
         return [
             'index' => ListEmailEvents::route('/'),
-            // 'create' => Pages\CreateEmailEvent::route('/create'),
             'edit' => EditEmailEvent::route('/{record}/edit'),
             'preview-email' => PreviewEmailPage::route('/{record}/preview-email'),
         ];

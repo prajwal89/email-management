@@ -36,7 +36,7 @@ class EmailEvent extends Model implements EmailSendable
     }
 
     /**
-     * successfully sent emails
+     * Successfully sent emails
      */
     public function sentEmails(): MorphMany
     {
