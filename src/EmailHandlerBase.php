@@ -27,6 +27,8 @@ abstract class EmailHandlerBase
      */
     public static $mail = Mailable::class;
 
+    public string $messageId;
+
     public $finalEmail;
 
     /**
@@ -90,6 +92,8 @@ abstract class EmailHandlerBase
 
     public function buildEmail()
     {
+        $this->messageId = '234nzonew@sd';
+
         $this->finalEmail = new static::$mail($this->receivable);
 
         $this->finalEmail->withSymfonyMessage([$this, 'configureSymfonyMessage']);
@@ -113,11 +117,14 @@ abstract class EmailHandlerBase
 
     public function configureSymfonyMessage(Email $message)
     {
+        // dd($this->messageId);
+
         $headersManager = new HeadersManager($message);
 
         $headersManager->configureEmailHeaders(
             sendable: $this->sendable,
             receivable: $this->receivable,
+            messageId: $this->messageId,
             eventContext: $this->eventContext,
         );
 
@@ -162,7 +169,6 @@ abstract class EmailHandlerBase
 
         // $sampleBuildEmail->withSymfonyMessage(function ($message) use ($sampleEmailData) {
         //     $headersManager = new HeadersManager($message);
-
         //     $headersManager->configureEmailHeaders(
         //         sendable: $sampleEmailData['receivable'],
         //         receivable: User::query()->inRandomOrder()->first(),

@@ -24,9 +24,11 @@ class HeadersManager
     public function configureEmailHeaders(
         EmailSendable $sendable,
         EmailReceivable $receivable,
+        ?string $messageId,
         ?array $eventContext
     ) {
-        $this->createMessageId();
+        $this->createMessageId($messageId);
+
         $this->addUnsubscribeHeader();
 
         $this->email->returnPath(config('email-management.return_path'));
@@ -55,9 +57,16 @@ class HeadersManager
         return $messageId;
     }
 
-    public function createMessageId(): string
+    public static function generateNewMessageId()
     {
-        $messageId = uniqid() . '@' . (config('app.url') ? parse_url(config('app.url'), PHP_URL_HOST) : 'localhost');
+        return uniqid() . '@' . (config('app.url') ? parse_url(config('app.url'), PHP_URL_HOST) : 'localhost');
+    }
+
+    public function createMessageId(?string $messageId = null): string
+    {
+        if ($messageId == null) {
+            $messageId = self::generateNewMessageId();
+        }
 
         $this->email->getHeaders()->addIdHeader('Message-ID', $messageId);
 
