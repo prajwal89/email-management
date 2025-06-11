@@ -191,8 +191,6 @@ abstract class EmailHandlerBase
             $sampleEmailData['emailVariant'] = self::resolveSendable()->defaultEmailVariant;
         }
 
-        // dd($sampleEmailData);
-
         $sampleBuildEmail = new static::$mail(
             ...$sampleEmailData
         );

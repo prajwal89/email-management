@@ -11,12 +11,16 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Prajwal89\EmailManagement\Models\EmailVariant;
 
 class {email_class_name} extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    public function __construct(public Model $receivable) {}
+    public function __construct(
+        public Model $receivable,
+        public EmailVariant $emailVariant
+    ) {}
 
     public function envelope(): Envelope
     {
@@ -28,7 +32,7 @@ class {email_class_name} extends Mailable implements ShouldQueue
     public function content(): Content
     {
         return new Content(
-            markdown: 'email-management::emails.{sendable_folder_name}.{email_view_file_name}'
+            markdown: $this->emailVariant->getFullViewName()
         );
     }
 }
