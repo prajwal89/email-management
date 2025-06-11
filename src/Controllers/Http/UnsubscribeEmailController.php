@@ -7,18 +7,34 @@ namespace Prajwal89\EmailManagement\Controllers\Http;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
+use Jaybizzle\CrawlerDetect\CrawlerDetect;
 use Prajwal89\EmailManagement\Models\EmailLog;
 
 class UnsubscribeEmailController extends Controller
 {
-    // todo check for bot (only if get request)
     // todo show view file with alert notification
     public function __invoke(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'message_id' => 'required|string',
+        ]);
 
-        if (!$request->has('message_id') && empty($request->message_id)) {
-            // todo record and redirect
+        /**
+         * Don't track if user is crawler as some 
+         * email clients crawl links in emails for the security measures
+         */
+        if ((new CrawlerDetect())->isCrawler()) {
             return;
+        }
+
+        if ($validator->fails()) {
+            Log::warning('Unsubscribe: Validation failed', [
+                'errors' => $validator->errors()->toArray(),
+                'request' => $request->all(),
+            ]);
+
+            return abort(400, 'Invalid input');
         }
 
         $emailLog = EmailLog::query()

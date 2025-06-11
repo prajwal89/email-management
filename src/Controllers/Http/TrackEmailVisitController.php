@@ -19,7 +19,6 @@ use Prajwal89\EmailManagement\Services\EmailVisitService;
  */
 class TrackEmailVisitController extends Controller
 {
-    // todo check if user is bot as (email servers check links before serving email to users)
     public function __invoke(Request $request)
     {
         $validator = Validator::make($request->all(), [
