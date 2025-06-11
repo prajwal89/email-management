@@ -1,323 +1,309 @@
-<x-filament-panels::page class="w-full">
-    <div class="grid w-full">
-        <div class="">
-            <div class="bg-white border rounded-lg shadow-sm">
-                <!-- Tab Navigation -->
-                <div class="border-b">
-                    <nav class="flex px-4 space-x-8" aria-label="Tabs">
-                        <button onclick="switchTab('html')" id="html-tab" class="px-1 py-4 text-sm font-medium text-gray-500 border-b-2 border-transparent hover:text-gray-700 hover:border-gray-300 whitespace-nowrap tab-button active">
-                            HTML
-                        </button>
-                        @if($record->text)
-                            <button onclick="switchTab('text')" id="text-tab" class="px-1 py-4 text-sm font-medium text-gray-500 border-b-2 border-transparent hover:text-gray-700 hover:border-gray-300 whitespace-nowrap tab-button">
-                                Text
-                            </button>
-                        @endif
-                        @if($record->headers && count($record->headers) > 0)
-                            <button onclick="switchTab('headers')" id="headers-tab" class="px-1 py-4 text-sm font-medium text-gray-500 border-b-2 border-transparent hover:text-gray-700 hover:border-gray-300 whitespace-nowrap tab-button">
-                                Headers
-                            </button>
-                        @endif
-                    </nav>
+<x-filament-panels::page>
+
+    {{-- Main two-column layout --}}
+    <div class="grid grid-cols-1 gap-8 lg:grid-cols-5">
+
+        {{-- LEFT/MAIN Column: Email Content Viewer with Tabs --}}
+        {{-- Alpine.js is used here to manage the active tab state --}}
+        <div class="lg:col-span-3" x-data="{ activeTab: 'html' }" x-cloak>
+            <div class="mb-4">
+                <x-filament::tabs>
+                    <x-filament::tabs.item
+                        x-bind:active="activeTab === 'html'"
+                        @click="activeTab = 'html'"
+                        icon="heroicon-o-code-bracket"
+                    >
+                        HTML
+                    </x-filament::tabs.item>
+
+                    <x-filament::tabs.item
+                        x-bind:active="activeTab === 'text'"
+                        @click="activeTab = 'text'"
+                        icon="heroicon-o-bars-3-bottom-left"
+                    >
+                        Text
+                    </x-filament::tabs.item>
+
+                    <x-filament::tabs.item
+                        x-bind:active="activeTab === 'headers'"
+                        @click="activeTab = 'headers'"
+                        icon="heroicon-o-book-open"
+                    >
+                        Headers
+                    </x-filament::tabs.item>
+                </x-filament::tabs>
+            </div>
+
+            {{-- Tab Content --}}
+            <div>
+                {{-- HTML Content --}}
+                <div x-show="activeTab === 'html'" class="bg-white border shadow-sm rounded-xl dark:bg-gray-900/50 dark:border-white/10">
+                    <iframe
+                        srcdoc="{{ $record->html }}"
+                        style="height: 75vh; max-height: 800px;"
+                        sandbox="allow-same-origin"
+                        class="w-full h-full border-0 rounded-xl"
+                    ></iframe>
                 </div>
 
-                <!-- Tab Content -->
-                <div class="p-4">
-                    <!-- HTML Tab -->
-                    <div id="html-content" class="tab-content">
-                        <iframe srcdoc="{{ $record->html }}" 
-                                style="height: 600px;"
-                                sandbox="allow-same-origin allow-scripts" 
-                                class="w-full border rounded shadow bg-gray-100/40">
-                        </iframe>
-                    </div>
-
-                    <!-- Text Tab -->
-                    @if($record->text)
-                        <div id="text-content" class="hidden tab-content">
-                            <div class="p-4 border rounded bg-gray-50" style="height: 600px; overflow-y: auto;">
-                                <pre class="text-sm text-gray-800 whitespace-pre-wrap">{{ $record->text }}</pre>
+                {{-- Text Content --}}
+                <div x-show="activeTab === 'text'" style="display: none;">
+                    <x-filament::section>
+                         <x-slot name="heading" class="sr-only">Plain Text</x-slot>
+                         @if($record->text)
+                            <pre class="font-mono text-sm text-gray-700 whitespace-pre-wrap dark:text-gray-300">{{ $record->text }}</pre>
+                        @else
+                            <div class="flex flex-col items-center justify-center h-48 gap-3 text-gray-500">
+                                <x-heroicon-o-document-minus class="w-12 h-12" />
+                                <span class="text-lg">No plain text version available.</span>
                             </div>
-                        </div>
-                    @endif
+                        @endif
+                    </x-filament::section>
+                </div>
 
-                    <!-- Headers Tab -->
-                    @if($record->headers && count($record->headers) > 0)
-                        <div id="headers-content" class="hidden tab-content">
-                            <div class="p-4 border rounded bg-gray-50" style="height: 600px; overflow-y: auto;">
-                                <pre class="text-sm text-gray-800 whitespace-pre-wrap">{{ json_encode($record->headers, JSON_PRETTY_PRINT) }}</pre>
-                            </div>
-                        </div>
-                    @endif
+                {{-- Headers Content --}}
+                <div x-show="activeTab === 'headers'" style="display: none;">
+                    <x-filament::section>
+                        <x-slot name="heading" class="sr-only">Headers</x-slot>
+                        <dl class="grid grid-cols-1 gap-y-4 sm:grid-cols-8">
+                            @forelse($record->headers ?? [] as $header => $value)
+                                <dt class="text-sm font-medium text-center text-gray-500 sm:col-span-1 dark:text-gray-400">{{ $header }}</dt>
+                                <dd class="font-mono text-sm text-gray-900 break-all sm:col-span-7 dark:text-gray-100">{{ is_array($value) ? implode(', ', $value) : $value }}</dd>
+                            @empty
+                                <p class="text-gray-500">No headers were recorded.</p>
+                            @endforelse
+                        </dl>
+                    </x-filament::section>
                 </div>
             </div>
         </div>
 
-        <div class="">
-            <!-- Email Status Card -->
-            <div class="bg-white border rounded-lg shadow-sm">
-                <div class="p-4 border-b">
-                    <h4 class="font-semibold text-gray-900">Email Status</h4>
-                </div>
-                <div class="p-4">
-                    <div class="flex items-center justify-between mb-3">
-                        <span class="text-sm text-gray-600">Current Status</span>
-                        <span class="px-2 py-1 text-xs font-medium rounded-full
-                            @switch($record->getStatus())
-                                @case('replied')
-                                    bg-green-100 text-green-800
-                                    @break
-                                @case('clicked')
-                                    bg-blue-100 text-blue-800
-                                    @break
-                                @case('opened')
-                                    bg-yellow-100 text-yellow-800
-                                    @break
-                                @case('sent')
-                                    bg-gray-100 text-gray-800
-                                    @break
-                                @case('hard_bounced')
-                                    bg-red-100 text-red-800
-                                    @break
-                                @case('soft_bounced')
-                                    bg-orange-100 text-orange-800
-                                    @break
-                                @case('complained')
-                                    bg-purple-100 text-purple-800
-                                    @break
-                                @case('unsubscribed')
-                                    bg-pink-100 text-pink-800
-                                    @break
-                                @default
-                                    bg-gray-100 text-gray-800
-                            @endswitch
-                        ">
-                            {{ ucfirst(str_replace('_', ' ', $record->getStatus())) }}
-                        </span>
-                    </div>
-                    
-                    <!-- Engagement Metrics -->
-                    <div class="grid grid-cols-2 gap-3 text-sm">
-                        <div class="flex items-center justify-between">
-                            <span class="text-gray-600">Opens</span>
-                            <span class="font-medium">{{ $record->opens ?? 0 }}</span>
-                        </div>
-                        <div class="flex items-center justify-between">
-                            <span class="text-gray-600">Clicks</span>
-                            <span class="font-medium">{{ $record->clicks ?? 0 }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        {{-- RIGHT Column: Details Side Panel --}}
+        <div class="space-y-6 lg:col-span-2">
 
-            <!-- Email Details Card -->
-            <div class="bg-white border rounded-lg shadow-sm">
-                <div class="p-4 border-b">
-                    <h4 class="font-semibold text-gray-900">Email Details</h4>
-                </div>
-                <div class="p-4 space-y-3">
-                    <div>
-                        <label class="text-xs font-medium tracking-wide text-gray-500 uppercase">Message ID</label>
-                        <p class="font-mono text-sm text-gray-900">{{ $record->message_id }}</p>
-                    </div>
-                    
-                    <div>
-                        <label class="text-xs font-medium tracking-wide text-gray-500 uppercase">Subject</label>
-                        <p class="text-sm text-gray-900">{{ $record->subject }}</p>
-                    </div>
-                    
-                    <div>
-                        <label class="text-xs font-medium tracking-wide text-gray-500 uppercase">From</label>
-                        <p class="text-sm text-gray-900">{{ $record->from }}</p>
-                    </div>
-                    
-                    <div>
-                        <label class="text-xs font-medium tracking-wide text-gray-500 uppercase">Mailer</label>
-                        <p class="text-sm text-gray-900">{{ $record->mailer }}</p>
-                    </div>
-                    
-                    <div>
-                        <label class="text-xs font-medium tracking-wide text-gray-500 uppercase">Transport</label>
-                        <p class="text-sm text-gray-900">{{ $record->transport }}</p>
-                    </div>
-                </div>
-            </div>
+            {{-- Status & Summary Section --}}
+            <x-filament::section>
+                <x-slot name="heading">
+                    Summary
+                </x-slot>
 
-            <!-- Timeline Card -->
-            <div class="bg-white border rounded-lg shadow-sm">
-                <div class="p-4 border-b">
-                    <h4 class="font-semibold text-gray-900">Timeline</h4>
-                </div>
-                <div class="p-4">
-                    <div class="space-y-3">
-                        @if($record->sent_at)
-                            <div class="flex items-start space-x-3">
-                                <div class="w-2 h-2 mt-2 bg-blue-500 rounded-full"></div>
-                                <div class="flex-1">
-                                    <p class="text-sm font-medium text-gray-900">Sent</p>
-                                    <p class="text-xs text-gray-500">{{ $record->sent_at->format('M d, Y h:i A') }}</p>
-                                </div>
-                            </div>
-                        @endif
-                        
-                        @if($record->last_opened_at)
-                            <div class="flex items-start space-x-3">
-                                <div class="w-2 h-2 mt-2 bg-yellow-500 rounded-full"></div>
-                                <div class="flex-1">
-                                    <p class="text-sm font-medium text-gray-900">Last Opened</p>
-                                    <p class="text-xs text-gray-500">{{ $record->last_opened_at->format('M d, Y h:i A') }}</p>
-                                </div>
-                            </div>
-                        @endif
-                        
-                        @if($record->last_clicked_at)
-                            <div class="flex items-start space-x-3">
-                                <div class="w-2 h-2 mt-2 bg-green-500 rounded-full"></div>
-                                <div class="flex-1">
-                                    <p class="text-sm font-medium text-gray-900">Last Clicked</p>
-                                    <p class="text-xs text-gray-500">{{ $record->last_clicked_at->format('M d, Y h:i A') }}</p>
-                                </div>
-                            </div>
-                        @endif
-                        
-                        @if($record->replied_at)
-                            <div class="flex items-start space-x-3">
-                                <div class="w-2 h-2 mt-2 bg-green-600 rounded-full"></div>
-                                <div class="flex-1">
-                                    <p class="text-sm font-medium text-gray-900">Replied</p>
-                                    <p class="text-xs text-gray-500">{{ $record->replied_at->format('M d, Y h:i A') }}</p>
-                                </div>
-                            </div>
-                        @endif
-                        
-                        @if($record->complained_at)
-                            <div class="flex items-start space-x-3">
-                                <div class="w-2 h-2 mt-2 bg-purple-500 rounded-full"></div>
-                                <div class="flex-1">
-                                    <p class="text-sm font-medium text-gray-900">Complained</p>
-                                    <p class="text-xs text-gray-500">{{ $record->complained_at->format('M d, Y h:i A') }}</p>
-                                </div>
-                            </div>
-                        @endif
-                        
-                        @if($record->soft_bounced_at)
-                            <div class="flex items-start space-x-3">
-                                <div class="w-2 h-2 mt-2 bg-orange-500 rounded-full"></div>
-                                <div class="flex-1">
-                                    <p class="text-sm font-medium text-gray-900">Soft Bounced</p>
-                                    <p class="text-xs text-gray-500">{{ $record->soft_bounced_at->format('M d, Y h:i A') }}</p>
-                                </div>
-                            </div>
-                        @endif
-                        
-                        @if($record->hard_bounced_at)
-                            <div class="flex items-start space-x-3">
-                                <div class="w-2 h-2 mt-2 bg-red-500 rounded-full"></div>
-                                <div class="flex-1">
-                                    <p class="text-sm font-medium text-gray-900">Hard Bounced</p>
-                                    <p class="text-xs text-gray-500">{{ $record->hard_bounced_at->format('M d, Y h:i A') }}</p>
-                                </div>
-                            </div>
-                        @endif
-                        
-                        @if($record->unsubscribed_at)
-                            <div class="flex items-start space-x-3">
-                                <div class="w-2 h-2 mt-2 bg-pink-500 rounded-full"></div>
-                                <div class="flex-1">
-                                    <p class="text-sm font-medium text-gray-900">Unsubscribed</p>
-                                    <p class="text-xs text-gray-500">{{ $record->unsubscribed_at->format('M d, Y h:i A') }}</p>
-                                </div>
-                            </div>
-                        @endif
-                        
-                        @if(!$record->sent_at && !$record->last_opened_at && !$record->last_clicked_at && !$record->replied_at && !$record->complained_at && !$record->soft_bounced_at && !$record->hard_bounced_at && !$record->unsubscribed_at)
-                            <div class="flex items-start space-x-3">
-                                <div class="w-2 h-2 mt-2 bg-gray-400 rounded-full"></div>
-                                <div class="flex-1">
-                                    <p class="text-sm font-medium text-gray-900">Pending</p>
-                                    <p class="text-xs text-gray-500">Email is queued for sending</p>
-                                </div>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            </div>
+                @php
+                    $status = $record->getStatus();
+                    $statusDetails = [
+                        'sent' => ['color' => 'primary', 'icon' => 'heroicon-s-paper-airplane'],
+                        'opened' => ['color' => 'success', 'icon' => 'heroicon-s-eye'],
+                        'clicked' => ['color' => 'success', 'icon' => 'heroicon-s-cursor-arrow-rays'],
+                        'replied' => ['color' => 'success', 'icon' => 'heroicon-s-chat-bubble-left-right'],
+                        'unsubscribed' => ['color' => 'warning', 'icon' => 'heroicon-s-user-minus'],
+                        'complained' => ['color' => 'warning', 'icon' => 'heroicon-s-shield-exclamation'],
+                        'soft_bounced' => ['color' => 'danger', 'icon' => 'heroicon-s-exclamation-triangle'],
+                        'hard_bounced' => ['color' => 'danger', 'icon' => 'heroicon-s-x-circle'],
+                        'pending' => ['color' => 'gray', 'icon' => 'heroicon-s-clock'],
+                    ];
+                    $currentStatus = $statusDetails[$status] ?? $statusDetails['pending'];
+                @endphp
 
-            <!-- Recipients Card -->
-            @if($record->recipients()->count() > 0)
-                <div class="bg-white border rounded-lg shadow-sm">
-                    <div class="p-4 border-b">
-                        <h4 class="font-semibold text-gray-900">Recipients ({{ $record->recipients()->count() }})</h4>
-                    </div>
-                    <div class="p-4">
-                        <div class="space-y-2 overflow-y-auto max-h-40">
-                            @foreach($record->recipients()->limit(5)->get() as $recipient)
-                                <div class="flex items-center justify-between text-sm">
-                                    <span class="text-gray-900">{{ $recipient->email }}</span>
-                                    <span class="text-xs text-gray-500">{{ ucfirst($recipient->status ?? 'pending') }}</span>
-                                </div>
-                            @endforeach
-                            @if($record->recipients()->count() > 5)
-                                <div class="pt-2 text-xs text-center text-gray-500">
-                                    And {{ $record->recipients()->count() - 5 }} more...
-                                </div>
-                            @endif
-                        </div>
-                    </div>
+                <div class="flex items-center justify-between gap-4">
+                    <span class="text-lg font-medium text-gray-900 dark:text-white">Status</span>
+                    <x-filament::badge :color="$currentStatus['color']" :icon="$currentStatus['icon']">
+                        {{ \Illuminate\Support\Str::of($status)->replace('_', ' ')->title() }}
+                    </x-filament::badge>
                 </div>
-            @endif
 
-            <!-- Email Visits Card -->
-            @if($record->emailVisits()->count() > 0)
-                <div class="bg-white border rounded-lg shadow-sm">
-                    <div class="p-4 border-b">
-                        <h4 class="font-semibold text-gray-900">Recent Visits ({{ $record->emailVisits()->count() }})</h4>
+                <dl class="grid grid-cols-2 gap-4 mt-4">
+                    <div class="p-4 text-center bg-gray-100 rounded-lg dark:bg-gray-800">
+                        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Opens</dt>
+                        <dd class="mt-1 text-2xl font-semibold text-gray-900 dark:text-gray-200">{{ $record->opens ?? 0 }}</dd>
                     </div>
-                    <div class="p-4">
-                        <div class="space-y-2 overflow-y-auto max-h-40">
-                            @foreach($record->emailVisits()->latest()->limit(5)->get() as $visit)
-                                <div class="flex items-center justify-between text-sm">
-                                    <span class="text-gray-900">{{ $visit->ip_address ?? 'Unknown IP' }}</span>
-                                    <span class="text-xs text-gray-500">{{ $visit->created_at->format('M d, h:i A') }}</span>
-                                </div>
-                            @endforeach
-                        </div>
+                    <div class="p-4 text-center bg-gray-100 rounded-lg dark:bg-gray-800">
+                        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Clicks</dt>
+                        <dd class="mt-1 text-2xl font-semibold text-gray-900 dark:text-gray-200">{{ $record->clicks ?? 0 }}</dd>
                     </div>
-                </div>
-            @endif
+                </dl>
+            </x-filament::section>
 
-            <!-- Context Data Card -->
-            @if($record->context && count($record->context) > 0)
-                <div class="bg-white border rounded-lg shadow-sm">
-                    <div class="p-4 border-b">
-                        <h4 class="font-semibold text-gray-900">Context Data</h4>
+            {{-- Details Section --}}
+            <x-filament::section>
+                 <x-slot name="heading">
+                    Details
+                </x-slot>
+                <dl class="space-y-4">
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Subject</dt>
+                        <dd class="mt-1 text-base text-gray-900 dark:text-gray-200">{{ $record->subject }}</dd>
                     </div>
-                    <div class="p-4">
-                        <div class="space-y-2">
-                            @foreach($record->context as $key => $value)
+                     <div>
+                        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">From</dt>
+                        <dd class="mt-1 font-mono text-sm text-gray-900 dark:text-gray-200">{{ $record->from }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Recipients</dt>
+                        <dd class="mt-1 space-y-2 text-sm text-gray-900 dark:text-gray-200">
+                           @forelse($record->recipients->groupBy('type') as $type => $recipients)
                                 <div>
-                                    <label class="text-xs font-medium tracking-wide text-gray-500 uppercase">{{ ucfirst(str_replace('_', ' ', $key)) }}</label>
-                                    <p class="text-sm text-gray-900">{{ is_array($value) ? json_encode($value) : $value }}</p>
+                                    <span class="font-semibold text-gray-600 capitalize dark:text-gray-300">{{ $type }}:</span>
+                                    <ul class="pl-2">
+                                         @foreach($recipients as $recipient)
+                                            <li class="font-mono">{{ $recipient->email }}</li>
+                                        @endforeach
+                                    </ul>
                                 </div>
-                            @endforeach
-                        </div>
+                           @empty
+                                <p class="text-gray-500">No recipients recorded.</p>
+                           @endforelse
+                        </dd>
                     </div>
-                </div>
-            @endif
 
-            <!-- Actions Card -->
-            {{-- <div class="bg-white border rounded-lg shadow-sm">
-                <div class="p-4 border-b">
-                    <h4 class="font-semibold text-gray-900">Actions</h4>
+                    {{-- Helper function to generate a link to a Filament resource page --}}
+                    @php
+                        if (!function_exists('getFilamentResourceLink')) {
+                            function getFilamentResourceLink($modelClass, $modelId) {
+                                if (!$modelClass || !$modelId) return null;
+                                try {
+                                    $resource = \Filament\Facades\Filament::getResourceForModel($modelClass);
+                                    if (!$resource) return null;
+                                    return $resource::getUrl('view', ['record' => $modelId]);
+                                } catch (\Exception $e) {
+                                    return null;
+                                }
+                            }
+                        }
+                    @endphp
+
+                    {{-- @if($record->receivable)
+                         <div>
+                            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Recipient Model</dt>
+                            <dd class="mt-1 text-sm text-gray-900 dark:text-gray-200">
+                                @if($link = getFilamentResourceLink($record->receivable_type, $record->receivable_id))
+                                    <a href="{{ $link }}" class="text-primary-600 hover:underline dark:text-primary-400">
+                                        {{ \Illuminate\Support\Str::afterLast($record->receivable_type, '\\') }} #{{ $record->receivable_id }}
+                                    </a>
+                                @else
+                                    {{ \Illuminate\Support\Str::afterLast($record->receivable_type, '\\') }} #{{ $record->receivable_id }}
+                                @endif
+                            </dd>
+                        </div>
+                    @endif --}}
+                     {{-- @if($record->sendable)
+                         <div>
+                            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Source Model</dt>
+                             <dd class="mt-1 text-sm text-gray-900 dark:text-gray-200">
+                                @if($link = getFilamentResourceLink($record->sendable_type, $record->sendable_id))
+                                    <a href="{{ $link }}" class="text-primary-600 hover:underline dark:text-primary-400">
+                                        {{ \Illuminate\Support\Str::afterLast($record->sendable_type, '\\') }} #{{ $record->sendable_id }}
+                                    </a>
+                                @else
+                                    {{ \Illuminate\Support\Str::afterLast($record->sendable_type, '\\') }} #{{ $record->sendable_id }}
+                                @endif
+                            </dd>
+                        </div>
+                    @endif --}}
+                </dl>
+            </x-filament::section>
+
+            {{-- Timeline Section --}}
+            <x-filament::section>
+                <x-slot name="heading">
+                    Event Timeline
+                </x-slot>
+                <div class="flow-root">
+                    <ul role="list" class="-mb-8">
+                         @php
+                            $event_details = [
+                                'sent_at' => ['label' => 'Sent', 'icon' => 'heroicon-m-paper-airplane', 'color' => 'text-blue-500'],
+                                'last_opened_at' => ['label' => 'Last Opened', 'icon' => 'heroicon-m-eye', 'color' => 'text-green-500'],
+                                'last_clicked_at' => ['label' => 'Last Clicked', 'icon' => 'heroicon-m-cursor-arrow-rays', 'color' => 'text-green-500'],
+                                'replied_at' => ['label' => 'Replied', 'icon' => 'heroicon-m-chat-bubble-left-right', 'color' => 'text-green-500'],
+                                'complained_at' => ['label' => 'Complaint', 'icon' => 'heroicon-m-shield-exclamation', 'color' => 'text-yellow-500'],
+                                'unsubscribed_at' => ['label' => 'Unsubscribed', 'icon' => 'heroicon-m-user-minus', 'color' => 'text-yellow-500'],
+                                'soft_bounced_at' => ['label' => 'Soft Bounced', 'icon' => 'heroicon-m-exclamation-triangle', 'color' => 'text-red-500'],
+                                'hard_bounced_at' => ['label' => 'Hard Bounced', 'icon' => 'heroicon-m-x-circle', 'color' => 'text-red-500'],
+                            ];
+                            $events = collect($event_details)
+                                ->map(fn($details, $field) => $record->{$field} ? ['date' => $record->{$field}, 'details' => $details] : null)
+                                ->filter()
+                                ->sortByDesc('date');
+                        @endphp
+                        @forelse($events as $event)
+                        <li>
+                            <div class="relative pb-8">
+                                @if(!$loop->last)
+                                    <span class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-200 dark:bg-gray-700" aria-hidden="true"></span>
+                                @endif
+                                <div class="relative flex space-x-3">
+                                    <div>
+                                        <span class="flex items-center justify-center w-8 h-8 bg-gray-100 rounded-full dark:bg-gray-800 ring-8 ring-white dark:ring-gray-900">
+                                            <x-dynamic-component :component="$event['details']['icon']" :class="'w-5 h-5 ' . $event['details']['color']" />
+                                        </span>
+                                    </div>
+                                    <div class="flex-1 min-w-0 pt-1.5">
+                                        <p class="text-sm text-gray-500">
+                                            {{ $event['details']['label'] }}
+                                            <span class="font-medium text-gray-900 dark:text-gray-200" title="{{ $event['date']->toIso8601String() }}">
+                                                {{ $event['date']->diffForHumans() }}
+                                            </span>
+                                        </p>
+                                        <p class="mt-1 text-xs text-gray-400 dark:text-gray-500">{{ $event['date']->format('M d, Y, H:i:s T') }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        @empty
+                        <li>
+                             <div class="relative flex items-center space-x-3">
+                                <div>
+                                    <span class="flex items-center justify-center w-8 h-8 bg-gray-100 rounded-full dark:bg-gray-800">
+                                        <x-heroicon-m-clock class="w-5 h-5 text-gray-400" />
+                                    </span>
+                                </div>
+                                <div class="pt-1.5"><p class="text-sm text-gray-500">Email is pending and has not been sent yet.</p></div>
+                             </div>
+                        </li>
+                        @endforelse
+                    </ul>
                 </div>
-                <div class="p-4 space-y-2">
-                    <button type="button" 
-                            onclick="window.open('{{ route('filament.admin.resources.email-logs.view', $record) }}', '_blank')" 
-                            class="w-full px-3 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        Open in New Tab
-                    </button>
-                </div>
-            </div> --}}
+            </x-filament::section>
+
+            {{-- Technical Details (Collapsible) --}}
+            <x-filament::section :collapsible="true" :collapsed="true">
+                <x-slot name="heading">
+                    Technical Details
+                </x-slot>
+                <dl class="space-y-4">
+                    <div x-data="{
+                            copied: false,
+                            textToCopy: '{{ $record->message_id }}',
+                            copy() {
+                                if (!this.textToCopy) return;
+                                navigator.clipboard.writeText(this.textToCopy);
+                                this.copied = true;
+                                setTimeout(() => this.copied = false, 2000);
+                            }
+                        }">
+                        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Message ID</dt>
+                        <dd class="flex items-center gap-2 mt-1">
+                            <span class="flex-1 font-mono text-sm text-gray-900 break-all dark:text-gray-200">{{ $record->message_id ?: 'N/A' }}</span>
+                            <button x-show="textToCopy" @click="copy()" type="button" class="p-1 text-gray-400 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                                <x-heroicon-o-clipboard-document class="w-4 h-4" x-show="!copied" />
+                                <x-heroicon-s-check class="w-4 h-4 text-green-500" x-show="copied" style="display: none;" />
+                                <span class="sr-only">Copy Message ID</span>
+                            </button>
+                        </dd>
+                    </div>
+                     <div>
+                        <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Mailer / Transport</dt>
+                        <dd class="mt-1 text-sm text-gray-900 dark:text-gray-200">{{ $record->mailer }} / {{ $record->transport }}</dd>
+                    </div>
+                    @if($record->context)
+                         <div>
+                            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Context Data</dt>
+                            <dd class="mt-1">
+                                <pre class="p-3 font-mono text-xs text-gray-800 whitespace-pre-wrap bg-gray-100 rounded-lg dark:bg-gray-800 dark:text-gray-300">{{ json_encode($record->context, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) }}</pre>
+                            </dd>
+                        </div>
+                    @endif
+                </dl>
+            </x-filament::section>
         </div>
     </div>
 </x-filament-panels::page>

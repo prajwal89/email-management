@@ -27,6 +27,8 @@ class EmailManagementServiceProvider extends ServiceProvider
 
         $this->mergeConfigFrom(__DIR__ . '/../config/email-management.php', 'email-management');
 
+        // $this->loadViewsFrom(__DIR__ . '/../resources/views/email-management.php', 'em');
+
         $this->loadViewsFrom(config('email-management.view_dir'), 'email-management');
 
         $this->publishes([
