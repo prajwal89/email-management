@@ -13,8 +13,6 @@ use Prajwal89\EmailManagement\Services\EmailContentModifiers;
 use Prajwal89\EmailManagement\Services\HeadersManager;
 use Symfony\Component\Mime\Part\TextPart;
 
-// todo add test for injected pixel and tracking urls
-
 /**
  * @see https://github.com/jdavidbakr/mail-tracker/blob/master/src/MailTracker.php
  */
@@ -27,23 +25,6 @@ class MessageSendingListener
         $message = $event->message;
 
         $headers = $message->getHeaders();
-
-        // EmailContentModifiers::removeHeaders($headers);
-        // EmailContentModifiers::addUnsubscribeHeader($headers, $hash);
-
-        // $updatedHtml = str($message->getHtmlBody())
-        //     ->pipe(function ($html) use ($hash): string {
-        //         return EmailContentModifiers::injectTrackingUrls($html->toString(), $hash);
-        //     })
-        //     // todo enable this after testing (that email delivery is not affected)
-        //     // ->pipe(function ($html) use ($hash) {
-        //     //     return EmailContentModifiers::injectTrackingPixel($html->toString(), $hash);
-        //     // })
-        //     ->pipe(function ($html) use ($hash): string {
-        //         return EmailContentModifiers::injectUnsubscribeLink($html->toString(), $hash);
-        //     })
-        //     ->toString();
-        // $message->setBody(new TextPart($updatedHtml, 'utf-8', 'html'));
 
         try {
             DB::beginTransaction();
