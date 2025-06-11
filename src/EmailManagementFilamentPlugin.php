@@ -18,7 +18,7 @@ class EmailManagementFilamentPlugin implements Plugin
 {
     public function getId(): string
     {
-        return 'analytics';
+        return 'email-management';
     }
 
     public function register(Panel $panel): void
@@ -39,7 +39,7 @@ class EmailManagementFilamentPlugin implements Plugin
                     ->collapsed(),
             ])
             ->pages([
-                // Settings::class,
+                // 
             ]);
     }
 
