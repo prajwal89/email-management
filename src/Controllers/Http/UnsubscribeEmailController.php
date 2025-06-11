@@ -25,6 +25,7 @@ class UnsubscribeEmailController extends Controller
          * Don't track if user is crawler as some
          * email clients crawl links in emails for the security measures
          */
+        // todo: should i use this here as this route is also used by the list unsubscribe header
         if ((new CrawlerDetect)->isCrawler()) {
             return;
         }
@@ -50,8 +51,11 @@ class UnsubscribeEmailController extends Controller
 
         $emailLog->receivable->unsubscribeFromEmails();
 
-        EmailLogService::update($emailLog, ['unsubscribed_at' => now()]);
+        $isUnsubscribed = EmailLogService::update($emailLog, ['unsubscribed_at' => now()]);
 
-        return response(status: 200);
+        return view('em::newsletter-status', [
+            'isUnsubscribed' => $isUnsubscribed
+            // 'isUnsubscribed' => false,
+        ]);
     }
 }
