@@ -47,6 +47,17 @@ class EmailVisitResource extends Resource
                 TextColumn::make('path')
                     ->limit(20)
                     ->searchable(),
+
+                TextColumn::make('emailLogs.message_id')
+                    ->label('Message Id')
+                    ->searchable()
+                    ->openUrlInNewTab()
+                    ->url(function ($record): string {
+                        return EmailLogResource::getUrl('preview-email', [
+                            'record' => $record->emailLogs->id,
+                        ]);
+                    }),
+
                 TextColumn::make('emailLogs.subject')
                     ->label('From Email')
                     ->searchable()
@@ -65,6 +76,7 @@ class EmailVisitResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
@@ -119,7 +131,7 @@ class EmailVisitResource extends Resource
                                     get_class($sendable) . ':' . $sendable->id => $sendable->name,
                                 ];
                             })
-                            ->mapWithKeys(fn ($data) => $data)
+                            ->mapWithKeys(fn($data) => $data)
                             ->filter();
 
                         return $result->isEmpty()

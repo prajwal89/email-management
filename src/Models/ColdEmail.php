@@ -35,7 +35,7 @@ class ColdEmail extends Model implements EmailReceivable
 
     public function emailLogs(): MorphMany
     {
-        return $this->morphMany(EmailLog::class, 'eventable');
+        return $this->morphMany(EmailLog::class, 'sendable');
     }
 
     public function getName(): string

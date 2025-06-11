@@ -102,18 +102,26 @@ class EmailLogResource extends Resource
     public static function commonColumns(): array
     {
         return [
+            TextColumn::make('subject')
+                ->label('subject'),
+
             TextColumn::make('message_id')
                 ->label('message_id')
+                ->toggleable(isToggledHiddenByDefault: true)
                 ->searchable(),
 
-            TextColumn::make('subject')
-                ->label('Subject')
-                ->searchable(),
+            TextColumn::make('status')
+                ->label('status')
+                ->badge()
+                ->getStateUsing(function ($record) {
+                    return $record->getStatus();
+                }),
+
 
             TextColumn::make('sendable')
                 ->label('sendable')
                 ->hidden(
-                    fn ($livewire): bool => $livewire instanceof SentEmailsRelationManager
+                    fn($livewire): bool => $livewire instanceof SentEmailsRelationManager
                 )
                 ->getStateUsing(function ($record) {
                     return $record?->sendable?->name ?? '';
@@ -170,14 +178,14 @@ class EmailLogResource extends Resource
                 ->searchable()
                 ->toggleable(isToggledHiddenByDefault: true),
 
-            TextColumn::make('clicked_at')
-                ->label('Clicked at')
+            TextColumn::make('last_clicked_at')
+                ->label('Last clicked at')
                 ->sortable()
                 ->toggleable(isToggledHiddenByDefault: true)
                 ->date('Y-M-d H:i'),
 
-            TextColumn::make('opened_at')
-                ->label('Opened at')
+            TextColumn::make('last_opened_at')
+                ->label('Last opened at')
                 ->sortable()
                 ->toggleable(isToggledHiddenByDefault: true)
                 ->date('Y-M-d H:i'),
@@ -235,7 +243,7 @@ class EmailLogResource extends Resource
                                 get_class($sendable) . ':' . $sendable->id => $sendable->name,
                             ];
                         })
-                        ->mapWithKeys(fn ($data) => $data)
+                        ->mapWithKeys(fn($data) => $data)
                         ->filter();
 
                     if ($result->isEmpty()) {
@@ -247,13 +255,13 @@ class EmailLogResource extends Resource
 
             DateRangeFilter::make('created_at'),
 
-            Filter::make('opened_at')
+            Filter::make('last_opened_at')
                 ->label('Opened')
-                ->query(fn (Builder $query): Builder => $query->whereNotNull('opened_at')),
+                ->query(fn(Builder $query): Builder => $query->whereNotNull('last_opened_at')),
 
-            Filter::make('clicked_at')
+            Filter::make('last_clicked_at')
                 ->label('Clicked')
-                ->query(fn (Builder $query): Builder => $query->whereNotNull('clicked_at')),
+                ->query(fn(Builder $query): Builder => $query->whereNotNull('last_clicked_at')),
         ];
     }
 }

@@ -32,7 +32,7 @@ class SentEmailsRelationManager extends RelationManager
     {
         return $table
             ->modifyQueryUsing(function ($query): void {
-                $query->with(['eventable', 'receivable']);
+                $query->with(['sendable', 'receivable']);
             })
             ->recordTitleAttribute('subject')
             ->columns([

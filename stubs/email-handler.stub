@@ -22,7 +22,7 @@ class {email_handler_class_name} extends EmailHandlerBase
 
     public function __construct(public EmailReceivable $receivable)
     {
-        $this->eventable = {sendable_model_name}::query()->where('slug', '{event_slug}')->first();
+        $this->sendable = {sendable_model_name}::query()->where('slug', '{event_slug}')->first();
     }
 
     #[Override]

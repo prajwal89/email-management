@@ -61,9 +61,9 @@ class EmailVariant extends Model
     ];
 
     /**
-     * Get the parent eventable model (it could be any model).
+     * Get the parent sendable model (it could be any model).
      */
-    public function eventable(): MorphTo
+    public function sendable(): MorphTo
     {
         return $this->morphTo();
     }
