@@ -119,7 +119,7 @@ class EmailVisitResource extends Resource
                                     get_class($sendable) . ':' . $sendable->id => $sendable->name,
                                 ];
                             })
-                            ->mapWithKeys(fn($data) => $data)
+                            ->mapWithKeys(fn ($data) => $data)
                             ->filter();
 
                         return $result->isEmpty()

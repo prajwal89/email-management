@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Services;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\URL;
 use Prajwal89\EmailManagement\Interfaces\EmailReceivable;
 use Prajwal89\EmailManagement\Interfaces\EmailSendable;
@@ -64,7 +63,7 @@ class HeadersManager
 
     public function createMessageId(?string $messageId = null): string
     {
-        if ($messageId == null) {
+        if ($messageId === null) {
             $messageId = self::generateNewMessageId();
         }
 

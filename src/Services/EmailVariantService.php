@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Prajwal89\EmailManagement\Services;
 
 use Prajwal89\EmailManagement\Interfaces\EmailSendable;
-use Prajwal89\EmailManagement\Models\EmailCampaign;
-use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\Models\EmailVariant;
 
 class EmailVariantService

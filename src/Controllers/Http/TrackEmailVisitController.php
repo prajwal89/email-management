@@ -27,10 +27,10 @@ class TrackEmailVisitController extends Controller
         ]);
 
         /**
-         * Don't track if user is crawler as some 
+         * Don't track if user is crawler as some
          * email clients crawl links in emails for the security measures
          */
-        if ((new CrawlerDetect())->isCrawler()) {
+        if ((new CrawlerDetect)->isCrawler()) {
             return;
         }
 

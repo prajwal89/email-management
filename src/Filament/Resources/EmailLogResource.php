@@ -113,7 +113,7 @@ class EmailLogResource extends Resource
             TextColumn::make('sendable')
                 ->label('sendable')
                 ->hidden(
-                    fn($livewire): bool => $livewire instanceof SentEmailsRelationManager
+                    fn ($livewire): bool => $livewire instanceof SentEmailsRelationManager
                 )
                 ->getStateUsing(function ($record) {
                     return $record?->sendable?->name ?? '';
@@ -235,7 +235,7 @@ class EmailLogResource extends Resource
                                 get_class($sendable) . ':' . $sendable->id => $sendable->name,
                             ];
                         })
-                        ->mapWithKeys(fn($data) => $data)
+                        ->mapWithKeys(fn ($data) => $data)
                         ->filter();
 
                     if ($result->isEmpty()) {
@@ -249,11 +249,11 @@ class EmailLogResource extends Resource
 
             Filter::make('opened_at')
                 ->label('Opened')
-                ->query(fn(Builder $query): Builder => $query->whereNotNull('opened_at')),
+                ->query(fn (Builder $query): Builder => $query->whereNotNull('opened_at')),
 
             Filter::make('clicked_at')
                 ->label('Clicked')
-                ->query(fn(Builder $query): Builder => $query->whereNotNull('clicked_at')),
+                ->query(fn (Builder $query): Builder => $query->whereNotNull('clicked_at')),
         ];
     }
 }
