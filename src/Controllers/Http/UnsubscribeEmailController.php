@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
 use Prajwal89\EmailManagement\Models\EmailLog;
+use Prajwal89\EmailManagement\Services\EmailLogService;
 
 class UnsubscribeEmailController extends Controller
 {
@@ -48,6 +49,8 @@ class UnsubscribeEmailController extends Controller
         }
 
         $emailLog->receivable->unsubscribeFromEmails();
+
+        EmailLogService::update($emailLog, ['unsubscribed_at' => now()]);
 
         return response(status: 200);
     }

@@ -16,10 +16,7 @@ Route::prefix('emails')
         Route::get('/redirect', TrackEmailVisitController::class)->name('redirect')->middleware('signed');
         Route::get('/pixel', TrackEmailOpenedController::class)->name('pixel');
 
-        // Unsubscribe route for any received email
-        Route::get('/unsubscribe', UnsubscribeEmailController::class)
-            ->middleware('signed')
-            ->name('unsubscribe');
+        Route::get('/unsubscribe', UnsubscribeEmailController::class)->middleware('signed')->name('unsubscribe');
 
         // newsletter routes
         Route::controller(NewsletterController::class)
