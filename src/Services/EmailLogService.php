@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Services;
 
-use Prajwal89\EmailManagement\Models\EmailLog;
-use Symfony\Component\Mime\Email;
 use Exception;
-use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Support\Facades\DB;
 use Prajwal89\EmailManagement\Enums\RecipientType;
-use Prajwal89\EmailManagement\Services\HeadersManager;
-
+use Prajwal89\EmailManagement\Models\EmailLog;
+use Symfony\Component\Mime\Email;
 
 class EmailLogService
 {

@@ -9,7 +9,6 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Mail;
 use Prajwal89\EmailManagement\Interfaces\EmailReceivable;
 use Prajwal89\EmailManagement\Interfaces\EmailSendable;
-use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\Models\EmailLog;
 use Prajwal89\EmailManagement\Models\EmailVariant;
 use Prajwal89\EmailManagement\Services\EmailContentModifiers;
@@ -76,7 +75,7 @@ abstract class EmailHandlerBase
 
     /**
      * Determines if the email should be sent.
-     * 
+     *
      * Always implement this logic properly as this will prevent
      * email spamming
      */

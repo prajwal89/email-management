@@ -54,7 +54,7 @@ class UnsubscribeEmailController extends Controller
         $isUnsubscribed = EmailLogService::update($emailLog, ['unsubscribed_at' => now()]);
 
         return view('em::newsletter-status', [
-            'isUnsubscribed' => $isUnsubscribed
+            'isUnsubscribed' => $isUnsubscribed,
             // 'isUnsubscribed' => false,
         ]);
     }

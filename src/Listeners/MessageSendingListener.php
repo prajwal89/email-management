@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Listeners;
 
-use Exception;
 use Illuminate\Mail\Events\MessageSending;
-use Illuminate\Support\Facades\DB;
-use Prajwal89\EmailManagement\Enums\RecipientType;
-use Prajwal89\EmailManagement\Models\EmailLog;
 use Prajwal89\EmailManagement\Services\EmailLogService;
 use Prajwal89\EmailManagement\Services\HeadersManager;
 
@@ -26,7 +22,7 @@ class MessageSendingListener
 
         // for the emails that are not sent from the handler
         // todo: where to do content modification
-        if ($headersManager->getMessageId() == null) {
+        if ($headersManager->getMessageId() === null) {
             $headersManager->createMessageId();
         }
 
