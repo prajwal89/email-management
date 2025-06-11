@@ -40,6 +40,8 @@ class MessageSendingListener
                 'receivable_type' => $headersManager->getReceivable()['type'],
                 'receivable_id' => $headersManager->getReceivable()['id'],
 
+                'email_variant_id' => $headersManager->getEmailVariantId(),
+
                 'subject' => $message->getSubject(),
                 'html' => $message->getHtmlBody(),
                 'text' => $message->getTextBody(),

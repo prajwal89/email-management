@@ -156,6 +156,13 @@ class HeadersManager
         ];
     }
 
+    public function getEmailVariantId(): ?int
+    {
+        return $this->email->getHeaders()->has('X-Email-Variant-Id')
+            ? (int)$this->email->getHeaders()->getHeaderBody('X-Email-Variant-Id')
+            : null;
+    }
+
     public function removeHeaders(): void
     {
         $headers = $this->email->getHeaders();
