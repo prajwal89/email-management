@@ -13,17 +13,15 @@ class PreviewEmailPage extends Page
 {
     protected static string $resource = EmailLogResource::class;
 
-    protected static string $view = 'email-management::filament.preview-email-page';
+    protected static string $view = 'email-management::filament.preview-email-log-page';
 
-    protected EmailLog $record;
+    public $record;
 
-    public string $emailContent;
+    // public string $emailContent;
 
     public function mount($record): void
     {
         $this->record = EmailLog::query()->findOrFail($record);
-
-        $this->emailContent = $this->record->html;
     }
 
     protected function getHeaderActions(): array

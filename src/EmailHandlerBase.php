@@ -155,7 +155,9 @@ abstract class EmailHandlerBase
 
         $sampleBuildEmail = new static::$mail(...$sampleEmailData);
 
-        $emailContentModifiers = new EmailContentModifiers($sampleBuildEmail);
+        $messageId = HeadersManager::generateNewMessageId();
+
+        $emailContentModifiers = new EmailContentModifiers($sampleBuildEmail, $messageId);
 
         if (config('email-management.track_visits')) {
             $emailContentModifiers->injectTrackingUrls();
