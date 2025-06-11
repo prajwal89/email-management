@@ -6,6 +6,7 @@ namespace Prajwal89\EmailManagement\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * php artisan email-management:seed-db
@@ -19,15 +20,21 @@ class SeedEmailsDatabaseCommand extends Command
     public function handle(): void
     {
         $this->seedEmailEvents();
-        // $this->seedEmailCampaigns();
+        $this->seedEmailCampaigns();
         $this->seedEmailVariants();
     }
 
     public function seedEmailEvents()
     {
-        $this->info('Seeding email events');
+        $this->info('Seeding: Email Events');
 
-        $allFiles = File::allFiles(config('email-management.seeders_dir') . '/EmailEvents');
+        $directory = config('email-management.seeders_dir') . '/EmailEvents';
+
+        if (!Storage::directoryExists($directory)) {
+            return;
+        }
+
+        $allFiles = File::allFiles($directory);
 
         foreach ($allFiles as $file) {
             $className = pathinfo($file->getFilename(), PATHINFO_FILENAME);
@@ -46,7 +53,15 @@ class SeedEmailsDatabaseCommand extends Command
 
     public function seedEmailCampaigns()
     {
-        $allFiles = File::allFiles(config('email-management.seeders_dir') . '/EmailCampaigns');
+        $this->info('Seeding: Email Campaigns');
+
+        $directory = config('email-management.seeders_dir') . '/EmailCampaigns';
+
+        if (!Storage::directoryExists($directory)) {
+            return;
+        }
+
+        $allFiles = File::allFiles($directory);
 
         foreach ($allFiles as $file) {
             $className = pathinfo($file->getFilename(), PATHINFO_FILENAME);
@@ -63,14 +78,20 @@ class SeedEmailsDatabaseCommand extends Command
 
     public function seedEmailVariants()
     {
-        $allFiles = File::allFiles(config('email-management.seeders_dir') . '/EmailVariants');
+        $this->info('Seeding: Email Variants');
+
+        $directory = config('email-management.seeders_dir') . '/EmailVariants';
+
+        if (!Storage::directoryExists($directory)) {
+            return;
+        }
+
+        $allFiles = File::allFiles();
 
         foreach ($allFiles as $file) {
             $className = pathinfo($file->getFilename(), PATHINFO_FILENAME);
 
             $fullClassName = 'Database\\Seeders\\EmailManagement\\EmailVariants\\' . $className;
-
-            // dd($fullClassName);
 
             if (class_exists($fullClassName)) {
                 (new $fullClassName)->run();
