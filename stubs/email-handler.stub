@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace App\EmailManagement\EmailHandlers\{sendable_class_name};
 
 use App\Models\User;
+use Override;
 use Illuminate\Mail\Mailable;
 use Prajwal89\EmailManagement\EmailHandlerBase;
 use Prajwal89\EmailManagement\Interfaces\EmailReceivable;
-use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 use {email_class_name_space};
-use Prajwal89\EmailManagement\Models\EmailEvent;
-use Override;
-use Prajwal89\EmailManagement\Models\EmailCampaign;
+use Prajwal89\EmailManagement\Models\{sendable_model_name};
 
 class {email_handler_class_name} extends EmailHandlerBase
 {
