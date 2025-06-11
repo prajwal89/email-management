@@ -11,7 +11,15 @@ return [
     'view_dir' => resource_path('/views/email-management'),
 
     // todo get this from config with no default value
+    /**
+     * where the mail server should report the bounced emails
+     * This Email address should be watched for bounce emails
+     */
     'return_path' => 'bounces@example.com',
+
+    /**
+     * This is where users reply will be diverted
+     */
     'reply_to' => 'replyto@example.com',
 
     'mailer' => 'smtp',
@@ -21,7 +29,18 @@ return [
      */
     'mailbox' => 'imap',
 
+    /**
+     * Record visits from the emails
+     */
     'track_visits' => true,
+
+    /**
+     * Record if user have opened the email
+     */
     'track_opens' => true,
+
+    /**
+     * adds the unsubscribe link to the footer
+     */
     'inject_unsubscribe_link' => true,
 ];

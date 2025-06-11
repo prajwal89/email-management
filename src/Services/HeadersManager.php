@@ -30,13 +30,22 @@ class HeadersManager
     ) {
         $this->createMessageId($messageId);
 
-        $this->addUnsubscribeHeader();
+        $this->addUnsubscribeHeader($messageId);
 
-        $this->email->returnPath(config('email-management.return_path'));
+        $returnPath = config('email-management.return_path');
 
-        $this->email->replyTo(config('email-management.reply_to'));
+        if ($returnPath) {
+            $this->email->returnPath($returnPath);
+        }
+
+        $replyTo = config('email-management.reply_to');
+
+        if ($replyTo) {
+            $this->email->replyTo($replyTo);
+        }
 
         $headers = $this->email->getHeaders();
+
         $headers->addTextHeader('X-Sendable-Type', (string) get_class($sendable));
         $headers->addTextHeader('X-Sendable-Id', (string) $sendable->getKey());
         $headers->addTextHeader('X-Receivable-Type', (string) get_class($receivable));
@@ -86,7 +95,7 @@ class HeadersManager
 
     public static function generateNewMessageId()
     {
-        return uniqid() . '@' . (config('app.url') ? parse_url(config('app.url'), PHP_URL_HOST) : 'localhost');
+        return str()->uuid() . '@' . (config('app.url') ? parse_url(config('app.url'), PHP_URL_HOST) : 'localhost');
     }
 
     public function createMessageId(?string $messageId = null): string
@@ -163,31 +172,11 @@ class HeadersManager
             : null;
     }
 
-    public function removeHeaders(): void
-    {
-        $headers = $this->email->getHeaders();
 
-        $headers->remove('X-Sendable-Type');
-        $headers->remove('X-Sendable-Id');
-        $headers->remove('X-Receivable-Type');
-        $headers->remove('X-Receivable-Id');
-        $headers->remove('X-Event-Context');
-    }
-
-    // public  function attachMailerHashHeader(): string
-    // {
-    //     // handles normal emails that are not sent from email hadler
-    //     // is this required ?
-    //     $hash = str()->random(32);
-    //     $headers->addTextHeader('X-Mailer-Hash', (string) $hash);
-
-    //     return $hash;
-    // }
-
-    public function addUnsubscribeHeader(): void
+    public function addUnsubscribeHeader(string $messageId): void
     {
         $unsubscribeUrl = URL::signedRoute('emails.unsubscribe', [
-            'hash' => 'test',
+            'message_id' => $messageId,
         ]);
 
         $this->email->getHeaders()->addTextHeader('List-Unsubscribe', '<' . $unsubscribeUrl . '>');
