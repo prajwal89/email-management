@@ -1,4 +1,16 @@
-# Email ManageMent Module
+# Complete Email Management Solution
+
+This is an **opinionated email management solution** with powerful features for modern Laravel applications:
+
+## ✨ Features
+
+- ✅ **A/B Testing** – Easily test multiple email variants  
+- 📤 **Track Outgoing Emails** – Monitor every email sent from your system  
+- 📈 **Email Open & Click Tracking** – Know when your emails are opened and visited  
+- 🛡️ **Spam Protection** – Prevent abuse with built-in safeguards  
+- 🧩 **Filament Plugin Included** – Seamlessly integrates with your Filament admin panel  
+- 👀 **Preview Emails** – Visual preview of all your email templates  
+- 📰 **Newsletter Support** – Manage and send newsletters with ease
 
 ## Installation
 
@@ -29,21 +41,3 @@ Email events are events that are automatically triggered by app eg. user registr
 ## Campaign Emails
 
 These events emails are manually triggered like marketing emails eg. 15% off on black friday sell
-
-
-## Features
-
-- Record each outgoing email
-- Track if email is opened by user (via tracking pixel)
-- Record traffic generated form each email
-- Can preview each email that will be sent
-- Can preview sent emails
-- Email campaign support (record campaign progress and results)
-- Adds unsubscribe link to each email with list unsubscribe header for easy unsbscribtion
-- Handles unsbscribtion
-- Spam emails sending protection
-
-
-## Limitations
-
-- Does not track emails with Cc and Bcc
