@@ -10,10 +10,15 @@ return [
     'seeders_dir' => database_path('/seeders/EmailManagement'),
     'view_dir' => resource_path('/views/email-management'),
 
+    // todo get this from config with no default value
     'return_path' => 'bounces@example.com',
     'reply_to' => 'replyto@example.com',
 
     'mailer' => 'smtp',
+
+    /**
+     * https://imapengine.com/docs/laravel/installation
+     */
     'mailbox' => 'imap',
 
     'track_visits' => true,

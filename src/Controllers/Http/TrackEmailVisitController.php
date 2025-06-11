@@ -13,6 +13,7 @@ use Jaybizzle\CrawlerDetect\CrawlerDetect;
 use Prajwal89\EmailManagement\Models\EmailLog;
 use Prajwal89\EmailManagement\Services\EmailLogService;
 use Prajwal89\EmailManagement\Services\EmailVisitService;
+use Prajwal89\EmailManagement\Services\TrackingService;
 
 /**
  * Track and redirect any visit from email
@@ -24,6 +25,7 @@ class TrackEmailVisitController extends Controller
         $validator = Validator::make($request->all(), [
             'message_id' => 'required|string',
             'url' => 'required|url',
+            'track' => 'sometimes|boolean'
         ]);
 
         /**
@@ -53,19 +55,7 @@ class TrackEmailVisitController extends Controller
             return redirect($request->url, 301);
         }
 
-        EmailLogService::update($emailLog, ['last_clicked_at' => now()]);
-
-        $uri = Uri::of($request->url);
-
-        $emailLog->increment('clicks');
-
-        EmailVisitService::store([
-            'path' => $uri->path(),
-            'ip' => $request->ip(),
-            // ...auth()->check() ? ['user_id' => auth()->user()->id] : [],
-            'session_id' => $request->session()->getId(),
-            'message_id' => $request->message_id,
-        ]);
+        (new TrackingService($emailLog, $request))->trackVisit();
 
         return redirect($request->url, 301);
     }

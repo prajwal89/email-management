@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
 use Prajwal89\EmailManagement\Models\EmailLog;
 use Prajwal89\EmailManagement\Services\EmailLogService;
+use Prajwal89\EmailManagement\Services\TrackingService;
 
 /**
  * Track and record email is opened with pixel
@@ -21,6 +22,7 @@ class TrackEmailOpenedController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'message_id' => 'required|string',
+            'track' => 'sometimes|boolean'
         ]);
 
         /**
@@ -50,9 +52,7 @@ class TrackEmailOpenedController extends Controller
             return false;
         }
 
-        EmailLogService::update($emailLog, ['last_opened_at' => now()]);
-
-        $emailLog->increment('opens');
+        (new TrackingService($emailLog, $request))->trackOpen();
 
         return true;
     }
