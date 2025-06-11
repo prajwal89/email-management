@@ -23,6 +23,7 @@ class EmailCampaign extends Model implements EmailSendable
         'name',
         'slug',
         'description',
+        'is_enabled',
         'receivable_groups',
         'started_on',
         'ended_on',
@@ -35,6 +36,7 @@ class EmailCampaign extends Model implements EmailSendable
             'receivable_groups' => 'array',
             'started_on' => 'datetime',
             'ended_on' => 'datetime',
+            'is_enabled' => 'boolean',
         ];
     }
 
@@ -63,6 +65,11 @@ class EmailCampaign extends Model implements EmailSendable
     public function defaultEmailVariant(): MorphOne
     {
         return $this->morphOne(EmailVariant::class, 'sendable')->where('slug', 'default');
+    }
+
+    public function isEnabled(): bool
+    {
+        return $this->is_enabled;
     }
 
     /**

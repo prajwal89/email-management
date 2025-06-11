@@ -24,9 +24,9 @@ use Symfony\Component\Mime\Email;
 abstract class EmailHandlerBase
 {
     /**
-     * This mail will be sent
+     * FQN of Mailable Class
      */
-    public static $mail = Mailable::class;
+    public static $mail;
 
     /**
      * Message-ID header that we are setting manually
@@ -53,7 +53,7 @@ abstract class EmailHandlerBase
     protected EmailReceivable $receivable;
 
     /**
-     * Email variant choosen by email variant selector
+     * Email variant chosen by email variant selector
      */
     protected EmailVariant $chosenEmailVariant;
 
@@ -76,13 +76,17 @@ abstract class EmailHandlerBase
     /**
      * Determines if the email should be sent.
      *
-     * Always implement this logic properly as this will prevent
-     * email spamming
+     * Always implement this logic properly as this will prevent email spamming
+     * 
+     * Override this function subclasses for custom logic
      */
     protected function qualifiesForSending(): bool
     {
-        // Override in subclasses for custom logic
         if (!$this->receivable->isSubscribedToEmails()) {
+            return false;
+        }
+
+        if (!$this->sendable->isEnabled()) {
             return false;
         }
 
@@ -229,6 +233,10 @@ abstract class EmailHandlerBase
         return $sampleBuildEmail;
     }
 
+    /**
+     * Should be same as the data provided in the email handler class
+     * so it can render the sample email for preview
+     */
     public static function sampleEmailData()
     {
         return [
@@ -273,7 +281,7 @@ abstract class EmailHandlerBase
 
     /**
      * When users gives the parameter to the email handler class
-     * it will be automatically passed to the email class
+     * It will be automatically passed to the email class
      */
     public function parentConstructorArgs(): array
     {

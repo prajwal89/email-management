@@ -39,6 +39,7 @@ return new class extends Migration
             $table->string('name', 255);
             $table->string('slug', 255)->unique();
             $table->text('description')->nullable();
+            $table->boolean('is_enabled')->default(true);
 
             $table->json('receivable_groups')->nullable();
             $table->string('batch_id')->nullable();

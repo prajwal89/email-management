@@ -15,6 +15,7 @@ use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ForceDeleteBulkAction;
 use Filament\Tables\Actions\RestoreBulkAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
@@ -55,6 +56,7 @@ class EmailEventResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')->searchable(),
+                IconColumn::make('is_enabled')->searchable(),
                 TextColumn::make('sent_emails_count')
                     ->label('Sent')
                     ->counts('sentEmails')

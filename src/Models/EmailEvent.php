@@ -66,6 +66,11 @@ class EmailEvent extends Model implements EmailSendable
         )->where('sendable_type', self::class);
     }
 
+    public function isEnabled(): bool
+    {
+        return $this->is_enabled;
+    }
+
     // this is of no use as we are not using in command
     public function emailHandlerClassName(): string
     {

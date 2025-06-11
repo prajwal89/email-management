@@ -17,4 +17,6 @@ interface EmailSendable
     public function emailVariants(): MorphMany;
 
     public function defaultEmailVariant(): MorphOne;
+
+    public function isEnabled(): bool;
 }
