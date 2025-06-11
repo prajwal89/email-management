@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Prajwal89\EmailManagement\Services;
 
 use Prajwal89\EmailManagement\Interfaces\EmailSendable;
-use Prajwal89\EmailManagement\Models\EmailLog;
 use Prajwal89\EmailManagement\Models\EmailVariant;
 
 class EmailVariantSelector
@@ -17,7 +16,7 @@ class EmailVariantSelector
         // Load relations if not already loaded
         $this->sendable->loadMissing([
             'emailVariants.sendable',
-            'defaultEmailVariant.sendable'
+            'defaultEmailVariant.sendable',
         ]);
 
         $variants = $this->sendable->emailVariants->where('is_paused', false);

@@ -7,7 +7,6 @@ namespace Prajwal89\EmailManagement\Interfaces;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
-use Prajwal89\EmailManagement\Models\EmailVariant;
 
 interface EmailSendable
 {

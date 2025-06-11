@@ -14,7 +14,7 @@ class TrackingService
         public EmailLog $emailLog,
         public Request $request
     ) {
-        // 
+        //
     }
 
     public function shouldTrack()

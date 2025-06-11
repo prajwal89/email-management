@@ -9,9 +9,7 @@ use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Support\Facades\DB;
 use Prajwal89\EmailManagement\Enums\RecipientType;
 use Prajwal89\EmailManagement\Models\EmailLog;
-use Prajwal89\EmailManagement\Services\EmailContentModifiers;
 use Prajwal89\EmailManagement\Services\HeadersManager;
-use Symfony\Component\Mime\Part\TextPart;
 
 /**
  * @see https://github.com/jdavidbakr/mail-tracker/blob/master/src/MailTracker.php

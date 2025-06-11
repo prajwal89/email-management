@@ -27,7 +27,7 @@ class EmailVariant extends Model
 {
     use HasFactory;
 
-    // const DEFAULT_SLUG = 'default'; 
+    // const DEFAULT_SLUG = 'default';
 
     /**
      * The table associated with the model.
@@ -72,7 +72,7 @@ class EmailVariant extends Model
 
     public function emailViewName(): string
     {
-        if ($this->slug == 'default') {
+        if ($this->slug === 'default') {
             return $this->sendable->slug . '-email';
         }
 

@@ -61,7 +61,7 @@ class HeadersManager
             'X-Receivable-Type',
             'X-Receivable-Id',
             'X-Email-Variant-Id',
-            'X-Event-Context'
+            'X-Event-Context',
         ];
 
         foreach ($customHeaders as $headerName) {

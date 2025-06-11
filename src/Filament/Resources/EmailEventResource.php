@@ -20,7 +20,6 @@ use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\Pages;
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\Pages\EditEmailEvent;
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\Pages\ListEmailEvents;
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\Pages\PreviewEmailPage;

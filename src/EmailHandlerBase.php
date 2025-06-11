@@ -28,9 +28,6 @@ abstract class EmailHandlerBase
      */
     public static $mail = Mailable::class;
 
-    /**
-     * 
-     */
     public string $messageId;
 
     public $finalEmail;
@@ -246,10 +243,9 @@ abstract class EmailHandlerBase
             ->exists();
     }
 
-
     /**
      * When users gives the parameter to the email handler class
-     * it will be automatically passed to the email class 
+     * it will be automatically passed to the email class
      */
     public function parentConstructorArgs(): array
     {

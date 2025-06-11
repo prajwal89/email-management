@@ -39,7 +39,7 @@ class EmailManagementFilamentPlugin implements Plugin
                     ->collapsed(),
             ])
             ->pages([
-                // 
+                //
             ]);
     }
 

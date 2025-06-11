@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
 use Prajwal89\EmailManagement\Models\EmailLog;
-use Prajwal89\EmailManagement\Services\EmailLogService;
 use Prajwal89\EmailManagement\Services\TrackingService;
 
 /**
@@ -22,7 +21,7 @@ class TrackEmailOpenedController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'message_id' => 'required|string',
-            'track' => 'sometimes|boolean'
+            'track' => 'sometimes|boolean',
         ]);
 
         /**

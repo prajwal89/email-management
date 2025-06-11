@@ -8,11 +8,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Uri;
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
 use Prajwal89\EmailManagement\Models\EmailLog;
-use Prajwal89\EmailManagement\Services\EmailLogService;
-use Prajwal89\EmailManagement\Services\EmailVisitService;
 use Prajwal89\EmailManagement\Services\TrackingService;
 
 /**
@@ -25,7 +22,7 @@ class TrackEmailVisitController extends Controller
         $validator = Validator::make($request->all(), [
             'message_id' => 'required|string',
             'url' => 'required|url',
-            'track' => 'sometimes|boolean'
+            'track' => 'sometimes|boolean',
         ]);
 
         /**
