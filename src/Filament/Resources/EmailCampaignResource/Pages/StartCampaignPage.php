@@ -18,7 +18,7 @@ class StartCampaignPage extends Page
 {
     protected static string $resource = EmailCampaignResource::class;
 
-    protected static string $view = 'email-management::filament.start-campaign-page';
+    protected static string $view = 'em::filament.start-campaign-page';
 
     public EmailCampaign $record;
 
@@ -90,8 +90,8 @@ class StartCampaignPage extends Page
                     ->body("Campaign initiated for {$totalRecipients} recipients.")
                     ->send();
             })
-            ->visible(fn (): bool => $this->record->status === 'draft')
-            ->disabled(fn (): bool => $this->selectedGroups === [])
+            ->visible(fn(): bool => $this->record->status === 'draft')
+            ->disabled(fn(): bool => $this->selectedGroups === [])
             ->requiresConfirmation()
             ->call();
     }

@@ -74,6 +74,7 @@ class EmailLog extends Model
             'soft_bounced_at' => 'datetime',
             'hard_bounced_at' => 'datetime',
             'reply_at' => 'datetime',
+            'unsubscribed_at' => 'datetime',
         ];
     }
 

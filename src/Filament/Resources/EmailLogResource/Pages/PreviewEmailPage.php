@@ -13,7 +13,7 @@ class PreviewEmailPage extends Page
 {
     protected static string $resource = EmailLogResource::class;
 
-    protected static string $view = 'email-management::filament.preview-email-log-page';
+    protected static string $view = 'em::filament.preview-email-log-page';
 
     public $record;
 

@@ -1,5 +1,5 @@
 <x-filament-panels::page>
-    @if (count($this->record->emailVariants) > 0)
+    @if (count($this->record->emailVariants) > 1)
         <div>
             @foreach ($this->record->emailVariants as $emailVariant)
                 <button>{{ $emailVariant->name }}</button>,
@@ -10,5 +10,4 @@
             class="w-full max-w-3xl p-2 bg-gray-100 border rounded shadow">
         </iframe>
     @endif
-
 </x-filament-panels::page>

@@ -9,6 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Mail;
 use Prajwal89\EmailManagement\Interfaces\EmailReceivable;
 use Prajwal89\EmailManagement\Interfaces\EmailSendable;
+use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\Models\EmailLog;
 use Prajwal89\EmailManagement\Models\EmailVariant;
 use Prajwal89\EmailManagement\Services\EmailContentModifiers;
@@ -158,14 +159,21 @@ abstract class EmailHandlerBase
 
     /**
      * Builds the email instance for preview.
-     * Extend this if required
-     * todo: this should have all modifications as well
      */
     public static function buildSampleEmail(): Mailable
     {
         $sampleEmailData = static::sampleEmailData();
 
-        $sampleBuildEmail = new static::$mail(...$sampleEmailData);
+        // ! resolve this automatically
+        // make sendable slug static so we can access it here
+        if (!isset($sampleEmailData['emailVariant'])) {
+            $sampleEmailData['emailVariant'] = EmailEvent::query()->where('slug', 'user-welcome')->first()->defaultEmailVariant;
+        }
+        // dd($sampleEmailData);
+
+        $sampleBuildEmail = new static::$mail(
+            ...$sampleEmailData
+        );
 
         $messageId = HeadersManager::generateNewMessageId();
 

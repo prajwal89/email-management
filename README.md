@@ -16,6 +16,7 @@ This is an **opinionated email management solution** with powerful features for 
 
 - `composer require prajwal89/email-management`
 - `php artisan vendor:publish --tag=email-management-views`
+- `./vendor/prajwal89/email-management/resources/views/**/*.blade.php, add this to your filaments tailwind.config.js`
 
 ## Core Concepts
 
