@@ -30,7 +30,7 @@ class SeedEmailsDatabaseCommand extends Command
 
         $directory = config('email-management.seeders_dir') . '/EmailEvents';
 
-        if (!Storage::directoryExists($directory)) {
+        if (!File::isDirectory($directory)) {
             return;
         }
 
@@ -57,7 +57,7 @@ class SeedEmailsDatabaseCommand extends Command
 
         $directory = config('email-management.seeders_dir') . '/EmailCampaigns';
 
-        if (!Storage::directoryExists($directory)) {
+        if (!File::isDirectory($directory)) {
             return;
         }
 
@@ -82,7 +82,7 @@ class SeedEmailsDatabaseCommand extends Command
 
         $directory = config('email-management.seeders_dir') . '/EmailVariants';
 
-        if (!Storage::directoryExists($directory)) {
+        if (!File::isDirectory($directory)) {
             return;
         }
 
