@@ -18,11 +18,13 @@ class {email_handler_class_name} extends EmailHandlerBase
 {
     public static $mail = {email_class}::class;
 
-    public EmailSendable $sendable;
+    public static string $sendableType = {sendable_model_name}::class;
 
+    public static string $sendableSlug = '{event_slug}';
+    
     public function __construct(public EmailReceivable $receivable)
     {
-        $this->sendable = {sendable_model_name}::query()->where('slug', '{event_slug}')->first();
+        // 
     }
 
     #[Override]

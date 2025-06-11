@@ -29,27 +29,41 @@ abstract class EmailHandlerBase
      */
     public static $mail = Mailable::class;
 
+    /**
+     * Message-ID header that we are setting manually
+     */
     public string $messageId;
 
     public $finalEmail;
 
     /**
-     * this event triggered the sending of email
+     * For resolving sendable
+     */
+    public static string $sendableType;
+
+    /**
+     * For resolving sendable
+     */
+    public static string $sendableSlug;
+
+    /**
+     * This sendable triggered the sending of email
      */
     protected EmailSendable $sendable;
 
     protected EmailReceivable $receivable;
 
+    /**
+     * Email variant choosen by email variant selector
+     */
     protected EmailVariant $chosenEmailVariant;
 
     protected ?array $eventContext = null;
 
     /**
-     * extra context for why we are sending this email for current email event
+     * Extra context for why we are sending this email for current email event
      * as 1 email event can happen on single user multiple times
      */
-    // todo we can add schema validation rules in subclass
-    // so we can verify here
     public function setContext(array $eventContext): self
     {
         /**
@@ -62,7 +76,8 @@ abstract class EmailHandlerBase
 
     /**
      * Determines if the email should be sent.
-     * ! always implement this logic properly as this will prevent
+     * 
+     * Always implement this logic properly as this will prevent
      * email spamming
      */
     protected function qualifiesForSending(): bool
@@ -96,6 +111,8 @@ abstract class EmailHandlerBase
 
     public function buildEmail()
     {
+        $this->sendable = self::resolveSendable();
+
         $this->chosenEmailVariant = (new EmailVariantSelector($this->sendable))->choose();
 
         $this->messageId = HeadersManager::generateNewMessageId();
@@ -126,6 +143,11 @@ abstract class EmailHandlerBase
         }
 
         return $this;
+    }
+
+    public static function resolveSendable(): EmailSendable
+    {
+        return (new static::$sendableType)->where('slug', static::$sendableSlug)->first();
     }
 
     public function configureSymfonyMessage(Email $message)
@@ -167,8 +189,9 @@ abstract class EmailHandlerBase
         // ! resolve this automatically
         // make sendable slug static so we can access it here
         if (!isset($sampleEmailData['emailVariant'])) {
-            $sampleEmailData['emailVariant'] = EmailEvent::query()->where('slug', 'user-welcome')->first()->defaultEmailVariant;
+            $sampleEmailData['emailVariant'] = self::resolveSendable()->defaultEmailVariant;
         }
+
         // dd($sampleEmailData);
 
         $sampleBuildEmail = new static::$mail(
