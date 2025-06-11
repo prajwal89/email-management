@@ -137,7 +137,7 @@ class CreateEmailVariantCommand extends Command
             ->replace('{seeder_class_name}', $seederClassName)
 
             // ->replace('{eventable_class_name}', basename($sendable))
-            ->replace('{eventable_type}', class_basename($sendable))
+            ->replace('{sendable_type}', class_basename($sendable))
             ->replace('{eventable_slug}', $sendable->slug);
 
         $seederFileName = "$seederClassName.php";

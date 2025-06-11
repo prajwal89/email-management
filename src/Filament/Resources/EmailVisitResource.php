@@ -86,8 +86,8 @@ class EmailVisitResource extends Resource
                             return $query
                                 ->whereHas('sentEmail.eventable', function ($query): void {
                                     $query
-                                        ->whereNull('eventable_type')
-                                        ->whereNull('eventable_id');
+                                        ->whereNull('sendable_type')
+                                        ->whereNull('sendable_id');
                                 });
                         }
 
@@ -96,16 +96,16 @@ class EmailVisitResource extends Resource
                         return $query
                             ->whereHas('sentEmail.eventable', function ($query) use ($sendable_type, $sendable_id): void {
                                 $query
-                                    ->where('eventable_type', $sendable_type)
-                                    ->where('eventable_id', $sendable_id);
+                                    ->where('sendable_type', $sendable_type)
+                                    ->where('sendable_id', $sendable_id);
                             });
                     })
                     ->options(function () {
                         $result = EmailLog::query()
-                            ->select('eventable_type', 'eventable_id')
+                            ->select('sendable_type', 'sendable_id')
                             ->with(['eventable'])
-                            ->whereNotNull('eventable_id')
-                            ->whereNotNull('eventable_type')
+                            ->whereNotNull('sendable_id')
+                            ->whereNotNull('sendable_type')
                             ->distinct()
                             ->latest()
                             ->get()

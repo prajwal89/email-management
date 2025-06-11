@@ -49,7 +49,7 @@ class EmailLogResource extends Resource
     {
         return $table
             ->modifyQueryUsing(function ($query): void {
-                $query->with(['eventable', 'receivable']);
+                $query->with(['sendable', 'receivable']);
             })
             ->columns([
                 ...self::commonColumns(),
@@ -102,30 +102,34 @@ class EmailLogResource extends Resource
     public static function commonColumns(): array
     {
         return [
+            TextColumn::make('message_id')
+                ->label('message_id')
+                ->searchable(),
+
             TextColumn::make('subject')
                 ->label('Subject')
                 ->searchable(),
 
-            TextColumn::make('eventable')
-                ->label('Eventable')
+            TextColumn::make('sendable')
+                ->label('sendable')
                 ->hidden(
                     fn($livewire): bool => $livewire instanceof SentEmailsRelationManager
                 )
                 ->getStateUsing(function ($record) {
-                    return $record?->eventable?->name ?? '';
+                    return $record?->sendable?->name ?? '';
                 })
                 ->openUrlInNewTab()
                 ->url(function ($record) {
-                    if (is_null($record?->eventable)) {
+                    if (is_null($record?->sendable)) {
                         return '';
                     }
 
-                    if ($record->eventable instanceof EmailEvent) {
-                        return EmailEventResource::getUrl('edit', ['record' => $record->eventable->id]);
+                    if ($record->sendable instanceof EmailEvent) {
+                        return EmailEventResource::getUrl('edit', ['record' => $record->sendable->id]);
                     }
 
-                    if ($record->eventable instanceof EmailCampaign) {
-                        return EmailCampaignResource::getUrl('edit', ['record' => $record->eventable->id]);
+                    if ($record->sendable instanceof EmailCampaign) {
+                        return EmailCampaignResource::getUrl('edit', ['record' => $record->sendable->id]);
                     }
                 }),
 
@@ -191,38 +195,38 @@ class EmailLogResource extends Resource
     public static function commonFilters(): array
     {
         return [
-            SelectFilter::make('eventable')
-                ->label('Eventable')
+            SelectFilter::make('sendable')
+                ->label('sendable')
                 ->searchable()
                 ->query(function (Builder $query, array $data): Builder {
                     if (empty($data['value'])) {
                         return $query;
                     }
 
-                    if ($data['value'] === 'no_eventable') {
+                    if ($data['value'] === 'no_sendable') {
                         return $query
-                            ->whereNull('eventable_type')
-                            ->whereNull('eventable_id');
+                            ->whereNull('sendable_type')
+                            ->whereNull('sendable_id');
                     }
 
                     [$sendable_type, $sendable_id] = explode(':', $data['value']);
 
                     return $query
-                        ->where('eventable_type', $sendable_type)
-                        ->where('eventable_id', $sendable_id);
+                        ->where('sendable_type', $sendable_type)
+                        ->where('sendable_id', $sendable_id);
                 })
                 ->options(function () {
                     $result = EmailLog::query()
-                        ->select('eventable_type', 'eventable_id')
-                        ->with(['eventable'])
-                        ->whereNotNull('eventable_id')
-                        ->whereNotNull('eventable_type')
+                        ->select('sendable_type', 'sendable_id')
+                        ->with(['sendable'])
+                        ->whereNotNull('sendable_id')
+                        ->whereNotNull('sendable_type')
                         ->distinct()
                         ->latest()
                         ->get()
                         ->filter()
                         ->map(function (EmailLog $email) {
-                            $sendable = $email->eventable;
+                            $sendable = $email->sendable;
                             if ($sendable === null) {
                                 return null;
                             }
@@ -235,10 +239,10 @@ class EmailLogResource extends Resource
                         ->filter();
 
                     if ($result->isEmpty()) {
-                        return collect(['no_eventable' => 'No Eventable']);
+                        return collect(['no_sendable' => 'No sendable']);
                     }
 
-                    return $result->merge(['no_eventable' => 'No Eventable']);
+                    return $result->merge(['no_sendable' => 'No sendable']);
                 }),
 
             DateRangeFilter::make('created_at'),

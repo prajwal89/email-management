@@ -42,8 +42,8 @@ class EmailVariant extends Model
     protected $fillable = [
         'name',
         'slug',
-        'eventable_id',
-        'eventable_type',
+        'sendable_id',
+        'sendable_type',
         'is_paused',
         'is_winner',
         'exposure_percentage',

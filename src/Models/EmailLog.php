@@ -23,8 +23,8 @@ class EmailLog extends Model
         'subject',
         'receivable_id',
         'receivable_type',
-        'eventable_id',
-        'eventable_type',
+        'sendable_id',
+        'sendable_type',
         'context',
         'headers',
         'html',
@@ -95,7 +95,7 @@ class EmailLog extends Model
     /**
      * This can be EmailEvent, Campaign Model
      */
-    public function eventable(): MorphTo
+    public function sendable(): MorphTo
     {
         return $this->morphTo();
     }
