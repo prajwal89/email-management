@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Services;
 
+use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\URL;
 use Symfony\Component\Mime\Email;
 
@@ -12,8 +13,10 @@ use Symfony\Component\Mime\Email;
  */
 class EmailContentModifiers
 {
-    public function __construct(public $email)
-    {
+    public function __construct(
+        public Mailable $email,
+        public string $messageId
+    ) {
         // dd($email->getallheaders());
         // $headersManager = new HeadersManager($email);
         // dd($headersManager);
@@ -49,8 +52,8 @@ class EmailContentModifiers
                         }
 
                         return URL::signedRoute('emails.redirect', [
-                            'message_id' => 'test',
-                            'url' => urlencode($originalUrl),
+                            'message_id' => $this->messageId,
+                            'url' => $originalUrl,
                         ]);
                     },
                     subject: $bodyContent
@@ -75,7 +78,7 @@ class EmailContentModifiers
      */
     public function injectTrackingPixel()
     {
-        $url = route('emails.pixel', ['message_id' => 'test']);
+        $url = route('emails.pixel', ['message_id' => $this->messageId]);
 
         // Append the tracking URL
         $trackingPixel = '<img border="0" width="1" alt="" height="1" src="' . $url . '" />';
@@ -102,7 +105,7 @@ class EmailContentModifiers
     public function injectUnsubscribeLink(): self
     {
         $unsubscribeUrl = URL::signedRoute('emails.unsubscribe', [
-            'message_id' => 'test',
+            'message_id' => $this->messageId,
         ]);
 
         $unsubscribeLine = '

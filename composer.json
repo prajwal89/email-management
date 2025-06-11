@@ -20,6 +20,7 @@
     "require": {
         "spatie/laravel-honeypot": "^4.5",
         "flowframe/laravel-trend": "^0.4.0",
-        "prajwal89/lara-toast": "dev-main"
+        "prajwal89/lara-toast": "^0.1.1",
+        "jaybizzle/crawler-detect": "^1.3"
     }
 }

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -119,6 +120,7 @@ return new class extends Migration
             $table->text('path');
             $table->string('session_id', 64);
             $table->string('ip');
+            $table->foreignIdFor(User::class);
             $table->timestamps();
 
             $table->foreign('message_id')->references('message_id')->on('em_email_logs');

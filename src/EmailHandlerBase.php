@@ -92,13 +92,16 @@ abstract class EmailHandlerBase
 
     public function buildEmail()
     {
-        $this->messageId = '234nzonew@sd';
+        $this->messageId = HeadersManager::generateNewMessageId();
 
         $this->finalEmail = new static::$mail($this->receivable);
 
         $this->finalEmail->withSymfonyMessage([$this, 'configureSymfonyMessage']);
 
-        $emailContentModifiers = new EmailContentModifiers($this->finalEmail);
+        $emailContentModifiers = new EmailContentModifiers(
+            $this->finalEmail,
+            $this->messageId
+        );
 
         if (config('email-management.track_visits')) {
             $emailContentModifiers->injectTrackingUrls();
@@ -117,8 +120,6 @@ abstract class EmailHandlerBase
 
     public function configureSymfonyMessage(Email $message)
     {
-        // dd($this->messageId);
-
         $headersManager = new HeadersManager($message);
 
         $headersManager->configureEmailHeaders(
@@ -131,6 +132,9 @@ abstract class EmailHandlerBase
         return $message;
     }
 
+    /**
+     * Modify the underlying mailable class
+     */
     public function modifyEmailUsing(callable $callback): self
     {
         if (!$this->finalEmail) {

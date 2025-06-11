@@ -44,17 +44,16 @@ class EmailVisitResource extends Resource
     {
         return $table
             ->columns([
-
                 TextColumn::make('path')
                     ->limit(20)
                     ->searchable(),
-                TextColumn::make('sentEmail.subject')
+                TextColumn::make('emailLogs.subject')
                     ->label('From Email')
                     ->searchable()
                     ->openUrlInNewTab()
                     ->url(function ($record): string {
                         return EmailLogResource::getUrl('preview-email', [
-                            'record' => $record->sentEmail->id,
+                            'record' => $record->emailLogs->id,
                         ]);
                     }),
 
@@ -74,17 +73,17 @@ class EmailVisitResource extends Resource
             ->filters([
                 DateRangeFilter::make('created_at'),
 
-                SelectFilter::make('eventable')
-                    ->label('Eventable')
+                SelectFilter::make('sendable')
+                    ->label('sendable')
                     ->searchable()
                     ->query(function (Builder $query, array $data): Builder {
                         if (empty($data['value'])) {
                             return $query;
                         }
 
-                        if ($data['value'] === 'no_eventable') {
+                        if ($data['value'] === 'no_sendable') {
                             return $query
-                                ->whereHas('sentEmail.eventable', function ($query): void {
+                                ->whereHas('emailLog.sendable', function ($query): void {
                                     $query
                                         ->whereNull('sendable_type')
                                         ->whereNull('sendable_id');
@@ -94,7 +93,7 @@ class EmailVisitResource extends Resource
                         [$sendable_type, $sendable_id] = explode(':', $data['value']);
 
                         return $query
-                            ->whereHas('sentEmail.eventable', function ($query) use ($sendable_type, $sendable_id): void {
+                            ->whereHas('emailLog.sendable', function ($query) use ($sendable_type, $sendable_id): void {
                                 $query
                                     ->where('sendable_type', $sendable_type)
                                     ->where('sendable_id', $sendable_id);
@@ -103,7 +102,7 @@ class EmailVisitResource extends Resource
                     ->options(function () {
                         $result = EmailLog::query()
                             ->select('sendable_type', 'sendable_id')
-                            ->with(['eventable'])
+                            ->with(['sendable'])
                             ->whereNotNull('sendable_id')
                             ->whereNotNull('sendable_type')
                             ->distinct()
@@ -111,7 +110,7 @@ class EmailVisitResource extends Resource
                             ->get()
                             ->filter()
                             ->map(function (EmailLog $email) {
-                                $sendable = $email->eventable;
+                                $sendable = $email->sendable;
                                 if ($sendable === null) {
                                     return null;
                                 }
@@ -124,8 +123,8 @@ class EmailVisitResource extends Resource
                             ->filter();
 
                         return $result->isEmpty()
-                            ? collect(['no_eventable' => 'No Eventable'])
-                            : $result->merge(['no_eventable' => 'No Eventable']);
+                            ? collect(['no_sendable' => 'No sendable'])
+                            : $result->merge(['no_sendable' => 'No sendable']);
                     }),
             ])
             ->actions([

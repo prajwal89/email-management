@@ -7,6 +7,9 @@ namespace Prajwal89\EmailManagement\Controllers\Http;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Uri;
+use Jaybizzle\CrawlerDetect\CrawlerDetect;
 use Prajwal89\EmailManagement\Models\EmailLog;
 use Prajwal89\EmailManagement\Services\EmailLogService;
 use Prajwal89\EmailManagement\Services\EmailVisitService;
@@ -19,28 +22,27 @@ class TrackEmailVisitController extends Controller
     // todo check if user is bot as (email servers check links before serving email to users)
     public function __invoke(Request $request)
     {
-        if (!$request->has('message_id') && empty($request->message_id)) {
-            // todo record and redirect
+        $validator = Validator::make($request->all(), [
+            'message_id' => 'required|string',
+            'url' => 'required|url',
+        ]);
+
+        /**
+         * Don't track if user is crawler as some 
+         * email clients crawl links in emails for the security measures
+         */
+        if ((new CrawlerDetect())->isCrawler()) {
             return;
         }
 
-        $urlBase64 = $request->input('url');
+        if ($validator->fails()) {
+            Log::warning('Track Visit: Validation failed', [
+                'errors' => $validator->errors()->toArray(),
+                'request' => $request->all(),
+            ]);
 
-        if (!$urlBase64) {
-            Log::warning('Track Visit: Missing URL', ['request' => $request->all()]);
-
-            return abort(400, 'Missing URL');
+            return abort(400, 'Invalid input');
         }
-
-        // Decode and validate URL
-        $url = urldecode($urlBase64);
-        if (!filter_var($url, FILTER_VALIDATE_URL)) {
-            Log::warning('Track Visit: Invalid URL', ['url' => $urlBase64]);
-
-            return abort(400, 'Malformed URL');
-        }
-
-        $url = html_entity_decode($url);
 
         $emailLog = EmailLog::query()
             ->where('message_id', $request->message_id)
@@ -49,20 +51,23 @@ class TrackEmailVisitController extends Controller
         if (!$emailLog) {
             Log::warning('Track Visit: Email not found', ['message_id' => $request->message_id]);
 
-            return redirect($url, 301);
+            return redirect($request->url, 301);
         }
 
         EmailLogService::update($emailLog, ['last_clicked_at' => now()]);
 
-        $emailLog->increments('clicks');
+        $uri = Uri::of($request->url);
+
+        $emailLog->increment('clicks');
 
         EmailVisitService::store([
-            'path' => $request->path(),
+            'path' => $uri->path(),
             'ip' => $request->ip(),
+            // ...auth()->check() ? ['user_id' => auth()->user()->id] : [],
             'session_id' => $request->session()->getId(),
             'message_id' => $request->message_id,
         ]);
 
-        return redirect($url, 301);
+        return redirect($request->url, 301);
     }
 }
