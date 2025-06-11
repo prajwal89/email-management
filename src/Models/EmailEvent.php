@@ -7,6 +7,7 @@ namespace Prajwal89\EmailManagement\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 
@@ -46,6 +47,11 @@ class EmailEvent extends Model implements EmailSendable
     public function emailVariants(): MorphMany
     {
         return $this->morphMany(EmailVariant::class, 'sendable');
+    }
+
+    public function defaultEmailVariant(): MorphOne
+    {
+        return $this->morphOne(EmailVariant::class, 'sendable')->where('slug', 'default');
     }
 
     public function emailVisits(): HasManyThrough

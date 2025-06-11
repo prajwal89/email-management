@@ -18,6 +18,7 @@ use Symfony\Component\Mime\Part\TextPart;
  */
 class MessageSendingListener
 {
+    // todo: remove all headers configured while building the email
     public function handle(MessageSending $event): void
     {
         $headersManager = new HeadersManager($event->message);

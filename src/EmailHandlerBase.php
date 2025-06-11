@@ -10,8 +10,11 @@ use Illuminate\Support\Facades\Mail;
 use Prajwal89\EmailManagement\Interfaces\EmailReceivable;
 use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 use Prajwal89\EmailManagement\Models\EmailLog;
+use Prajwal89\EmailManagement\Models\EmailVariant;
 use Prajwal89\EmailManagement\Services\EmailContentModifiers;
+use Prajwal89\EmailManagement\Services\EmailVariantSelector;
 use Prajwal89\EmailManagement\Services\HeadersManager;
+use ReflectionClass;
 use Symfony\Component\Mime\Email;
 
 /**
@@ -25,6 +28,9 @@ abstract class EmailHandlerBase
      */
     public static $mail = Mailable::class;
 
+    /**
+     * 
+     */
     public string $messageId;
 
     public $finalEmail;
@@ -35,6 +41,8 @@ abstract class EmailHandlerBase
     protected EmailSendable $sendable;
 
     protected EmailReceivable $receivable;
+
+    protected EmailVariant $chosenEmailVariant;
 
     protected ?array $eventContext = null;
 
@@ -90,9 +98,15 @@ abstract class EmailHandlerBase
 
     public function buildEmail()
     {
+        $this->chosenEmailVariant = (new EmailVariantSelector($this->sendable))->choose();
+
         $this->messageId = HeadersManager::generateNewMessageId();
 
-        $this->finalEmail = new static::$mail($this->receivable);
+        // pass parent constructor args to the email class
+        $this->finalEmail = new static::$mail(
+            ...$this->parentConstructorArgs(),
+            emailVariant: $this->chosenEmailVariant
+        );
 
         $this->finalEmail->withSymfonyMessage([$this, 'configureSymfonyMessage']);
 
@@ -125,6 +139,7 @@ abstract class EmailHandlerBase
             receivable: $this->receivable,
             messageId: $this->messageId,
             eventContext: $this->eventContext,
+            chosenEmailVariant: $this->chosenEmailVariant,
         );
 
         return $message;
@@ -229,5 +244,31 @@ abstract class EmailHandlerBase
                 return $query->whereJsonContains('context', $context);
             })
             ->exists();
+    }
+
+
+    /**
+     * When users gives the parameter to the email handler class
+     * it will be automatically passed to the email class 
+     */
+    public function parentConstructorArgs(): array
+    {
+        $reflection = new ReflectionClass($this);
+        $constructor = $reflection->getConstructor();
+
+        $args = [];
+
+        if ($constructor) {
+            foreach ($constructor->getParameters() as $param) {
+                $name = $param->getName();
+
+                // Only include if it's promoted to a property
+                if ($param->isPromoted()) {
+                    $args[$name] = $this->{$name};
+                }
+            }
+        }
+
+        return $args;
     }
 }

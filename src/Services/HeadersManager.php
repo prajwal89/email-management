@@ -7,6 +7,7 @@ namespace Prajwal89\EmailManagement\Services;
 use Illuminate\Support\Facades\URL;
 use Prajwal89\EmailManagement\Interfaces\EmailReceivable;
 use Prajwal89\EmailManagement\Interfaces\EmailSendable;
+use Prajwal89\EmailManagement\Models\EmailVariant;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Header\IdentificationHeader;
 
@@ -23,6 +24,7 @@ class HeadersManager
     public function configureEmailHeaders(
         EmailSendable $sendable,
         EmailReceivable $receivable,
+        EmailVariant $chosenEmailVariant,
         ?string $messageId,
         ?array $eventContext
     ) {
@@ -39,10 +41,36 @@ class HeadersManager
         $headers->addTextHeader('X-Sendable-Id', (string) $sendable->getKey());
         $headers->addTextHeader('X-Receivable-Type', (string) get_class($receivable));
         $headers->addTextHeader('X-Receivable-Id', (string) $receivable->getKey());
+        $headers->addTextHeader('X-Email-Variant-Id', (string) $chosenEmailVariant->getKey());
 
         if ($eventContext !== null) {
             $headers->addTextHeader('X-Event-Context', json_encode($eventContext));
         }
+    }
+
+    /**
+     * Remove all configured email headers
+     */
+    public function removeConfiguredEmailHeaders()
+    {
+        $headers = $this->email->getHeaders();
+
+        $customHeaders = [
+            'X-Sendable-Type',
+            'X-Sendable-Id',
+            'X-Receivable-Type',
+            'X-Receivable-Id',
+            'X-Email-Variant-Id',
+            'X-Event-Context'
+        ];
+
+        foreach ($customHeaders as $headerName) {
+            if ($headers->has($headerName)) {
+                $headers->remove($headerName);
+            }
+        }
+
+        return true;
     }
 
     public function createOrGetMessageId(): string
