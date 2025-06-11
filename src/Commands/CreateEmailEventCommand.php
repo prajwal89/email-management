@@ -106,9 +106,9 @@ class CreateEmailEventCommand extends Command
         $emailHandlerStub = str(File::get(__DIR__ . '/../../stubs/email-handler.stub'))
             ->replace('{sendable_model_name}', 'EmailEvent')
             ->replace('{sendable_class_name}', 'EmailEvents') // Folder name
-            ->replace('{email_class}', $emailClassName)
+            ->replace('{mailable_class}', $emailClassName)
             ->replace('{email_handler_class_name}', $emailHandlerClassName)
-            ->replace('{email_class_name_space}', "App\EmailManagement\Emails\EmailEvents\\" . $emailClassName)
+            ->replace('{mailable_class_name_space}', "App\EmailManagement\Emails\EmailEvents\\" . $emailClassName)
             ->replace('{event_slug}', $slug);
 
         $handlerPath = config('email-management.email_handlers_dir') . '/EmailEvents';
