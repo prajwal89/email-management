@@ -60,7 +60,7 @@ class EmailCampaignResource extends Resource
                 TextColumn::make('name')->searchable(),
                 TextColumn::make('sent_emails_count')
                     ->label('Sent')
-                    ->counts('sentEmails')
+                    ->counts('emailLogs')
                     ->sortable(),
                 TextColumn::make('email_visits_count')
                     ->label('Visits')
