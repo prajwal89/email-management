@@ -109,7 +109,7 @@ class CreateEmailEventCommand extends Command
             ->replace('{mailable_class}', $emailClassName)
             ->replace('{email_handler_class_name}', $emailHandlerClassName)
             ->replace('{mailable_class_name_space}', "App\EmailManagement\Emails\EmailEvents\\" . $emailClassName)
-            ->replace('{event_slug}', $slug);
+            ->replace('{sendable_slug}', $slug);
 
         $handlerPath = config('email-management.email_handlers_dir') . '/EmailEvents';
         $handlerFilePath = $handlerPath . "/{$emailHandlerClassName}.php";

@@ -18,7 +18,7 @@ class {email_handler_class_name} extends EmailHandlerBase
 
     public static string $sendableType = {sendable_model_name}::class;
 
-    public static string $sendableSlug = '{event_slug}';
+    public static string $sendableSlug = '{sendable_slug}';
     
     public function __construct(public EmailReceivable $receivable)
     {
@@ -44,7 +44,7 @@ class {email_handler_class_name} extends EmailHandlerBase
     }
 
     #[Override]
-    public static function sampleEmailData()
+    public static function sampleEmailData(): array
     {
         return [
             'receivable' => User::query()->inRandomOrder()->first(),
