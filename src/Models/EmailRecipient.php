@@ -11,7 +11,7 @@ class EmailRecipient extends Model
     protected $fillable = [
         'email_id',
         'email',
-        'type'
+        'type',
     ];
 
     public function email()

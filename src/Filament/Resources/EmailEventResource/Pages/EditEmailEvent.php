@@ -9,10 +9,8 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\HtmlString;
-use Prajwal89\EmailManagement\Commands\CreateEmailVariantCommand;
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource;
 use Prajwal89\EmailManagement\Filament\Resources\EmailLogResource\Widgets\SentEmailsTrendWidget;
-use Prajwal89\EmailManagement\Helpers\Helper;
 use Prajwal89\EmailManagement\Services\EmailEventService;
 
 class EditEmailEvent extends EditRecord
@@ -47,7 +45,7 @@ class EditEmailEvent extends EditRecord
                 ->color('danger')
                 ->icon('heroicon-o-trash')
                 ->requiresConfirmation()
-                ->disabled(fn(): bool => !app()->isLocal())
+                ->disabled(fn (): bool => !app()->isLocal())
                 ->tooltip('Can Be deleted from local Environment only')
                 ->modalDescription('This action will delate seeder file, handler class, email class and file, and all associated DB records')
                 ->modalSubmitActionLabel('Delete')

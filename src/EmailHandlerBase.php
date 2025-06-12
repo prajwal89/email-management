@@ -77,7 +77,7 @@ abstract class EmailHandlerBase
      * Determines if the email should be sent.
      *
      * Always implement this logic properly as this will prevent email spamming
-     * 
+     *
      * Override this function subclasses for custom logic
      */
     protected function qualifiesForSending(): bool
