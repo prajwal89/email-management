@@ -6,7 +6,6 @@ namespace Prajwal89\EmailManagement\Services;
 
 use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\URL;
-use Symfony\Component\Mime\Email;
 
 /**
  * This class is responsible for modifying email content
@@ -16,11 +15,7 @@ class EmailContentModifiers
     public function __construct(
         public Mailable $email,
         public string $messageId
-    ) {
-        // dd($email->getallheaders());
-        // $headersManager = new HeadersManager($email);
-        // dd($headersManager);
-    }
+    ) {}
 
     /**
      * Replaces all urls in email body except image urls
@@ -109,12 +104,12 @@ class EmailContentModifiers
         ]);
 
         $unsubscribeLine = '
-    <div style="background: transparent; text-align: center; font-size: 14px; color: #999; margin-top: 30px;">
-        <p style="margin: 0;">
-            If you’d prefer not to receive these emails, you can 
-            <a href="' . $unsubscribeUrl . '" style="color: #007bff; text-decoration: underline;">unsubscribe here</a>.
-        </p>
-    </div>
+<div style="background: transparent; text-align: center; font-size: 14px; color: #999; margin-top: 30px;">
+    <p style="margin: 0;">
+        If you’d prefer not to receive these emails, you can 
+        <a href="' . $unsubscribeUrl . '" style="color: #007bff; text-decoration: underline;">unsubscribe here</a>.
+    </p>
+</div>
 ';
 
         $lineBreak = str()->random(32);

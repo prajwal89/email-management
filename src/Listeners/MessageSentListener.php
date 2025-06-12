@@ -6,6 +6,7 @@ namespace Prajwal89\EmailManagement\Listeners;
 
 use Illuminate\Mail\Events\MessageSent;
 use Prajwal89\EmailManagement\Models\EmailLog;
+use Prajwal89\EmailManagement\Services\EmailLogService;
 use Prajwal89\EmailManagement\Services\HeadersManager;
 
 class MessageSentListener
@@ -22,8 +23,6 @@ class MessageSentListener
             return;
         }
 
-        $emailLog->update([
-            'sent_at' => now(),
-        ]);
+        EmailLogService::update($emailLog, ['sent_at' => now()]);
     }
 }

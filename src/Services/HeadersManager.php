@@ -182,4 +182,12 @@ class HeadersManager
 
         $this->email->getHeaders()->addTextHeader('List-Unsubscribe-Post', 'List-Unsubscribe=One-Click');
     }
+
+    /**
+     * Header: X-Sendable-Type is always available if email handler is used
+     */
+    public function isUsingEmailHandler(): bool
+    {
+        return $this->email->getHeaders()->has('X-Sendable-Type');
+    }
 }

@@ -148,6 +148,27 @@ abstract class EmailHandlerBase
         return $this;
     }
 
+    public function doNotTrackPageViews()
+    {
+        config(['email-management.track_visits' => false]);
+
+        return $this;
+    }
+
+    public function doNotTrackMailOpen()
+    {
+        config(['email-management.track_opens' => false]);
+
+        return $this;
+    }
+
+    public function doNotInjectUnsubscribeUrl()
+    {
+        config(['email-management.inject_unsubscribe_link' => false]);
+
+        return $this;
+    }
+
     public static function resolveSendable(): EmailSendable
     {
         return (new static::$sendableType)->where('slug', static::$sendableSlug)->first();
