@@ -12,7 +12,10 @@ use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\QueryBuilder;
+use Filament\Tables\Filters\QueryBuilder\Constraints\TextConstraint;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Database\Eloquent\Builder;
@@ -55,8 +58,35 @@ class EmailLogResource extends Resource
                 ...self::commonColumns(),
             ])
             ->filters([
+                // QueryBuilder::make()
+                //     ->constraints([
+                //         TextConstraint::make('subject'),
+
+                //         // BooleanConstraint::make('is_visible'),
+                //         // NumberConstraint::make('stock'),
+                //         // SelectConstraint::make('status')
+                //         //     ->options([
+                //         //         'draft' => 'Draft',
+                //         //         'reviewing' => 'Reviewing',
+                //         //         'published' => 'Published',
+                //         //     ])
+                //         //     ->multiple(),
+                //         // DateConstraint::make('created_at'),
+                //         // RelationshipConstraint::make('categories')
+                //         //     ->multiple()
+                //         //     ->selectable(
+                //         //         IsRelatedToOperator::make()
+                //         //             ->titleAttribute('name')
+                //         //             ->searchable()
+                //         //             ->multiple(),
+                //         //     ),
+                //         // NumberConstraint::make('reviewsRating')
+                //         //     ->relationship('reviews', 'rating')
+                //         //     ->integer(),
+                //     ]),
+
                 ...self::commonFilters(),
-            ])
+            ], FiltersLayout::AboveContent)
             ->actions([
                 // Tables\Actions\EditAction::make(),
                 Action::make('preview')
@@ -72,6 +102,9 @@ class EmailLogResource extends Resource
                     DeleteBulkAction::make(),
                 ]),
             ])
+            ->modifyQueryUsing(function ($query) {
+                $query->with(['to']);
+            })
             ->defaultSort('created_at', 'desc');
     }
 
@@ -86,8 +119,7 @@ class EmailLogResource extends Resource
     {
         return [
             'index' => ListSentEmails::route('/'),
-            // 'create' => Pages\CreateSentEmail::route('/create'),
-            // 'edit' => Pages\EditSentEmail::route('/{record}/edit'),
+            // we can crease side section modal
             'preview-email' => PreviewEmailPage::route('/{record}/preview-email'),
         ];
     }
@@ -105,6 +137,10 @@ class EmailLogResource extends Resource
             TextColumn::make('subject')
                 ->label('subject'),
 
+            TextColumn::make('to.email')
+                ->searchable()
+                ->label('to'),
+
             TextColumn::make('message_id')
                 ->label('message_id')
                 ->toggleable(isToggledHiddenByDefault: true)
@@ -120,7 +156,7 @@ class EmailLogResource extends Resource
             TextColumn::make('sendable')
                 ->label('sendable')
                 ->hidden(
-                    fn ($livewire): bool => $livewire instanceof SentEmailsRelationManager
+                    fn($livewire): bool => $livewire instanceof SentEmailsRelationManager
                 )
                 ->getStateUsing(function ($record) {
                     return $record?->sendable?->name ?? '';
@@ -242,7 +278,7 @@ class EmailLogResource extends Resource
                                 get_class($sendable) . ':' . $sendable->id => $sendable->name,
                             ];
                         })
-                        ->mapWithKeys(fn ($data) => $data)
+                        ->mapWithKeys(fn($data) => $data)
                         ->filter();
 
                     if ($result->isEmpty()) {
@@ -254,13 +290,37 @@ class EmailLogResource extends Resource
 
             DateRangeFilter::make('created_at'),
 
+            Filter::make('sent_at')
+                ->label('Sent')
+                ->query(fn(Builder $query): Builder => $query->sent()),
+
             Filter::make('last_opened_at')
                 ->label('Opened')
-                ->query(fn (Builder $query): Builder => $query->whereNotNull('last_opened_at')),
+                ->query(fn(Builder $query): Builder => $query->opened()),
 
             Filter::make('last_clicked_at')
                 ->label('Clicked')
-                ->query(fn (Builder $query): Builder => $query->whereNotNull('last_clicked_at')),
+                ->query(fn(Builder $query): Builder => $query->clicked()),
+
+            Filter::make('replied_at')
+                ->label('Replied')
+                ->query(fn(Builder $query): Builder => $query->replied()),
+
+            Filter::make('complained_at')
+                ->label('Complained')
+                ->query(fn(Builder $query): Builder => $query->complained()),
+
+            Filter::make('soft_bounced')
+                ->label('Soft Bounced')
+                ->query(fn(Builder $query): Builder => $query->softBounced()),
+
+            Filter::make('hard_bounced')
+                ->label('Hard Bounced')
+                ->query(fn(Builder $query): Builder => $query->hardBounced()),
+
+            Filter::make('unsubscribed_at')
+                ->label('Unsubscribed')
+                ->query(fn(Builder $query): Builder => $query->unsubscribed()),
         ];
     }
 }

@@ -9,7 +9,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Prajwal89\EmailManagement\Enums\RecipientType;
 
 class EmailLog extends Model
 {
@@ -91,6 +93,11 @@ class EmailLog extends Model
     public function recipients(): HasMany
     {
         return $this->hasMany(Recipient::class, 'message_id', 'message_id');
+    }
+
+    public function to(): HasOne
+    {
+        return $this->hasOne(Recipient::class, 'message_id', 'message_id')->where('type', RecipientType::TO);
     }
 
     /**

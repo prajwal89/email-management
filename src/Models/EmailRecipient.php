@@ -8,7 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class EmailRecipient extends Model
 {
-    protected $fillable = ['email_id', 'email', 'type'];
+    protected $fillable = [
+        'email_id',
+        'email',
+        'type'
+    ];
 
     public function email()
     {
