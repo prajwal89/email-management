@@ -23,13 +23,13 @@ class EmailVariantSelector
 
         // 1. Always return the winner variant if one exists
         $winner = $variants->firstWhere('is_winner', true);
+
         if ($winner) {
             return $winner;
         }
 
-        // 2. If there's only 1 variant, use default
-        if ($variants->count() <= 1) {
-            return $this->sendable->defaultEmailVariant;
+        if ($variants->count() == 1) {
+            return $variants->first();
         }
 
         // 3. Weighted random fallback

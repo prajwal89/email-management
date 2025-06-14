@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Prajwal89\EmailManagement\Models;
 
 use App\Models\User;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -28,5 +30,11 @@ class EmailVisit extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    #[Scope]
+    public function unique(Builder $query)
+    {
+        $query->groupBy('user_id');
     }
 }

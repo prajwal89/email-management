@@ -10,8 +10,10 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Prajwal89\EmailManagement\Filament\SharedActions;
 
 class EmailVariantsRelationManager extends RelationManager
 {
@@ -39,29 +41,59 @@ class EmailVariantsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('name')
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('exposure_percentage')
+                TextColumn::make('name'),
+                TextColumn::make('exposure_percentage')
                     ->label('Exposure')
                     ->suffix('%'),
-                Tables\Columns\IconColumn::make('is_paused'),
-                Tables\Columns\IconColumn::make('is_winner'),
+                IconColumn::make('is_paused')->label('Paused'),
+                IconColumn::make('is_winner')->label('Winner')
+                    ->tooltip("Winner for this AB test"),
                 TextColumn::make('email_logs_count')
-                    ->counts('emailLogs')
+                    ->label('Sent')
+                    ->counts('emailLogs'),
+                // TextColumn::make('email_unique_visits_count')
+                TextColumn::make('email_visits_count')
+                    ->label('Visits')
+                    ->counts('emailVisits'),
+
+                TextColumn::make('CTR')
+                    ->label('CTR')
+                    ->getStateUsing(function ($record) {
+                        $sent = $record->email_logs_count ?? 0;
+                        $visits = $record->email_visits_count ?? 0;
+
+                        if ($sent === 0) {
+                            return '0%';
+                        }
+
+                        $ctr = ($visits / $sent) * 100;
+
+                        return number_format($ctr, 2);
+                    })
+                    ->suffix('%')
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                // Tables\Actions\CreateAction::make(),
+                // SharedActions::createEmailVariant(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                // Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->modifyQueryUsing(function ($query) {
+                // $query->withCount([
+                //     'emailVisits as email_unique_visits_count' => function ($query) {
+                //         // $query->unique();
+                //     }
+                // ]);
+            });
     }
 }

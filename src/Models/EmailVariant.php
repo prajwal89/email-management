@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -74,6 +76,18 @@ class EmailVariant extends Model
     public function emailLogs()
     {
         return $this->hasMany(EmailLog::class);
+    }
+
+    public function emailVisits()
+    {
+        return $this->hasManyThrough(
+            EmailVisit::class,
+            EmailLog::class,
+            'email_variant_id', // Foreign key on em_email_logs table
+            'message_id',       // Foreign key on em_email_visits table
+            'id',               // Local key on em_email_variants table
+            'message_id'        // Local key on em_email_logs table
+        );
     }
 
     public function emailViewName(): string

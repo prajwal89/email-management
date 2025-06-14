@@ -11,6 +11,7 @@ use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\HtmlString;
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource;
 use Prajwal89\EmailManagement\Filament\Resources\EmailLogResource\Widgets\SentEmailsTrendWidget;
+use Prajwal89\EmailManagement\Filament\SharedActions;
 use Prajwal89\EmailManagement\Services\EmailEventService;
 
 class EditEmailEvent extends EditRecord
@@ -30,22 +31,14 @@ class EditEmailEvent extends EditRecord
                 })
                 ->openUrlInNewTab(),
 
-            Action::make('create_variant')
-                ->icon('heroicon-o-plus')
-                ->label('Create Email Variant')
-                ->modalHeading('Instructions for Creating an Email Variant')
-                ->modalContent(function ($record): Htmlable {
-                    return new HtmlString(
-                        "php artisan em:create-email-variant --sendable_type=EmailEvent --sendable_slug={$record->slug}"
-                    );
-                }),
+            SharedActions::createEmailVariant(),
 
             Action::make('delete')
                 ->label('Delete')
                 ->color('danger')
                 ->icon('heroicon-o-trash')
                 ->requiresConfirmation()
-                ->disabled(fn (): bool => !app()->isLocal())
+                ->disabled(fn(): bool => !app()->isLocal())
                 ->tooltip('Can Be deleted from local Environment only')
                 ->modalDescription('This action will delate seeder file, handler class, email class and file, and all associated DB records')
                 ->modalSubmitActionLabel('Delete')

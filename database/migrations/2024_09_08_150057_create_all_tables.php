@@ -121,7 +121,7 @@ return new class extends Migration
             $table->text('path');
             $table->string('session_id', 64);
             $table->string('ip');
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(User::class)->nullable();
             $table->timestamps();
 
             $table->foreign('message_id')->references('message_id')->on('em_email_logs');
