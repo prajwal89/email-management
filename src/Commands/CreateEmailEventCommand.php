@@ -52,8 +52,9 @@ class CreateEmailEventCommand extends Command
 
         // seed created email event
         Artisan::call('em:seed-db');
+
         // $this->info('Run: "php artisan em:seed-db" to seed the Email Event');
-        $this->info('Implement email and Check if rending is correctly in filament panel');
+        $this->info('Implement email view and Check if rending is correctly in filament panel');
         $this->info('Implement Handler Email Class');
         $this->info('Test sample email by sending to admin');
         $this->info("Use in App by: (new $emailHandlerClassName)->send()");

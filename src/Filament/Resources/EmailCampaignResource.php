@@ -27,7 +27,7 @@ use Prajwal89\EmailManagement\Filament\Resources\EmailCampaignResource\Pages\Pre
 use Prajwal89\EmailManagement\Filament\Resources\EmailCampaignResource\Pages\StartCampaignPage;
 use Prajwal89\EmailManagement\Filament\Resources\EmailCampaignResource\Widgets\JobBatchInfoWidget;
 use Prajwal89\EmailManagement\Filament\Resources\EmailCampaignResource\Widgets\ReceivableGroupsTableWidget;
-use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\RelationManagers\SentEmailsRelationManager;
+use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\RelationManagers\EmailLogsRelationManager;
 use Prajwal89\EmailManagement\Models\EmailCampaign;
 
 // todo to calculate conversion rate we need to calculate only unique visits
@@ -105,7 +105,7 @@ class EmailCampaignResource extends Resource
     public static function getRelations(): array
     {
         return [
-            SentEmailsRelationManager::class,
+            // EmailLogsRelationManager::class,
         ];
     }
 

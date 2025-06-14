@@ -14,7 +14,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 use Prajwal89\EmailManagement\Filament\Resources\ColdEmailResource\Pages;
-use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\RelationManagers\SentEmailsRelationManager;
+use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\RelationManagers\EmailLogsRelationManager;
 use Prajwal89\EmailManagement\Models\ColdEmail;
 
 class ColdEmailResource extends Resource
@@ -110,7 +110,7 @@ class ColdEmailResource extends Resource
     public static function getRelations(): array
     {
         return [
-            SentEmailsRelationManager::class,
+            // EmailLogsRelationManager::class,
         ];
     }
 

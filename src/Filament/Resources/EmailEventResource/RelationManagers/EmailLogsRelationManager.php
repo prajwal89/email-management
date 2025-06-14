@@ -14,9 +14,9 @@ use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Table;
 use Prajwal89\EmailManagement\Filament\Resources\EmailLogResource;
 
-class SentEmailsRelationManager extends RelationManager
+class EmailLogsRelationManager extends RelationManager
 {
-    protected static string $relationship = 'sentEmails';
+    protected static string $relationship = 'emailLogs';
 
     public function form(Form $form): Form
     {

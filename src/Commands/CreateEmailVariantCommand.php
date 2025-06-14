@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Prajwal89\EmailManagement\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 use Prajwal89\EmailManagement\Models\EmailCampaign;
@@ -125,7 +126,7 @@ class CreateEmailVariantCommand extends Command
         // Ask for the variant's name
         $variantName = text(
             label: 'What is the name for this new email variant?',
-            placeholder: 'e.g., Welcome Email - Version B',
+            placeholder: 'Version B',
             required: 'The variant name is required.'
         );
 
@@ -161,6 +162,10 @@ class CreateEmailVariantCommand extends Command
             );
 
             info("Successfully created variant: {$variantName}");
+
+            // seed created email event
+            Artisan::call('em:seed-db');
+
             // info("Successfully created variant '{$variant->name}' with {$variant->exposure_percentage}% exposure.");
         } catch (\Exception $e) {
             warning('Could not create the variant. A variant with the same slug might already exist.');

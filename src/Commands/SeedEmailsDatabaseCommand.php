@@ -85,7 +85,7 @@ class SeedEmailsDatabaseCommand extends Command
             return;
         }
 
-        $allFiles = File::allFiles();
+        $allFiles = File::allFiles($directory);
 
         foreach ($allFiles as $file) {
             $className = pathinfo($file->getFilename(), PATHINFO_FILENAME);
