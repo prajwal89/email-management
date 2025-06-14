@@ -34,6 +34,8 @@ class EmailLog extends Model
         'opens',
         'clicks',
 
+        'email_variant_id',
+
         // email has left from our app
         'sent_at',
 
@@ -98,6 +100,11 @@ class EmailLog extends Model
     public function to(): HasOne
     {
         return $this->hasOne(Recipient::class, 'message_id', 'message_id')->where('type', RecipientType::TO);
+    }
+
+    public function emailVariant(): BelongsTo
+    {
+        return $this->belongsTo(EmailVariant::class, 'email_variant_id', 'id');
     }
 
     /**

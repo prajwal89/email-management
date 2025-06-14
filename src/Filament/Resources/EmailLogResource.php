@@ -197,6 +197,10 @@ class EmailLogResource extends Resource
                     }
                 }),
 
+            TextColumn::make('emailVariant.name')
+                ->label('Variant')
+                ->searchable(),
+
             TextColumn::make('hash')
                 ->toggleable(isToggledHiddenByDefault: true),
 
@@ -230,8 +234,6 @@ class EmailLogResource extends Resource
                 ->sortable()
                 ->toggleable(isToggledHiddenByDefault: true)
                 ->date(),
-
-            // TextColumn::make('context')->label('Context'),
         ];
     }
 

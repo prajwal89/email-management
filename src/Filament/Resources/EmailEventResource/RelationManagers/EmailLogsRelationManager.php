@@ -65,6 +65,9 @@ class EmailLogsRelationManager extends RelationManager
                     DeleteBulkAction::make(),
                 ]),
             ])
+            ->modifyQueryUsing(function ($query) {
+                $query->with(['emailVariant']);
+            })
             ->defaultSort('created_at', 'desc');
     }
 }

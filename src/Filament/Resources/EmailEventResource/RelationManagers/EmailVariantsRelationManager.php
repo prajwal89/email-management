@@ -10,6 +10,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class EmailVariantsRelationManager extends RelationManager
@@ -44,6 +45,8 @@ class EmailVariantsRelationManager extends RelationManager
                     ->suffix('%'),
                 Tables\Columns\IconColumn::make('is_paused'),
                 Tables\Columns\IconColumn::make('is_winner'),
+                TextColumn::make('email_logs_count')
+                    ->counts('emailLogs')
             ])
             ->filters([
                 //

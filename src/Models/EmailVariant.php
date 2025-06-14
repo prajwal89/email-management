@@ -6,6 +6,7 @@ namespace Prajwal89\EmailManagement\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
@@ -68,6 +69,11 @@ class EmailVariant extends Model
     public function sendable(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    public function emailLogs()
+    {
+        return $this->hasMany(EmailLog::class);
     }
 
     public function emailViewName(): string
