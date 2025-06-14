@@ -17,10 +17,10 @@ use Prajwal89\EmailManagement\Models\EmailLog;
  *
  * @see https://imapengine.com/docs/usage/messages
  */
-// php artisan email-management:scan-mailbox
+// php artisan em:scan-mailbox
 class ScanMailboxCommand extends Command
 {
-    protected $signature = 'email-management:scan-mailbox';
+    protected $signature = 'em:scan-mailbox';
 
     protected $description = 'Command description';
 

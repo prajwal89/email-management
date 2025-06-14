@@ -8,11 +8,11 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
 /**
- * php artisan email-management:seed-db
+ * php artisan em:seed-db
  */
 class SeedEmailsDatabaseCommand extends Command
 {
-    protected $signature = 'email-management:seed-db';
+    protected $signature = 'em:seed-db';
 
     protected $description = 'Seed the email events table';
 

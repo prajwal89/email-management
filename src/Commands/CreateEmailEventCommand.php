@@ -15,7 +15,7 @@ use function Laravel\Prompts\textarea;
 
 class CreateEmailEventCommand extends Command
 {
-    protected $signature = 'email-management:create-email-event';
+    protected $signature = 'em:create-email-event';
 
     protected $description = 'Command description';
 
@@ -51,8 +51,8 @@ class CreateEmailEventCommand extends Command
         $this->createEmailView($data);
 
         // seed created email event
-        Artisan::call('email-management:seed-db');
-        // $this->info('Run: "php artisan email-management:seed-db" to seed the Email Event');
+        Artisan::call('em:seed-db');
+        // $this->info('Run: "php artisan em:seed-db" to seed the Email Event');
         $this->info('Implement email and Check if rending is correctly in filament panel');
         $this->info('Implement Handler Email Class');
         $this->info('Test sample email by sending to admin');

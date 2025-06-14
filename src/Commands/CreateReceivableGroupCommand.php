@@ -10,11 +10,11 @@ use Illuminate\Support\Facades\File;
 use function Laravel\Prompts\text;
 
 /**
- *  php artisan email-management:create-group
+ *  php artisan em:create-group
  */
 class CreateReceivableGroupCommand extends Command
 {
-    protected $signature = 'email-management:create-group';
+    protected $signature = 'em:create-group';
 
     protected $description = 'Command description';
 
