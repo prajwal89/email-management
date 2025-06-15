@@ -28,7 +28,7 @@ class EmailVariantSelector
             return $winner;
         }
 
-        if ($variants->count() == 1) {
+        if ($variants->count() === 1) {
             return $variants->first();
         }
 
