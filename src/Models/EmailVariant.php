@@ -27,20 +27,8 @@ class EmailVariant extends Model
 {
     use HasFactory;
 
-    // const DEFAULT_SLUG = 'default';
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
     protected $table = 'em_email_variants';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'slug',
@@ -51,16 +39,20 @@ class EmailVariant extends Model
         'exposure_percentage',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'is_paused' => 'boolean',
-        'is_winner' => 'boolean',
-        'exposure_percentage' => 'integer',
+    protected $attributes = [
+        'name' => 'Default',
+        'slug' => 'default',
+        'exposure_percentage' => 50,
     ];
+
+    public function casts(): array
+    {
+        return [
+            'is_paused' => 'boolean',
+            'is_winner' => 'boolean',
+            'exposure_percentage' => 'integer',
+        ];
+    }
 
     /**
      * Get the parent sendable model (it could be any model).
@@ -85,6 +77,11 @@ class EmailVariant extends Model
             'id',               // Local key on em_email_variants table
             'message_id'        // Local key on em_email_logs table
         );
+    }
+
+    public function getDefaultAttributes(): array
+    {
+        return $this->attributes;
     }
 
     public function emailViewName(): string

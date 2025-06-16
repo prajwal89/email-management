@@ -6,6 +6,7 @@ namespace Prajwal89\EmailManagement\Services;
 
 use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 use Prajwal89\EmailManagement\Models\EmailVariant;
+use Prajwal89\EmailManagement\Models\EmailVisit;
 use Prajwal89\EmailManagement\Services\FileManagers\SeederFileManager;
 
 class EmailVariantService
@@ -33,11 +34,7 @@ class EmailVariantService
 
     public static function createDefaultVariant(EmailSendable $sendable): EmailVariant
     {
-        $defaultAttributes = [
-            'name' => 'Default',
-            'slug' => 'default',
-            'exposure_percentage' => 50,
-        ];
+        $defaultAttributes = (new EmailVariant())->getDefaultAttributes();
 
         return $sendable->emailVariants()->firstOrCreate($defaultAttributes);
     }

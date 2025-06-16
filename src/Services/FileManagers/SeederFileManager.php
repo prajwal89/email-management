@@ -7,8 +7,11 @@ namespace Prajwal89\EmailManagement\Services\FileManagers;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
+use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 use Prajwal89\EmailManagement\Models\EmailEvent;
+use Prajwal89\EmailManagement\Models\EmailVariant;
 use Prajwal89\EmailManagement\Services\FileManagers\Seeders\EmailEventSeeder;
+use Prajwal89\EmailManagement\Services\FileManagers\Seeders\EmailVariantSeeder;
 
 // todo: refactor to the separate classes
 /**
@@ -22,9 +25,27 @@ class SeederFileManager
 {
     public array $modelAttributes = [];
 
+    public string $sendableType;
+
+    public string $sendableSlug;
+
     public function __construct(public string|Model $forModel)
     {
         //
+    }
+
+    public function setSendableType(string $sendableType)
+    {
+        $this->sendableType = $sendableType;
+
+        return $this;
+    }
+
+    public function setSendableSlug(string $sendableSlug)
+    {
+        $this->sendableSlug = $sendableSlug;
+
+        return $this;
     }
 
     public function setAttributes(array $attributes)
@@ -47,7 +68,16 @@ class SeederFileManager
     public function resolveGenerator()
     {
         return match (is_string(($this->forModel)) ? $this->forModel : get_class($this->forModel)) {
-            EmailEvent::class => new EmailEventSeeder($this->forModel, $this->modelAttributes),
+            EmailEvent::class => new EmailEventSeeder(
+                $this->forModel,
+                $this->modelAttributes
+            ),
+            EmailVariant::class => new EmailVariantSeeder(
+                $this->forModel,
+                $this->modelAttributes,
+                $this->sendableType,
+                $this->sendableSlug,
+            ),
         };
     }
 }
