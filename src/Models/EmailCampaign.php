@@ -45,6 +45,14 @@ class EmailCampaign extends Model implements EmailSendable
         return $this->morphMany(EmailLog::class, 'sendable');
     }
 
+    /**
+     * Successfully sent emails
+     */
+    public function sentEmails(): MorphMany
+    {
+        return $this->morphMany(EmailLog::class, 'sendable')->sent();
+    }
+
     public function emailVisits(): HasManyThrough
     {
         return $this->hasManyThrough(

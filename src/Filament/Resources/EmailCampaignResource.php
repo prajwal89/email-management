@@ -50,14 +50,19 @@ class EmailCampaignResource extends Resource
         return $table
             ->poll('5s')
             ->columns([
-                TextColumn::make('name')->searchable(),
+                TextColumn::make('name')
+                    ->searchable(),
                 TextColumn::make('sent_emails_count')
                     ->label('Sent')
-                    ->counts('emailLogs')
+                    ->counts('sentEmails')
                     ->sortable(),
                 TextColumn::make('email_visits_count')
                     ->label('Visits')
                     ->counts('emailVisits')
+                    ->sortable(),
+                TextColumn::make('email_variants_count')
+                    ->label('Variants')
+                    ->counts('emailVariants')
                     ->sortable(),
                 ProgressBar::make('Progress')
                     ->label('Progress')

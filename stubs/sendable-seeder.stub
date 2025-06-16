@@ -10,7 +10,7 @@ class {seeder_class_name}
 {
     public function run()
     {
-        $sendable = {sendable_model_name}::firstOrCreate([
+        {sendable_model_name}::firstOrCreate([
             'slug' => '{slug}',
         ], [
             'name' => '{name}',

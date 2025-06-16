@@ -8,7 +8,10 @@ use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailEvent;
+use Prajwal89\EmailManagement\Models\EmailVariant;
+use Prajwal89\EmailManagement\Services\FileManagers\SeederFileManager;
 
 use function Laravel\Prompts\text;
 use function Laravel\Prompts\textarea;
@@ -23,12 +26,13 @@ class CreateEmailCampaignCommand extends Command
     {
         $data = [
             'name' => text(
-                label: 'Enter campaign name',
+                label: 'Campaign Name',
+                hint: 'Keep it short. Do not include "Email" as suffix',
                 required: true,
                 validate: ['name' => 'required|max:40']
             ),
             'description' => textarea(
-                label: 'Enter campaign description',
+                label: 'Enter Campaign description',
                 required: false
             ),
         ];
@@ -37,12 +41,14 @@ class CreateEmailCampaignCommand extends Command
 
         $emailHandlerClassName = str($slug)->studly() . 'EmailHandler';
 
-        if (EmailEvent::query()->where('slug', $slug)->exists()) {
-            throw new Exception('Duplicate EmailEvent name');
+        if (EmailCampaign::query()->where('slug', $slug)->exists()) {
+            throw new Exception('Duplicate EmailCampaign name');
         }
 
         // todo what if some steps fail
         $this->createSeederFile($data);
+        $this->createDefaultEmailVariantSeederFile(EmailCampaign::class, $slug->toString());
+
         $this->createEmailHandlerClassFile($data);
         $this->createEmailClass($data);
         $this->createEmailView($data);
@@ -59,38 +65,24 @@ class CreateEmailCampaignCommand extends Command
 
     public function createSeederFile(array $data): void
     {
-        $slug = str($data['name'])->slug();
+        $filePath = (new SeederFileManager(EmailCampaign::class))
+            ->setAttributes($data)
+            ->generateFile();
 
-        // email to be created
-        $seederClassName = $slug->studly() . 'Seeder';
+        $this->info("Created Seeder file: {$filePath}");
+    }
 
-        // migration
-        $seederStub = str(File::get(__DIR__ . '/../../stubs/sendable-seeder.stub'))
-            ->replace('{name}', $data['name'])
-            ->replace('{slug}', $slug)
-            ->replace('{description}', $data['description'])
-            ->replace('{sendable_model_name}', 'EmailCampaign')
-            ->replace('{namespace_path}', 'EmailCampaigns')
-            ->replace('{seeder_class_name}', $seederClassName);
+    public function createDefaultEmailVariantSeederFile(
+        string $sendableType,
+        string $sendableSlug
+    ): void {
+        $filePath = (new SeederFileManager(EmailVariant::class))
+            ->setAttributes((new EmailVariant())->getDefaultAttributes())
+            ->setSendableType($sendableType)
+            ->setSendableSlug($sendableSlug)
+            ->generateFile();
 
-        $seederFileName = "$seederClassName.php";
-
-        $seederPath = config('email-management.seeders_dir') . '/EmailCampaigns';
-        $filePath = $seederPath . "/{$seederFileName}";
-
-        if (!File::exists($seederPath)) {
-            File::makeDirectory($seederPath, 0755, true);
-        }
-
-        if (File::exists($filePath)) {
-            $this->error("seeder file already exists: {$filePath}");
-
-            return;
-        }
-
-        File::put($filePath, $seederStub);
-
-        $this->info("Created seeder file: {$filePath}");
+        $this->info("Created Email Variant Seeder file: {$filePath}");
     }
 
     public function createEmailHandlerClassFile(array $data): void

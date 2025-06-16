@@ -8,8 +8,10 @@ use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use Prajwal89\EmailManagement\Interfaces\EmailSendable;
+use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\Models\EmailVariant;
+use Prajwal89\EmailManagement\Services\FileManagers\Seeders\EmailCampaignSeeder;
 use Prajwal89\EmailManagement\Services\FileManagers\Seeders\EmailEventSeeder;
 use Prajwal89\EmailManagement\Services\FileManagers\Seeders\EmailVariantSeeder;
 
@@ -69,6 +71,10 @@ class SeederFileManager
     {
         return match (is_string(($this->forModel)) ? $this->forModel : get_class($this->forModel)) {
             EmailEvent::class => new EmailEventSeeder(
+                $this->forModel,
+                $this->modelAttributes
+            ),
+            EmailCampaign::class => new EmailCampaignSeeder(
                 $this->forModel,
                 $this->modelAttributes
             ),
