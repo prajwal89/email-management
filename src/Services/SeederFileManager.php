@@ -6,18 +6,15 @@ namespace Prajwal89\EmailManagement\Services;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\URL;
 use Prajwal89\EmailManagement\Models\EmailEvent;
-use Prajwal89\EmailManagement\Models\NewsletterEmail;
 
 /**
- * Generate for delete seeder files for 
+ * Generate for delete seeder files for
  * EmailEvent,EmailCampaign,EmailVariant
- * 
+ *
  * Seeder files are in pair for creating and deleting the record
- * and if both pair is available for single record we can safely remove both seeder files 
+ * and if both pair is available for single record we can safely remove both seeder files
  */
 class SeederFileManager
 {
@@ -25,12 +22,13 @@ class SeederFileManager
 
     public function __construct(public string|Model $forModel)
     {
-        // 
+        //
     }
 
     public function setAttributes(array $attributes)
     {
         $this->modelAttributes = $attributes;
+
         return $this;
     }
 
@@ -80,6 +78,7 @@ class SeederFileManager
 
         if (File::exists($filePath)) {
             throw new Exception("Seeder file is already available: {$filePath}");
+
             return;
         }
 
@@ -114,9 +113,9 @@ class SeederFileManager
 
         if (File::exists($filePath)) {
             throw new Exception("Delete Seeder file is already available: {$filePath}");
+
             return;
         }
-
 
         File::put($filePath, $fileContents);
 

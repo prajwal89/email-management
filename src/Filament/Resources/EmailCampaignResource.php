@@ -9,17 +9,10 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Actions\ForceDeleteBulkAction;
-use Filament\Tables\Actions\RestoreBulkAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use IbrahimBougaoua\FilaProgress\Tables\Columns\ProgressBar;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Prajwal89\EmailManagement\Filament\Resources\EmailCampaignResource\Pages;
 use Prajwal89\EmailManagement\Filament\Resources\EmailCampaignResource\Pages\EditEmailCampaign;
 use Prajwal89\EmailManagement\Filament\Resources\EmailCampaignResource\Pages\ListEmailCampaigns;
@@ -80,7 +73,7 @@ class EmailCampaignResource extends Resource
                     }),
             ])
             ->filters([
-                // 
+                //
             ])
             ->actions([
                 EditAction::make(),

@@ -86,7 +86,7 @@ class EmailLogService
     public static function destroy(EmailLog $emailLog)
     {
         // todo delete files
-        // generate delete seeder 
+        // generate delete seeder
 
     }
 }

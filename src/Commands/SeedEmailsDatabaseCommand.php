@@ -10,7 +10,7 @@ use SplFileInfo;
 
 /**
  * php artisan em:seed-db
- * 
+ *
  * todo: resolve folders from central location
  */
 class SeedEmailsDatabaseCommand extends Command
