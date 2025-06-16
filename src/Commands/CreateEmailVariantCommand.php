@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\File;
 use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailEvent;
+use Prajwal89\EmailManagement\Models\EmailVariant;
+use Prajwal89\EmailManagement\Services\FileManagers\SeederFileManager;
 
 use function Laravel\Prompts\info;
 use function Laravel\Prompts\search;
@@ -104,7 +106,7 @@ class CreateEmailVariantCommand extends Command
             $eventId = search(
                 label: 'Which email event does this variant belong to?',
                 placeholder: 'Start typing to search for an event...',
-                options: fn (string $value) => strlen($value) > 0
+                options: fn(string $value) => strlen($value) > 0
                     ? $sendableModel::where('name', 'like', "%{$value}%")->pluck('name', 'id')->all()
                     : $events->all(),
                 scroll: 10
@@ -136,7 +138,7 @@ class CreateEmailVariantCommand extends Command
             placeholder: 'Enter a number between 0 and 100',
             required: true,
             default: '50',
-            validate: fn (string $value) => match (true) {
+            validate: fn(string $value) => match (true) {
                 !is_numeric($value) => 'The value must be a number.',
                 $value < 0 => 'The percentage cannot be less than 0.',
                 $value > 100 => 'The percentage cannot be greater than 100.',
@@ -144,78 +146,68 @@ class CreateEmailVariantCommand extends Command
             }
         );
 
-        // create view and seeder files
-        try {
-            $this->createSeederFile(
-                sendable: $selectedEvent,
-                data: [
-                    'name' => $variantName,
-                    'exposure_percentage' => $exposurePercentage,
-                ]
-            );
+        $filePath = (new SeederFileManager(EmailVariant::class))
+            ->setAttributes([
+                'name' => $variantName,
+                'exposure_percentage' => $exposurePercentage,
+            ])
+            ->setSendableType(get_class($selectedEvent))
+            ->setSendableSlug($selectedEvent->slug)
+            ->generateFile();
 
-            $this->createEmailView(
-                sendable: $selectedEvent,
-                data: [
-                    'name' => $variantName,
-                    'exposure_percentage' => $exposurePercentage,
-                ]
-            );
+        $this->createEmailView(
+            sendable: $selectedEvent,
+            data: [
+                'name' => $variantName
+            ]
+        );
 
-            info("Successfully created variant: {$variantName}");
+        $this->info("Created Email Variant Seeder file: {$filePath}");
 
-            // seed created email event
-            Artisan::call('em:seed-db');
-
-            // info("Successfully created variant '{$variant->name}' with {$variant->exposure_percentage}% exposure.");
-        } catch (\Exception $e) {
-            warning('Could not create the variant. A variant with the same slug might already exist.');
-            $this->error($e->getMessage());
-
-            return self::FAILURE;
-        }
+        // seed created email event
+        Artisan::call('em:seed-db');
 
         return self::SUCCESS;
     }
 
-    public function createSeederFile(
-        EmailSendable $sendable,
-        array $data
-    ): void {
-        $slug = str($data['name'])->slug();
+    // public function createSeederFile(
+    //     EmailSendable $sendable,
+    //     array $data
+    // ): void {
+    //     $slug = str($data['name'])->slug();
 
-        $seederClassName = str($sendable->slug)->studly() . $slug->studly() . 'Seeder';
+    //     $seederClassName = str($sendable->slug)->studly() . $slug->studly() . 'Seeder';
 
-        $seederStub = str(File::get(__DIR__ . '/../../stubs/email-variant-seeder.stub'))
-            ->replace('{name}', $data['name'])
-            ->replace('{slug}', $slug)
-            ->replace('{exposure_percentage}', $data['exposure_percentage'])
-            ->replace('{seeder_class_name}', $seederClassName)
+    //     $seederStub = str(File::get(__DIR__ . '/../../stubs/email-variant-seeder.stub'))
+    //         ->replace('{name}', $data['name'])
+    //         ->replace('{slug}', $slug)
+    //         ->replace('{exposure_percentage}', $data['exposure_percentage'])
+    //         ->replace('{seeder_class_name}', $seederClassName)
 
-            // ->replace('{sendable_class_name}', basename($sendable))
-            ->replace('{sendable_type}', class_basename($sendable))
-            ->replace('{sendable_slug}', $sendable->slug);
+    //         // ->replace('{sendable_class_name}', basename($sendable))
+    //         ->replace('{sendable_type}', class_basename($sendable))
+    //         ->replace('{sendable_slug}', $sendable->slug);
 
-        $seederFileName = "$seederClassName.php";
+    //     $seederFileName = "$seederClassName.php";
 
-        $seederPath = config('email-management.seeders_dir') . '/EmailVariants';
+    //     $seederPath = config('email-management.seeders_dir') . '/EmailVariants';
 
-        $filePath = $seederPath . "/{$seederFileName}";
+    //     $filePath = $seederPath . "/{$seederFileName}";
 
-        if (!File::exists($seederPath)) {
-            File::makeDirectory($seederPath, 0755, true);
-        }
+    //     if (!File::exists($seederPath)) {
+    //         File::makeDirectory($seederPath, 0755, true);
+    //     }
 
-        if (File::exists($filePath)) {
-            $this->error("seeder file already exists: {$filePath}");
+    //     if (File::exists($filePath)) {
+    //         $this->error("seeder file already exists: {$filePath}");
 
-            return;
-        }
+    //         return;
+    //     }
 
-        File::put($filePath, $seederStub);
+    //     File::put($filePath, $seederStub);
 
-        $this->info("Created seeder file: {$filePath}");
-    }
+    //     $this->info("Created seeder file: {$filePath}");
+    // }
 
     /**
      * markdown view for email
