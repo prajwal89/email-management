@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Prajwal89\EmailManagement\Services\FileManagers;
 
 use Illuminate\Database\Eloquent\Model;
+use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailEvent;
+use Prajwal89\EmailManagement\Services\FileManagers\Handlers\EmailCampaignHandler;
 use Prajwal89\EmailManagement\Services\FileManagers\Handlers\EmailEventHandler;
 
 class EmailHandlerFileManager
@@ -36,10 +38,10 @@ class EmailHandlerFileManager
                 $this->forModel,
                 $this->modelAttributes
             ),
-            // EmailCampaign::class => new EmailCampaignSeeder(
-            //     $this->forModel,
-            //     $this->modelAttributes
-            // ),
+            EmailCampaign::class => new EmailCampaignHandler(
+                $this->forModel,
+                $this->modelAttributes
+            ),
         };
     }
 }

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailVariant;
+use Prajwal89\EmailManagement\Services\FileManagers\EmailHandlerFileManager;
 use Prajwal89\EmailManagement\Services\FileManagers\SeederFileManager;
 
 use function Laravel\Prompts\text;
@@ -44,7 +45,6 @@ class CreateEmailCampaignCommand extends Command
             throw new Exception('Duplicate EmailCampaign name');
         }
 
-        // todo what if some steps fail
         $this->createSeederFile($data);
         $this->createDefaultEmailVariantSeederFile(EmailCampaign::class, $slug->toString());
 
@@ -52,7 +52,6 @@ class CreateEmailCampaignCommand extends Command
         $this->createEmailClass($data);
         $this->createEmailView($data);
 
-        // seed created email event
         Artisan::call('em:seed-db');
 
         $this->info('Run: "php artisan em:seed-db" to seed the Email Event');
@@ -86,38 +85,9 @@ class CreateEmailCampaignCommand extends Command
 
     public function createEmailHandlerClassFile(array $data): void
     {
-        $slug = str($data['name'])->slug();
-
-        // email to be created
-        $emailClassName = $slug->studly() . 'Email';
-
-        // handler class
-        $emailHandlerClassName = str($slug)->studly() . 'EmailHandler';
-
-        $emailHandlerStub = str(File::get(__DIR__ . '/../../stubs/email-handler.stub'))
-            ->replace('{sendable_model_name}', 'EmailCampaign')
-            ->replace('{sendable_class_name}', 'EmailCampaigns') // Folder name
-            ->replace('{mailable_class}', $emailClassName)
-            ->replace('{email_handler_class_name}', $emailHandlerClassName)
-            ->replace('{mailable_class_name_space}', "App\EmailManagement\Emails\EmailCampaigns\\" . $emailClassName)
-            ->replace('{sendable_slug}', $slug);
-
-        $handlerPath = config('email-management.email_handlers_dir') . '/EmailCampaigns';
-        $handlerFilePath = $handlerPath . "/{$emailHandlerClassName}.php";
-
-        if (File::exists($handlerFilePath)) {
-            $this->error("MailHandler file already exists: {$handlerFilePath}");
-
-            return;
-        }
-
-        if (!File::exists($handlerPath)) {
-            File::makeDirectory($handlerPath, 0755, true);
-        }
-
-        File::put($handlerFilePath, $emailHandlerStub);
-
-        $this->info("Created MailHandler file: {$emailHandlerClassName}.php");
+        (new EmailHandlerFileManager(EmailCampaign::class))
+            ->setAttributes($data)
+            ->generateFile();
     }
 
     /**

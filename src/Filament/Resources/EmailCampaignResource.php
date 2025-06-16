@@ -83,7 +83,6 @@ class EmailCampaignResource extends Resource
             ])
             ->actions([
                 EditAction::make(),
-                // !uses page from other resource
                 Action::make('preview')
                     ->label('Email Preview')
                     ->icon('heroicon-o-eye')
@@ -92,7 +91,9 @@ class EmailCampaignResource extends Resource
                         return self::getUrl('preview-email', ['record' => $record->id]);
                     }),
             ])
-            ->bulkActions([]);
+            ->modifyQueryUsing(function ($query) {
+                $query->with(['jobBatch']);
+            });
     }
 
     public static function getRelations(): array
