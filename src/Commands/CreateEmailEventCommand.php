@@ -72,6 +72,8 @@ class CreateEmailEventCommand extends Command
             ->replace('{name}', $data['name'])
             ->replace('{slug}', $slug)
             ->replace('{description}', $data['description'])
+            ->replace('{sendable_model_name}', 'EmailEvent')
+            ->replace('{namespace_path}', 'EmailEvents')
             ->replace('{seeder_class_name}', $seederClassName);
 
         $seederFileName = "$seederClassName.php";

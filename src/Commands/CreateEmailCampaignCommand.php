@@ -6,6 +6,7 @@ namespace Prajwal89\EmailManagement\Commands;
 
 use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Prajwal89\EmailManagement\Models\EmailEvent;
 
@@ -46,6 +47,9 @@ class CreateEmailCampaignCommand extends Command
         $this->createEmailClass($data);
         $this->createEmailView($data);
 
+        // seed created email event
+        Artisan::call('em:seed-db');
+
         $this->info('Run: "php artisan em:seed-db" to seed the Email Event');
         $this->info('Implement email and Check if rending is correctly in filament panel');
         $this->info('Implement Handler Email Class');
@@ -61,15 +65,17 @@ class CreateEmailCampaignCommand extends Command
         $seederClassName = $slug->studly() . 'Seeder';
 
         // migration
-        $seederStub = str(File::get(__DIR__ . '/../../stubs/email-campaign-seeder.stub'))
+        $seederStub = str(File::get(__DIR__ . '/../../stubs/sendable-seeder.stub'))
             ->replace('{name}', $data['name'])
             ->replace('{slug}', $slug)
             ->replace('{description}', $data['description'])
+            ->replace('{sendable_model_name}', 'EmailCampaign')
+            ->replace('{namespace_path}', 'EmailCampaigns')
             ->replace('{seeder_class_name}', $seederClassName);
 
         $seederFileName = "$seederClassName.php";
 
-        $seederPath = config('email-management.seeders_dir') . '/EmailEvents';
+        $seederPath = config('email-management.seeders_dir') . '/EmailCampaigns';
         $filePath = $seederPath . "/{$seederFileName}";
 
         if (!File::exists($seederPath)) {
