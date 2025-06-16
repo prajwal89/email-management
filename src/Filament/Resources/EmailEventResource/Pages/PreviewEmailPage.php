@@ -41,7 +41,8 @@ class PreviewEmailPage extends Page
                         ->label('Email Variant')
                         ->options(function () {
                             return $this->record->emailVariants->pluck('name', 'id');
-                        }),
+                        })
+                        ->default($this->record->emailVariants->first()->id),
                 ])
                 ->action(function (array $data): void {
 
