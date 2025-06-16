@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\File;
 use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\Models\EmailVariant;
 use Prajwal89\EmailManagement\Services\FileManagers\EmailHandlerFileManager;
+use Prajwal89\EmailManagement\Services\FileManagers\MailableClassFileManager;
 use Prajwal89\EmailManagement\Services\FileManagers\SeederFileManager;
 
 use function Laravel\Prompts\text;
@@ -100,35 +101,11 @@ class CreateEmailEventCommand extends Command
      */
     public function createEmailClass(array $data): void
     {
-        $slug = str($data['name'])->slug();
+        $mailableClassFile = (new MailableClassFileManager(EmailEvent::class))
+            ->setAttributes($data)
+            ->generateFile();
 
-        $emailClassName = $slug->studly() . 'Email';
-
-        $emailViewName = $slug . '-email';
-
-        $emailHandlerStub = str(File::get(__DIR__ . '/../../stubs/email-class.stub'))
-            ->replace('{sendable_class_name}', 'EmailEvents') // aka folder name
-            ->replace('{email_class_name}', $emailClassName)
-            ->replace('{sendable_folder_name}', 'email-events') // folder for email views
-            ->replace('{email_subject}', $data['name'])
-            ->replace('{email_view_file_name}', $emailViewName);
-
-        $mailPath = config('email-management.mail_classes_path') . '/EmailEvents';
-        $mailClassPath = $mailPath . "/{$emailClassName}.php";
-
-        if (!File::exists($mailPath)) {
-            File::makeDirectory($mailPath, 0755, true);
-        }
-
-        if (File::exists($mailClassPath)) {
-            $this->error("Mail Class file already exists: {$mailClassPath}");
-
-            return;
-        }
-
-        File::put($mailClassPath, $emailHandlerStub);
-
-        $this->info("Created MailClass file: {$emailClassName}.php");
+        $this->info("Created Mailable Class file: {$mailableClassFile}.php");
     }
 
     /**

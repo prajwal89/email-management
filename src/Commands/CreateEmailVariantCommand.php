@@ -106,7 +106,7 @@ class CreateEmailVariantCommand extends Command
             $eventId = search(
                 label: 'Which email event does this variant belong to?',
                 placeholder: 'Start typing to search for an event...',
-                options: fn (string $value) => strlen($value) > 0
+                options: fn(string $value) => strlen($value) > 0
                     ? $sendableModel::where('name', 'like', "%{$value}%")->pluck('name', 'id')->all()
                     : $events->all(),
                 scroll: 10
@@ -138,7 +138,7 @@ class CreateEmailVariantCommand extends Command
             placeholder: 'Enter a number between 0 and 100',
             required: true,
             default: '50',
-            validate: fn (string $value) => match (true) {
+            validate: fn(string $value) => match (true) {
                 !is_numeric($value) => 'The value must be a number.',
                 $value < 0 => 'The percentage cannot be less than 0.',
                 $value > 100 => 'The percentage cannot be greater than 100.',
@@ -155,6 +155,7 @@ class CreateEmailVariantCommand extends Command
             ->setSendableSlug($selectedEvent->slug)
             ->generateFile();
 
+        // todo: move to file handlers
         $this->createEmailView(
             sendable: $selectedEvent,
             data: [
