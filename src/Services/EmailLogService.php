@@ -82,4 +82,11 @@ class EmailLogService
 
         return true;
     }
+
+    public static function destroy(EmailLog $emailLog)
+    {
+        // todo delete files
+        // generate delete seeder 
+
+    }
 }

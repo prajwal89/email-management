@@ -5,14 +5,11 @@ declare(strict_types=1);
 namespace Database\Seeders\EmailManagement\{namespace_path};
 
 use Prajwal89\EmailManagement\Models\{sendable_model_name};
-use Prajwal89\EmailManagement\Services\EmailVariantService;
 
 class {seeder_class_name}
 {
     public function run()
     {
-        $sendable = {sendable_model_name}::where([
-            'slug' => '{slug}',
-        ])->first()?->delete();
+        {sendable_model_name}::query()->where(['slug' => '{slug}'])->first()?->delete();
     }
 }

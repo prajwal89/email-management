@@ -8,12 +8,16 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Prajwal89\EmailManagement\Models\EmailEvent;
+use Prajwal89\EmailManagement\Models\EmailLog;
 
 class EmailEventService
 {
     public static function destroy(EmailEvent $emailEvent): bool
     {
-        $seederPath = self::findSeederFile($emailEvent);
+        $filePath = (new SeederFileManager($emailEvent))->generateDeleteRecordFile();
+
+        dd($filePath);
+
         $handlerPath = self::findEmailHandlerClass($emailEvent);
         $emailClassFilePath = self::findEmailClassFile($emailEvent);
         $emailViewFilePath = self::findEmailViewFile($emailEvent);
@@ -24,14 +28,15 @@ class EmailEventService
             DB::beginTransaction();
 
             // ! this can become heavy in terms of total queries
-            $emailEvent->sentEmails->map(function (EmailLog $sentEmail): void {
-                SentEmailService::destroy($sentEmail);
+            $emailEvent->emailLogs()->map(function (EmailLog $emailLog): void {
+                EmailLogService::destroy($emailLog);
             });
 
             $emailEvent->delete();
 
+            $filePath = (new SeederFileManager($emailEvent))->generateDeleteRecordFile();
+
             File::delete([
-                $seederPath,
                 $handlerPath,
                 $emailClassFilePath,
                 $emailViewFilePath,

@@ -13,7 +13,7 @@ use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 
 class EmailEvent extends Model implements EmailSendable
 {
-    use SoftDeletes;
+    // use SoftDeletes;
 
     protected $table = 'em_email_events';
 

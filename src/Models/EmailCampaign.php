@@ -15,7 +15,7 @@ use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 
 class EmailCampaign extends Model implements EmailSendable
 {
-    use SoftDeletes;
+    // use SoftDeletes;
 
     protected $table = 'em_email_campaigns';
 

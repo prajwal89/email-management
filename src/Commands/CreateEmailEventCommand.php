@@ -45,7 +45,6 @@ class CreateEmailEventCommand extends Command
             throw new Exception('Duplicate EmailEvent name');
         }
 
-        // todo what if some steps fail
         $this->createSeederFile($data);
         $this->createEmailHandlerClassFile($data);
         $this->createEmailClass($data);
@@ -54,7 +53,6 @@ class CreateEmailEventCommand extends Command
         // seed created email event
         Artisan::call('em:seed-db');
 
-        // $this->info('Run: "php artisan em:seed-db" to seed the Email Event');
         $this->info('Implement email view and Check if rending is correctly in filament panel');
         $this->info('Implement Handler Email Class');
         $this->info('Test sample email by sending to admin');

@@ -27,9 +27,7 @@ return new class extends Migration
                 ->constrained('em_email_events')
                 ->restrictOnDelete();
 
-            $table->unsignedInteger('delay_hours')->nullable();
-
-            $table->softDeletes();
+            // $table->softDeletes();
             $table->timestamps();
         });
 
@@ -46,7 +44,7 @@ return new class extends Migration
             $table->timestamp('started_on')->nullable();
             $table->timestamp('ended_on')->nullable();
 
-            $table->softDeletes();
+            // $table->softDeletes();
             $table->timestamps();
         });
 

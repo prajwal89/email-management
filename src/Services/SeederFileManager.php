@@ -15,12 +15,15 @@ use Prajwal89\EmailManagement\Models\NewsletterEmail;
 /**
  * Generate for delete seeder files for 
  * EmailEvent,EmailCampaign,EmailVariant
+ * 
+ * Seeder files are in pair for creating and deleting the record
+ * and if both pair is available for single record we can safely remove both seeder files 
  */
 class SeederFileManager
 {
     public array $modelAttributes;
 
-    public function __construct(public $forModel)
+    public function __construct(public string|Model $forModel)
     {
         // 
     }
@@ -42,7 +45,7 @@ class SeederFileManager
     public function generateDeleteRecordFile()
     {
         // we can create separate files
-        return match ($this->forModel) {
+        return match (get_class($this->forModel)) {
             EmailEvent::class => $this->generateForEmailEventDeleteFile(),
         };
     }
@@ -87,7 +90,7 @@ class SeederFileManager
 
     public function generateForEmailEventDeleteFile()
     {
-        $slug = str($this->modelAttributes['name'])->slug();
+        $slug = str($this->forModel->slug);
 
         $seederClassName = $slug->studly() . 'DeleteSeeder';
 
@@ -97,11 +100,25 @@ class SeederFileManager
 
         $filePath = $seederPath . "/{$seederFileName}";
 
-        if (!File::exists($filePath)) {
+        $fileContents = str(File::get(__DIR__ . '/../../stubs/sendable-seeder-delete.stub'))
+            ->replace('{slug}', $slug)
+            ->replace('{sendable_model_name}', 'EmailEvent')
+            ->replace('{namespace_path}', 'EmailEvents')
+            ->replace('{seeder_class_name}', $seederClassName);
+
+        $seederFileName = "$seederClassName.php";
+
+        if (!File::exists($seederPath)) {
+            File::makeDirectory($seederPath, 0755, true);
+        }
+
+        if (File::exists($filePath)) {
+            throw new Exception("Delete Seeder file is already available: {$filePath}");
             return;
         }
 
-        File::delete($filePath);
+
+        File::put($filePath, $fileContents);
 
         return $filePath;
     }
