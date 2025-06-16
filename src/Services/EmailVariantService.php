@@ -6,6 +6,7 @@ namespace Prajwal89\EmailManagement\Services;
 
 use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 use Prajwal89\EmailManagement\Models\EmailVariant;
+use Prajwal89\EmailManagement\Services\FileManagers\SeederFileManager;
 
 class EmailVariantService
 {
@@ -39,5 +40,12 @@ class EmailVariantService
         ];
 
         return $sendable->emailVariants()->firstOrCreate($defaultAttributes);
+    }
+
+    public static function destroy(EmailVariant $emailVariant)
+    {
+        $filePath = (new SeederFileManager($emailVariant))->generateDeleteRecordFile();
+
+        dd($filePath);
     }
 }

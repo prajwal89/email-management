@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Models;
 
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\File;
 use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 
 class EmailEvent extends Model implements EmailSendable
@@ -81,4 +83,17 @@ class EmailEvent extends Model implements EmailSendable
     {
         return 'App\\EmailManagement\\EmailHandlers\\EmailEvents\\' . $this->emailHandlerClassName();
     }
+
+    // public function seederFilePath(): string
+    // {
+    //     $seederClassName = str($this->slug)->studly() . 'Seeder';
+
+    //     $seederPath = __DIR__ . "/../../database/seeders/EmailEvents/{$seederClassName}.php";
+
+    //     if (!File::exists($seederPath)) {
+    //         throw new Exception('No matching Seeder file found.');
+    //     }
+
+    //     return $seederPath;
+    // }
 }

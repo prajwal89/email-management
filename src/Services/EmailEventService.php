@@ -9,23 +9,26 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\Models\EmailLog;
+use Prajwal89\EmailManagement\Models\EmailVariant;
+use Prajwal89\EmailManagement\Services\FileManagers\SeederFileManager;
 
 class EmailEventService
 {
     public static function destroy(EmailEvent $emailEvent): bool
     {
-        $filePath = (new SeederFileManager($emailEvent))->generateDeleteRecordFile();
-
-        dd($filePath);
-
         $handlerPath = self::findEmailHandlerClass($emailEvent);
         $emailClassFilePath = self::findEmailClassFile($emailEvent);
         $emailViewFilePath = self::findEmailViewFile($emailEvent);
 
         $emailEvent->load('sentEmails.emailVisits');
 
+        // Do not delete seeder file as they will be deleted in pairs
         try {
             DB::beginTransaction();
+
+            $emailEvent->emailVariants()->map(function (EmailVariant $emailVariant): void {
+                EmailVariantService::destroy($emailVariant);
+            });
 
             // ! this can become heavy in terms of total queries
             $emailEvent->emailLogs()->map(function (EmailLog $emailLog): void {
@@ -34,7 +37,9 @@ class EmailEventService
 
             $emailEvent->delete();
 
-            $filePath = (new SeederFileManager($emailEvent))->generateDeleteRecordFile();
+            $filePath = (new SeederFileManager($emailEvent))->generateDeleteSeederFile();
+
+            dd($filePath);
 
             File::delete([
                 $handlerPath,
@@ -49,19 +54,6 @@ class EmailEventService
         }
 
         return true;
-    }
-
-    public static function findSeederFile(EmailEvent $emailEvent): string
-    {
-        $seederClassName = str($emailEvent->slug)->studly() . 'Seeder';
-
-        $seederPath = __DIR__ . "/../../database/seeders/EmailEvents/{$seederClassName}.php";
-
-        if (!File::exists($seederPath)) {
-            throw new Exception('No matching Seeder file found.');
-        }
-
-        return $seederPath;
     }
 
     public static function findEmailHandlerClass(EmailEvent $emailEvent): string

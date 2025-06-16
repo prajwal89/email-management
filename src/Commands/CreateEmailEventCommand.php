@@ -9,7 +9,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Prajwal89\EmailManagement\Models\EmailEvent;
-use Prajwal89\EmailManagement\Services\SeederFileManager;
+use Prajwal89\EmailManagement\Services\FileManagers\SeederFileManager;
 
 use function Laravel\Prompts\text;
 use function Laravel\Prompts\textarea;
@@ -46,6 +46,10 @@ class CreateEmailEventCommand extends Command
         }
 
         $this->createSeederFile($data);
+
+        // create default email variant
+        // $this->createEmailVariantSeederFile($data);
+
         $this->createEmailHandlerClassFile($data);
         $this->createEmailClass($data);
         $this->createEmailView($data);
@@ -66,6 +70,15 @@ class CreateEmailEventCommand extends Command
             ->generateFile();
 
         $this->info("Created seeder file: {$filePath}");
+    }
+
+    public function createEmailVariantSeederFile(array $data): void
+    {
+        $filePath = (new SeederFileManager(EmailEvent::class))
+            ->setAttributes($data)
+            ->generateFile();
+
+        $this->info("Created Email Variant Seeder file: {$filePath}");
     }
 
     public function createEmailHandlerClassFile(array $data): void

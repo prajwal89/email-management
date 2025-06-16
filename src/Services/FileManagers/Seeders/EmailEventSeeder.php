@@ -1,54 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Prajwal89\EmailManagement\Services;
+namespace Prajwal89\EmailManagement\Services\FileManagers\Seeders;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use Prajwal89\EmailManagement\Models\EmailEvent;
 
-/**
- * Generate for delete seeder files for
- * EmailEvent,EmailCampaign,EmailVariant
- *
- * Seeder files are in pair for creating and deleting the record
- * and if both pair is available for single record we can safely remove both seeder files
- */
-class SeederFileManager
+class EmailEventSeeder
 {
-    public array $modelAttributes;
-
-    public function __construct(public string|Model $forModel)
-    {
+    public function __construct(
+        public string|Model $forModel,
+        public array $modelAttributes
+    ) {
         //
     }
 
-    public function setAttributes(array $attributes)
-    {
-        $this->modelAttributes = $attributes;
-
-        return $this;
-    }
-
-    public function generateFile()
-    {
-        // we can create separate files
-        return match ($this->forModel) {
-            EmailEvent::class => $this->generateForEmailEvent(),
-        };
-    }
-
-    public function generateDeleteRecordFile()
-    {
-        // we can create separate files
-        return match (get_class($this->forModel)) {
-            EmailEvent::class => $this->generateForEmailEventDeleteFile(),
-        };
-    }
-
-    public function generateForEmailEvent()
+    public function generateSeederFile()
     {
         $slug = str($this->modelAttributes['name'])->slug();
 
@@ -58,7 +26,7 @@ class SeederFileManager
 
         $seederClassName = $slug->studly() . 'Seeder';
 
-        $fileContents = str(File::get(__DIR__ . '/../../stubs/sendable-seeder.stub'))
+        $fileContents = str(File::get(__DIR__ . '/../../../../stubs/sendable-seeder.stub'))
             ->replace('{name}', $this->modelAttributes['name'])
             ->replace('{slug}', $slug)
             ->replace('{description}', $this->modelAttributes['description'])
@@ -87,7 +55,7 @@ class SeederFileManager
         return $filePath;
     }
 
-    public function generateForEmailEventDeleteFile()
+    public function generateDeleteSeederFile()
     {
         $slug = str($this->forModel->slug);
 
@@ -99,7 +67,7 @@ class SeederFileManager
 
         $filePath = $seederPath . "/{$seederFileName}";
 
-        $fileContents = str(File::get(__DIR__ . '/../../stubs/sendable-seeder-delete.stub'))
+        $fileContents = str(File::get(__DIR__ . '/../../../../stubs/sendable-seeder-delete.stub'))
             ->replace('{slug}', $slug)
             ->replace('{sendable_model_name}', 'EmailEvent')
             ->replace('{namespace_path}', 'EmailEvents')
