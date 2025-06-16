@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\File;
 use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\Models\EmailVariant;
 use Prajwal89\EmailManagement\Services\FileManagers\EmailHandlerFileManager;
+use Prajwal89\EmailManagement\Services\FileManagers\EmailViewFileManager;
 use Prajwal89\EmailManagement\Services\FileManagers\MailableClassFileManager;
 use Prajwal89\EmailManagement\Services\FileManagers\SeederFileManager;
 
@@ -113,28 +114,10 @@ class CreateEmailEventCommand extends Command
      */
     public function createEmailView(array $data): void
     {
-        $slug = str($data['name'])->slug();
+        $viewFile = (new EmailViewFileManager(EmailEvent::class))
+            ->setAttributes($data)
+            ->generateFile();
 
-        $emailViewFileName = $slug . '-email.blade.php';
-
-        $emailHandlerStub = str(File::get(__DIR__ . '/../../stubs/email-markdown-view.stub'))
-            ->replace('{name}', $data['name']);
-
-        $mailPath = config('email-management.view_dir') . '/emails/email-events';
-        $mailViewPath = $mailPath . "/{$emailViewFileName}";
-
-        if (!File::exists($mailPath)) {
-            File::makeDirectory($mailPath, 0755, true);
-        }
-
-        if (File::exists($mailViewPath)) {
-            $this->error("Mail View file already exists: {$mailViewPath}");
-
-            return;
-        }
-
-        File::put($mailViewPath, $emailHandlerStub);
-
-        $this->info("Created MailView file: {$mailViewPath}");
+        $this->info("Created Mail View file: {$viewFile}.php");
     }
 }
