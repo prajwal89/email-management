@@ -22,7 +22,7 @@ class PreviewEmailPage extends Page
 
     public EmailEvent $record;
 
-    public function getTitle(): string | Htmlable
+    public function getTitle(): string|Htmlable
     {
         return $this->record->name;
     }
@@ -41,7 +41,7 @@ class PreviewEmailPage extends Page
                         ->label('Email Variant')
                         ->options(function () {
                             return $this->record->emailVariants->pluck('name', 'id');
-                        })
+                        }),
                 ])
                 ->action(function (array $data): void {
 

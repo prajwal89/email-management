@@ -47,7 +47,7 @@ class EmailVariantsRelationManager extends RelationManager
                     ->suffix('%'),
                 IconColumn::make('is_paused')->label('Paused'),
                 IconColumn::make('is_winner')->label('Winner')
-                    ->tooltip("Winner for this AB test"),
+                    ->tooltip('Winner for this AB test'),
                 TextColumn::make('email_logs_count')
                     ->label('Sent')
                     ->counts('emailLogs'),
@@ -70,7 +70,7 @@ class EmailVariantsRelationManager extends RelationManager
 
                         return number_format($ctr, 2);
                     })
-                    ->suffix('%')
+                    ->suffix('%'),
             ])
             ->filters([
                 //
