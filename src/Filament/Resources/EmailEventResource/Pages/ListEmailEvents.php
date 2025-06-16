@@ -21,6 +21,7 @@ class ListEmailEvents extends ListRecords
         return [
             Action::make('create')
                 ->icon('heroicon-o-plus')
+                ->outlined()
                 ->label('Create Email Event')
                 ->modalHeading('Instructions for Creating an Email Event')
                 ->modalContent(function (): Htmlable {

@@ -22,6 +22,7 @@ class ListEmailCampaigns extends ListRecords
         return [
             Action::make('create')
                 ->icon('heroicon-o-plus')
+                ->outlined()
                 ->label('Create Email Campaign')
                 ->modalHeading('Instructions for Creating an Email Campaign')
                 ->modalContent(function (): Htmlable {

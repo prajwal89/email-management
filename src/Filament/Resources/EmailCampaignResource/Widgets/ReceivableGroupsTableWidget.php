@@ -28,7 +28,8 @@ class ReceivableGroupsTableWidget extends BaseWidget
             ->headerActions([
                 Action::make('create')
                     ->icon('heroicon-o-plus')
-                    ->label('Create New Group')
+                    ->outlined()
+                    ->label('Create Group')
                     ->modalHeading('Instructions for Creating New Group')
                     ->modalContent(function (): Htmlable {
                         return new HtmlString(Helper::getCommandSignature(CreateReceivableGroupCommand::class));
