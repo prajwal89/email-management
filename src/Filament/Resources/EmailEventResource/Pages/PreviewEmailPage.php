@@ -19,17 +19,17 @@ class PreviewEmailPage extends Page
 
     public EmailEvent $record;
 
-    public string $emailContent;
-
     public function mount(): void
     {
-        // @var Mailable
-        $email = $this->record->resolveEmailHandler()::buildSampleEmail();
+        // $this->record->load('sendable');
 
-        // dd($this->record->emailVariants->first()->resolveEmailHandler());
+        // @var Mailable
+        // $email = $this->record->resolveEmailHandler()::buildSampleEmail();
+
+        // dd($this->record->emailVariants()->with('sendable')->first()->resolveEmailHandler());
         // dd($email->render());
 
-        $this->emailContent = $email->render();
+        // $this->emailContent = $email->render();
     }
 
     protected function getHeaderActions(): array

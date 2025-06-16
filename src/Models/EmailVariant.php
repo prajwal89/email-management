@@ -100,4 +100,9 @@ class EmailVariant extends Model
     {
         return 'email-management::emails.email-events.' . $this->emailViewName();
     }
+
+    public function resolveEmailHandler(): string
+    {
+        return $this->sendable->resolveEmailHandler();
+    }
 }

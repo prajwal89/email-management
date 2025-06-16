@@ -206,14 +206,16 @@ abstract class EmailHandlerBase
     /**
      * Builds the email instance for preview.
      */
-    public static function buildSampleEmail(): Mailable
+    public static function buildSampleEmail(?EmailVariant $emailVariant = null): Mailable
     {
         $sampleEmailData = static::sampleEmailData();
 
-        // ! resolve this automatically
-        // make sendable slug static so we can access it here
         if (!isset($sampleEmailData['emailVariant'])) {
             $sampleEmailData['emailVariant'] = self::resolveSendable()->defaultEmailVariant;
+        }
+
+        if ($emailVariant) {
+            $sampleEmailData['emailVariant'] = $emailVariant;
         }
 
         $sampleBuildEmail = new static::$mail(
