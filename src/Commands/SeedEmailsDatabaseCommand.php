@@ -73,17 +73,27 @@ class SeedEmailsDatabaseCommand extends Command
 
         $allFiles = File::allFiles($directory);
 
-        foreach ($allFiles as $file) {
-            $className = pathinfo($file->getFilename(), PATHINFO_FILENAME);
+        $groupedFiles = collect($allFiles)->groupBy(function (SplFileInfo $file) {
+            return str($file->getFilename())->endsWith('DeleteSeeder.php') ? 'delete' : 'create';
+        })
+            ->sortBy(function ($_, $key) {
+                return $key === 'create' ? 0 : 1;
+            });
 
-            $fullClassName = 'Database\\Seeders\\EmailManagement\\EmailCampaigns\\' . $className;
+        // seed create files first then run delete seeders
+        foreach ($groupedFiles as $groupFiles) {
+            foreach ($groupFiles as $file) {
+                $fullClassName = 'Database\\Seeders\\EmailManagement\\EmailCampaigns\\' . $file->getBasename('.php');
 
-            if (class_exists($fullClassName)) {
-                (new $fullClassName)->run();
-            } else {
-                $this->fail("Class {$fullClassName} does not exist.");
+                if (class_exists($fullClassName)) {
+                    (new $fullClassName)->run();
+                } else {
+                    $this->fail("Class {$fullClassName} does not exist.");
+                }
             }
         }
+
+        $this->info('Seeded email campaigns');
     }
 
     public function seedEmailVariants()
@@ -98,16 +108,26 @@ class SeedEmailsDatabaseCommand extends Command
 
         $allFiles = File::allFiles($directory);
 
-        foreach ($allFiles as $file) {
-            $className = pathinfo($file->getFilename(), PATHINFO_FILENAME);
+        $groupedFiles = collect($allFiles)->groupBy(function (SplFileInfo $file) {
+            return str($file->getFilename())->endsWith('DeleteSeeder.php') ? 'delete' : 'create';
+        })
+            ->sortBy(function ($_, $key) {
+                return $key === 'create' ? 0 : 1;
+            });
 
-            $fullClassName = 'Database\\Seeders\\EmailManagement\\EmailVariants\\' . $className;
+        // seed create files first then run delete seeders
+        foreach ($groupedFiles as $groupFiles) {
+            foreach ($groupFiles as $file) {
+                $fullClassName = 'Database\\Seeders\\EmailManagement\\EmailVariants\\' . $file->getBasename('.php');
 
-            if (class_exists($fullClassName)) {
-                (new $fullClassName)->run();
-            } else {
-                $this->fail("Class {$fullClassName} does not exist.");
+                if (class_exists($fullClassName)) {
+                    (new $fullClassName)->run();
+                } else {
+                    $this->fail("Class {$fullClassName} does not exist.");
+                }
             }
         }
+
+        $this->info('Seeded email variants');
     }
 }
