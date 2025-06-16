@@ -33,6 +33,13 @@ class SeederFileManager
         //
     }
 
+    public function setAttributes(array $attributes)
+    {
+        $this->modelAttributes = $attributes;
+
+        return $this;
+    }
+
     public function setSendableType(string $sendableType)
     {
         $this->sendableType = $sendableType;
@@ -43,13 +50,6 @@ class SeederFileManager
     public function setSendableSlug(string $sendableSlug)
     {
         $this->sendableSlug = $sendableSlug;
-
-        return $this;
-    }
-
-    public function setAttributes(array $attributes)
-    {
-        $this->modelAttributes = $attributes;
 
         return $this;
     }
