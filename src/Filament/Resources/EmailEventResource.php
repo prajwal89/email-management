@@ -69,7 +69,7 @@ class EmailEventResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                TrashedFilter::make(),
+                //
             ])
             ->actions([
                 EditAction::make(),
@@ -82,11 +82,11 @@ class EmailEventResource extends Resource
                     ->openUrlInNewTab(),
             ])
             ->bulkActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                    ForceDeleteBulkAction::make(),
-                    RestoreBulkAction::make(),
-                ]),
+                // BulkActionGroup::make([
+                //     DeleteBulkAction::make(),
+                //     ForceDeleteBulkAction::make(),
+                //     RestoreBulkAction::make(),
+                // ]),
             ])
             ->defaultSort('created_at', 'desc');
     }
@@ -106,13 +106,5 @@ class EmailEventResource extends Resource
             'edit' => EditEmailEvent::route('/{record}/edit'),
             'preview-email' => PreviewEmailPage::route('/{record}/preview-email'),
         ];
-    }
-
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()
-            ->withoutGlobalScopes([
-                SoftDeletingScope::class,
-            ]);
     }
 }

@@ -80,7 +80,7 @@ class EmailCampaignResource extends Resource
                     }),
             ])
             ->filters([
-                TrashedFilter::make(),
+                // 
             ])
             ->actions([
                 EditAction::make(),
@@ -93,13 +93,7 @@ class EmailCampaignResource extends Resource
                         return self::getUrl('preview-email', ['record' => $record->id]);
                     }),
             ])
-            ->bulkActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                    ForceDeleteBulkAction::make(),
-                    RestoreBulkAction::make(),
-                ]),
-            ]);
+            ->bulkActions([]);
     }
 
     public static function getRelations(): array
@@ -126,13 +120,5 @@ class EmailCampaignResource extends Resource
             'preview-email' => PreviewEmailPage::route('/{record}/preview-email'),
             'start-campaign' => StartCampaignPage::route('/{record}/start'),
         ];
-    }
-
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()
-            ->withoutGlobalScopes([
-                SoftDeletingScope::class,
-            ]);
     }
 }
