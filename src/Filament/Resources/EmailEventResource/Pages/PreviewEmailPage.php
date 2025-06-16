@@ -32,6 +32,8 @@ class PreviewEmailPage extends Page
         return [
             Action::make('send_sample')
                 ->label('Send Sample')
+                ->icon('heroicon-o-paper-airplane')
+                ->outlined()
                 ->form([
                     TextInput::make('email')
                         ->email()
