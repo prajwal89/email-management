@@ -24,7 +24,7 @@ class {seeder_class_name}
                 'name' => '{name}',
                 'exposure_percentage' => {exposure_percentage}
             ]
-        );     
+        );
 
     }
 }

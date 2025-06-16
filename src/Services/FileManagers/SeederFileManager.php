@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Services\FileManagers;
 
-use Exception;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\File;
-use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\Models\EmailVariant;

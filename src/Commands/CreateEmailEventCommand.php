@@ -77,7 +77,7 @@ class CreateEmailEventCommand extends Command
         string $sendableSlug
     ): void {
         $filePath = (new SeederFileManager(EmailVariant::class))
-            ->setAttributes((new EmailVariant())->getDefaultAttributes())
+            ->setAttributes((new EmailVariant)->getDefaultAttributes())
             ->setSendableType($sendableType)
             ->setSendableSlug($sendableSlug)
             ->generateFile();

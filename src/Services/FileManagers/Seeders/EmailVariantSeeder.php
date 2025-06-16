@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Prajwal89\EmailManagement\Services\FileManagers\Seeders;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
-use Prajwal89\EmailManagement\Models\EmailEvent;
 
 class EmailVariantSeeder
 {

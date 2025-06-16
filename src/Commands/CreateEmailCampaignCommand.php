@@ -9,7 +9,6 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Prajwal89\EmailManagement\Models\EmailCampaign;
-use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\Models\EmailVariant;
 use Prajwal89\EmailManagement\Services\FileManagers\SeederFileManager;
 
@@ -77,7 +76,7 @@ class CreateEmailCampaignCommand extends Command
         string $sendableSlug
     ): void {
         $filePath = (new SeederFileManager(EmailVariant::class))
-            ->setAttributes((new EmailVariant())->getDefaultAttributes())
+            ->setAttributes((new EmailVariant)->getDefaultAttributes())
             ->setSendableType($sendableType)
             ->setSendableSlug($sendableSlug)
             ->generateFile();
