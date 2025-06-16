@@ -7,13 +7,8 @@ namespace Prajwal89\EmailManagement\Services\FileManagers;
 use Illuminate\Database\Eloquent\Model;
 use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailEvent;
-use Prajwal89\EmailManagement\Models\EmailVariant;
 use Prajwal89\EmailManagement\Services\FileManagers\MailableClass\EmailCampaignMailableClass;
 use Prajwal89\EmailManagement\Services\FileManagers\MailableClass\EmailEventMailableClass;
-use Prajwal89\EmailManagement\Services\FileManagers\Seeders\EmailCampaignSeeder;
-use Prajwal89\EmailManagement\Services\FileManagers\Seeders\EmailEventSeeder;
-use Prajwal89\EmailManagement\Services\FileManagers\Seeders\EmailVariantSeeder;
-
 
 class MailableClassFileManager
 {

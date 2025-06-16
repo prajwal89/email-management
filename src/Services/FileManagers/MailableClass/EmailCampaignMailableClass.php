@@ -7,7 +7,6 @@ namespace Prajwal89\EmailManagement\Services\FileManagers\MailableClass;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
-use Prajwal89\EmailManagement\Models\EmailEvent;
 
 class EmailCampaignMailableClass
 {
