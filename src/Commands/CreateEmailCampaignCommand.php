@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\File;
 use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailVariant;
 use Prajwal89\EmailManagement\Services\FileManagers\EmailHandlerFileManager;
+use Prajwal89\EmailManagement\Services\FileManagers\EmailViewFileManager;
 use Prajwal89\EmailManagement\Services\FileManagers\MailableClassFileManager;
 use Prajwal89\EmailManagement\Services\FileManagers\SeederFileManager;
 
@@ -105,34 +106,16 @@ class CreateEmailCampaignCommand extends Command
         $this->info("Created Mailable Class file: {$mailableClassFile}.php");
     }
 
+
     /**
      * markdown view for email
      */
     public function createEmailView(array $data): void
     {
-        $slug = str($data['name'])->slug();
+        $viewFile = (new EmailViewFileManager(EmailCampaign::class))
+            ->setAttributes($data)
+            ->generateFile();
 
-        $emailViewFileName = $slug . '-email.blade.php';
-
-        $emailHandlerStub = str(File::get(__DIR__ . '/../../stubs/email-markdown-view.stub'))
-            ->replace('{name}', $data['name']);
-
-        $mailPath = config('email-management.view_dir') . '/emails/email-campaigns';
-
-        $mailViewPath = $mailPath . "/{$emailViewFileName}";
-
-        if (!File::exists($mailPath)) {
-            File::makeDirectory($mailPath, 0755, true);
-        }
-
-        if (File::exists($mailViewPath)) {
-            $this->error("Mail View file already exists: {$mailViewPath}");
-
-            return;
-        }
-
-        File::put($mailViewPath, $emailHandlerStub);
-
-        $this->info("Created MailView file: {$mailViewPath}");
+        $this->info("Created Mail View file: {$viewFile}.php");
     }
 }
