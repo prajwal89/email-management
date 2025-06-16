@@ -9,6 +9,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Prajwal89\EmailManagement\Models\EmailEvent;
+use Prajwal89\EmailManagement\Services\SeederFileManager;
 
 use function Laravel\Prompts\text;
 use function Laravel\Prompts\textarea;
@@ -62,36 +63,9 @@ class CreateEmailEventCommand extends Command
 
     public function createSeederFile(array $data): void
     {
-        $slug = str($data['name'])->slug();
-
-        // email to be created
-        $seederClassName = $slug->studly() . 'Seeder';
-
-        // migration
-        $seederStub = str(File::get(__DIR__ . '/../../stubs/email-event-seeder.stub'))
-            ->replace('{name}', $data['name'])
-            ->replace('{slug}', $slug)
-            ->replace('{description}', $data['description'])
-            ->replace('{sendable_model_name}', 'EmailEvent')
-            ->replace('{namespace_path}', 'EmailEvents')
-            ->replace('{seeder_class_name}', $seederClassName);
-
-        $seederFileName = "$seederClassName.php";
-
-        $seederPath = config('email-management.seeders_dir') . '/EmailEvents';
-        $filePath = $seederPath . "/{$seederFileName}";
-
-        if (!File::exists($seederPath)) {
-            File::makeDirectory($seederPath, 0755, true);
-        }
-
-        if (File::exists($filePath)) {
-            $this->error("seeder file already exists: {$filePath}");
-
-            return;
-        }
-
-        File::put($filePath, $seederStub);
+        $filePath = (new SeederFileManager(EmailEvent::class))
+            ->setAttributes($data)
+            ->generateFile();
 
         $this->info("Created seeder file: {$filePath}");
     }
