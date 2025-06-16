@@ -20,6 +20,7 @@ class SharedActions
             ->modalHeading('Instructions for Creating an Email Variant')
             ->modalContent(function ($record): Htmlable {
                 $type = str(get_class($record))->afterLast('\\')->toString();
+
                 return new HtmlString(
                     "php artisan em:create-email-variant --sendable_type=$type --sendable_slug={$record->slug}"
                 );
