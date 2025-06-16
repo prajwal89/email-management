@@ -6,9 +6,12 @@ namespace Prajwal89\EmailManagement\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use SplFileInfo;
 
 /**
  * php artisan em:seed-db
+ * 
+ * todo: resolve folders from central location
  */
 class SeedEmailsDatabaseCommand extends Command
 {
@@ -35,15 +38,23 @@ class SeedEmailsDatabaseCommand extends Command
 
         $allFiles = File::allFiles($directory);
 
-        foreach ($allFiles as $file) {
-            $className = pathinfo($file->getFilename(), PATHINFO_FILENAME);
+        $groupedFiles = collect($allFiles)->groupBy(function (SplFileInfo $file) {
+            return str($file->getFilename())->endsWith('DeleteSeeder.php') ? 'delete' : 'create';
+        })
+            ->sortBy(function ($_, $key) {
+                return $key === 'create' ? 0 : 1;
+            });
 
-            $fullClassName = 'Database\\Seeders\\EmailManagement\\EmailEvents\\' . $className;
+        // seed create files first then run delete seeders
+        foreach ($groupedFiles as $groupFiles) {
+            foreach ($groupFiles as $file) {
+                $fullClassName = 'Database\\Seeders\\EmailManagement\\EmailEvents\\' . $file->getBasename('.php');
 
-            if (class_exists($fullClassName)) {
-                (new $fullClassName)->run();
-            } else {
-                $this->fail("Class {$fullClassName} does not exist.");
+                if (class_exists($fullClassName)) {
+                    (new $fullClassName)->run();
+                } else {
+                    $this->fail("Class {$fullClassName} does not exist.");
+                }
             }
         }
 
