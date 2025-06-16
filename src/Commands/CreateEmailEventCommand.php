@@ -88,9 +88,11 @@ class CreateEmailEventCommand extends Command
 
     public function createEmailHandlerClassFile(array $data): void
     {
-        (new EmailHandlerFileManager(EmailEvent::class))
+        $emailHandlerFile = (new EmailHandlerFileManager(EmailEvent::class))
             ->setAttributes($data)
             ->generateFile();
+
+        $this->info("Created Email Handler: {$emailHandlerFile}");
     }
 
     /**

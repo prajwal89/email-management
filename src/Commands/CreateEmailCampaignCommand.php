@@ -85,9 +85,11 @@ class CreateEmailCampaignCommand extends Command
 
     public function createEmailHandlerClassFile(array $data): void
     {
-        (new EmailHandlerFileManager(EmailCampaign::class))
+        $emailHandlerFile = (new EmailHandlerFileManager(EmailCampaign::class))
             ->setAttributes($data)
             ->generateFile();
+
+        $this->info("Created Email Handler: {$emailHandlerFile}");
     }
 
     /**
