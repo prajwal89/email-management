@@ -23,7 +23,7 @@ class EmailVariantService
         array $find,
         array $attributes,
     ): EmailVariant {
-        $emailVariant = EmailVariant::query()->where($find)->first();
+        $emailVariant = $sendable->emailVariants()->where($find)->first();
 
         if ($emailVariant) {
             return $emailVariant;
@@ -41,7 +41,7 @@ class EmailVariantService
 
     public static function destroy(EmailVariant $emailVariant)
     {
-        $filePath = (new SeederFileManager($emailVariant))->generateDeleteRecordFile();
+        $filePath = (new SeederFileManager($emailVariant))->generateDeleteSeederFile();
 
         dd($filePath);
     }

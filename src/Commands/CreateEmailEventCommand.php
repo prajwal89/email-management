@@ -48,8 +48,7 @@ class CreateEmailEventCommand extends Command
 
         $this->createSeederFile($data);
 
-        // create default email variant
-        $this->createEmailVariantSeederFile($data, EmailEvent::class, $slug->toString());
+        $this->createDefaultEmailVariantSeederFile(EmailEvent::class, $slug->toString());
 
         $this->createEmailHandlerClassFile($data);
         $this->createEmailClass($data);
@@ -70,11 +69,10 @@ class CreateEmailEventCommand extends Command
             ->setAttributes($data)
             ->generateFile();
 
-        $this->info("Created seeder file: {$filePath}");
+        $this->info("Created Seeder file: {$filePath}");
     }
 
-    public function createEmailVariantSeederFile(
-        array $data,
+    public function createDefaultEmailVariantSeederFile(
         string $sendableType,
         string $sendableSlug
     ): void {

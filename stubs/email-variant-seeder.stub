@@ -12,7 +12,7 @@ class {seeder_class_name}
     public function run()
     {
         $sendable = {sendable_type}::query()
-            ->where('slug','{sendable_slug}')
+            ->where('slug', '{sendable_slug}')
             ->first();
 
         EmailVariantService::firstOrCreate(
