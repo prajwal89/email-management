@@ -278,9 +278,11 @@ abstract class EmailHandlerBase
     /**
      * Sends a sample email to a specific address.
      */
-    public static function sendSampleEmailTo(string $email): void
-    {
-        Mail::to($email)->send(static::buildSampleEmail());
+    public static function sendSampleEmailTo(
+        string $email,
+        ?EmailVariant $emailVariant = null
+    ): void {
+        Mail::to($email)->send(static::buildSampleEmail($emailVariant));
     }
 
     /**

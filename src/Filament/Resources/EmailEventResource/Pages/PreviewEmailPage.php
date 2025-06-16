@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\Pages;
 
 use Filament\Actions\Action;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
+use Illuminate\Contracts\Support\Htmlable;
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource;
 use Prajwal89\EmailManagement\Models\EmailEvent;
+use Prajwal89\EmailManagement\Models\EmailVariant;
 
 class PreviewEmailPage extends Page
 {
@@ -19,17 +22,9 @@ class PreviewEmailPage extends Page
 
     public EmailEvent $record;
 
-    public function mount(): void
+    public function getTitle(): string | Htmlable
     {
-        // $this->record->load('sendable');
-
-        // @var Mailable
-        // $email = $this->record->resolveEmailHandler()::buildSampleEmail();
-
-        // dd($this->record->emailVariants()->with('sendable')->first()->resolveEmailHandler());
-        // dd($email->render());
-
-        // $this->emailContent = $email->render();
+        return $this->record->name;
     }
 
     protected function getHeaderActions(): array
@@ -42,9 +37,19 @@ class PreviewEmailPage extends Page
                         ->email()
                         ->required()
                         ->default(config('custom.admin_email')),
+                    Select::make('email_variant_id')
+                        ->label('Email Variant')
+                        ->options(function () {
+                            return $this->record->emailVariants->pluck('name', 'id');
+                        })
                 ])
                 ->action(function (array $data): void {
-                    $this->record->resolveEmailHandler()::sendSampleEmailTo($data['email']);
+
+                    $emailVariant = EmailVariant::find($data['email_variant_id']);
+
+                    $this
+                        ->record
+                        ->resolveEmailHandler()::sendSampleEmailTo($data['email'], $emailVariant);
 
                     Notification::make()
                         ->success()
@@ -52,10 +57,5 @@ class PreviewEmailPage extends Page
                         ->send();
                 }),
         ];
-    }
-
-    public function getTitle(): string
-    {
-        return 'Preview Email';
     }
 }
