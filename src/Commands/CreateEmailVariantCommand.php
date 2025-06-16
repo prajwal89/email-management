@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Prajwal89\EmailManagement\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\Models\EmailVariant;
+use Prajwal89\EmailManagement\Services\FileManagers\EmailViewFileManager;
 use Prajwal89\EmailManagement\Services\FileManagers\SeederFileManager;
 
 use function Laravel\Prompts\info;
@@ -106,7 +108,7 @@ class CreateEmailVariantCommand extends Command
             $eventId = search(
                 label: 'Which email event does this variant belong to?',
                 placeholder: 'Start typing to search for an event...',
-                options: fn (string $value) => strlen($value) > 0
+                options: fn(string $value) => strlen($value) > 0
                     ? $sendableModel::where('name', 'like', "%{$value}%")->pluck('name', 'id')->all()
                     : $events->all(),
                 scroll: 10
@@ -138,7 +140,7 @@ class CreateEmailVariantCommand extends Command
             placeholder: 'Enter a number between 0 and 100',
             required: true,
             default: '50',
-            validate: fn (string $value) => match (true) {
+            validate: fn(string $value) => match (true) {
                 !is_numeric($value) => 'The value must be a number.',
                 $value < 0 => 'The percentage cannot be less than 0.',
                 $value > 100 => 'The percentage cannot be greater than 100.',
@@ -171,52 +173,20 @@ class CreateEmailVariantCommand extends Command
         return self::SUCCESS;
     }
 
-    // public function createSeederFile(
-    //     EmailSendable $sendable,
-    //     array $data
-    // ): void {
-    //     $slug = str($data['name'])->slug();
-
-    //     $seederClassName = str($sendable->slug)->studly() . $slug->studly() . 'Seeder';
-
-    //     $seederStub = str(File::get(__DIR__ . '/../../stubs/email-variant-seeder.stub'))
-    //         ->replace('{name}', $data['name'])
-    //         ->replace('{slug}', $slug)
-    //         ->replace('{exposure_percentage}', $data['exposure_percentage'])
-    //         ->replace('{seeder_class_name}', $seederClassName)
-
-    //         // ->replace('{sendable_class_name}', basename($sendable))
-    //         ->replace('{sendable_type}', class_basename($sendable))
-    //         ->replace('{sendable_slug}', $sendable->slug);
-
-    //     $seederFileName = "$seederClassName.php";
-
-    //     $seederPath = config('email-management.seeders_dir') . '/EmailVariants';
-
-    //     $filePath = $seederPath . "/{$seederFileName}";
-
-    //     if (!File::exists($seederPath)) {
-    //         File::makeDirectory($seederPath, 0755, true);
-    //     }
-
-    //     if (File::exists($filePath)) {
-    //         $this->error("seeder file already exists: {$filePath}");
-
-    //         return;
-    //     }
-
-    //     File::put($filePath, $seederStub);
-
-    //     $this->info("Created seeder file: {$filePath}");
-    // }
-
     /**
      * markdown view for email
      */
     public function createEmailView(
-        EmailSendable $sendable,
+        Model $sendable,
         array $data
     ): void {
+        // todo use file manager
+        // $viewFile = (new EmailViewFileManager($sendable))
+        //     ->setAttributes($data)
+        //     ->generateFile();
+
+        // $this->info("Created Mail View file: {$viewFile}.php");
+
         $variantSlug = str($data['name'])->slug();
 
         $emailViewFileName = $sendable->slug . '-' . $variantSlug . '-email.blade.php';
