@@ -16,6 +16,7 @@ use Prajwal89\EmailManagement\Services\FileManagers\SeederFileManager;
 
 use function Laravel\Prompts\info;
 use function Laravel\Prompts\search;
+use function Laravel\Prompts\select;
 use function Laravel\Prompts\text;
 use function Laravel\Prompts\warning;
 
@@ -107,7 +108,7 @@ class CreateEmailVariantCommand extends Command
             $eventId = search(
                 label: 'Which email event does this variant belong to?',
                 placeholder: 'Start typing to search for an event...',
-                options: fn (string $value) => strlen($value) > 0
+                options: fn(string $value) => strlen($value) > 0
                     ? $sendableModel::where('name', 'like', "%{$value}%")->pluck('name', 'id')->all()
                     : $events->all(),
                 scroll: 10
@@ -124,7 +125,6 @@ class CreateEmailVariantCommand extends Command
             info("You have selected the event: '{$selectedEvent->name}'.");
         }
 
-        // --- New prompts for variant details ---
 
         // Ask for the variant's name
         $variantName = text(
@@ -139,7 +139,7 @@ class CreateEmailVariantCommand extends Command
             placeholder: 'Enter a number between 0 and 100',
             required: true,
             default: '50',
-            validate: fn (string $value) => match (true) {
+            validate: fn(string $value) => match (true) {
                 !is_numeric($value) => 'The value must be a number.',
                 $value < 0 => 'The percentage cannot be less than 0.',
                 $value > 100 => 'The percentage cannot be greater than 100.',
@@ -147,9 +147,24 @@ class CreateEmailVariantCommand extends Command
             }
         );
 
+        $contentType = select(
+            label: 'What is the content type for this variant?',
+            options: [
+                'html' => 'HTML',
+                'markdown' => 'Markdown',
+                'text' => 'Plain Text',
+            ],
+            default: 'markdown',
+            required: true,
+            validate: fn(string $value) => in_array($value, ['html', 'markdown', 'text'], true)
+                ? null
+                : 'Invalid content type selected.'
+        );
+
         $filePath = (new SeederFileManager(EmailVariant::class))
             ->setAttributes([
                 'name' => $variantName,
+                'content_type' => $contentType,
                 'exposure_percentage' => $exposurePercentage,
             ])
             ->setSendableType(get_class($selectedEvent))
@@ -180,11 +195,11 @@ class CreateEmailVariantCommand extends Command
         array $data
     ): void {
         // todo use file manager
-        // $viewFile = (new EmailViewFileManager($sendable))
-        //     ->setAttributes($data)
-        //     ->generateFile();
+        $viewFile = (new EmailViewFileManager($sendable))
+            ->setAttributes($data)
+            ->generateFile();
 
-        // $this->info("Created Mail View file: {$viewFile}.php");
+        $this->info("Created Mail View file: {$viewFile}.php");
 
         $variantSlug = str($data['name'])->slug();
 

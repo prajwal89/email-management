@@ -28,7 +28,7 @@ class EmailCampaignSeeder
 
         $seederClassName = $slug->studly() . 'Seeder';
 
-        $fileContents = str(File::get(__DIR__ . '/../../../../stubs/sendable-seeder.stub'))
+        $fileContents = str(File::get(__DIR__ . '/../../../../stubs/seeders/sendable.stub'))
             ->replace('{name}', $this->modelAttributes['name'])
             ->replace('{slug}', $slug)
             ->replace('{description}', $this->modelAttributes['description'])

@@ -25,10 +25,13 @@ class EmailVariantSeeder
 
         $seederClassName = str($this->sendableSlug)->studly() . $slug->studly() . 'Seeder';
 
-        $seederStub = str(File::get(__DIR__ . '/../../../../stubs/email-variant-seeder.stub'))
+        $seederFilePath =  __DIR__ . '/../../../../stubs/seeders/email-variant.stub';
+
+        $seederStub = str(File::get($seederFilePath))
             ->replace('{name}', $this->modelAttributes['name'])
             ->replace('{slug}', $slug)
             ->replace('{exposure_percentage}', $this->modelAttributes['exposure_percentage'])
+            ->replace('{content_type}', $this->modelAttributes['content_type'])
             ->replace('{seeder_class_name}', $seederClassName)
             ->replace('{sendable_type}', str($this->sendableType)->afterLast('\\'))
             ->replace('{sendable_slug}', $this->sendableSlug);
@@ -54,7 +57,6 @@ class EmailVariantSeeder
         return $seederPath;
     }
 
-    // todo
     public function generateDeleteSeederFile()
     {
         $slug = str($this->forModel->slug);

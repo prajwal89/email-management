@@ -23,7 +23,13 @@ class EmailEventEmailView
 
         $emailViewFileName = $slug . '-email.blade.php';
 
-        $emailHandlerStub = str(File::get(__DIR__ . '/../../../../stubs/email-markdown-view.stub'))
+        $seederFilePath = match ($this->modelAttributes['content_type']) {
+            'markdown' => __DIR__ . '/../../../../stubs/email-markdown-view.stub',
+            'html' => __DIR__ . '/../../../../stubs/email-html-view.stub',
+            'text' => __DIR__ . '/../../../../stubs/email-text-view.stub',
+        };
+
+        $emailHandlerStub = str(File::get($seederFilePath))
             ->replace('{name}', $this->modelAttributes['name']);
 
         $mailPath = config('email-management.view_dir') . '/emails/email-events';

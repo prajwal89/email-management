@@ -32,6 +32,7 @@ class EmailVariant extends Model
     protected $fillable = [
         'name',
         'slug',
+        'content_type',
         'sendable_id',
         'sendable_type',
         'is_paused',
@@ -43,6 +44,7 @@ class EmailVariant extends Model
         'name' => 'Default',
         'slug' => 'default',
         'exposure_percentage' => 50,
+        'content_type' => 'markdown',
     ];
 
     public function casts(): array

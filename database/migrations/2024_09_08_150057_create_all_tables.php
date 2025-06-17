@@ -54,6 +54,8 @@ return new class extends Migration
             $table->string('name', 255);
             $table->string('slug', 255);
 
+            $table->enum('content_type', ['html', 'markdown', 'text'])->default('markdown');
+
             $table->unsignedBigInteger('sendable_id')->nullable();
             $table->string('sendable_type')->nullable();
 

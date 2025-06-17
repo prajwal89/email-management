@@ -42,6 +42,7 @@ class EmailVariantsRelationManager extends RelationManager
             ->recordTitleAttribute('name')
             ->columns([
                 TextColumn::make('name'),
+                TextColumn::make('content_type'),
                 TextColumn::make('exposure_percentage')
                     ->label('Exposure')
                     ->suffix('%'),
@@ -55,7 +56,6 @@ class EmailVariantsRelationManager extends RelationManager
                 TextColumn::make('email_visits_count')
                     ->label('Visits')
                     ->counts('emailVisits'),
-
                 TextColumn::make('CTR')
                     ->label('CTR')
                     ->getStateUsing(function ($record) {

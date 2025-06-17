@@ -28,10 +28,13 @@ class EmailEventSeeder
 
         $seederClassName = $slug->studly() . 'Seeder';
 
-        $fileContents = str(File::get(__DIR__ . '/../../../../stubs/sendable-seeder.stub'))
+        $seederFilePath =  __DIR__ . '/../../../../stubs/seeders/sendable.stub';
+
+        $fileContents = str(File::get($seederFilePath))
             ->replace('{name}', $this->modelAttributes['name'])
             ->replace('{slug}', $slug)
             ->replace('{description}', $this->modelAttributes['description'])
+            ->replace('{content_type}', $this->modelAttributes['content_type'])
             ->replace('{sendable_model_name}', 'EmailEvent')
             ->replace('{namespace_path}', 'EmailEvents')
             ->replace('{seeder_class_name}', $seederClassName);
