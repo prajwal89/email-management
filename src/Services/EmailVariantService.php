@@ -46,6 +46,13 @@ class EmailVariantService
             throw new Exception("Email Variants Can Be Deleted from Local Environment Only");
         }
 
+        // todo: delete email view
+        // todo: delete email class
+        $emailViewFilePath = EmailVariant::getEmailViewFilePath(
+            $emailVariant->sendable,
+            $emailVariant->slug
+        );
+
         (new SeederFileManager($emailVariant))->generateDeleteSeederFile();
 
         $exitCode = Artisan::call('em:seed-db');

@@ -7,6 +7,7 @@ namespace Prajwal89\EmailManagement\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 
 /**
  * App\Models\EmEmailVariant
@@ -108,5 +109,29 @@ class EmailVariant extends Model
     public function resolveEmailHandler(): string
     {
         return $this->sendable->resolveEmailHandler();
+    }
+
+    public static function getEmailViewFileName(EmailSendable | string $sendable, $variantSlug)
+    {
+        if ($sendable instanceof Model) {
+            // we are creating new variant except default one
+            return $sendable->slug . '-' . $variantSlug . '-email.blade.php';
+        }
+
+        return $variantSlug . '-email.blade.php';
+    }
+
+    public static function getEmailViewFilePath(EmailSendable | string $sendable, $variantSlug)
+    {
+        $emailViewFileName = self::getEmailViewFileName($sendable, $variantSlug);
+
+        $folderName = match (is_string($sendable) ? $sendable : get_class($sendable)) {
+            EmailEvent::class => 'email-events',
+            EmailCampaign::class => 'email-campaigns',
+        };
+
+        $mailPath = config('email-management.view_dir') . "/emails/$folderName";
+
+        return $mailPath . "/{$emailViewFileName}";
     }
 }

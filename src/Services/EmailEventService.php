@@ -17,14 +17,12 @@ class EmailEventService
 {
     public static function destroy(EmailEvent $emailEvent): bool
     {
-        $handlerPath = self::findEmailHandlerClass($emailEvent);
-        $emailClassFilePath = self::findEmailClassFile($emailEvent);
-        $emailViewFilePath = self::findEmailViewFile($emailEvent);
-
-        $emailEvent->load('sentEmails.emailVisits');
-
         // Do not delete seeder file as they will be deleted in pairs
-        try {
+        DB::transaction(function () use ($emailEvent) {
+            $handlerPath = self::findEmailHandlerClass($emailEvent);
+
+            $emailEvent->load('sentEmails.emailVisits');
+
             DB::beginTransaction();
 
             $emailEvent->emailVariants()->map(function (EmailVariant $emailVariant): void {
@@ -36,27 +34,17 @@ class EmailEventService
                 EmailLogService::destroy($emailLog);
             });
 
-            $emailEvent->delete();
-
             (new SeederFileManager($emailEvent))->generateDeleteSeederFile();
 
+            // this will effectively delete the email event record
             $exitCode = Artisan::call('em:seed-db');
 
             if ($exitCode !== 0) {
-                throw new Exception("command php artisan em:seed-db Failed " . $exitCode);
+                throw new Exception("Command 'php artisan em:seed-db' Failed " . $exitCode);
             }
 
-            File::delete([
-                $handlerPath,
-                $emailClassFilePath,
-                $emailViewFilePath,
-            ]);
-
-            DB::commit();
-        } catch (Exception $e) {
-            DB::rollBack();
-            throw $e;
-        }
+            File::delete([$handlerPath]);
+        });
 
         return true;
     }
@@ -72,31 +60,5 @@ class EmailEventService
         }
 
         return $handlerFilePath;
-    }
-
-    public static function findEmailClassFile(EmailEvent $emailEvent): string
-    {
-        $emailHandlerClassName = str($emailEvent->slug)->studly() . 'Email';
-
-        $mailClassPath = __DIR__ . "/../../src/Mails/EmailEvents/{$emailHandlerClassName}.php";
-
-        if (!File::exists($mailClassPath)) {
-            throw new Exception("$mailClassPath Email class file not found");
-        }
-
-        return $mailClassPath;
-    }
-
-    public static function findEmailViewFile(EmailEvent $emailEvent): string
-    {
-        $emailViewFileName = $emailEvent->slug . '-email.blade.php';
-
-        $mailViewPath = __DIR__ . "/../../resources/views/emails/email-events/{$emailViewFileName}";
-
-        if (!File::exists($mailViewPath)) {
-            throw new Exception("$mailViewPath Email view file not found");
-        }
-
-        return $mailViewPath;
     }
 }

@@ -7,6 +7,7 @@ namespace Prajwal89\EmailManagement\Services\FileManagers\EmailView;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
+use Prajwal89\EmailManagement\Models\EmailVariant;
 
 class EmailEventEmailView
 {
@@ -21,38 +22,31 @@ class EmailEventEmailView
     {
         $slug = str($this->modelAttributes['name'])->slug();
 
-        if ($this->forModel instanceof Model) {
-            // we are creating new variant except default one
-            $emailViewFileName = $this->forModel->slug . '-' . $slug . '-email.blade.php';
-        } else {
-            $emailViewFileName = $slug . '-email.blade.php';
-        }
-
-        $emailViewPath = match ($this->modelAttributes['content_type']) {
+        $stubPath = match ($this->modelAttributes['content_type']) {
             'markdown' => __DIR__ . '/../../../../stubs/email-views/email-markdown-view.stub',
             'html' => __DIR__ . '/../../../../stubs/email-views/email-html-view.stub',
             'text' => __DIR__ . '/../../../../stubs/email-views/email-text-view.stub',
         };
 
-        $emailHandlerStub = str(File::get($emailViewPath))
+        $emailHandlerStub = str(File::get($stubPath))
             ->replace('{name}', trim($this->modelAttributes['name']));
 
-        $mailPath = config('email-management.view_dir') . '/emails/email-events';
+        $emailFilePath = EmailVariant::getEmailViewFilePath($this->forModel, $slug->toString());
 
-        $mailViewPath = $mailPath . "/{$emailViewFileName}";
+        $folderName = dirname($emailFilePath);
 
-        if (!File::exists($mailPath)) {
-            File::makeDirectory($mailPath, 0755, true);
+        if (!File::exists($folderName)) {
+            File::makeDirectory($folderName, 0755, true);
         }
 
-        if (File::exists($mailViewPath)) {
-            throw new Exception("Mail View file already exists: {$mailViewPath}");
+        if (File::exists($emailFilePath)) {
+            throw new Exception("Mail View file already exists: {$emailFilePath}");
 
             return;
         }
 
-        File::put($mailViewPath, $emailHandlerStub);
+        File::put($emailFilePath, $emailHandlerStub);
 
-        return $mailViewPath;
+        return $emailFilePath;
     }
 }
