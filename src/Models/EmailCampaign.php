@@ -96,6 +96,6 @@ class EmailCampaign extends Model implements EmailSendable
 
     public function resolveEmailHandler(): string
     {
-        return 'Modules\\EmailManagement\\MailHandlers\\EmailCampaigns\\' . $this->emailHandlerClassName();
+        return 'App\\EmailManagement\\EmailHandlers\\EmailCampaigns\\' . $this->emailHandlerClassName();
     }
 }

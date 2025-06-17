@@ -75,10 +75,7 @@ class CreateEmailEventCommand extends Command
 
         Artisan::call('em:seed-db');
 
-        $this->info('Implement email view and Check if rending is correctly in filament panel');
-        $this->info('Implement Handler Email Class');
-        $this->info('Test sample email by sending to admin');
-        $this->info("Use in App by: (new $emailHandlerClassName)->send()");
+        $this->info("Use: (new $emailHandlerClassName())->send()");
     }
 
     public function createSeederFile(array $data): void
@@ -97,7 +94,10 @@ class CreateEmailEventCommand extends Command
     ): void {
         $filePath = (new SeederFileManager(EmailVariant::class))
             ->setAttributes(
-                array_merge((new EmailVariant)->getDefaultAttributes(), $data)
+                array_merge(
+                    (new EmailVariant)->getDefaultAttributes(),
+                    ['content_type' => $data['content_type']]
+                )
             )
             ->setSendableType($sendableType)
             ->setSendableSlug($sendableSlug)

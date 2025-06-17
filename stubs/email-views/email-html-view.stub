@@ -1,8 +1,15 @@
 <strong>{name}</strong>
+<br>
+<br>
 
+<p>
 Paragraph
+</p>
+
+<br>
 
 <a href="{{ url('') }}">Visit</a>
+<br>
 
 Thanks,<br>
 {{ config('app.name') }}

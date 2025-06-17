@@ -7,6 +7,7 @@ namespace Prajwal89\EmailManagement\Services\FileManagers\Seeders;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
+use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailEvent;
 
 class EmailCampaignSeeder
@@ -22,8 +23,8 @@ class EmailCampaignSeeder
     {
         $slug = str($this->modelAttributes['name'])->slug();
 
-        if (EmailEvent::query()->where('slug', $slug)->exists()) {
-            throw new Exception('Email Event Name is Taken');
+        if (EmailCampaign::query()->where('slug', $slug)->exists()) {
+            throw new Exception('Email Campaign Name is Taken');
         }
 
         $seederClassName = $slug->studly() . 'Seeder';

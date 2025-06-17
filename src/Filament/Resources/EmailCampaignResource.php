@@ -93,7 +93,8 @@ class EmailCampaignResource extends Resource
             ])
             ->modifyQueryUsing(function ($query) {
                 $query->with(['jobBatch']);
-            });
+            })
+            ->defaultSort('created_at', 'desc');
     }
 
     public static function getRelations(): array

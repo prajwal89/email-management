@@ -6,7 +6,6 @@ namespace App\EmailManagement\EmailHandlers\{sendable_class_name};
 
 use App\Models\User;
 use Override;
-use Illuminate\Mail\Mailable;
 use Prajwal89\EmailManagement\EmailHandlerBase;
 use Prajwal89\EmailManagement\Interfaces\EmailReceivable;
 use {mailable_class_name_space};

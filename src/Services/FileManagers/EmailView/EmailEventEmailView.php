@@ -30,7 +30,7 @@ class EmailEventEmailView
         };
 
         $emailHandlerStub = str(File::get($emailViewPath))
-            ->replace('{name}', $this->modelAttributes['name']);
+            ->replace('{name}', trim($this->modelAttributes['name']));
 
         $mailPath = config('email-management.view_dir') . '/emails/email-events';
 

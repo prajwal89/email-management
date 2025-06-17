@@ -64,19 +64,18 @@ class CreateEmailCampaignCommand extends Command
         }
 
         $this->createSeederFile($data);
-        $this->createDefaultEmailVariantSeederFile(EmailCampaign::class, $slug->toString());
+
+        $this->createDefaultEmailVariantSeederFile($data, EmailCampaign::class, $slug->toString());
 
         $this->createEmailHandlerClassFile($data);
+
         $this->createEmailClass($data);
+
         $this->createEmailView($data);
 
         Artisan::call('em:seed-db');
 
-        $this->info('Run: "php artisan em:seed-db" to seed the Email Event');
-        $this->info('Implement email and Check if rending is correctly in filament panel');
-        $this->info('Implement Handler Email Class');
-        $this->info('Test sample email by sending to admin');
-        $this->info("Use in App by: (new $emailHandlerClassName)->send()");
+        $this->info("Use: (new $emailHandlerClassName())->send()");
     }
 
     public function createSeederFile(array $data): void
@@ -89,12 +88,17 @@ class CreateEmailCampaignCommand extends Command
     }
 
     public function createDefaultEmailVariantSeederFile(
+        array $data,
         string $sendableType,
         string $sendableSlug
     ): void {
         $filePath = (new SeederFileManager(EmailVariant::class))
-            ->setAttributes((new EmailVariant)->getDefaultAttributes())
-            ->setSendableType($sendableType)
+            ->setAttributes(
+                array_merge(
+                    (new EmailVariant)->getDefaultAttributes(),
+                    ['content_type' => $data['content_type']]
+                )
+            )->setSendableType($sendableType)
             ->setSendableSlug($sendableSlug)
             ->generateFile();
 

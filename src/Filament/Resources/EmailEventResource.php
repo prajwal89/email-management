@@ -78,13 +78,6 @@ class EmailEventResource extends Resource
                     })
                     ->openUrlInNewTab(),
             ])
-            ->bulkActions([
-                // BulkActionGroup::make([
-                //     DeleteBulkAction::make(),
-                //     ForceDeleteBulkAction::make(),
-                //     RestoreBulkAction::make(),
-                // ]),
-            ])
             ->defaultSort('created_at', 'desc');
     }
 

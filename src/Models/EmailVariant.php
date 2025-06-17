@@ -97,7 +97,12 @@ class EmailVariant extends Model
 
     public function getFullViewName(): string
     {
-        return 'email-management::emails.email-events.' . $this->emailViewName();
+        $folderName = match (get_class($this->sendable)) {
+            EmailEvent::class => 'email-events',
+            EmailCampaign::class => 'email-campaigns',
+        };
+
+        return "email-management::emails.$folderName.{$this->emailViewName()}";
     }
 
     public function resolveEmailHandler(): string
