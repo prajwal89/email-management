@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Prajwal89\EmailManagement\Services;
 
 use Exception;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Prajwal89\EmailManagement\Models\EmailEvent;
@@ -37,9 +38,13 @@ class EmailEventService
 
             $emailEvent->delete();
 
-            $filePath = (new SeederFileManager($emailEvent))->generateDeleteSeederFile();
+            (new SeederFileManager($emailEvent))->generateDeleteSeederFile();
 
-            dd($filePath);
+            $exitCode = Artisan::call('em:seed-db');
+
+            if ($exitCode !== 0) {
+                throw new Exception("command php artisan em:seed-db Failed " . $exitCode);
+            }
 
             File::delete([
                 $handlerPath,

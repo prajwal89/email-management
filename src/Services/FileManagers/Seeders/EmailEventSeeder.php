@@ -28,9 +28,9 @@ class EmailEventSeeder
 
         $seederClassName = $slug->studly() . 'Seeder';
 
-        $seederFilePath =  __DIR__ . '/../../../../stubs/seeders/sendable-seeder.stub';
+        $stubPath =  __DIR__ . '/../../../../stubs/seeders/sendable-seeder.stub';
 
-        $fileContents = str(File::get($seederFilePath))
+        $fileContents = str(File::get($stubPath))
             ->replace('{name}', $this->modelAttributes['name'])
             ->replace('{slug}', $slug)
             ->replace('{description}', $this->modelAttributes['description'])
@@ -39,25 +39,23 @@ class EmailEventSeeder
             ->replace('{namespace_path}', 'EmailEvents')
             ->replace('{seeder_class_name}', $seederClassName);
 
-        $seederFileName = "$seederClassName.php";
+        $seederFilePath = EmailEvent::getSeederFilePath($slug->toString(), 'create');
 
-        $seederPath = config('email-management.seeders_dir') . '/EmailEvents';
+        $directory = dirname($seederFilePath);
 
-        $filePath = $seederPath . "/{$seederFileName}";
-
-        if (!File::exists($seederPath)) {
-            File::makeDirectory($seederPath, 0755, true);
+        if (!File::exists($directory)) {
+            File::makeDirectory($directory, 0755, true);
         }
 
-        if (File::exists($filePath)) {
-            throw new Exception("Seeder file is already available: {$filePath}");
+        if (File::exists($seederFilePath)) {
+            throw new Exception("Seeder file is already available: {$seederFilePath}");
 
             return;
         }
 
-        File::put($filePath, $fileContents);
+        File::put($seederFilePath, $fileContents);
 
-        return $filePath;
+        return $seederFilePath;
     }
 
     public function generateDeleteSeederFile()
@@ -72,7 +70,7 @@ class EmailEventSeeder
 
         $filePath = $seederPath . "/{$seederFileName}";
 
-        $fileContents = str(File::get(__DIR__ . '/../../../../stubs/sendable-seeder-delete.stub'))
+        $fileContents = str(File::get(__DIR__ . '/../../../../stubs/seeders/sendable-delete-seeder.stub'))
             ->replace('{slug}', $slug)
             ->replace('{sendable_model_name}', 'EmailEvent')
             ->replace('{namespace_path}', 'EmailEvents')

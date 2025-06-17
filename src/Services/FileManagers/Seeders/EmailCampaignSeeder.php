@@ -38,25 +38,23 @@ class EmailCampaignSeeder
             ->replace('{namespace_path}', 'EmailCampaigns')
             ->replace('{seeder_class_name}', $seederClassName);
 
-        $seederFileName = "$seederClassName.php";
+        $seederFilePath = EmailCampaign::getSeederFilePath($slug->toString(), 'create');
 
-        $seederPath = config('email-management.seeders_dir') . '/EmailCampaigns';
+        $directory = dirname($seederFilePath);
 
-        $filePath = $seederPath . "/{$seederFileName}";
-
-        if (!File::exists($seederPath)) {
-            File::makeDirectory($seederPath, 0755, true);
+        if (!File::exists($directory)) {
+            File::makeDirectory($directory, 0755, true);
         }
 
-        if (File::exists($filePath)) {
-            throw new Exception("Seeder file is already available: {$filePath}");
+        if (File::exists($seederFilePath)) {
+            throw new Exception("Seeder file is already available: {$seederFilePath}");
 
             return;
         }
 
-        File::put($filePath, $fileContents);
+        File::put($seederFilePath, $fileContents);
 
-        return $filePath;
+        return $seederFilePath;
     }
 
     public function generateDeleteSeederFile()
@@ -71,7 +69,7 @@ class EmailCampaignSeeder
 
         $filePath = $seederPath . "/{$seederFileName}";
 
-        $fileContents = str(File::get(__DIR__ . '/../../../../stubs/sendable-seeder-delete.stub'))
+        $fileContents = str(File::get(__DIR__ . '/../../../../stubs/seeders/sendable-delete-seeder.stub'))
             ->replace('{slug}', $slug)
             ->replace('{sendable_model_name}', 'EmailCampaign')
             ->replace('{namespace_path}', 'EmailCampaigns')

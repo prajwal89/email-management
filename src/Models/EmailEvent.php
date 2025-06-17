@@ -84,6 +84,17 @@ class EmailEvent extends Model implements EmailSendable
         return 'App\\EmailManagement\\EmailHandlers\\EmailEvents\\' . $this->emailHandlerClassName();
     }
 
+    public static function getSeederFilePath(string $slug, string $type = 'create')
+    {
+        $seederClassName = str($slug)->studly() . 'Seeder';
+
+        $seederFileName = "$seederClassName.php";
+
+        $seederPath = config('email-management.seeders_dir') . '/EmailEvents';
+
+        return $seederPath . "/{$seederFileName}";
+    }
+
     // public function seederFilePath(): string
     // {
     //     $seederClassName = str($this->slug)->studly() . 'Seeder';

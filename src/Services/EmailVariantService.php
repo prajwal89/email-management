@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Services;
 
+use Exception;
+use Illuminate\Support\Facades\Artisan;
 use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 use Prajwal89\EmailManagement\Models\EmailVariant;
 use Prajwal89\EmailManagement\Services\FileManagers\SeederFileManager;
@@ -40,8 +42,18 @@ class EmailVariantService
 
     public static function destroy(EmailVariant $emailVariant)
     {
-        $filePath = (new SeederFileManager($emailVariant))->generateDeleteSeederFile();
+        if (!app()->isLocal()) {
+            throw new Exception("Email Variants Can Be Deleted from Local Environment Only");
+        }
 
-        dd($filePath);
+        (new SeederFileManager($emailVariant))->generateDeleteSeederFile();
+
+        $exitCode = Artisan::call('em:seed-db');
+
+        if ($exitCode !== 0) {
+            throw new Exception("command php artisan em:seed-db Failed " . $exitCode);
+        }
+
+        return true;
     }
 }

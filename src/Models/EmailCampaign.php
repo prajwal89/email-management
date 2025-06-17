@@ -98,4 +98,15 @@ class EmailCampaign extends Model implements EmailSendable
     {
         return 'App\\EmailManagement\\EmailHandlers\\EmailCampaigns\\' . $this->emailHandlerClassName();
     }
+
+    public static function getSeederFilePath(string $slug, string $type = 'create')
+    {
+        $seederClassName = str($slug)->studly() . 'Seeder';
+
+        $seederFileName = "$seederClassName.php";
+
+        $seederPath = config('email-management.seeders_dir') . '/EmailCampaigns';
+
+        return $seederPath . "/{$seederFileName}";
+    }
 }
