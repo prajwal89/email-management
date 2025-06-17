@@ -111,7 +111,7 @@ class EmailVariant extends Model
         return $this->sendable->resolveEmailHandler();
     }
 
-    public static function getEmailViewFileName(EmailSendable | string $sendable, $variantSlug)
+    public static function getEmailViewFileName(EmailSendable|string $sendable, $variantSlug)
     {
         if ($sendable instanceof Model) {
             // we are creating new variant except default one
@@ -121,7 +121,7 @@ class EmailVariant extends Model
         return $variantSlug . '-email.blade.php';
     }
 
-    public static function getEmailViewFilePath(EmailSendable | string $sendable, $variantSlug)
+    public static function getEmailViewFilePath(EmailSendable|string $sendable, $variantSlug)
     {
         $emailViewFileName = self::getEmailViewFileName($sendable, $variantSlug);
 

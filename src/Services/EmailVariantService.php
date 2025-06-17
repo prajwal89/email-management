@@ -43,7 +43,7 @@ class EmailVariantService
     public static function destroy(EmailVariant $emailVariant)
     {
         if (!app()->isLocal()) {
-            throw new Exception("Email Variants Can Be Deleted from Local Environment Only");
+            throw new Exception('Email Variants Can Be Deleted from Local Environment Only');
         }
 
         // todo: delete email view
@@ -58,7 +58,7 @@ class EmailVariantService
         $exitCode = Artisan::call('em:seed-db');
 
         if ($exitCode !== 0) {
-            throw new Exception("command php artisan em:seed-db Failed " . $exitCode);
+            throw new Exception('command php artisan em:seed-db Failed ' . $exitCode);
         }
 
         return true;

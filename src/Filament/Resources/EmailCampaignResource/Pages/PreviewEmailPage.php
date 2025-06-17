@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Filament\Resources\EmailCampaignResource\Pages;
 
-use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\Pages\PreviewEmailPage as PagesPreviewEmailPage;
-use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -13,8 +11,7 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
 use Illuminate\Contracts\Support\Htmlable;
 use Prajwal89\EmailManagement\Filament\Resources\EmailCampaignResource;
-use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource;
-use Prajwal89\EmailManagement\Models\EmailEvent;
+use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailVariant;
 
 class PreviewEmailPage extends Page
