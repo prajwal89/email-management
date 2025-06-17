@@ -127,46 +127,42 @@ class CreateEmailVariantCommand extends Command
 
 
         // Ask for the variant's name
-        $variantName = text(
-            label: 'What is the name for this new email variant?',
-            placeholder: 'Version B',
-            required: 'The variant name is required.'
-        );
+        $data = [
+            'name' => text(
+                label: 'What is the name for this new email variant?',
+                placeholder: 'Version B',
+                required: 'The variant name is required.'
+            ),
+            'exposure_percentage' => text(
+                label: 'What is the exposure percentage for this variant?',
+                placeholder: 'Enter a number between 0 and 100',
+                required: true,
+                default: '50',
+                validate: fn(string $value) => match (true) {
+                    !is_numeric($value) => 'The value must be a number.',
+                    $value < 0 => 'The percentage cannot be less than 0.',
+                    $value > 100 => 'The percentage cannot be greater than 100.',
+                    default => null
+                }
+            ),
+            'content_type' => select(
+                label: 'What is the content type for default variant?',
+                options: [
+                    'html' => 'HTML',
+                    'markdown' => 'Markdown',
+                    'text' => 'Plain Text',
+                ],
+                default: 'markdown',
+                required: true,
+                validate: fn(string $value) => in_array($value, ['html', 'markdown', 'text'], true)
+                    ? null
+                    : 'Invalid content type selected.'
+            )
+        ];
 
-        // Ask for the exposure percentage with validation
-        $exposurePercentage = text(
-            label: 'What is the exposure percentage for this variant?',
-            placeholder: 'Enter a number between 0 and 100',
-            required: true,
-            default: '50',
-            validate: fn(string $value) => match (true) {
-                !is_numeric($value) => 'The value must be a number.',
-                $value < 0 => 'The percentage cannot be less than 0.',
-                $value > 100 => 'The percentage cannot be greater than 100.',
-                default => null
-            }
-        );
-
-        $contentType = select(
-            label: 'What is the content type for this variant?',
-            options: [
-                'html' => 'HTML',
-                'markdown' => 'Markdown',
-                'text' => 'Plain Text',
-            ],
-            default: 'markdown',
-            required: true,
-            validate: fn(string $value) => in_array($value, ['html', 'markdown', 'text'], true)
-                ? null
-                : 'Invalid content type selected.'
-        );
 
         $filePath = (new SeederFileManager(EmailVariant::class))
-            ->setAttributes([
-                'name' => $variantName,
-                'content_type' => $contentType,
-                'exposure_percentage' => $exposurePercentage,
-            ])
+            ->setAttributes($data)
             ->setSendableType(get_class($selectedEvent))
             ->setSendableSlug($selectedEvent->slug)
             ->generateFile();
@@ -174,9 +170,7 @@ class CreateEmailVariantCommand extends Command
         // todo: move to file handlers
         $this->createEmailView(
             sendable: $selectedEvent,
-            data: [
-                'name' => $variantName,
-            ]
+            data: $data
         );
 
         $this->info("Created Email Variant Seeder file: {$filePath}");
@@ -194,41 +188,10 @@ class CreateEmailVariantCommand extends Command
         Model $sendable,
         array $data
     ): void {
-        // todo use file manager
         $viewFile = (new EmailViewFileManager($sendable))
             ->setAttributes($data)
             ->generateFile();
 
         $this->info("Created Mail View file: {$viewFile}.php");
-
-        $variantSlug = str($data['name'])->slug();
-
-        $emailViewFileName = $sendable->slug . '-' . $variantSlug . '-email.blade.php';
-
-        $emailHandlerStub = str(File::get(__DIR__ . '/../../stubs/email-markdown-view.stub'))
-            ->replace('{name}', $data['name']);
-
-        $folderName = match (get_class($sendable)) {
-            EmailEvent::class => 'email-events',
-            EmailCampaign::class => 'email-campaigns',
-        };
-
-        $mailPath = config('email-management.view_dir') . '/emails/' . $folderName;
-
-        $mailViewPath = $mailPath . "/{$emailViewFileName}";
-
-        if (!File::exists($mailPath)) {
-            File::makeDirectory($mailPath, 0755, true);
-        }
-
-        if (File::exists($mailViewPath)) {
-            $this->error("Mail View file already exists: {$mailViewPath}");
-
-            return;
-        }
-
-        File::put($mailViewPath, $emailHandlerStub);
-
-        $this->info("Created MailView file: {$mailViewPath}");
     }
 }

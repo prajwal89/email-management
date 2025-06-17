@@ -21,7 +21,12 @@ class EmailCampaignEmailView
     {
         $slug = str($this->modelAttributes['name'])->slug();
 
-        $emailViewFileName = $slug . '-email.blade.php';
+        if ($this->forModel instanceof Model) {
+            // we are creating new variant except default one
+            $emailViewFileName = $this->forModel->slug . '-' . $slug . '-email.blade.php';
+        } else {
+            $emailViewFileName = $slug . '-email.blade.php';
+        }
 
         $emailViewPath = match ($this->modelAttributes['content_type']) {
             'markdown' => __DIR__ . '/../../../../stubs/email-views/email-markdown-view.stub',

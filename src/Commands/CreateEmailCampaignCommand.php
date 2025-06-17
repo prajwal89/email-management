@@ -41,7 +41,7 @@ class CreateEmailCampaignCommand extends Command
                 required: false
             ),
             'content_type' => select(
-                label: 'What is the content type for this variant?',
+                label: 'What is the content type for default variant?',
                 options: [
                     'html' => 'HTML',
                     'markdown' => 'Markdown',
