@@ -65,7 +65,7 @@ class CreateEmailEventCommand extends Command
 
         $this->createSeederFile($data);
 
-        $this->createDefaultEmailVariantSeederFile(EmailEvent::class, $slug->toString());
+        $this->createDefaultEmailVariantSeederFile($data, EmailEvent::class, $slug->toString());
 
         $this->createEmailHandlerClassFile($data);
 
@@ -91,11 +91,14 @@ class CreateEmailEventCommand extends Command
     }
 
     public function createDefaultEmailVariantSeederFile(
+        array $data,
         string $sendableType,
         string $sendableSlug
     ): void {
         $filePath = (new SeederFileManager(EmailVariant::class))
-            ->setAttributes((new EmailVariant)->getDefaultAttributes())
+            ->setAttributes(
+                array_merge((new EmailVariant)->getDefaultAttributes(), $data)
+            )
             ->setSendableType($sendableType)
             ->setSendableSlug($sendableSlug)
             ->generateFile();
