@@ -32,6 +32,7 @@ class EmailCampaignSeeder
             ->replace('{name}', $this->modelAttributes['name'])
             ->replace('{slug}', $slug)
             ->replace('{description}', $this->modelAttributes['description'])
+            ->replace('{content_type}', $this->modelAttributes['content_type'])
             ->replace('{sendable_model_name}', 'EmailCampaign')
             ->replace('{namespace_path}', 'EmailCampaigns')
             ->replace('{seeder_class_name}', $seederClassName);

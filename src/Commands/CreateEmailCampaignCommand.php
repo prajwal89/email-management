@@ -14,9 +14,13 @@ use Prajwal89\EmailManagement\Services\FileManagers\EmailViewFileManager;
 use Prajwal89\EmailManagement\Services\FileManagers\MailableClassFileManager;
 use Prajwal89\EmailManagement\Services\FileManagers\SeederFileManager;
 
+use function Laravel\Prompts\select;
 use function Laravel\Prompts\text;
 use function Laravel\Prompts\textarea;
 
+/**
+ * php artisan em:create-email-campaign
+ */
 class CreateEmailCampaignCommand extends Command
 {
     protected $signature = 'em:create-email-campaign';
@@ -36,6 +40,19 @@ class CreateEmailCampaignCommand extends Command
                 label: 'Enter Campaign description',
                 required: false
             ),
+            'content_type' => select(
+                label: 'What is the content type for this variant?',
+                options: [
+                    'html' => 'HTML',
+                    'markdown' => 'Markdown',
+                    'text' => 'Plain Text',
+                ],
+                default: 'markdown',
+                required: true,
+                validate: fn(string $value) => in_array($value, ['html', 'markdown', 'text'], true)
+                    ? null
+                    : 'Invalid content type selected.'
+            )
         ];
 
         $slug = str($data['name'])->slug();

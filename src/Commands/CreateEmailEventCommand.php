@@ -14,16 +14,18 @@ use Prajwal89\EmailManagement\Services\FileManagers\EmailViewFileManager;
 use Prajwal89\EmailManagement\Services\FileManagers\MailableClassFileManager;
 use Prajwal89\EmailManagement\Services\FileManagers\SeederFileManager;
 
+use function Laravel\Prompts\select;
 use function Laravel\Prompts\text;
 use function Laravel\Prompts\textarea;
 
+/**
+ * php artisan em:create-email-event
+ */
 class CreateEmailEventCommand extends Command
 {
     protected $signature = 'em:create-email-event';
 
     protected $description = 'Command description';
-
-    // todo setup classnames slug as public properties as we are using it multiple times
 
     public function handle(): void
     {
@@ -35,9 +37,22 @@ class CreateEmailEventCommand extends Command
                 validate: ['name' => 'required|max:40']
             ),
             'description' => textarea(
-                label: 'Enter Event description',
+                label: 'Event Description',
                 required: false
             ),
+            'content_type' => select(
+                label: 'What is the content type for this variant?',
+                options: [
+                    'html' => 'HTML',
+                    'markdown' => 'Markdown',
+                    'text' => 'Plain Text',
+                ],
+                default: 'markdown',
+                required: true,
+                validate: fn(string $value) => in_array($value, ['html', 'markdown', 'text'], true)
+                    ? null
+                    : 'Invalid content type selected.'
+            )
         ];
 
         $slug = str($data['name'])->slug();
@@ -53,10 +68,11 @@ class CreateEmailEventCommand extends Command
         $this->createDefaultEmailVariantSeederFile(EmailEvent::class, $slug->toString());
 
         $this->createEmailHandlerClassFile($data);
+
         $this->createEmailClass($data);
+
         $this->createEmailView($data);
 
-        // seed created email event
         Artisan::call('em:seed-db');
 
         $this->info('Implement email view and Check if rending is correctly in filament panel');
