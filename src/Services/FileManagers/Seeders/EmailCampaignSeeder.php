@@ -19,7 +19,7 @@ class EmailCampaignSeeder
         //
     }
 
-    public function generateSeederFile()
+    public function generateFile()
     {
         $slug = str($this->modelAttributes['name'])->slug();
 

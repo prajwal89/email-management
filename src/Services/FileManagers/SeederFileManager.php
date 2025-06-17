@@ -56,7 +56,7 @@ class SeederFileManager
 
     public function generateFile()
     {
-        return $this->resolveGenerator()->generateSeederFile();
+        return $this->resolveGenerator()->generateFile();
     }
 
     public function generateDeleteSeederFile()
