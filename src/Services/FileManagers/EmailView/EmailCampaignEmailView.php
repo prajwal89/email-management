@@ -23,7 +23,13 @@ class EmailCampaignEmailView
 
         $emailViewFileName = $slug . '-email.blade.php';
 
-        $emailHandlerStub = str(File::get(__DIR__ . '/../../../../stubs/email-markdown-view.stub'))
+        $emailViewPath = match ($this->modelAttributes['content_type']) {
+            'markdown' => __DIR__ . '/../../../../stubs/email-views/email-markdown-view.stub',
+            'html' => __DIR__ . '/../../../../stubs/email-views/email-html-view.stub',
+            'text' => __DIR__ . '/../../../../stubs/email-views/email-text-view.stub',
+        };
+
+        $emailHandlerStub = str(File::get($emailViewPath))
             ->replace('{name}', $this->modelAttributes['name']);
 
         $mailPath = config('email-management.view_dir') . '/emails/email-campaigns';
