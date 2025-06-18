@@ -13,7 +13,9 @@ class EmailEventEmailView
 {
     public function __construct(
         public string|Model $forModel,
-        public array $modelAttributes
+        public array $modelAttributes,
+        public ?string $sendableType,
+        public ?string $sendableSlug,
     ) {
         //
     }
@@ -31,7 +33,11 @@ class EmailEventEmailView
         $emailHandlerStub = str(File::get($stubPath))
             ->replace('{name}', trim($this->modelAttributes['name']));
 
-        $emailFilePath = EmailVariant::getEmailViewFilePath($this->forModel, $slug->toString());
+        $emailFilePath = EmailVariant::getEmailViewFilePath(
+            sendable: $this->forModel,
+            variantSlug: $slug->toString(),
+            sendableSlug: $this->sendableSlug
+        );
 
         $folderName = dirname($emailFilePath);
 

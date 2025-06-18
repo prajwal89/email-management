@@ -49,7 +49,7 @@ class CreateEmailEventCommand extends Command
                 ],
                 default: 'markdown',
                 required: true,
-                validate: fn (string $value) => in_array($value, ['html', 'markdown', 'text'], true)
+                validate: fn(string $value) => in_array($value, ['html', 'markdown', 'text'], true)
                     ? null
                     : 'Invalid content type selected.'
             ),
@@ -130,10 +130,15 @@ class CreateEmailEventCommand extends Command
     /**
      * markdown view for email
      */
-    public function createEmailView(array $data): void
-    {
+    public function createEmailView(
+        array $data,
+        string $sendableType,
+        string $sendableSlug
+    ): void {
         $viewFile = (new EmailViewFileManager(EmailEvent::class))
             ->setAttributes($data)
+            ->setSendableType($sendableType)
+            ->setSendableSlug($sendableSlug)
             ->generateFile();
 
         $this->info("Created Mail View file: {$viewFile}.php");

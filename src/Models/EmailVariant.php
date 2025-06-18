@@ -111,8 +111,11 @@ class EmailVariant extends Model
         return $this->sendable->resolveEmailHandler();
     }
 
-    public static function getEmailViewFileName(EmailSendable|string $sendable, $variantSlug)
-    {
+    public static function getEmailViewFileName(
+        EmailSendable|string $sendable,
+        string $variantSlug,
+        ?string $sendableSlug = null
+    ) {
         if ($sendable instanceof Model) {
             if ($variantSlug !== 'default') {
                 return $sendable->slug . '-' . $variantSlug . '-email.blade.php';
@@ -121,12 +124,19 @@ class EmailVariant extends Model
             return $sendable->slug . '-email.blade.php';
         }
 
+        if ($sendableSlug) {
+            return $sendableSlug . '-' . $variantSlug . '-email.blade.php';
+        }
+
         return $sendable . '-email.blade.php';
     }
 
-    public static function getEmailViewFilePath(EmailSendable|string $sendable, $variantSlug)
-    {
-        $emailViewFileName = self::getEmailViewFileName($sendable, $variantSlug);
+    public static function getEmailViewFilePath(
+        EmailSendable|string $sendable,
+        $variantSlug,
+        $sendableSlug
+    ) {
+        $emailViewFileName = self::getEmailViewFileName($sendable, $variantSlug, $sendableSlug);
 
         $folderName = match (is_string($sendable) ? $sendable : get_class($sendable)) {
             EmailEvent::class => 'email-events',
