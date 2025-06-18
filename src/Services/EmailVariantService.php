@@ -47,7 +47,6 @@ class EmailVariantService
             throw new Exception('Email Variants Can Be Deleted from Local Environment Only');
         }
 
-        // todo: delete email view
         $emailViewFilePath = EmailVariant::getEmailViewFilePath(
             $emailVariant->sendable,
             $emailVariant->slug,
@@ -57,6 +56,7 @@ class EmailVariantService
 
         File::delete($emailViewFilePath);
 
+        (new SeederFileManager($emailVariant->sendable))->generateDeleteSeederFile();
         (new SeederFileManager($emailVariant))->generateDeleteSeederFile();
 
         // effectively deleted the email variant record

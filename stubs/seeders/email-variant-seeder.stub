@@ -15,6 +15,10 @@ class {seeder_class_name}
             ->where('slug', '{sendable_slug}')
             ->first();
 
+        if (!$sendable) {
+            return;
+        }
+
         EmailVariantService::firstOrCreate(
             sendable: $sendable,
             find: [
