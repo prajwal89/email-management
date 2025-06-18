@@ -47,7 +47,7 @@ class EmailEventService
 
             File::delete([
                 $handlerPath,
-                $mailableClassPath
+                $mailableClassPath,
             ]);
         });
 

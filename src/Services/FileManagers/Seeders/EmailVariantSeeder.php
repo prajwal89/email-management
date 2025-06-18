@@ -23,7 +23,7 @@ class EmailVariantSeeder
     public function generateFile()
     {
         if (is_null($this->sendableSlug) || is_null($this->sendableType)) {
-            throw new LogicException("Sendable Slug and Type Required");
+            throw new LogicException('Sendable Slug and Type Required');
         }
 
         $slug = str($this->modelAttributes['name'])->slug();
