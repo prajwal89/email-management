@@ -134,7 +134,7 @@ class EmailVariant extends Model
     public static function getEmailViewFilePath(
         EmailSendable|string $sendable,
         string $variantSlug,
-        ?string $sendableSlug
+        ?string $sendableSlug = null
     ) {
         $emailViewFileName = self::getEmailViewFileName($sendable, $variantSlug, $sendableSlug);
 

@@ -50,7 +50,7 @@ class EmailVariantService
         // todo: delete email view
         $emailViewFilePath = EmailVariant::getEmailViewFilePath(
             $emailVariant->sendable,
-            $emailVariant->slug
+            $emailVariant->slug,
         );
 
         $exitCode = Artisan::call('em:seed-db');

@@ -83,7 +83,7 @@ class EmailEventSeeder
         }
 
         if (File::exists($filePath)) {
-            throw new Exception("Delete Seeder file is already available: {$filePath}");
+            // throw new Exception("Delete Seeder file is already available: {$filePath}");
 
             return;
         }
