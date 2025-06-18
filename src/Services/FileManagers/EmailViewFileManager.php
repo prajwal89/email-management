@@ -14,12 +14,10 @@ class EmailViewFileManager
 {
     public array $modelAttributes = [];
 
-    public ?string $sendableType = null;
-
-    public ?string $sendableSlug = null;
-
     public function __construct(
-        public string|Model $forModel
+        public string|Model $forModel,
+        public string $sendableSlug,
+        public string $variantSlug,
     ) {
         //
     }
@@ -27,20 +25,6 @@ class EmailViewFileManager
     public function setAttributes(array $attributes)
     {
         $this->modelAttributes = $attributes;
-
-        return $this;
-    }
-
-    public function setSendableType(string $sendableType)
-    {
-        $this->sendableType = $sendableType;
-
-        return $this;
-    }
-
-    public function setSendableSlug(string $sendableSlug)
-    {
-        $this->sendableSlug = $sendableSlug;
 
         return $this;
     }
@@ -54,17 +38,17 @@ class EmailViewFileManager
     {
         return match (is_string(($this->forModel)) ? $this->forModel : get_class($this->forModel)) {
             EmailEvent::class => new EmailEventEmailView(
-                $this->forModel,
-                $this->modelAttributes,
-                $this->sendableType,
-                $this->sendableSlug,
+                forModel: $this->forModel,
+                modelAttributes: $this->modelAttributes,
+                sendableSlug: $this->sendableSlug,
+                variantSlug: $this->variantSlug
             ),
-            EmailCampaign::class => new EmailCampaignEmailView(
-                $this->forModel,
-                $this->modelAttributes,
-                $this->sendableSlug,
-                $this->sendableSlug,
-            ),
+            // EmailCampaign::class => new EmailCampaignEmailView(
+            //     $this->forModel,
+            //     $this->modelAttributes,
+            //     $this->sendableSlug,
+            //     $this->sendableSlug,
+            // ),
         };
     }
 }

@@ -71,7 +71,10 @@ class CreateEmailEventCommand extends Command
 
         $this->createEmailClass($data);
 
-        $this->createEmailView($data);
+        $this->createEmailView(
+            modelAttributes: $data,
+            sendableSlug: $slug->toString()
+        );
 
         Artisan::call('em:seed-db');
 
@@ -128,17 +131,19 @@ class CreateEmailEventCommand extends Command
     }
 
     /**
-     * markdown view for email
+     * ! technically this is for default email view
      */
     public function createEmailView(
-        array $data,
-        string $sendableType,
-        string $sendableSlug
+        array $modelAttributes,
+        string $sendableSlug,
+        string $variantSlug = 'default',
     ): void {
-        $viewFile = (new EmailViewFileManager(EmailEvent::class))
-            ->setAttributes($data)
-            ->setSendableType($sendableType)
-            ->setSendableSlug($sendableSlug)
+        $viewFile = (new EmailViewFileManager(
+            forModel: EmailEvent::class,
+            sendableSlug: $sendableSlug,
+            variantSlug: $variantSlug
+        ))
+            ->setAttributes($modelAttributes)
             ->generateFile();
 
         $this->info("Created Mail View file: {$viewFile}.php");

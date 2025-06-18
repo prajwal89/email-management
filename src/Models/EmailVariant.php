@@ -124,17 +124,17 @@ class EmailVariant extends Model
             return $sendable->slug . '-email.blade.php';
         }
 
-        if ($sendableSlug) {
+        if ($sendableSlug && $variantSlug !== 'default') {
             return $sendableSlug . '-' . $variantSlug . '-email.blade.php';
         }
 
-        return $sendable . '-email.blade.php';
+        return $sendableSlug . '-email.blade.php';
     }
 
     public static function getEmailViewFilePath(
         EmailSendable|string $sendable,
-        $variantSlug,
-        $sendableSlug
+        string $variantSlug,
+        ?string $sendableSlug
     ) {
         $emailViewFileName = self::getEmailViewFileName($sendable, $variantSlug, $sendableSlug);
 
