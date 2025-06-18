@@ -118,4 +118,18 @@ class EmailCampaign extends Model implements EmailSendable
 
         return $handlerPath . "/{$emailHandlerClassName}.php";
     }
+
+    public static function getMailableClassName(string $slug)
+    {
+        return str($slug)->studly() . 'Email';
+    }
+
+    public static function getMailableClassPath(string $slug)
+    {
+        $emailClassName = self::getMailableClassName($slug);
+
+        $mailPath = config('email-management.mail_classes_path') . '/EmailCampaigns';
+
+        return $mailPath . "/{$emailClassName}.php";
+    }
 }

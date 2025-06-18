@@ -55,6 +55,7 @@ class EmailVariantService
 
         (new SeederFileManager($emailVariant))->generateDeleteSeederFile();
 
+        // effectively deleted the email variant record
         $exitCode = Artisan::call('em:seed-db');
 
         if ($exitCode !== 0) {

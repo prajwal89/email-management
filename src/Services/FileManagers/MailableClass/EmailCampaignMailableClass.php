@@ -7,6 +7,7 @@ namespace Prajwal89\EmailManagement\Services\FileManagers\MailableClass;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
+use Prajwal89\EmailManagement\Models\EmailCampaign;
 
 class EmailCampaignMailableClass
 {
@@ -21,7 +22,7 @@ class EmailCampaignMailableClass
     {
         $slug = str($this->modelAttributes['name'])->slug();
 
-        $emailClassName = $slug->studly() . 'Email';
+        $emailClassName = EmailCampaign::getMailableClassName($slug->toString());
 
         $emailViewName = $slug . '-email';
 
@@ -32,20 +33,20 @@ class EmailCampaignMailableClass
             ->replace('{email_subject}', $this->modelAttributes['name'])
             ->replace('{email_view_file_name}', $emailViewName);
 
-        $mailPath = config('email-management.mail_classes_path') . '/EmailCampaigns';
+        $mailableClassPath = EmailCampaign::getMailableClassPath($slug->toString());
 
-        $mailClassPath = $mailPath . "/{$emailClassName}.php";
+        $mailPath = dirname($mailableClassPath);
 
         if (!File::exists($mailPath)) {
             File::makeDirectory($mailPath, 0755, true);
         }
 
-        if (File::exists($mailClassPath)) {
-            throw new Exception("Mail Class file already exists: {$mailClassPath}");
+        if (File::exists($mailableClassPath)) {
+            throw new Exception("Mail Class file already exists: {$mailableClassPath}");
         }
 
-        File::put($mailClassPath, $emailHandlerStub);
+        File::put($mailableClassPath, $emailHandlerStub);
 
-        return $mailClassPath;
+        return $mailableClassPath;
     }
 }

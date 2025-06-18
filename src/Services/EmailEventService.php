@@ -19,8 +19,6 @@ class EmailEventService
     {
         // Do not delete seeder file as they will be deleted in pairs
         DB::transaction(function () use ($emailEvent) {
-            $handlerPath = self::findEmailHandlerClass($emailEvent);
-
             $emailEvent->load('sentEmails.emailVisits');
 
             DB::beginTransaction();
@@ -43,22 +41,18 @@ class EmailEventService
                 throw new Exception("Command 'php artisan em:seed-db' Failed " . $exitCode);
             }
 
-            File::delete([$handlerPath]);
+            // delete email handler
+            $handlerPath = EmailEvent::getEmailHandlerFilePath($emailEvent->slug);
+
+            // delete mailable class
+            $mailableClassPath = EmailEvent::getMailableClassPath($emailEvent->slug);
+
+            File::delete([
+                $handlerPath,
+                $mailableClassPath
+            ]);
         });
 
         return true;
-    }
-
-    public static function findEmailHandlerClass(EmailEvent $emailEvent): string
-    {
-        $emailHandlerClassName = str($emailEvent->slug)->studly() . 'EmailHandler';
-
-        $handlerFilePath = __DIR__ . "/../../src/MailHandlers/EmailEvents/{$emailHandlerClassName}.php";
-
-        if (!File::exists($handlerFilePath)) {
-            throw new Exception('No EmailHandler found.');
-        }
-
-        return $handlerFilePath;
     }
 }
