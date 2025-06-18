@@ -7,6 +7,7 @@ namespace Prajwal89\EmailManagement\Services\FileManagers\Handlers;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
+use Prajwal89\EmailManagement\Models\EmailEvent;
 
 class EmailEventHandler
 {
@@ -33,15 +34,15 @@ class EmailEventHandler
             ->replace('{mailable_class_name_space}', "App\EmailManagement\Emails\EmailEvents\\" . $emailClassName)
             ->replace('{sendable_slug}', $slug);
 
-        $handlerPath = config('email-management.email_handlers_dir') . '/EmailEvents';
-
-        $handlerFilePath = $handlerPath . "/{$emailHandlerClassName}.php";
+        $handlerFilePath = EmailEvent::getEmailHandlerFilePath($slug->toString());
 
         if (File::exists($handlerFilePath)) {
             throw new Exception("MailHandler file already exists: {$handlerFilePath}");
 
             return;
         }
+
+        $handlerPath = dirname($handlerFilePath);
 
         if (!File::exists($handlerPath)) {
             File::makeDirectory($handlerPath, 0755, true);
