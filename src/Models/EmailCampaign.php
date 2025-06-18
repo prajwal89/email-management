@@ -124,11 +124,11 @@ class EmailCampaign extends Model implements EmailSendable
 
     public static function getSeederFileClassName(string $slug, string $type = 'create')
     {
-        if ($type == 'create') {
+        if ($type === 'create') {
             $seederClassName = str($slug)->studly() . 'Seeder';
         }
 
-        if ($type == 'delete') {
+        if ($type === 'delete') {
             $seederClassName = str($slug)->studly() . 'Seeder';
         }
 

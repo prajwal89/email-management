@@ -8,7 +8,6 @@ use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use Prajwal89\EmailManagement\Models\EmailCampaign;
-use Symfony\Component\Mailer\Test\Constraint\EmailCount;
 
 class EmailCampaignSeeder
 {
