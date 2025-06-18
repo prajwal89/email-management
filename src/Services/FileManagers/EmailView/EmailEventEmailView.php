@@ -11,7 +11,6 @@ use Prajwal89\EmailManagement\Models\EmailVariant;
 
 class EmailEventEmailView
 {
-
     public function __construct(
         public string|Model $forModel,
         public array $modelAttributes,
@@ -20,7 +19,6 @@ class EmailEventEmailView
     ) {
         //
     }
-
 
     public function generateFile()
     {

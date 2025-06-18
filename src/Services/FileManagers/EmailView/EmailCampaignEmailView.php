@@ -14,16 +14,14 @@ class EmailCampaignEmailView
     public function __construct(
         public string|Model $forModel,
         public array $modelAttributes,
-        public ?string $sendableType,
         public ?string $sendableSlug,
+        public ?string $variantSlug,
     ) {
         //
     }
 
     public function generateFile()
     {
-        $slug = str($this->modelAttributes['name'])->slug();
-
         $stubPath = match ($this->modelAttributes['content_type']) {
             'markdown' => __DIR__ . '/../../../../stubs/email-views/email-markdown-view.stub',
             'html' => __DIR__ . '/../../../../stubs/email-views/email-html-view.stub',
@@ -35,7 +33,7 @@ class EmailCampaignEmailView
 
         $emailFilePath = EmailVariant::getEmailViewFilePath(
             sendable: $this->forModel,
-            variantSlug: $slug->toString(),
+            variantSlug: $this->variantSlug,
             sendableSlug: $this->sendableSlug
         );
 

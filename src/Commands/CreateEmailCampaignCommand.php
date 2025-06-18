@@ -49,7 +49,7 @@ class CreateEmailCampaignCommand extends Command
                 ],
                 default: 'markdown',
                 required: true,
-                validate: fn (string $value) => in_array($value, ['html', 'markdown', 'text'], true)
+                validate: fn(string $value) => in_array($value, ['html', 'markdown', 'text'], true)
                     ? null
                     : 'Invalid content type selected.'
             ),
@@ -71,7 +71,10 @@ class CreateEmailCampaignCommand extends Command
 
         $this->createEmailClass($data);
 
-        $this->createEmailView($data);
+        $this->createEmailView(
+            modelAttributes: $data,
+            sendableSlug: $slug->toString()
+        );
 
         Artisan::call('em:seed-db');
 
@@ -127,12 +130,19 @@ class CreateEmailCampaignCommand extends Command
     }
 
     /**
-     * markdown view for email
+     * ! technically this is for default email view
      */
-    public function createEmailView(array $data): void
-    {
-        $viewFile = (new EmailViewFileManager(EmailCampaign::class))
-            ->setAttributes($data)
+    public function createEmailView(
+        array $modelAttributes,
+        string $sendableSlug,
+        string $variantSlug = 'default',
+    ): void {
+        $viewFile = (new EmailViewFileManager(
+            forModel: EmailCampaign::class,
+            sendableSlug: $sendableSlug,
+            variantSlug: $variantSlug
+        ))
+            ->setAttributes($modelAttributes)
             ->generateFile();
 
         $this->info("Created Mail View file: {$viewFile}.php");

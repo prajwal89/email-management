@@ -43,12 +43,12 @@ class EmailViewFileManager
                 sendableSlug: $this->sendableSlug,
                 variantSlug: $this->variantSlug
             ),
-            // EmailCampaign::class => new EmailCampaignEmailView(
-            //     $this->forModel,
-            //     $this->modelAttributes,
-            //     $this->sendableSlug,
-            //     $this->sendableSlug,
-            // ),
+            EmailCampaign::class => new EmailCampaignEmailView(
+                forModel: $this->forModel,
+                modelAttributes: $this->modelAttributes,
+                sendableSlug: $this->sendableSlug,
+                variantSlug: $this->variantSlug
+            ),
         };
     }
 }
