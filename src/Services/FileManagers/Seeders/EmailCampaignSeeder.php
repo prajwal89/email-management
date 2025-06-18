@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use Prajwal89\EmailManagement\Models\EmailCampaign;
+use Symfony\Component\Mailer\Test\Constraint\EmailCount;
 
 class EmailCampaignSeeder
 {
@@ -26,7 +27,7 @@ class EmailCampaignSeeder
             throw new Exception('Email Campaign Name is Taken');
         }
 
-        $seederClassName = $slug->studly() . 'Seeder';
+        $seederClassName = EmailCampaign::getSeederFileClassName($slug->toString(), 'create');
 
         $fileContents = str(File::get(__DIR__ . '/../../../../stubs/seeders/sendable-seeder.stub'))
             ->replace('{name}', $this->modelAttributes['name'])
@@ -60,13 +61,7 @@ class EmailCampaignSeeder
     {
         $slug = str($this->forModel->slug);
 
-        $seederClassName = $slug->studly() . 'DeleteSeeder';
-
-        $seederFileName = "$seederClassName.php";
-
-        $seederPath = config('email-management.seeders_dir') . '/EmailCampaigns';
-
-        $filePath = $seederPath . "/{$seederFileName}";
+        $seederClassName = EmailCampaign::getSeederFileClassName($slug->toString(), 'delete');
 
         $fileContents = str(File::get(__DIR__ . '/../../../../stubs/seeders/sendable-delete-seeder.stub'))
             ->replace('{slug}', $slug)
@@ -74,20 +69,22 @@ class EmailCampaignSeeder
             ->replace('{namespace_path}', 'EmailCampaigns')
             ->replace('{seeder_class_name}', $seederClassName);
 
-        $seederFileName = "$seederClassName.php";
+        $seederFilePath = EmailCampaign::getSeederFilePath($slug->toString(), 'delete');
 
-        if (!File::exists($seederPath)) {
-            File::makeDirectory($seederPath, 0755, true);
+        $folder = dirname($seederFilePath);
+
+        if (!File::exists($folder)) {
+            File::makeDirectory($folder, 0755, true);
         }
 
-        if (File::exists($filePath)) {
-            throw new Exception("Delete Seeder file is already available: {$filePath}");
+        if (File::exists($seederFilePath)) {
+            throw new Exception("Delete Seeder file is already available: {$seederFilePath}");
 
             return;
         }
 
-        File::put($filePath, $fileContents);
+        File::put($seederFilePath, $fileContents);
 
-        return $filePath;
+        return $seederFilePath;
     }
 }

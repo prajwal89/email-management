@@ -99,17 +99,6 @@ class EmailCampaign extends Model implements EmailSendable
         return 'App\\EmailManagement\\EmailHandlers\\EmailCampaigns\\' . $this->emailHandlerClassName();
     }
 
-    public static function getSeederFilePath(string $slug, string $type = 'create')
-    {
-        $seederClassName = str($slug)->studly() . 'Seeder';
-
-        $seederFileName = "$seederClassName.php";
-
-        $seederPath = config('email-management.seeders_dir') . '/EmailCampaigns';
-
-        return $seederPath . "/{$seederFileName}";
-    }
-
     public static function getEmailHandlerFilePath(string $slug)
     {
         $emailHandlerClassName = str($slug)->studly() . 'EmailHandler';
@@ -131,5 +120,29 @@ class EmailCampaign extends Model implements EmailSendable
         $mailPath = config('email-management.mail_classes_path') . '/EmailCampaigns';
 
         return $mailPath . "/{$emailClassName}.php";
+    }
+
+    public static function getSeederFileClassName(string $slug, string $type = 'create')
+    {
+        if ($type == 'create') {
+            $seederClassName = str($slug)->studly() . 'Seeder';
+        }
+
+        if ($type == 'delete') {
+            $seederClassName = str($slug)->studly() . 'Seeder';
+        }
+
+        return $seederClassName;
+    }
+
+    public static function getSeederFilePath(string $slug, string $type = 'create')
+    {
+        $seederClassName = self::getSeederFileClassName($slug, $type);
+
+        $seederFileName = "$seederClassName.php";
+
+        $seederPath = config('email-management.seeders_dir') . '/EmailCampaigns';
+
+        return $seederPath . "/{$seederFileName}";
     }
 }

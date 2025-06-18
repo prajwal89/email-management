@@ -26,7 +26,7 @@ class EmailEventSeeder
             throw new Exception('Email Event Name is Taken');
         }
 
-        $seederClassName = $slug->studly() . 'Seeder';
+        $seederClassName = EmailEvent::getSeederFileClassName($slug->toString(), 'create');
 
         $stubPath = __DIR__ . '/../../../../stubs/seeders/sendable-seeder.stub';
 
@@ -62,13 +62,7 @@ class EmailEventSeeder
     {
         $slug = str($this->forModel->slug);
 
-        $seederClassName = $slug->studly() . 'DeleteSeeder';
-
-        $seederFileName = "$seederClassName.php";
-
-        $seederPath = config('email-management.seeders_dir') . '/EmailEvents';
-
-        $filePath = $seederPath . "/{$seederFileName}";
+        $seederClassName = EmailEvent::getSeederFileClassName($slug->toString(), 'delete');
 
         $fileContents = str(File::get(__DIR__ . '/../../../../stubs/seeders/sendable-delete-seeder.stub'))
             ->replace('{slug}', $slug)
@@ -76,20 +70,21 @@ class EmailEventSeeder
             ->replace('{namespace_path}', 'EmailEvents')
             ->replace('{seeder_class_name}', $seederClassName);
 
-        $seederFileName = "$seederClassName.php";
+        $seederFilePath = EmailEvent::getSeederFilePath($slug->toString(), 'delete');
 
-        if (!File::exists($seederPath)) {
-            File::makeDirectory($seederPath, 0755, true);
+        $folder = dirname($seederFilePath);
+
+        if (!File::exists($folder)) {
+            File::makeDirectory($folder, 0755, true);
         }
 
-        if (File::exists($filePath)) {
-            // throw new Exception("Delete Seeder file is already available: {$filePath}");
-
+        if (File::exists($seederFilePath)) {
+            // throw new Exception("Delete Seeder file is already available: {$seederFilePath}");
             return;
         }
 
-        File::put($filePath, $fileContents);
+        File::put($seederFilePath, $fileContents);
 
-        return $filePath;
+        return $seederFilePath;
     }
 }
