@@ -36,25 +36,27 @@ class EditEmailEvent extends EditRecord
                 ->color('danger')
                 ->icon('heroicon-o-trash')
                 ->requiresConfirmation()
-                ->disabled(fn (): bool => !app()->isLocal())
+                ->disabled(fn(): bool => !app()->isLocal())
                 ->tooltip('Can Be deleted from local Environment only')
-                ->modalDescription('This action will delate seeder file, handler class, email class and file, and all associated DB records')
+                ->modalDescription('This action will delete handler class, email class and file, and all associated DB records and will create seeder file for deleting the record')
                 ->modalSubmitActionLabel('Delete')
                 ->action(function ($record) {
-                    if (app()->environment('local')) {
-                        EmailEventService::destroy($record);
-
+                    if (!app()->isLocal()) {
                         Notification::make()
-                            ->title('Deleted Successfully')
-                            ->success()
+                            ->title('Deletion allowed only in local environment')
+                            ->danger()
                             ->send();
-
-                        return redirect(EmailEventResource::getUrl('index'));
+                        return;
                     }
+
+                    EmailEventService::destroy($record);
+
                     Notification::make()
-                        ->title('Deletion allowed only in local environment')
-                        ->danger()
+                        ->title('Deleted Successfully')
+                        ->success()
                         ->send();
+
+                    return redirect(EmailEventResource::getUrl('index'));
                 }),
 
         ];

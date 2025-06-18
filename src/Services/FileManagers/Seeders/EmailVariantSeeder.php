@@ -8,6 +8,8 @@ use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use LogicException;
+use Prajwal89\EmailManagement\Models\EmailCampaign;
+use Prajwal89\EmailManagement\Models\EmailEvent;
 
 class EmailVariantSeeder
 {
@@ -70,16 +72,14 @@ class EmailVariantSeeder
 
         $seederFileName = "$seederClassName.php";
 
-        $seederPath = config('email-management.seeders_dir') . '/EmailEvents';
+        $seederPath = config('email-management.seeders_dir') . '/EmailVariants';
 
         $filePath = $seederPath . "/{$seederFileName}";
 
-        $seederFilePath = __DIR__ . '/../../../../stubs/seeders/sendable-delete-seeder.stub';
+        $seederFilePath = __DIR__ . '/../../../../stubs/seeders/email-variant-delete-seeder.stub';
 
         $fileContents = str(File::get($seederFilePath))
             ->replace('{slug}', $slug)
-            ->replace('{sendable_model_name}', 'EmailEvent')
-            ->replace('{namespace_path}', 'EmailEvents')
             ->replace('{seeder_class_name}', $seederClassName);
 
         $seederFileName = "$seederClassName.php";

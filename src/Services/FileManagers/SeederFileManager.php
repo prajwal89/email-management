@@ -12,7 +12,6 @@ use Prajwal89\EmailManagement\Services\FileManagers\Seeders\EmailCampaignSeeder;
 use Prajwal89\EmailManagement\Services\FileManagers\Seeders\EmailEventSeeder;
 use Prajwal89\EmailManagement\Services\FileManagers\Seeders\EmailVariantSeeder;
 
-// todo: refactor to the separate classes
 /**
  * Generate for delete seeder files for
  * EmailEvent,EmailCampaign,EmailVariant

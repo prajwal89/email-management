@@ -4,16 +4,24 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\RelationManagers;
 
+use Exception;
+use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
+use Filament\Tables\Actions\Action as ActionsAction;
+use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource;
 use Prajwal89\EmailManagement\Filament\SharedActions;
+use Prajwal89\EmailManagement\Models\EmailVariant;
+use Prajwal89\EmailManagement\Services\EmailVariantService;
 
 class EmailVariantsRelationManager extends RelationManager
 {
@@ -80,8 +88,37 @@ class EmailVariantsRelationManager extends RelationManager
                 // SharedActions::createEmailVariant(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                EditAction::make(),
                 // Tables\Actions\DeleteAction::make(),
+                ActionsAction::make('delete')
+                    ->label('Delete')
+                    ->color('danger')
+                    ->icon('heroicon-o-trash')
+                    ->requiresConfirmation()
+                    ->disabled(fn(): bool => !app()->isLocal())
+                    ->tooltip('Can Be deleted from local Environment only')
+                    ->modalDescription('This action will email file, and all associated DB records and will create seeder file for deleting the record')
+                    ->modalSubmitActionLabel('Delete')
+                    ->action(function (EmailVariant $record) {
+                        if (!app()->isLocal()) {
+                            Notification::make()
+                                ->title('Deletion allowed only in local environment')
+                                ->danger()
+                                ->send();
+                            return;
+                        }
+
+                        if ($record->slug == 'default') {
+                            throw new Exception("Cannot Delete Default Variant");
+                        }
+
+                        EmailVariantService::destroy($record);
+
+                        Notification::make()
+                            ->title('Deleted Successfully')
+                            ->success()
+                            ->send();
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

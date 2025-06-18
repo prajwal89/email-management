@@ -52,12 +52,11 @@ class EmailVariantService
             $emailVariant->slug,
         );
 
-        $exitCode = Artisan::call('em:seed-db');
+        (new SeederFileManager($emailVariant->sendable))->generateDeleteSeederFile();
+
+        (new SeederFileManager($emailVariant))->generateDeleteSeederFile();
 
         File::delete($emailViewFilePath);
-
-        (new SeederFileManager($emailVariant->sendable))->generateDeleteSeederFile();
-        (new SeederFileManager($emailVariant))->generateDeleteSeederFile();
 
         // effectively deleted the email variant record
         $exitCode = Artisan::call('em:seed-db');
