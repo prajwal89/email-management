@@ -113,12 +113,12 @@ class EmailVariant extends Model
 
     public static function getEmailViewFileName(EmailSendable|string $sendable, $variantSlug)
     {
-        if ($sendable instanceof Model) {
+        if (($sendable instanceof Model) && $variantSlug !== 'default') {
             // we are creating new variant except default one
             return $sendable->slug . '-' . $variantSlug . '-email.blade.php';
         }
 
-        return $variantSlug . '-email.blade.php';
+        return $sendable->slug . '-email.blade.php';
     }
 
     public static function getEmailViewFilePath(EmailSendable|string $sendable, $variantSlug)

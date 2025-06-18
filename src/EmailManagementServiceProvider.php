@@ -49,14 +49,15 @@ class EmailManagementServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-            $this->commands([
-                CreateEmailEventCommand::class,
-                CreateEmailCampaignCommand::class,
-                SeedEmailsDatabaseCommand::class,
-                CreateReceivableGroupCommand::class,
-                ScanMailboxCommand::class,
-                CreateEmailVariantCommand::class,
-            ]);
         }
+
+        $this->commands([
+            CreateEmailEventCommand::class,
+            CreateEmailCampaignCommand::class,
+            SeedEmailsDatabaseCommand::class,
+            CreateReceivableGroupCommand::class,
+            ScanMailboxCommand::class,
+            CreateEmailVariantCommand::class,
+        ]);
     }
 }

@@ -24,9 +24,9 @@ class SeederFileManager
 {
     public array $modelAttributes = [];
 
-    public string $sendableType;
+    public ?string $sendableType = null;
 
-    public string $sendableSlug;
+    public ?string $sendableSlug = null;
 
     public function __construct(public string|Model $forModel)
     {

@@ -6,6 +6,7 @@ namespace Prajwal89\EmailManagement\Services;
 
 use Exception;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\File;
 use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 use Prajwal89\EmailManagement\Models\EmailVariant;
 use Prajwal89\EmailManagement\Services\FileManagers\SeederFileManager;
@@ -47,11 +48,14 @@ class EmailVariantService
         }
 
         // todo: delete email view
-        // todo: delete email class
         $emailViewFilePath = EmailVariant::getEmailViewFilePath(
             $emailVariant->sendable,
             $emailVariant->slug
         );
+
+        $exitCode = Artisan::call('em:seed-db');
+
+        File::delete($emailViewFilePath);
 
         (new SeederFileManager($emailVariant))->generateDeleteSeederFile();
 

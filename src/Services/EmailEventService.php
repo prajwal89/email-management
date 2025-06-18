@@ -21,14 +21,12 @@ class EmailEventService
         DB::transaction(function () use ($emailEvent) {
             $emailEvent->load('sentEmails.emailVisits');
 
-            DB::beginTransaction();
-
-            $emailEvent->emailVariants()->map(function (EmailVariant $emailVariant): void {
+            $emailEvent->emailVariants()->get()->map(function (EmailVariant $emailVariant): void {
                 EmailVariantService::destroy($emailVariant);
             });
 
             // ! this can become heavy in terms of total queries
-            $emailEvent->emailLogs()->map(function (EmailLog $emailLog): void {
+            $emailEvent->emailLogs()->get()->map(function (EmailLog $emailLog): void {
                 EmailLogService::destroy($emailLog);
             });
 

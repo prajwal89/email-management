@@ -7,20 +7,25 @@ namespace Prajwal89\EmailManagement\Services\FileManagers\Seeders;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
+use LogicException;
 
 class EmailVariantSeeder
 {
     public function __construct(
         public string|Model $forModel,
         public array $modelAttributes,
-        public string $sendableType,
-        public string $sendableSlug,
+        public ?string $sendableType,
+        public ?string $sendableSlug,
     ) {
         //
     }
 
     public function generateFile()
     {
+        if (is_null($this->sendableSlug) || is_null($this->sendableType)) {
+            throw new LogicException("Sendable Slug and Type Required");
+        }
+
         $slug = str($this->modelAttributes['name'])->slug();
 
         $seederClassName = str($this->sendableSlug)->studly() . $slug->studly() . 'Seeder';
@@ -84,7 +89,7 @@ class EmailVariantSeeder
         }
 
         if (File::exists($filePath)) {
-            throw new Exception("Delete Seeder file is already available: {$filePath}");
+            // throw new Exception("Delete Seeder file is already available: {$filePath}");
 
             return;
         }
