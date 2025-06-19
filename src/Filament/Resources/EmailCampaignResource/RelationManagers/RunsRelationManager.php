@@ -50,14 +50,17 @@ class RunsRelationManager extends RelationManager
                     ->numeric()
                     ->sortable()
                     ->toggleable()
-                    ->color(fn ($state) => $state > 0 ? 'warning' : 'success'),
+                    ->color(fn($state) => $state > 0 ? 'warning' : 'success'),
 
                 TextColumn::make('jobBatch.failed_job_ids')
                     ->label('Failed Jobs')
                     ->sortable()
                     ->toggleable()
-                    ->formatStateUsing(fn ($state) => is_array($state) ? count($state) : 0)
-                    ->color(fn ($state) => (is_array($state) && count($state) > 0) ? 'danger' : 'success')
+                    ->formatStateUsing(fn($state) => is_array($state) ? count($state) : 0)
+                    ->getStateUsing(function ($record) {
+                        return count($record->jobBatch->failed_job_ids);
+                    })
+                    ->color(fn($state) => (is_array($state) && count($state) > 0) ? 'danger' : 'success')
                     ->badge()
                     ->tooltip(function ($state) {
                         if (!is_array($state) || empty($state)) {

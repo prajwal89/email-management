@@ -34,9 +34,10 @@ class EditEmailCampaign extends EditRecord
             Action::make('delete')
                 ->label('Delete')
                 ->color('danger')
+                ->outlined()
                 ->icon('heroicon-o-trash')
                 ->requiresConfirmation()
-                ->disabled(fn (): bool => !app()->isLocal())
+                ->disabled(fn(): bool => !app()->isLocal())
                 ->tooltip('Can Be deleted from local Environment only')
                 ->modalDescription('This action will delate seeder file, handler class, email class and file, and all associated DB records')
                 ->modalSubmitActionLabel('Delete')
@@ -59,11 +60,11 @@ class EditEmailCampaign extends EditRecord
 
             Action::make('start')
                 ->label('Start')
+                ->outlined()
                 // ->label(function ($record): string {
                 //     if (is_null($record->started_on)) {
                 //         return 'Start';
                 //     }
-
                 //     return 'Already Done';
                 // })
                 ->icon('heroicon-o-play')
