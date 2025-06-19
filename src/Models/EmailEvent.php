@@ -73,6 +73,21 @@ class EmailEvent extends Model implements EmailSendable
         return $this->is_enabled;
     }
 
+    public function totalActiveVariants(): int
+    {
+        $this->load('emailVariants');
+
+        if ($this->emailVariants->count() == 1) {
+            return 1;
+        }
+
+        if ($this->emailVariants->where('is_winner', 1)->first()) {
+            return 1;
+        }
+
+        return $this->emailVariants->where('is_paused', 0)->count();
+    }
+
     // this is of no use as we are not using in command
     public function emailHandlerClassName(): string
     {

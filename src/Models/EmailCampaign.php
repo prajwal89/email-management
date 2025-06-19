@@ -68,6 +68,21 @@ class EmailCampaign extends Model implements EmailSendable
         return $this->hasMany(EmailCampaignRun::class);
     }
 
+    public function totalActiveVariants(): int
+    {
+        $this->load('emailVariants');
+
+        if ($this->emailVariants->count() == 1) {
+            return 1;
+        }
+
+        if ($this->emailVariants->where('is_winner', 1)->first()) {
+            return 1;
+        }
+
+        return $this->emailVariants->where('is_paused', 0)->count();
+    }
+
     public function isEnabled(): bool
     {
         return $this->is_enabled;
