@@ -35,11 +35,6 @@ class NewsletterEmail extends Model implements EmailReceivable
         ];
     }
 
-    // public function emailLogs(): MorphMany
-    // {
-    //     return $this->morphMany(EmailLog::class, 'receivable');
-    // }
-
     public function getName(): string
     {
         return str($this->email)->before('@')->toString();

@@ -10,10 +10,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Prajwal89\EmailManagement\Interfaces\EmailReceivable;
+use Prajwal89\EmailManagement\Traits\HasEmailLogs;
 
 class ColdEmail extends Model implements EmailReceivable
 {
-    use HasFactory;
+    use HasFactory, HasEmailLogs;
 
     protected $table = 'em_cold_emails';
 
@@ -31,11 +32,6 @@ class ColdEmail extends Model implements EmailReceivable
             'unsubscribed_at' => 'datetime',
             'data' => 'array',
         ];
-    }
-
-    public function emailLogs(): MorphMany
-    {
-        return $this->morphMany(EmailLog::class, 'sendable');
     }
 
     public function getName(): string
