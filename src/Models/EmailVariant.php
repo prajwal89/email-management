@@ -7,23 +7,9 @@ namespace Prajwal89\EmailManagement\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Prajwal89\EmailManagement\Enums\EmailContentType;
 use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 
-/**
- * App\Models\EmEmailVariant
- *
- * @property int $id
- * @property string $name
- * @property string $slug
- * @property int|null $sendable_id
- * @property string|null $sendable_type
- * @property bool $is_paused
- * @property bool $is_winner
- * @property int $exposure_percentage
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read Model|\Eloquent $sendable
- */
 class EmailVariant extends Model
 {
     use HasFactory;
@@ -54,6 +40,7 @@ class EmailVariant extends Model
             'is_paused' => 'boolean',
             'is_winner' => 'boolean',
             'exposure_percentage' => 'integer',
+            'content_type' => EmailContentType::class,
         ];
     }
 
