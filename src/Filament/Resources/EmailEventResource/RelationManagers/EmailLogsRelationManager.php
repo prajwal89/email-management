@@ -13,6 +13,7 @@ use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Prajwal89\EmailManagement\Filament\Resources\EmailLogResource;
+use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 
 class EmailLogsRelationManager extends RelationManager
 {
@@ -42,8 +43,10 @@ class EmailLogsRelationManager extends RelationManager
                 ...EmailLogResource::commonFilters(),
                 SelectFilter::make('email_variant_id')
                     ->label('Email Variant')
-                    ->options(fn () => $this->getOwnerRecord()->emailVariants()->pluck('name', 'id')->toArray()),
-
+                    ->visible(function () {
+                        return $this->getOwnerRecord() instanceof EmailSendable;
+                    })
+                    ->options(fn() => $this->getOwnerRecord()->emailVariants()->pluck('name', 'id')->toArray()),
             ])
             ->actions([
                 Action::make('preview')

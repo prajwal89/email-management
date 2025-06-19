@@ -21,6 +21,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
+use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\RelationManagers\EmailLogsRelationManager;
 use Prajwal89\EmailManagement\Filament\Resources\NewsletterEmailResource\Pages\CreateNewsletterEmail;
 use Prajwal89\EmailManagement\Filament\Resources\NewsletterEmailResource\Pages\EditNewsletterEmail;
 use Prajwal89\EmailManagement\Filament\Resources\NewsletterEmailResource\Pages\ListNewsletterEmails;
@@ -35,7 +36,7 @@ class NewsletterEmailResource extends Resource
 
     protected static ?string $navigationLabel = 'Newsletter Emails';
 
-    protected static ?int $navigationSort = 5;
+    protected static ?int $navigationSort = 6;
 
     public static function form(Form $form): Form
     {
@@ -63,7 +64,6 @@ class NewsletterEmailResource extends Resource
                 TextColumn::make('email_verified_at')->dateTime(),
             ])
             ->filters([
-                TrashedFilter::make(),
                 DateRangeFilter::make('email_verified_at'),
                 DateRangeFilter::make('unsubscribed_at'),
                 SelectFilter::make('Subscription Status')
@@ -93,8 +93,6 @@ class NewsletterEmailResource extends Resource
             ->bulkActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
-                    ForceDeleteBulkAction::make(),
-                    RestoreBulkAction::make(),
                 ]),
             ])
             ->defaultSort('created_at', 'desc');
@@ -103,7 +101,7 @@ class NewsletterEmailResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            EmailLogsRelationManager::class,
         ];
     }
 
@@ -121,13 +119,5 @@ class NewsletterEmailResource extends Resource
             'create' => CreateNewsletterEmail::route('/create'),
             'edit' => EditNewsletterEmail::route('/{record}/edit'),
         ];
-    }
-
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()
-            ->withoutGlobalScopes([
-                SoftDeletingScope::class,
-            ]);
     }
 }

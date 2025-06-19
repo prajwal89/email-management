@@ -70,7 +70,7 @@ class EmailEventResource extends Resource
                     ->label('Email Preview')
                     ->icon('heroicon-o-eye')
                     ->url(function ($record): string {
-                        return self::getUrl('preview-email', ['record' => $record->id]);
+                        return self::getUrl('preview-email', ['record' => $record]);
                     })
                     ->openUrlInNewTab(),
             ])

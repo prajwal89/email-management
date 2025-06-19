@@ -21,8 +21,6 @@ class ColdEmailResource extends Resource
 {
     protected static ?string $model = ColdEmail::class;
 
-    // protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
     protected static ?string $navigationGroup = 'Emails';
 
     protected static ?string $navigationLabel = 'Cold Emails';
@@ -110,7 +108,7 @@ class ColdEmailResource extends Resource
     public static function getRelations(): array
     {
         return [
-            // EmailLogsRelationManager::class,
+            EmailLogsRelationManager::class,
         ];
     }
 

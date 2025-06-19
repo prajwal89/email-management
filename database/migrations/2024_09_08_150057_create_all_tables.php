@@ -52,9 +52,7 @@ return new class extends Migration
             $table
                 ->foreign('email_campaign_id')
                 ->references('id')
-                ->on('em_email_campaigns')
-                ->nullOnDelete()
-                ->nullOnUpdate();
+                ->on('em_email_campaigns');
         });
 
         Schema::create('em_email_variants', function (Blueprint $table): void {
@@ -149,7 +147,6 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->datetime('email_verified_at')->nullable();
             $table->datetime('unsubscribed_at')->nullable();
-            $table->softDeletes();
             $table->timestamps();
         });
 

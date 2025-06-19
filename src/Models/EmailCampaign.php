@@ -88,6 +88,11 @@ class EmailCampaign extends Model implements EmailSendable
         return $this->is_enabled;
     }
 
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
     // this is of no use as we are not using in  command
     public function emailHandlerClassName(): string
     {

@@ -12,10 +12,11 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\File;
 use Prajwal89\EmailManagement\Interfaces\EmailSendable;
+use Prajwal89\EmailManagement\Traits\HasEmailLogs;
 
 class EmailEvent extends Model implements EmailSendable
 {
-    // use SoftDeletes;
+    use HasEmailLogs;
 
     protected $table = 'em_email_events';
 
@@ -71,6 +72,11 @@ class EmailEvent extends Model implements EmailSendable
     public function isEnabled(): bool
     {
         return $this->is_enabled;
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
     }
 
     public function totalActiveVariants(): int

@@ -11,6 +11,7 @@ use Prajwal89\EmailManagement\Models\EmailCampaign;
 
 class EmailCampaignService
 {
+    // todo: delete runs
     public static function destroy(EmailCampaign $emailCampaign): bool
     {
         $seederPath = self::findSeederFile($emailCampaign);
