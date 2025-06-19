@@ -23,7 +23,7 @@ class JobBatchInfoWidget extends BaseWidget
 
         return [
             // Stat::make('Total Emails', $this->record->jobBatch->total_jobs)
-            //     ->color('primary'),  
+            //     ->color('primary'),
 
             Stat::make('Pending Emails', $this->record->jobBatch->pending_jobs)
                 ->color('warning'),

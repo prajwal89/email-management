@@ -49,7 +49,7 @@ class CreateEmailEventCommand extends Command
                 ],
                 default: 'markdown',
                 required: true,
-                validate: fn(string $value) => in_array($value, ['html', 'markdown', 'text'], true)
+                validate: fn (string $value) => in_array($value, ['html', 'markdown', 'text'], true)
                     ? null
                     : 'Invalid content type selected.'
             ),
@@ -61,7 +61,7 @@ class CreateEmailEventCommand extends Command
                 ],
                 default: 1,
                 required: true,
-            )
+            ),
         ];
 
         $slug = str($data['name'])->slug();

@@ -56,7 +56,7 @@ class CampaignManager
             Log::info('All emails were successfully sent.');
         })->catch(function (Batch $batch, Throwable $e): void {
             Log::error('Failed to send some emails: ' . $e->getMessage());
-        })->finally(function (Batch $batch) use ($campaignRun) {
+        })->finally(function (Batch $batch) {
             // todo: success event
         })->dispatch();
 

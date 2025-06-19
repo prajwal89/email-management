@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Prajwal89\EmailManagement\Filament\Resources\EmailCampaignResource\RelationManagers;
 
 use Filament\Forms;
@@ -9,8 +11,6 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use IbrahimBougaoua\FilaProgress\Tables\Columns\ProgressBar;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class RunsRelationManager extends RelationManager
 {
@@ -50,14 +50,14 @@ class RunsRelationManager extends RelationManager
                     ->numeric()
                     ->sortable()
                     ->toggleable()
-                    ->color(fn($state) => $state > 0 ? 'warning' : 'success'),
+                    ->color(fn ($state) => $state > 0 ? 'warning' : 'success'),
 
                 TextColumn::make('jobBatch.failed_job_ids')
                     ->label('Failed Jobs')
                     ->sortable()
                     ->toggleable()
-                    ->formatStateUsing(fn($state) => is_array($state) ? count($state) : 0)
-                    ->color(fn($state) => (is_array($state) && count($state) > 0) ? 'danger' : 'success')
+                    ->formatStateUsing(fn ($state) => is_array($state) ? count($state) : 0)
+                    ->color(fn ($state) => (is_array($state) && count($state) > 0) ? 'danger' : 'success')
                     ->badge()
                     ->tooltip(function ($state) {
                         if (!is_array($state) || empty($state)) {
@@ -110,7 +110,6 @@ class RunsRelationManager extends RelationManager
             ->actions([
                 // Tables\Actions\EditAction::make(),
                 // Tables\Actions\DeleteAction::make(),
-            ])
-        ;
+            ]);
     }
 }
