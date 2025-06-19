@@ -5,7 +5,7 @@
     "autoload": {
         "psr-4": {
             "Prajwal89\\EmailManagement\\": "src/",
-            "Prajwal89\\EmailManagement\\Database\\": "database/"
+            "Prajwal89\\EmailManagement\\Database\\Factories\\": "database/Factories/"
         }
     },
     "authors": [

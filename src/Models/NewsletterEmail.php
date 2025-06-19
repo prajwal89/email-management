@@ -6,6 +6,7 @@ namespace Prajwal89\EmailManagement\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Override;
@@ -14,7 +15,7 @@ use Prajwal89\EmailManagement\Traits\HasEmailLogs;
 
 class NewsletterEmail extends Model implements EmailReceivable
 {
-    use HasEmailLogs, SoftDeletes;
+    use HasEmailLogs, SoftDeletes, HasFactory;
 
     protected $table = 'em_newsletter_emails';
 

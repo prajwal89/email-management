@@ -16,6 +16,7 @@ use Prajwal89\EmailManagement\Commands\ScanMailboxCommand;
 use Prajwal89\EmailManagement\Commands\SeedEmailsDatabaseCommand;
 use Prajwal89\EmailManagement\Listeners\MessageSendingListener;
 use Prajwal89\EmailManagement\Listeners\MessageSentListener;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 // todo use spaties package skeleton
 class EmailManagementServiceProvider extends ServiceProvider
@@ -59,5 +60,13 @@ class EmailManagementServiceProvider extends ServiceProvider
             ScanMailboxCommand::class,
             CreateEmailVariantCommand::class,
         ]);
+
+        Factory::guessFactoryNamesUsing(function (string $modelName) {
+            if (str_starts_with($modelName, 'Prajwal89\\EmailManagement\\')) {
+                return 'Prajwal89\\EmailManagement\\Database\\Factories\\' . class_basename($modelName) . 'Factory';
+            }
+
+            return 'Database\\Factories\\' . class_basename($modelName) . 'Factory'; // default for app models
+        });
     }
 }
