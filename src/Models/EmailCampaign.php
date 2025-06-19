@@ -129,7 +129,7 @@ class EmailCampaign extends Model implements EmailSendable
         }
 
         if ($type === 'delete') {
-            $seederClassName = str($slug)->studly() . 'Seeder';
+            $seederClassName = str($slug)->studly() . 'DeleteSeeder';
         }
 
         return $seederClassName;

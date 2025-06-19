@@ -49,7 +49,12 @@ return new class extends Migration
             $table->string('batch_id')->index()->nullable();
             $table->timestamps();
 
-            $table->foreign('email_campaign_id')->references('id')->on('em_email_campaigns');
+            $table
+                ->foreign('email_campaign_id')
+                ->references('id')
+                ->on('em_email_campaigns')
+                ->nullOnDelete()
+                ->nullOnUpdate();
         });
 
         Schema::create('em_email_variants', function (Blueprint $table): void {
@@ -61,7 +66,7 @@ return new class extends Migration
             $table->enum(
                 column: 'content_type',
                 allowed: collect(EmailContentType::cases())
-                    ->map(fn ($case) => $case->value)->toArray()
+                    ->map(fn($case) => $case->value)->toArray()
             )->default('markdown');
 
             $table->unsignedBigInteger('sendable_id')->nullable();
@@ -87,6 +92,10 @@ return new class extends Migration
             $table->unsignedBigInteger('receivable_id')->nullable();
             $table->string('receivable_type')->nullable();
 
+            //! if sendable get deleted these columns may point to wrong log
+            // as we are deleting using seeder file (only record of sendable)
+            // same goes for receivable
+            // ?should i use model observer to set these fields null on delete
             $table->unsignedBigInteger('sendable_id')->nullable();
             $table->string('sendable_type')->nullable();
 
@@ -148,9 +157,16 @@ return new class extends Migration
             $table->id();
             $table->string('email')->unique();
             $table->string('collection_reason')->nullable();
+
+            $table->unsignedBigInteger('collectable_id')->nullable();
+            $table->string('collectable_type')->nullable();
+
             $table->string('collected_from')->nullable();
+
             $table->json('data')->nullable();
+
             $table->datetime('unsubscribed_at')->nullable();
+
             $table->timestamps();
         });
 
