@@ -8,13 +8,12 @@ use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Prajwal89\EmailManagement\Interfaces\EmailReceivable;
 use Prajwal89\EmailManagement\Traits\HasEmailLogs;
 
 class ColdEmail extends Model implements EmailReceivable
 {
-    use HasFactory, HasEmailLogs;
+    use HasEmailLogs, HasFactory;
 
     protected $table = 'em_cold_emails';
 

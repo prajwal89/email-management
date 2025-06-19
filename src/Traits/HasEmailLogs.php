@@ -6,7 +6,6 @@ namespace Prajwal89\EmailManagement\Traits;
 
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Prajwal89\EmailManagement\Interfaces\EmailReceivable;
-use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 use Prajwal89\EmailManagement\Models\EmailLog;
 
 trait HasEmailLogs
