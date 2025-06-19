@@ -24,7 +24,8 @@ class StartCampaignPage extends Page
 
     public $allReceivableGroups;
 
-    // To store selected group FQNs
+    public int $delayBetweenJobs = 0;
+
     public array $selectedGroups = [];
 
     public int $totalReceivablesWithoutOverlapping = 0;
@@ -35,7 +36,7 @@ class StartCampaignPage extends Page
 
     public function mount(): void
     {
-        $this->campaignManager = new CampaignManager($this->record, $this->selectedGroups);
+        $this->campaignManager = $this->getCampaignManager();
 
         $this->allReceivableGroups = $this->campaignManager->allGroupsData()->toArray();
 
@@ -44,7 +45,7 @@ class StartCampaignPage extends Page
 
     public function updatedSelectedGroups(): void
     {
-        $this->campaignManager = new CampaignManager($this->record, $this->selectedGroups);
+        $this->campaignManager = $this->getCampaignManager();
 
         $this->totalReceivablesWithoutOverlapping = $this->campaignManager->allReceivablesWithUniqueEmail()->count();
     }
@@ -94,9 +95,14 @@ class StartCampaignPage extends Page
                     ->body("Campaign initiated for {$totalRecipients} recipients.")
                     ->send();
             })
-            ->visible(fn (): bool => $this->record->status === 'draft')
-            ->disabled(fn (): bool => $this->selectedGroups === [])
+            ->visible(fn(): bool => $this->record->status === 'draft')
+            ->disabled(fn(): bool => $this->selectedGroups === [])
             ->requiresConfirmation()
             ->call();
+    }
+
+    public function getCampaignManager()
+    {
+        return new CampaignManager($this->record, $this->selectedGroups);
     }
 }
