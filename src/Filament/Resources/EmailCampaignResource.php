@@ -65,12 +65,16 @@ class EmailCampaignResource extends Resource
                     ->label('Variants')
                     ->counts('emailVariants')
                     ->sortable(),
+                TextColumn::make('runs_count')
+                    ->label('Runs')
+                    ->counts('runs')
+                    ->sortable(),
                 ProgressBar::make('Progress')
                     ->label('Progress')
                     ->getStateUsing(function ($record): array {
                         // dd($record->jobBatch);
-                        $total = $record->jobBatch->total_jobs ?? 100;
-                        $progress = $record->jobBatch->pending_jobs ?? 100;
+                        $total = $record->runs()->latest()->first()->jobBatch->total_jobs ?? 100;
+                        $progress = $record->runs()->latest()->first()->jobBatch->pending_jobs ?? 100;
 
                         return [
                             'total' => $total,
@@ -92,7 +96,7 @@ class EmailCampaignResource extends Resource
                     }),
             ])
             ->modifyQueryUsing(function ($query) {
-                $query->with(['jobBatch']);
+                $query->with(['runs.jobBatch']);
             })
             ->defaultSort('created_at', 'desc');
     }

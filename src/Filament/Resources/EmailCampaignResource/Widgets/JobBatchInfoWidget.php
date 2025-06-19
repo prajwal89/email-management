@@ -14,6 +14,7 @@ class JobBatchInfoWidget extends BaseWidget
 
     protected function getStats(): array
     {
+        return [];
         $this->record->load('jobBatch');
 
         if (empty($this->record->jobBatch)) {
@@ -22,10 +23,10 @@ class JobBatchInfoWidget extends BaseWidget
 
         return [
             // Stat::make('Total Emails', $this->record->jobBatch->total_jobs)
-            //     ->color('primary'),  // Add color to the stat
+            //     ->color('primary'),  
 
             Stat::make('Pending Emails', $this->record->jobBatch->pending_jobs)
-                ->color('warning'),  // Add color to the stat
+                ->color('warning'),
 
             Stat::make('Failed Emails', $this->record->jobBatch->failed_jobs)
                 ->color('danger'),

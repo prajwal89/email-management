@@ -15,8 +15,6 @@ use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 
 class EmailCampaign extends Model implements EmailSendable
 {
-    // use SoftDeletes;
-
     protected $table = 'em_email_campaigns';
 
     protected $fillable = [
@@ -24,18 +22,11 @@ class EmailCampaign extends Model implements EmailSendable
         'slug',
         'description',
         'is_enabled',
-        'receivable_groups',
-        'started_on',
-        'ended_on',
-        'batch_id',
     ];
 
     protected function casts(): array
     {
         return [
-            'receivable_groups' => 'array',
-            'started_on' => 'datetime',
-            'ended_on' => 'datetime',
             'is_enabled' => 'boolean',
         ];
     }
@@ -75,17 +66,14 @@ class EmailCampaign extends Model implements EmailSendable
         return $this->morphOne(EmailVariant::class, 'sendable')->where('slug', 'default');
     }
 
+    public function runs()
+    {
+        return $this->hasMany(EmailCampaignRun::class);
+    }
+
     public function isEnabled(): bool
     {
         return $this->is_enabled;
-    }
-
-    /**
-     * as campaign execution handled by job batching
-     */
-    public function jobBatch(): HasOne
-    {
-        return $this->hasOne(JobBatch::class, 'id', 'batch_id');
     }
 
     // this is of no use as we are not using in  command

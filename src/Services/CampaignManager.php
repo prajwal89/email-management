@@ -46,20 +46,23 @@ class CampaignManager
                 ->delay(now()->addSeconds($index * $this->delayBetweenJobs));
         });
 
+        $campaignRun = $this->emailCampaign->runs()->create([
+            'receivable_groups' => $this->receivableGroups,
+            'started_on' => now(),
+        ]);
+
         $batch = Bus::batch(
             $allEmailJobs->toArray()
         )->then(function (Batch $batch): void {
             Log::info('All emails were successfully sent.');
         })->catch(function (Batch $batch, Throwable $e): void {
             Log::error('Failed to send some emails: ' . $e->getMessage());
-        })->finally(function (Batch $batch) {
-            $this->emailCampaign->update(['ended_on' => now()]);
+        })->finally(function (Batch $batch) use ($campaignRun) {
+            $campaignRun->update(['ended_on' => now()]);
         })->dispatch();
 
-        $this->emailCampaign->update([
-            'receivable_groups' => $this->receivableGroups,
+        $campaignRun->update([
             'batch_id' => $batch->id,
-            'started_on' => now(),
         ]);
 
         // dd($allReceivables);

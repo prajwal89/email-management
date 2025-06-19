@@ -27,7 +27,6 @@ return new class extends Migration
                 ->constrained('em_email_events')
                 ->restrictOnDelete();
 
-            // $table->softDeletes();
             $table->timestamps();
         });
 
@@ -39,12 +38,21 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->boolean('is_enabled')->default(true);
 
+            $table->timestamps();
+        });
+
+        Schema::create('em_email_campaign_runs', function (Blueprint $table): void {
+            $table->id();
+
+            $table->unsignedBigInteger('email_campaign_id');
+
             $table->json('receivable_groups')->nullable();
-            $table->string('batch_id')->nullable();
+            $table->string('batch_id')->index()->nullable();
             $table->timestamp('started_on')->nullable();
             $table->timestamp('ended_on')->nullable();
 
-            // $table->softDeletes();
+            $table->foreign('email_campaign_id')->references('id')->on('em_email_campaigns');
+
             $table->timestamps();
         });
 

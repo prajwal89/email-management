@@ -64,7 +64,6 @@
         @endif
 
         <div class="flex justify-end pt-6 mt-6 border-t border-gray-200 dark:border-white/10">
-            @if(is_null($record->started_on))
                 <div
                     @if($totalReceivablesWithoutOverlapping <= 0)
                         x-data
@@ -79,11 +78,7 @@
                         Start Process ({{ $totalReceivablesWithoutOverlapping }})
                     </x-filament::button>
                 </div>
-            @else
-                <x-filament::button color="gray" icon="heroicon-o-check-circle" disabled>
-                    Process Started on {{ $record->started_on->format('M d, Y') }}
-                </x-filament::button>
-            @endif
+   
         </div>
 
     </x-filament::section>
