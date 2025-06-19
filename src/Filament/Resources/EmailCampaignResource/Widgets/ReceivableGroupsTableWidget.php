@@ -64,8 +64,7 @@ class ReceivableGroupsTableWidget extends BaseWidget
                         ->success()
                         ->send();
 
-                    return;
-                })
+                }),
             ]);
     }
 }
