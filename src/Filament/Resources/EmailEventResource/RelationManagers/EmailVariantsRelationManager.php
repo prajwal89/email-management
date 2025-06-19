@@ -71,7 +71,7 @@ class EmailVariantsRelationManager extends RelationManager
                         $visits = $record->email_visits_count ?? 0;
 
                         if ($sent === 0) {
-                            return 0;
+                            return number_format(0.00, 2);
                         }
 
                         $ctr = ($visits / $sent) * 100;
