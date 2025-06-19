@@ -7,6 +7,7 @@ namespace Prajwal89\EmailManagement\Commands;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
+use Prajwal89\EmailManagement\Enums\EmailContentType;
 use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\Models\EmailVariant;
 use Prajwal89\EmailManagement\Services\FileManagers\EmailHandlerFileManager;
@@ -41,17 +42,17 @@ class CreateEmailEventCommand extends Command
                 required: false
             ),
             'content_type' => select(
-                label: 'What is the content type for this variant?',
-                options: [
-                    'html' => 'HTML',
-                    'markdown' => 'Markdown',
-                    'text' => 'Plain Text',
-                ],
-                default: 'markdown',
+                label: 'What is the content type for default variant?',
+                options: collect(EmailContentType::cases())->mapWithKeys(function ($case) {
+                    return [$case->value => $case->getLabel()];
+                })->toArray(),
+                default: EmailContentType::MARKDOWN->value,
                 required: true,
-                validate: fn (string $value) => in_array($value, ['html', 'markdown', 'text'], true)
-                    ? null
-                    : 'Invalid content type selected.'
+                validate: fn(string $value) => in_array(
+                    $value,
+                    collect(EmailContentType::cases())->map(fn($case) => $case->value)->toArray(),
+                    true
+                ) ? null : 'Invalid content type selected.'
             ),
             'once_per_receivable' => select(
                 label: 'Send Email once per receivable',

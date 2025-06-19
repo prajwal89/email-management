@@ -8,6 +8,7 @@ use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use Prajwal89\EmailManagement\Enums\EmailContentType;
 use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\Models\EmailVariant;
@@ -25,23 +26,10 @@ use function Laravel\Prompts\warning;
  */
 class CreateEmailVariantCommand extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'em:create-email-variant {--sendable_type=} {--sendable_slug=}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Create a new email variant and associate it with an email event';
 
-    /**
-     * Execute the console command.
-     */
     public function handle(): int
     {
         $sendableType = $this->option('sendable_type');
@@ -108,7 +96,7 @@ class CreateEmailVariantCommand extends Command
             $eventId = search(
                 label: 'Which email event does this variant belong to?',
                 placeholder: 'Start typing to search for an event...',
-                options: fn (string $value) => strlen($value) > 0
+                options: fn(string $value) => strlen($value) > 0
                     ? $sendableModel::where('name', 'like', "%{$value}%")->pluck('name', 'id')->all()
                     : $events->all(),
                 scroll: 10
@@ -125,7 +113,6 @@ class CreateEmailVariantCommand extends Command
             info("You have selected the event: '{$selectedSendable->name}'.");
         }
 
-        // Ask for the variant's name
         $data = [
             'name' => text(
                 label: 'What is the name for this new email variant?',
@@ -137,7 +124,7 @@ class CreateEmailVariantCommand extends Command
                 placeholder: 'Enter a number between 0 and 100',
                 required: true,
                 default: '50',
-                validate: fn (string $value) => match (true) {
+                validate: fn(string $value) => match (true) {
                     !is_numeric($value) => 'The value must be a number.',
                     $value < 0 => 'The percentage cannot be less than 0.',
                     $value > 100 => 'The percentage cannot be greater than 100.',
@@ -146,17 +133,17 @@ class CreateEmailVariantCommand extends Command
             ),
             'content_type' => select(
                 label: 'What is the content type for default variant?',
-                options: [
-                    'html' => 'HTML',
-                    'markdown' => 'Markdown',
-                    'text' => 'Plain Text',
-                ],
-                default: 'markdown',
+                options: collect(EmailContentType::cases())->mapWithKeys(function ($case) {
+                    return [$case->value => $case->getLabel()];
+                })->toArray(),
+                default: EmailContentType::MARKDOWN->value,
                 required: true,
-                validate: fn (string $value) => in_array($value, ['html', 'markdown', 'text'], true)
-                    ? null
-                    : 'Invalid content type selected.'
-            ),
+                validate: fn(string $value) => in_array(
+                    $value,
+                    collect(EmailContentType::cases())->map(fn($case) => $case->value)->toArray(),
+                    true
+                ) ? null : 'Invalid content type selected.'
+            )
         ];
 
         $filePath = (new SeederFileManager(EmailVariant::class))
@@ -165,7 +152,6 @@ class CreateEmailVariantCommand extends Command
             ->setSendableSlug($selectedSendable->slug)
             ->generateFile();
 
-        // todo: move to file handlers
         $this->createEmailView(
             sendable: $selectedSendable,
             data: $data
@@ -173,15 +159,11 @@ class CreateEmailVariantCommand extends Command
 
         $this->info("Created Email Variant Seeder file: {$filePath}");
 
-        // seed created email event
         Artisan::call('em:seed-db');
 
         return self::SUCCESS;
     }
 
-    /**
-     * markdown view for email
-     */
     public function createEmailView(
         Model $sendable,
         array $data
