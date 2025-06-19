@@ -43,7 +43,7 @@ class EmailEventService
             $handlerPath = EmailEvent::getEmailHandlerFilePath($emailEvent->slug);
 
             // deleting mailable class from here
-            // b.c mailable class is one per sendable 
+            // b.c mailable class is one per sendable
             // and email variant does not delete the mailable classes
             $mailableClassPath = EmailEvent::getMailableClassPath($emailEvent->slug);
 
