@@ -18,6 +18,7 @@ use Prajwal89\EmailManagement\Filament\Resources\EmailCampaignResource\Pages\Edi
 use Prajwal89\EmailManagement\Filament\Resources\EmailCampaignResource\Pages\ListEmailCampaigns;
 use Prajwal89\EmailManagement\Filament\Resources\EmailCampaignResource\Pages\PreviewEmailPage;
 use Prajwal89\EmailManagement\Filament\Resources\EmailCampaignResource\Pages\StartCampaignPage;
+use Prajwal89\EmailManagement\Filament\Resources\EmailCampaignResource\RelationManagers\RunsRelationManager;
 use Prajwal89\EmailManagement\Filament\Resources\EmailCampaignResource\Widgets\JobBatchInfoWidget;
 use Prajwal89\EmailManagement\Filament\Resources\EmailCampaignResource\Widgets\ReceivableGroupsTableWidget;
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\RelationManagers\EmailLogsRelationManager;
@@ -106,6 +107,7 @@ class EmailCampaignResource extends Resource
         return [
             EmailLogsRelationManager::class,
             EmailVariantsRelationManager::class,
+            RunsRelationManager::class,
         ];
     }
 

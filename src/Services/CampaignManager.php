@@ -48,7 +48,6 @@ class CampaignManager
 
         $campaignRun = $this->emailCampaign->runs()->create([
             'receivable_groups' => $this->receivableGroups,
-            'started_on' => now(),
         ]);
 
         $batch = Bus::batch(
@@ -58,12 +57,10 @@ class CampaignManager
         })->catch(function (Batch $batch, Throwable $e): void {
             Log::error('Failed to send some emails: ' . $e->getMessage());
         })->finally(function (Batch $batch) use ($campaignRun) {
-            $campaignRun->update(['ended_on' => now()]);
+            // todo: success event
         })->dispatch();
 
-        $campaignRun->update([
-            'batch_id' => $batch->id,
-        ]);
+        $campaignRun->update(['batch_id' => $batch->id]);
 
         // dd($allReceivables);
 

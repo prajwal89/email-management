@@ -16,15 +16,14 @@ class EmailCampaignRun extends Model
         'email_campaign_id',
         'receivable_groups',
         'batch_id',
-        'started_on',
-        'ended_on',
     ];
 
-    protected $casts = [
-        'receivable_groups' => 'array',
-        'started_on' => 'datetime',
-        'ended_on' => 'datetime',
-    ];
+    public function casts(): array
+    {
+        return [
+            'receivable_groups' => 'array',
+        ];
+    }
 
     public function emailCampaign(): BelongsTo
     {
