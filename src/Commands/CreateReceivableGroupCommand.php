@@ -21,10 +21,16 @@ class CreateReceivableGroupCommand extends Command
     public function handle(): void
     {
         $data = [
-            'class_name' => text(
-                label: 'Enter Group Class name (without group suffix)',
+            'name' => text(
+                label: 'Group Name (without group suffix)',
                 required: true,
                 validate: ['name' => 'required|max:40']
+            ),
+            'description' => text(
+                label: 'Description',
+                default: 'Example Description'
+                // required: true,
+                // validate: ['name' => 'required|max:40']
             ),
         ];
 
@@ -33,10 +39,11 @@ class CreateReceivableGroupCommand extends Command
 
     public function createGroupClassFile(array $data): void
     {
-        $className = $data['class_name'] . 'Group';
+        $className = str($data['name'])->slug()->studly() . 'Group';
 
         $emailHandlerStub = str(File::get(__DIR__ . '/../../stubs/groupable-class.stub'))
-            ->replace('{class_name}', $className);
+            ->replace('{class_name}', $className)
+            ->replace('{description}', $data['description']);
 
         $receivablesPath = config('email-management.receivable_groups_path');
 

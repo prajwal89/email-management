@@ -101,12 +101,12 @@ abstract class EmailHandlerBase
      */
     public function send(): void
     {
-        if (!$this->qualifiesForSending()) {
-            return;
-        }
-
         if (!$this->finalEmail) {
             $this->buildEmail();
+        }
+
+        if (!$this->qualifiesForSending()) {
+            return;
         }
 
         Mail::to($this->receivable->getEmail())->send($this->finalEmail);

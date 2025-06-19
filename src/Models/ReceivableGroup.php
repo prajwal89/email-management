@@ -14,6 +14,6 @@ class ReceivableGroup extends Model
 
     public function getRows(): array
     {
-        return CampaignManager::getAllReceivableGroups()->toArray();
+        return CampaignManager::allGroupsData()->toArray();
     }
 }

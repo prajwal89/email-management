@@ -17,6 +17,6 @@ class {class_name} implements Groupable
 
     public static function getDescription(): string
     {
-        return 'all users';
+        return '{description}';
     }
 }

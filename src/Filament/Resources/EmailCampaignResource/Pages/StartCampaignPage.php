@@ -31,18 +31,22 @@ class StartCampaignPage extends Page
 
     public string $createGroupCommand = '';
 
+    protected $campaignManager;
+
     public function mount(): void
     {
-        $this->createGroupCommand = Helper::getCommandSignature(CreateReceivableGroupCommand::class);
+        $this->campaignManager = new CampaignManager($this->record, $this->selectedGroups);
 
-        $this->allReceivableGroups = CampaignManager::getAllReceivableGroups()->toArray();
+        $this->allReceivableGroups = $this->campaignManager->allGroupsData()->toArray();
+
+        $this->createGroupCommand = Helper::getCommandSignature(CreateReceivableGroupCommand::class);
     }
 
     public function updatedSelectedGroups(): void
     {
-        $receivables = CampaignManager::allReceivablesFroGroups($this->selectedGroups);
+        $this->campaignManager = new CampaignManager($this->record, $this->selectedGroups);
 
-        $this->totalReceivablesWithoutOverlapping = $receivables->count();
+        $this->totalReceivablesWithoutOverlapping = $this->campaignManager->allReceivablesWithUniqueEmail()->count();
     }
 
     public function startProcess(): mixed
@@ -81,7 +85,7 @@ class StartCampaignPage extends Page
                     return;
                 }
 
-                CampaignManager::dispatch($this->record, $this->selectedGroups);
+                (new CampaignManager($this->record, $this->selectedGroups))->run();
 
                 // Notify success
                 Notification::make()
@@ -90,8 +94,8 @@ class StartCampaignPage extends Page
                     ->body("Campaign initiated for {$totalRecipients} recipients.")
                     ->send();
             })
-            ->visible(fn (): bool => $this->record->status === 'draft')
-            ->disabled(fn (): bool => $this->selectedGroups === [])
+            ->visible(fn(): bool => $this->record->status === 'draft')
+            ->disabled(fn(): bool => $this->selectedGroups === [])
             ->requiresConfirmation()
             ->call();
     }
