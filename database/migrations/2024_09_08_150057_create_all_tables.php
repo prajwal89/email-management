@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Prajwal89\EmailManagement\Enums\EmailContentType;
 
 return new class extends Migration
 {
@@ -57,7 +58,11 @@ return new class extends Migration
             $table->string('name', 255);
             $table->string('slug', 255);
 
-            $table->enum('content_type', ['html', 'markdown', 'text'])->default('markdown');
+            $table->enum(
+                column: 'content_type',
+                allowed: collect(EmailContentType::cases())
+                    ->map(fn($case) => $case->value)->toArray()
+            )->default('markdown');
 
             $table->unsignedBigInteger('sendable_id')->nullable();
             $table->string('sendable_type')->nullable();

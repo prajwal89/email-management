@@ -12,14 +12,12 @@ enum EmailContentType: string implements HasColor, HasIcon, HasLabel
 {
     case HTML = 'html';
     case MARKDOWN = 'markdown';
-    case TEXT = 'text';
 
     public function getLabel(): string
     {
         return match ($this) {
             self::HTML => 'HTML',
             self::MARKDOWN => 'Markdown',
-            self::TEXT => 'Plain Text',
         };
     }
 
@@ -28,7 +26,6 @@ enum EmailContentType: string implements HasColor, HasIcon, HasLabel
         return match ($this) {
             self::HTML => 'danger',
             self::MARKDOWN => 'info',
-            self::TEXT => 'gray',
         };
     }
 
@@ -37,7 +34,6 @@ enum EmailContentType: string implements HasColor, HasIcon, HasLabel
         return match ($this) {
             self::HTML => 'heroicon-o-code-bracket',
             self::MARKDOWN => 'heroicon-o-document-text',
-            self::TEXT => 'heroicon-o-document',
         };
     }
 }

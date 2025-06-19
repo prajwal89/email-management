@@ -1,15 +1,21 @@
-<strong>{name}</strong>
-<br>
-<br>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>{name}</title>
+</head>
+<body style="font-family: sans-serif; font-size: 14px; line-height: 1.5; color: #333;">
+  <strong>{name}</strong>
+  <br><br>
 
-<p>
-Paragraph
-</p>
+  <p>Paragraph</p>
 
-<br>
+  <br>
 
-<a href="{{ url('') }}">Visit</a>
-<br>
+  <a href="{{ url('') }}">Visit</a>
+  <br><br>
 
-Thanks,<br>
-{{ config('app.name') }}
+  Thanks,<br>
+  {{ config('app.name') }}
+</body>
+</html>

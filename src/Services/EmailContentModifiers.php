@@ -20,9 +20,6 @@ class EmailContentModifiers
     /**
      * Replaces all urls in email body except image urls
      * with the signed route for security
-     *
-     * e.g.
-     * http://127.0.0.1:8000/emails/v/Ea0TGWIeh6oVhDVhU0rX8bMXVFw2Q0rU/aHR0cDovLzEyNy4wLjAuMTo4MDAw?signature=042ffc6fc0513ec6ae5d4ad6064136f7e3d975d7b41b5025df347d55d39b0861
      */
     public function injectTrackingUrls()
     {
