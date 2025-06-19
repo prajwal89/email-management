@@ -94,8 +94,8 @@ class StartCampaignPage extends Page
                     ->body("Campaign initiated for {$totalRecipients} recipients.")
                     ->send();
             })
-            ->visible(fn(): bool => $this->record->status === 'draft')
-            ->disabled(fn(): bool => $this->selectedGroups === [])
+            ->visible(fn (): bool => $this->record->status === 'draft')
+            ->disabled(fn (): bool => $this->selectedGroups === [])
             ->requiresConfirmation()
             ->call();
     }

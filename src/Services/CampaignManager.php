@@ -28,7 +28,7 @@ class CampaignManager
         public array $receivableGroups,
         public int $delayBetweenJobs = 5, // in sec
     ) {
-        // 
+        //
     }
 
     public function run()
@@ -38,9 +38,10 @@ class CampaignManager
         $allReceivables = $this->allReceivablesWithUniqueEmail();
 
         $allEmailJobs = $allReceivables->map(function (EmailReceivable $receivable, int $index) use ($handler) {
-            if ($this->delayBetweenJobs == 0) {
+            if ($this->delayBetweenJobs === 0) {
                 return new SendCampaignMailJob($handler, $receivable);
             }
+
             return (new SendCampaignMailJob($handler, $receivable))
                 ->delay(now()->addSeconds($index * $this->delayBetweenJobs));
         });

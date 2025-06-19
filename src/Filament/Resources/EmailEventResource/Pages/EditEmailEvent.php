@@ -36,7 +36,7 @@ class EditEmailEvent extends EditRecord
                 ->color('danger')
                 ->icon('heroicon-o-trash')
                 ->requiresConfirmation()
-                ->disabled(fn(): bool => !app()->isLocal())
+                ->disabled(fn (): bool => !app()->isLocal())
                 ->tooltip('Can Be deleted from local Environment only')
                 ->modalDescription('This action will delete handler class, email class and file, and all associated DB records and will create seeder file for deleting the record')
                 ->modalSubmitActionLabel('Delete')
@@ -46,6 +46,7 @@ class EditEmailEvent extends EditRecord
                             ->title('Deletion allowed only in local environment')
                             ->danger()
                             ->send();
+
                         return;
                     }
 

@@ -8,8 +8,6 @@ use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use LogicException;
-use Prajwal89\EmailManagement\Models\EmailCampaign;
-use Prajwal89\EmailManagement\Models\EmailEvent;
 
 class EmailVariantSeeder
 {

@@ -15,7 +15,7 @@ use Prajwal89\EmailManagement\Traits\HasEmailLogs;
 
 class NewsletterEmail extends Model implements EmailReceivable
 {
-    use HasEmailLogs, SoftDeletes, HasFactory;
+    use HasEmailLogs, HasFactory, SoftDeletes;
 
     protected $table = 'em_newsletter_emails';
 

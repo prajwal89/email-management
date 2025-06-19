@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement;
 
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Mail\Events\MessageSent;
 use Illuminate\Support\Facades\Event;
@@ -16,7 +17,6 @@ use Prajwal89\EmailManagement\Commands\ScanMailboxCommand;
 use Prajwal89\EmailManagement\Commands\SeedEmailsDatabaseCommand;
 use Prajwal89\EmailManagement\Listeners\MessageSendingListener;
 use Prajwal89\EmailManagement\Listeners\MessageSentListener;
-use Illuminate\Database\Eloquent\Factories\Factory;
 
 // todo use spaties package skeleton
 class EmailManagementServiceProvider extends ServiceProvider
