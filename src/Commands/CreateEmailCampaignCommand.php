@@ -49,10 +49,19 @@ class CreateEmailCampaignCommand extends Command
                 ],
                 default: 'markdown',
                 required: true,
-                validate: fn (string $value) => in_array($value, ['html', 'markdown', 'text'], true)
+                validate: fn(string $value) => in_array($value, ['html', 'markdown', 'text'], true)
                     ? null
                     : 'Invalid content type selected.'
             ),
+            'once_per_receivable' => select(
+                label: 'Send Email once per receivable',
+                options: [
+                    1 => 'Yes',
+                    0 => 'No',
+                ],
+                default: 1,
+                required: true,
+            )
         ];
 
         $slug = str($data['name'])->slug();

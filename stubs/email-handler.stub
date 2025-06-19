@@ -34,11 +34,7 @@ class {email_handler_class_name} extends EmailHandlerBase
         if (!$this->sendable->isEnabled()) {
             return false;
         }
-
-        if ($this->wasEmailAlreadySentOnce()) {
-            return false;
-        }
-        
+        {once_per_receivable}
         return true;
     }
 

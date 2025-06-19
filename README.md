@@ -4,7 +4,7 @@ This is an **opinionated email management solution** with powerful features for 
 
 ## ✨ Features
 
-- ✅ **A/B Testing** – Easily test multiple email variants  
+- ✅ **A/B Testing** – Easily test multiple email variants of same email
 - 📤 **Track Outgoing Emails** – Monitor every email sent from your system  
 - 📈 **Email Open & Click Tracking** – Know when your emails are opened and visited  
 - 🛡️ **Spam Protection** – Prevent abuse with built-in safeguards  
@@ -17,22 +17,22 @@ This is an **opinionated email management solution** with powerful features for 
 - `composer require prajwal89/email-management`
 - `php artisan vendor:publish --tag=email-management-views`
 - `./vendor/prajwal89/email-management/resources/views/**/*.blade.php, add this to your filaments tailwind.config.js`
+- `php artisan make:queue-table`
+- `php artisan migrate`
+
 
 ## Core Concepts
 
 - Email Event
-
    Email events are events that are automatically triggered by app eg. user registration
 
 - Email Campaign
    Manually run email campaigns e.g notifing new feature
-  
-
-Email events are events that are automatically triggered by app eg. user registration
 
 ### Usage
 
 - run command to create a email event
+  
   ```bash
   php artisan make:email-event
   ```

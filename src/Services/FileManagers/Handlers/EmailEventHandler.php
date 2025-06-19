@@ -32,7 +32,20 @@ class EmailEventHandler
             ->replace('{mailable_class}', $emailClassName)
             ->replace('{email_handler_class_name}', $emailHandlerClassName)
             ->replace('{mailable_class_name_space}', "App\EmailManagement\Emails\EmailEvents\\" . $emailClassName)
-            ->replace('{sendable_slug}', $slug);
+            ->replace('{sendable_slug}', $slug)
+            ->when(
+                value: $this->modelAttributes['once_per_receivable'],
+                callback: function ($content) {
+                    return $content->replace('{once_per_receivable}', '
+        if ($this->wasEmailAlreadySentOnce()) {
+            return false;
+        }         
+        ');
+                },
+                default: function ($content) {
+                    return $content->replace('{once_per_receivable}', '');
+                },
+            );
 
         $handlerFilePath = EmailEvent::getEmailHandlerFilePath($slug->toString());
 
