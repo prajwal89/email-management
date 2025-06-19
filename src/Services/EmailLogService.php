@@ -75,7 +75,6 @@ class EmailLogService
         return $emailLog;
     }
 
-    // we can invoke events from here
     public static function update(EmailLog $emailLog, array $attributes)
     {
         $emailLog->update($attributes);
@@ -85,8 +84,6 @@ class EmailLogService
 
     public static function destroy(EmailLog $emailLog)
     {
-        // todo delete files
-        // generate delete seeder
-
+        return $emailLog->delete();
     }
 }

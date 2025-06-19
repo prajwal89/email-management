@@ -19,7 +19,7 @@ class EmailEventService
     {
         // Do not delete seeder file as they will be deleted in pairs
         DB::transaction(function () use ($emailEvent) {
-            $emailEvent->load('sentEmails.emailVisits');
+            $emailEvent->load('emailLogs.emailVisits');
 
             $emailEvent->emailVariants()->get()->map(function (EmailVariant $emailVariant): void {
                 EmailVariantService::destroy($emailVariant);
@@ -42,7 +42,9 @@ class EmailEventService
             // delete email handler
             $handlerPath = EmailEvent::getEmailHandlerFilePath($emailEvent->slug);
 
-            // delete mailable class
+            // deleting mailable class from here
+            // b.c mailable class is one per sendable 
+            // and email variant does not delete the mailable classes
             $mailableClassPath = EmailEvent::getMailableClassPath($emailEvent->slug);
 
             File::delete([
