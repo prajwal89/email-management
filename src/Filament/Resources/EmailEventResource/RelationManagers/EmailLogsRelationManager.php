@@ -7,11 +7,9 @@ namespace Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\Relati
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Prajwal89\EmailManagement\Filament\Resources\EmailLogResource;
@@ -43,8 +41,8 @@ class EmailLogsRelationManager extends RelationManager
             ->filters([
                 ...EmailLogResource::commonFilters(),
                 SelectFilter::make('email_variant_id')
-                    ->label("Email Variant")
-                    ->options(fn() => $this->getOwnerRecord()->emailVariants()->pluck('name', 'id')->toArray())
+                    ->label('Email Variant')
+                    ->options(fn () => $this->getOwnerRecord()->emailVariants()->pluck('name', 'id')->toArray()),
 
             ])
             ->actions([

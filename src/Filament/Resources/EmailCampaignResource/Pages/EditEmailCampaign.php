@@ -37,7 +37,7 @@ class EditEmailCampaign extends EditRecord
                 ->outlined()
                 ->icon('heroicon-o-trash')
                 ->requiresConfirmation()
-                ->disabled(fn(): bool => !app()->isLocal())
+                ->disabled(fn (): bool => !app()->isLocal())
                 ->tooltip('Can Be deleted from local Environment only')
                 ->modalDescription('This action will delate seeder file, handler class, email class and file, and all associated DB records')
                 ->modalSubmitActionLabel('Delete')

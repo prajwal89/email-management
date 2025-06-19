@@ -50,14 +50,14 @@ class RunsRelationManager extends RelationManager
                     ->numeric()
                     ->sortable()
                     ->toggleable()
-                    ->color(fn($state) => $state > 0 ? 'warning' : 'success'),
+                    ->color(fn ($state) => $state > 0 ? 'warning' : 'success'),
 
                 TextColumn::make('jobBatch.failed_jobs')
                     ->label('Failed Jobs')
                     ->numeric()
                     ->sortable()
                     ->toggleable()
-                    ->color(fn($state) => $state > 0 ? 'danger' : 'success'),
+                    ->color(fn ($state) => $state > 0 ? 'danger' : 'success'),
 
                 // TextColumn::make('jobBatch.failed_job_ids')
                 //     ->label('Failed Jobs')

@@ -30,7 +30,7 @@ class EmailVariantsRelationManager extends RelationManager
     {
         $total = $ownerRecord->totalActiveVariants();
 
-        return  $total == 1 ? null : (string) $total;
+        return $total === 1 ? null : (string) $total;
     }
 
     public function form(Form $form): Form
@@ -101,7 +101,7 @@ class EmailVariantsRelationManager extends RelationManager
                     ->color('danger')
                     ->icon('heroicon-o-trash')
                     ->requiresConfirmation()
-                    ->disabled(fn(): bool => !app()->isLocal())
+                    ->disabled(fn (): bool => !app()->isLocal())
                     ->tooltip('Can Be deleted from local Environment only')
                     ->modalDescription('This action will email file, and all associated DB records and will create seeder file for deleting the record')
                     ->modalSubmitActionLabel('Delete')

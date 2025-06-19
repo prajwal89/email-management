@@ -77,7 +77,7 @@ class EmailEvent extends Model implements EmailSendable
     {
         $this->load('emailVariants');
 
-        if ($this->emailVariants->count() == 1) {
+        if ($this->emailVariants->count() === 1) {
             return 1;
         }
 
