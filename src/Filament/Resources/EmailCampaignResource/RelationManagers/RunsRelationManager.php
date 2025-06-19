@@ -31,6 +31,9 @@ class RunsRelationManager extends RelationManager
         return $table
             ->poll('5s')
             ->recordTitleAttribute('batch_id')
+            // ->modifyQueryUsing(function($query){
+            //     $query->withCount('emailCampaign');
+            // })
             ->columns([
                 TextColumn::make('batch_id')
                     ->label('Batch ID')
@@ -50,14 +53,14 @@ class RunsRelationManager extends RelationManager
                     ->numeric()
                     ->sortable()
                     ->toggleable()
-                    ->color(fn ($state) => $state > 0 ? 'warning' : 'success'),
+                    ->color(fn($state) => $state > 0 ? 'warning' : 'success'),
 
                 TextColumn::make('jobBatch.failed_jobs')
                     ->label('Failed Jobs')
                     ->numeric()
                     ->sortable()
                     ->toggleable()
-                    ->color(fn ($state) => $state > 0 ? 'danger' : 'success'),
+                    ->color(fn($state) => $state > 0 ? 'danger' : 'success'),
 
                 // TextColumn::make('jobBatch.failed_job_ids')
                 //     ->label('Failed Jobs')

@@ -43,7 +43,6 @@
                 @endforeach
             </div>
         @else
-            {{-- THIS IS THE CORRECTED SECTION --}}
             <div
                 class="flex flex-col items-center justify-center p-8 text-center border-2 border-gray-300 border-dashed rounded-lg dark:border-gray-600">
                 <div class="flex items-center justify-center w-12 h-12 mb-4 bg-gray-100 rounded-full dark:bg-gray-800">
@@ -56,7 +55,6 @@
                     Please create a new receivable group to begin the process.
                 </p>
             </div>
-            {{-- END OF CORRECTION --}}
         @endif
 
 
@@ -73,7 +71,7 @@
                 @if ($totalReceivablesWithoutOverlapping <= 0) x-data
                         x-tooltip.raw.interactive.placement.top="'You must select at least one group with receivables to start.'" @endif>
                 <x-filament::button color="primary" wire:click="startProcess" :disabled="$totalReceivablesWithoutOverlapping <= 0">
-                    Start Process ({{ $totalReceivablesWithoutOverlapping }})
+                    Send to ~{{ $totalReceivablesWithoutOverlapping }}
                 </x-filament::button>
             </div>
 

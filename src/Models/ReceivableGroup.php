@@ -8,6 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 use Prajwal89\EmailManagement\Services\CampaignManager;
 use Sushi\Sushi;
 
+/**
+ * @property int $id
+ * @property string $classname
+ * @property string $FQN
+ * @property int $total
+ * @property string $description
+ */
 class ReceivableGroup extends Model
 {
     use Sushi;
