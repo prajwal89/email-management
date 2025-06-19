@@ -52,24 +52,31 @@ class RunsRelationManager extends RelationManager
                     ->toggleable()
                     ->color(fn($state) => $state > 0 ? 'warning' : 'success'),
 
-                TextColumn::make('jobBatch.failed_job_ids')
+                TextColumn::make('jobBatch.failed_jobs')
                     ->label('Failed Jobs')
+                    ->numeric()
                     ->sortable()
                     ->toggleable()
-                    ->formatStateUsing(fn($state) => is_array($state) ? count($state) : 0)
-                    ->getStateUsing(function ($record) {
-                        return count($record->jobBatch->failed_job_ids);
-                    })
-                    ->color(fn($state) => (is_array($state) && count($state) > 0) ? 'danger' : 'success')
-                    ->badge()
-                    ->tooltip(function ($state) {
-                        if (!is_array($state) || empty($state)) {
-                            return 'No failed jobs';
-                        }
+                    ->color(fn($state) => $state > 0 ? 'danger' : 'success'),
 
-                        return 'Failed Job IDs: ' . implode(', ', array_slice($state, 0, 10)) .
-                            (count($state) > 10 ? '... (' . count($state) . ' total)' : '');
-                    }),
+                // TextColumn::make('jobBatch.failed_job_ids')
+                //     ->label('Failed Jobs')
+                //     ->sortable()
+                //     ->toggleable()
+                //     ->formatStateUsing(fn($state) => is_array($state) ? count($state) : 0)
+                //     ->getStateUsing(function ($record) {
+                //         return count($record->jobBatch->failed_job_ids);
+                //     })
+                //     ->color(fn($state) => (is_array($state) && count($state) > 0) ? 'danger' : 'success')
+                //     ->badge()
+                //     ->tooltip(function ($state) {
+                //         if (!is_array($state) || empty($state)) {
+                //             return 'No failed jobs';
+                //         }
+
+                //         return 'Failed Job IDs: ' . implode(', ', array_slice($state, 0, 10)) .
+                //             (count($state) > 10 ? '... (' . count($state) . ' total)' : '');
+                //     }),
 
                 TextColumn::make('jobBatch.cancelled_at')
                     ->label('Cancelled At')

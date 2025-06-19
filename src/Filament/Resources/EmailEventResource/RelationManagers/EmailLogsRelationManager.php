@@ -11,6 +11,8 @@ use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Prajwal89\EmailManagement\Filament\Resources\EmailLogResource;
 
@@ -32,26 +34,20 @@ class EmailLogsRelationManager extends RelationManager
     {
         return $table
             ->modifyQueryUsing(function ($query): void {
-                $query->with(['sendable', 'receivable']);
+                $query->with(['sendable', 'receivable', 'emailVariant']);
             })
             ->recordTitleAttribute('subject')
             ->columns([
                 ...EmailLogResource::commonColumns(),
-                // Tables\Columns\TextColumn::make('test')
-                //     ->getStateUsing(function ($record) {
-                //         dd($record);
-                //     }),
             ])
             ->filters([
                 ...EmailLogResource::commonFilters(),
-            ])
-            ->headerActions([
-                // Tables\Actions\CreateAction::make(),
+                SelectFilter::make('email_variant_id')
+                    ->label("Email Variant")
+                    ->options(fn() => $this->getOwnerRecord()->emailVariants()->pluck('name', 'id')->toArray())
+
             ])
             ->actions([
-                // Tables\Actions\EditAction::make(),
-                // Tables\Actions\DeleteAction::make(),
-
                 Action::make('preview')
                     ->label('Email Preview')
                     ->icon('heroicon-o-eye')
@@ -65,9 +61,6 @@ class EmailLogsRelationManager extends RelationManager
                     DeleteBulkAction::make(),
                 ]),
             ])
-            ->modifyQueryUsing(function ($query) {
-                $query->with(['emailVariant']);
-            })
             ->defaultSort('created_at', 'desc');
     }
 }

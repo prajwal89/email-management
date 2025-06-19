@@ -86,7 +86,11 @@ class StartCampaignPage extends Page
                     return;
                 }
 
-                (new CampaignManager($this->record, $this->selectedGroups))->run();
+                (new CampaignManager(
+                    $this->record,
+                    $this->selectedGroups,
+                    $this->delayBetweenJobs
+                ))->run();
 
                 // Notify success
                 Notification::make()
@@ -95,8 +99,6 @@ class StartCampaignPage extends Page
                     ->body("Campaign initiated for {$totalRecipients} recipients.")
                     ->send();
             })
-            ->visible(fn (): bool => $this->record->status === 'draft')
-            ->disabled(fn (): bool => $this->selectedGroups === [])
             ->requiresConfirmation()
             ->call();
     }

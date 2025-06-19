@@ -43,7 +43,6 @@ class EmailCampaignResource extends Resource
                 TextInput::make('name'),
                 TextInput::make('slug')->disabled(),
                 Textarea::make('description'),
-                TextInput::make('started_on')->disabled(),
             ]);
     }
 

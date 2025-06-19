@@ -63,7 +63,7 @@
         <div class="my-4">
             <x-filament::input.wrapper>
                 <label for="" class="px-2 pt-1 text-gray-600">Delay Between Jobs</label>
-                <x-filament::input type="number" wire:model="delayBetweenJobs"
+                <x-filament::input type="number" wire:model.defer="delayBetweenJobs"
                     placeholder="Delay between jobs (seconds)" min="0" />
             </x-filament::input.wrapper>
         </div>
