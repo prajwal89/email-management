@@ -49,7 +49,10 @@ class EmailManagementServiceProvider extends ServiceProvider
         Event::listen(MessageSent::class, MessageSentListener::class);
 
         if ($this->app->runningInConsole()) {
-            $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+            $this->loadMigrationsFrom([
+                __DIR__ . '/../database/migrations', //package tables
+                database_path('migrations/email-management') //user generated migration
+            ]);
         }
 
         $this->commands([
