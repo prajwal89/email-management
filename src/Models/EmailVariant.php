@@ -98,6 +98,19 @@ class EmailVariant extends Model
         return $this->sendable->resolveEmailHandler();
     }
 
+    public static function getMigrationFilePath(
+        string $sendableType,
+        string $sendableSlug,
+        string $variantSlug,
+        string $type = 'create'
+    ) {
+        $sendableType = str($sendableType)->afterLast('\\');
+
+        $filename = date('Y_m_d_His') . "_{$type}_{$sendableType}_{$variantSlug}.php";
+
+        return config('email-management.migrations_dir') . '/' . $filename;
+    }
+
     public static function getEmailViewFileName(
         EmailSendable|string $sendable,
         string $variantSlug,

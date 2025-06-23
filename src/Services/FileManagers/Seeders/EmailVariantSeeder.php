@@ -8,6 +8,8 @@ use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use LogicException;
+use Prajwal89\EmailManagement\Models\EmailEvent;
+use Prajwal89\EmailManagement\Models\EmailVariant;
 
 class EmailVariantSeeder
 {
@@ -28,38 +30,41 @@ class EmailVariantSeeder
 
         $slug = str($this->modelAttributes['name'])->slug();
 
-        $seederClassName = str($this->sendableSlug)->studly() . $slug->studly() . 'Seeder';
+        // $seederClassName = str($this->sendableSlug)->studly() . $slug->studly() . 'Seeder';
 
-        $seederFilePath = __DIR__ . '/../../../../stubs/seeders/email-variant-seeder.stub';
+        // $seederFilePath = __DIR__ . '/../../../../stubs/seeders/email-variant-seeder.stub';
+        $seederFilePath = __DIR__ . '/../../../../stubs/migrations/email-variant-migration.stub';
 
         $seederStub = str(File::get($seederFilePath))
             ->replace('{name}', $this->modelAttributes['name'])
             ->replace('{slug}', $slug)
             ->replace('{exposure_percentage}', $this->modelAttributes['exposure_percentage'])
             ->replace('{content_type}', $this->modelAttributes['content_type'])
-            ->replace('{seeder_class_name}', $seederClassName)
+            // ->replace('{seeder_class_name}', $seederClassName)
             ->replace('{sendable_type}', str($this->sendableType)->afterLast('\\'))
             ->replace('{sendable_slug}', $this->sendableSlug);
 
-        $seederFileName = "$seederClassName.php";
+        $migrationFilePath = EmailVariant::getMigrationFilePath(
+            sendableType: $this->sendableType,
+            sendableSlug: $this->sendableSlug,
+            variantSlug: $slug->toString(),
+        );
 
-        $seederPath = config('email-management.seeders_dir') . '/EmailVariants';
+        $filePath = dirname($migrationFilePath);
 
-        $filePath = $seederPath . "/{$seederFileName}";
-
-        if (!File::exists($seederPath)) {
-            File::makeDirectory($seederPath, 0755, true);
+        if (!File::exists($filePath)) {
+            File::makeDirectory($filePath, 0755, true);
         }
 
-        if (File::exists($filePath)) {
-            throw new Exception("Seeder file already exists: {$filePath}");
+        if (File::exists($migrationFilePath)) {
+            throw new Exception("Seeder file already exists: {$migrationFilePath}");
 
             return;
         }
 
-        File::put($filePath, $seederStub);
+        File::put($migrationFilePath, $seederStub);
 
-        return $seederPath;
+        return $migrationFilePath;
     }
 
     public function generateDeleteSeederFile()
