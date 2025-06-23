@@ -13,8 +13,8 @@ return new class extends Migration
             ->where('slug', '{sendable_slug}')
             ->first()
             ->emailVariants([
-                'slug' => '{slug}',
                 'name' => '{name}',
+                'slug' => '{slug}',
                 'content_type' => '{content_type}',
                 'exposure_percentage' => {exposure_percentage}
             ]);
