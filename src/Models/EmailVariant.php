@@ -106,7 +106,7 @@ class EmailVariant extends Model
         string $variantSlug,
         string $type = 'create'
     ) {
-        $sendableType = str($sendableType)->afterLast('\\');
+        $sendableType = str($sendableType)->afterLast('\\')->lower();
 
         $microtime = microtime(true);
 

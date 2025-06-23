@@ -126,7 +126,7 @@ class EmailEvent extends Model implements EmailSendable
 
         $dateTime = $datetime->format("Y_m_d_Hisv"); // 'v' = milliseconds
 
-        $filename = "{$dateTime}_{$type}_email_event_{$slug}.php";
+        $filename = "{$dateTime}_{$type}_emailevent_{$slug}.php";
 
         return config('email-management.migrations_dir') . '/' . $filename;
     }
