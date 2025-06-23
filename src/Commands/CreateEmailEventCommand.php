@@ -7,6 +7,7 @@ namespace Prajwal89\EmailManagement\Commands;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Validation\Rule;
 use Prajwal89\EmailManagement\Enums\EmailContentType;
 use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\Models\EmailVariant;
@@ -35,7 +36,11 @@ class CreateEmailEventCommand extends Command
                 label: 'Event Name',
                 hint: 'Keep it short. Do not include "Email" as suffix',
                 required: true,
-                validate: ['name' => 'required|max:40']
+                validate: [
+                    'required',
+                    'max:40',
+                    Rule::unique('em_email_events', 'slug'),
+                ]
             ),
             'description' => textarea(
                 label: 'Event Description',
@@ -48,9 +53,9 @@ class CreateEmailEventCommand extends Command
                 })->toArray(),
                 default: EmailContentType::MARKDOWN->value,
                 required: true,
-                validate: fn (string $value) => in_array(
+                validate: fn(string $value) => in_array(
                     $value,
-                    collect(EmailContentType::cases())->map(fn ($case) => $case->value)->toArray(),
+                    collect(EmailContentType::cases())->map(fn($case) => $case->value)->toArray(),
                     true
                 ) ? null : 'Invalid content type selected.'
             ),
@@ -86,9 +91,12 @@ class CreateEmailEventCommand extends Command
             sendableSlug: $slug->toString()
         );
 
-        // Artisan::call('em:seed-db');
+        if ($this->confirm('Do you want to run the migration now?', true)) {
+            $this->call('migrate');
+        } else {
+            $this->info('You can run it later with: php artisan migrate');
+        }
 
-        $this->info('Run php artisan migrate');
         $this->info("Use: (new $emailHandlerClassName(User::first()))->send()");
     }
 
