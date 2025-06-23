@@ -51,7 +51,7 @@ class EmailManagementServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->loadMigrationsFrom([
                 __DIR__ . '/../database/migrations', //package tables
-                database_path('migrations/email-management') //user generated migration
+                config('email-management.migrations_dir') //user generated migrations
             ]);
         }
 

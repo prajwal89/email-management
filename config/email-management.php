@@ -9,6 +9,7 @@ return [
     'email_handlers_dir' => app_path('/EmailManagement/EmailHandlers'),
     'seeders_dir' => database_path('/seeders/EmailManagement'),
     'view_dir' => resource_path('/views/email-management'),
+    'migrations_dir' => database_path('/migrations/email-management'),
 
     // todo get this from config with no default value
     /**
