@@ -12,7 +12,8 @@ return new class extends Migration
         {sendable_type}::query()
             ->where('slug', '{sendable_slug}')
             ->first()
-            ->emailVariants([
+            ->emailVariants()
+            ->create([
                 'name' => '{name}',
                 'slug' => '{slug}',
                 'content_type' => '{content_type}',
