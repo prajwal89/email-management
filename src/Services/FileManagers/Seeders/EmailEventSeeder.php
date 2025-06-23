@@ -26,20 +26,24 @@ class EmailEventSeeder
             throw new Exception('Email Event Name is Taken');
         }
 
-        $seederClassName = EmailEvent::getSeederFileClassName($slug->toString(), 'create');
+        // $seederClassName = EmailEvent::getSeederFileClassName($slug->toString(), 'create');
 
-        $stubPath = __DIR__ . '/../../../../stubs/seeders/sendable-seeder.stub';
+        // $stubPath = __DIR__ . '/../../../../stubs/seeders/sendable-seeder.stub';
+        $stubPath = __DIR__ . '/../../../../stubs/migrations/sendable-migration.stub';
 
         $fileContents = str(File::get($stubPath))
             ->replace('{name}', $this->modelAttributes['name'])
             ->replace('{slug}', $slug)
             ->replace('{description}', $this->modelAttributes['description'])
-            ->replace('{content_type}', $this->modelAttributes['content_type'])
+            // ->replace('{content_type}', $this->modelAttributes['content_type'])
             ->replace('{sendable_model_name}', 'EmailEvent')
             ->replace('{namespace_path}', 'EmailEvents')
-            ->replace('{seeder_class_name}', $seederClassName);
+            // ->replace('{seeder_class_name}', $seederClassName)
+        ;
 
-        $seederFilePath = EmailEvent::getSeederFilePath($slug->toString(), 'create');
+        $seederFilePath = EmailEvent::getMigrationFilePath($slug->toString(), 'create');
+
+        // dd($fileContents);
 
         $directory = dirname($seederFilePath);
 

@@ -117,6 +117,13 @@ class EmailEvent extends Model implements EmailSendable
         return $seederClassName;
     }
 
+    public static function getMigrationFilePath(string $slug, string $type = 'create')
+    {
+        $filename = date('Y_m_d_His') . "_{$type}_email_event_{$slug}.php";
+
+        return config('email-management.migrations_dir') . '/' . $filename;
+    }
+
     public static function getSeederFilePath(string $slug, string $type = 'create')
     {
         $seederClassName = self::getSeederFileClassName($slug, $type);
