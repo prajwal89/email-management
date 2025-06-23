@@ -48,9 +48,9 @@ class CreateEmailEventCommand extends Command
                 })->toArray(),
                 default: EmailContentType::MARKDOWN->value,
                 required: true,
-                validate: fn(string $value) => in_array(
+                validate: fn (string $value) => in_array(
                     $value,
-                    collect(EmailContentType::cases())->map(fn($case) => $case->value)->toArray(),
+                    collect(EmailContentType::cases())->map(fn ($case) => $case->value)->toArray(),
                     true
                 ) ? null : 'Invalid content type selected.'
             ),
@@ -88,7 +88,7 @@ class CreateEmailEventCommand extends Command
 
         // Artisan::call('em:seed-db');
 
-        $this->info("Run php artisan migrate");
+        $this->info('Run php artisan migrate');
         $this->info("Use: (new $emailHandlerClassName(User::first()))->send()");
     }
 

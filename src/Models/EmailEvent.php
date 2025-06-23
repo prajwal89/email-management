@@ -124,7 +124,7 @@ class EmailEvent extends Model implements EmailSendable
 
         $datetime = DateTime::createFromFormat('U.u', (string) $microtime);
 
-        $dateTime = $datetime->format("Y_m_d_Hisv"); // 'v' = milliseconds
+        $dateTime = $datetime->format('Y_m_d_Hisv'); // 'v' = milliseconds
 
         $filename = "{$dateTime}_{$type}_emailevent_{$slug}.php";
 

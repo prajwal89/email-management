@@ -37,9 +37,8 @@ class EmailEventSeeder
             ->replace('{description}', $this->modelAttributes['description'])
             // ->replace('{content_type}', $this->modelAttributes['content_type'])
             ->replace('{sendable_model_name}', 'EmailEvent')
-            ->replace('{namespace_path}', 'EmailEvents')
-            // ->replace('{seeder_class_name}', $seederClassName)
-        ;
+            ->replace('{namespace_path}', 'EmailEvents');
+        // ->replace('{seeder_class_name}', $seederClassName)
 
         $seederFilePath = EmailEvent::getMigrationFilePath($slug->toString(), 'create');
 

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Prajwal89\EmailManagement\Models;
 
 use DateTime;
-use DateTimeZone;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -113,9 +112,9 @@ class EmailVariant extends Model
         // add extra 10 ms for avoiding same migration file as sendable migration file
         $datetime = DateTime::createFromFormat('U.u', (string) ($microtime + 10));
 
-        $dateTime = $datetime->format("Y_m_d_Hisv"); // 'v' = milliseconds
+        $dateTime = $datetime->format('Y_m_d_Hisv'); // 'v' = milliseconds
 
-        $filename =  "{$dateTime}_{$type}_{$sendableType}_{$sendableSlug}_{$variantSlug}.php";
+        $filename = "{$dateTime}_{$type}_{$sendableType}_{$sendableSlug}_{$variantSlug}.php";
 
         return config('email-management.migrations_dir') . '/' . $filename;
     }
