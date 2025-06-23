@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Models;
 
+use DateTime;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
@@ -119,7 +120,13 @@ class EmailEvent extends Model implements EmailSendable
 
     public static function getMigrationFilePath(string $slug, string $type = 'create')
     {
-        $filename = date('Y_m_d_His') . "_{$type}_email_event_{$slug}.php";
+        $microtime = microtime(true);
+
+        $datetime = DateTime::createFromFormat('U.u', (string) $microtime);
+
+        $dateTime = $datetime->format("Y_m_d_Hisv"); // 'v' = milliseconds
+
+        $filename = "{$dateTime}_{$type}_email_event_{$slug}.php";
 
         return config('email-management.migrations_dir') . '/' . $filename;
     }
