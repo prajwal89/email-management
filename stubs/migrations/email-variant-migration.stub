@@ -3,34 +3,21 @@
 declare(strict_types=1);
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Prajwal89\EmailManagement\Models\{sendable_type};
-use Prajwal89\EmailManagement\Services\EmailVariantService;
 
 return new class extends Migration
 {
-    public function run()
+    public function up(): void
     {
-        $sendable = {sendable_type}::query()
+        {sendable_type}::query()
             ->where('slug', '{sendable_slug}')
-            ->first();
-
-        if (!$sendable) {
-            return;
-        }
-
-        EmailVariantService::firstOrCreate(
-            sendable: $sendable,
-            find: [
-                'slug' => '{slug}',
-            ],
-            attributes: [
+            ->first()
+            ->emailVariants()
+            ->create([
                 'name' => '{name}',
+                'slug' => '{slug}',
                 'content_type' => '{content_type}',
                 'exposure_percentage' => {exposure_percentage}
-            ]
-        );
-
+            ]);
     }
 };

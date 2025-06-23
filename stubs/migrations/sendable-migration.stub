@@ -3,17 +3,14 @@
 declare(strict_types=1);
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Prajwal89\EmailManagement\Models\{sendable_model_name};
 
 return new class extends Migration
 {
     public function up(): void
     {
-        {sendable_model_name}::firstOrCreate([
+        {sendable_model_name}::create([
             'slug' => '{slug}',
-        ], [
             'name' => '{name}',
             'description' => '{description}'
         ]);
