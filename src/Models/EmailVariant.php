@@ -106,12 +106,12 @@ class EmailVariant extends Model
         string $variantSlug,
         string $type = 'create'
     ) {
-        $sendableType = str($sendableType)->afterLast('\\');
+        $sendableType = str($sendableType)->afterLast('\\')->lower();
 
         $microtime = microtime(true);
 
         // add extra 10 ms for avoiding same migration file as sendable migration file
-        $datetime = DateTime::createFromFormat('U.u', (string) $microtime + 10);
+        $datetime = DateTime::createFromFormat('U.u', (string) ($microtime + 10));
 
         $dateTime = $datetime->format("Y_m_d_Hisv"); // 'v' = milliseconds
 
