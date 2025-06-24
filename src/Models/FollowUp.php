@@ -22,7 +22,7 @@ class FollowUp extends Model
      */
     public function followupEmailEvent()
     {
-        return $this->hasOne(EmailEvent::class, 'followup_email_event_id');
+        return $this->belongsTo(EmailEvent::class, 'followup_email_event_id');
     }
 
     /**

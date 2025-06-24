@@ -43,7 +43,7 @@ class CreateFollowUpCommand extends Command
         // follow up for these sendable
         // b.c EmailEvent,and EmailCampaign can have follow ups
         $followupableType = select(
-            label: 'For which followupable',
+            label: 'For which followupable type?',
             options: [
                 EmailEvent::class,
                 EmailCampaign::class,
@@ -54,7 +54,7 @@ class CreateFollowUpCommand extends Command
         );
 
         $followupableId = select(
-            label: 'sendable ID',
+            label: 'For which followupable name?',
             options: EmailEvent::query()
                 ->where('is_followup_email', 0)
                 ->latest()
@@ -64,6 +64,7 @@ class CreateFollowUpCommand extends Command
         );
 
 
+        // move this logic
         $allFollowupEmailEvents = EmailEvent::query()
             ->latest()
             ->where('is_followup_email', 1)
@@ -72,6 +73,28 @@ class CreateFollowUpCommand extends Command
         if ($allFollowupEmailEvents->isEmpty()) {
             throw new Exception("There are no follow up emailEvents please create email event");
         }
+
+
+        $followupable = $followupableType::query()
+            ->with(['followUps' => function ($query) {
+                $query->orderBy('wait_for_hours', 'asc');
+            }, 'followUps.followupEmailEvent'])
+            ->where('id', $followupableId)
+            ->first();
+
+        if ($followupable->followUps->isNotEmpty()) {
+            $this->info("This followupable already have follow ups");
+            // so we need to add next follow up with the bigger gap
+            $largestFollowUpHours = $followupable->followUps->max('wait_for_hours');
+
+            foreach ($followupable->followUps as $i => $followUp) {
+                $this->info(++$i . " : {$followUp->followupEmailEvent->name} (+{$followUp->wait_for_hours} hours)");
+            }
+
+            // $this->info("");
+        }
+
+        // dd($followupable->followUps);
 
         // the email that will be sent
         // todo: add constraint of suffix of FollowUp
@@ -90,10 +113,22 @@ class CreateFollowUpCommand extends Command
 
 
         // todo check if there are already follow ups for 
-        $waitForHours = text(
-            label: 'Wait time (in hours) before sending this follow-up',
-            required: true,
-            validate: ['required', 'integer', 'min:1']
+        // this should have max time delay so we can filter out emails logs that needs to sent
+        // follow up emails
+        $options = [];
+
+        foreach (range(1, 10) as $day) {
+            $hours = $day * 24;
+            if ($hours <= $largestFollowUpHours) {
+                continue;
+            }
+            $options[$hours] = "{$day} day(s) ({$hours} hours)";
+        }
+
+        $waitForHours = select(
+            label: 'Wait time (in hours) before sending this follow-up (1 day = 24 hours)',
+            options: $options,
+            default: 24
         );
 
         $isEnabled =  confirm(
@@ -101,6 +136,7 @@ class CreateFollowUpCommand extends Command
             default: false
         ) ? 1 : 0;
 
+        // ?we should create the migration for this
         $followUp = FollowUp::create([
             'followup_email_event_id' => $emailEventId,
             'followupable_type' => $followupableType,

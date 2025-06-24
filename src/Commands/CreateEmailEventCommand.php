@@ -60,31 +60,16 @@ class CreateEmailEventCommand extends Command
                     true
                 ) ? null : 'Invalid content type selected.'
             ),
-            'once_per_receivable' => select(
+            'once_per_receivable' => confirm(
                 label: 'Send Email once per receivable',
-                options: [
-                    1 => 'Yes',
-                    0 => 'No',
-                ],
-                default: 1,
-                required: true,
-            ),
+                default: true,
+                required: true
+            ) ? 1 : 0,
             // ?get this value only from command line
-            // 'is_followup_email' => select(
-            //     label: 'Is this follow up email to other sendable',
-            //     options: [
-            //         '0' => 'No',
-            //         '1' => 'Yes',
-            //     ],
-            //     default: '0',
-            //     required: true,
-            // ),
-
             'is_followup_email' => confirm(
                 'Is this a follow up email to another sendable?',
                 default: false
             ) ? 1 : 0
-
         ];
 
         $slug = str($data['name'])->slug();

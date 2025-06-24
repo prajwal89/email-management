@@ -16,6 +16,7 @@ use Prajwal89\EmailManagement\Services\FileManagers\EmailViewFileManager;
 use Prajwal89\EmailManagement\Services\FileManagers\MailableClassFileManager;
 use Prajwal89\EmailManagement\Services\FileManagers\MigrationFileManager;
 
+use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\select;
 use function Laravel\Prompts\text;
 use function Laravel\Prompts\textarea;
@@ -59,15 +60,11 @@ class CreateEmailCampaignCommand extends Command
                     true
                 ) ? null : 'Invalid content type selected.'
             ),
-            'once_per_receivable' => select(
+            'once_per_receivable' => confirm(
                 label: 'Send Email once per receivable',
-                options: [
-                    1 => 'Yes',
-                    0 => 'No',
-                ],
-                default: 1,
-                required: true,
-            ),
+                default: true,
+                required: true
+            ) ? 1 : 0,
         ];
 
         $slug = str($data['name'])->slug();
