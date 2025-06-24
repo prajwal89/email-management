@@ -128,7 +128,7 @@ class EmailCampaign extends Model implements EmailSendable
         return $mailPath . "/{$emailClassName}.php";
     }
 
-    public static function getMigrationFilePath(string $slug, string $type = 'create')
+    public static function getMigrationFilePath(string $slug, string $type = 'seed')
     {
         $microtime = microtime(true);
 

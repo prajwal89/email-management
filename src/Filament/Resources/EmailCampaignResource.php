@@ -92,7 +92,7 @@ class EmailCampaignResource extends Resource
                     ->icon('heroicon-o-eye')
                     ->openUrlInNewTab()
                     ->url(function ($record): string {
-                        return self::getUrl('preview-email', ['record' => $record->id]);
+                        return self::getUrl('preview-email', ['record' => $record->slug]);
                     }),
             ])
             ->modifyQueryUsing(function ($query) {

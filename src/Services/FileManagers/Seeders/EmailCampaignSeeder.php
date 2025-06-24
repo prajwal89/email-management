@@ -39,7 +39,7 @@ class EmailCampaignSeeder
         ;
 
 
-        $seederFilePath = EmailCampaign::getMigrationFilePath($slug->toString(), 'create');
+        $seederFilePath = EmailCampaign::getMigrationFilePath($slug->toString(), 'seed');
 
         $directory = dirname($seederFilePath);
 

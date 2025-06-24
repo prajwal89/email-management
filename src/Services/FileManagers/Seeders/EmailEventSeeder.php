@@ -40,7 +40,7 @@ class EmailEventSeeder
             ->replace('{namespace_path}', 'EmailEvents');
         // ->replace('{seeder_class_name}', $seederClassName)
 
-        $seederFilePath = EmailEvent::getMigrationFilePath($slug->toString(), 'create');
+        $seederFilePath = EmailEvent::getMigrationFilePath($slug->toString(), 'seed');
 
         // dd($fileContents);
 

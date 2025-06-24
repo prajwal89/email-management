@@ -94,7 +94,6 @@ class EmailEvent extends Model implements EmailSendable
         return $this->emailVariants->where('is_paused', 0)->count();
     }
 
-    // this is of no use as we are not using in command
     public function emailHandlerClassName(): string
     {
         return str($this->slug)->studly() . 'EmailHandler';
@@ -118,7 +117,7 @@ class EmailEvent extends Model implements EmailSendable
         return $seederClassName;
     }
 
-    public static function getMigrationFilePath(string $slug, string $type = 'create')
+    public static function getMigrationFilePath(string $slug, string $type = 'seed')
     {
         $microtime = microtime(true);
 
@@ -164,17 +163,4 @@ class EmailEvent extends Model implements EmailSendable
 
         return $mailPath . "/{$emailClassName}.php";
     }
-
-    // public function seederFilePath(): string
-    // {
-    //     $seederClassName = str($this->slug)->studly() . 'Seeder';
-
-    //     $seederPath = __DIR__ . "/../../database/seeders/EmailEvents/{$seederClassName}.php";
-
-    //     if (!File::exists($seederPath)) {
-    //         throw new Exception('No matching Seeder file found.');
-    //     }
-
-    //     return $seederPath;
-    // }
 }
