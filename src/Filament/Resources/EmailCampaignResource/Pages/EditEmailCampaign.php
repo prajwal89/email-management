@@ -25,7 +25,7 @@ class EditEmailCampaign extends EditRecord
                 ->icon('heroicon-o-eye')
                 ->outlined()
                 ->url(function ($record): string {
-                    return EmailCampaignResource::getUrl('preview-email', ['record' => $record->id]);
+                    return EmailCampaignResource::getUrl('preview-email', ['record' => $record->slug]);
                 })
                 ->openUrlInNewTab(),
 

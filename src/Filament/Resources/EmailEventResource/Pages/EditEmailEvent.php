@@ -25,7 +25,7 @@ class EditEmailEvent extends EditRecord
                 ->icon('heroicon-o-eye')
                 ->outlined()
                 ->url(function ($record): string {
-                    return EmailEventResource::getUrl('preview-email', ['record' => $record->id]);
+                    return EmailEventResource::getUrl('preview-email', ['record' => $record->slug]);
                 })
                 ->openUrlInNewTab(),
 
