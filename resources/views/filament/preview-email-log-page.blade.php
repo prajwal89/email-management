@@ -269,12 +269,23 @@
                                     'color' => 'text-red-500',
                                 ],
                             ];
+                            
+                            // Helper function to ensure Carbon instance
+                            $ensureCarbon = function($date) {
+                                if (!$date) return null;
+                                if ($date instanceof \Carbon\Carbon) return $date;
+                                try {
+                                    return \Carbon\Carbon::parse($date);
+                                } catch (\Exception $e) {
+                                    return null;
+                                }
+                            };
+                            
                             $events = collect($event_details)
-                                ->map(
-                                    fn($details, $field) => $record->{$field}
-                                        ? ['date' => $record->{$field}, 'details' => $details]
-                                        : null,
-                                )
+                                ->map(function($details, $field) use ($record, $ensureCarbon) {
+                                    $date = $ensureCarbon($record->{$field});
+                                    return $date ? ['date' => $date, 'details' => $details] : null;
+                                })
                                 ->filter()
                                 ->sortByDesc('date');
                         @endphp
