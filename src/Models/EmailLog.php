@@ -83,10 +83,10 @@ class EmailLog extends Model
         ];
     }
 
-    public function emailEvent(): BelongsTo
-    {
-        return $this->belongsTo(EmailEvent::class, 'email_event_id');
-    }
+    // public function emailEvent(): BelongsTo
+    // {
+    //     return $this->belongsTo(EmailEvent::class, 'email_event_id');
+    // }
 
     public function emailVisits(): HasMany
     {
@@ -191,13 +191,13 @@ class EmailLog extends Model
     //     });
     // }
 
-    // #[Scope]
-    // public function successful(Builder $query): void
-    // {
-    //     $query->whereNotNull('sent_at')
-    //         ->whereNull('soft_bounced_at')
-    //         ->whereNull('hard_bounced_at');
-    // }
+    #[Scope]
+    public function successful(Builder $query): void
+    {
+        $query->whereNotNull('sent_at')
+            ->whereNull('soft_bounced_at')
+            ->whereNull('hard_bounced_at');
+    }
 
     // #[Scope]
     // public function failed(Builder $query): void
