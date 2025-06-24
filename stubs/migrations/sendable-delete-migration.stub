@@ -11,4 +11,4 @@ return new class extends Migration
     {
         {sendable_model_name}::query()->where(['slug' => '{slug}'])->first()->delete();
     }
-}
+};

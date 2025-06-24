@@ -60,7 +60,7 @@ class EmailEventSeeder
             ->replace('{sendable_model_name}', 'EmailEvent')
             ->replace('{namespace_path}', 'EmailEvents');
 
-        $seederFilePath = EmailEvent::getSeederFilePath($slug, 'deseed');
+        $seederFilePath = EmailEvent::getMigrationFilePath($slug, 'deseed');
 
         $folder = dirname($seederFilePath);
 

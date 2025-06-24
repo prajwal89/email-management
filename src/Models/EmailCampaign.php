@@ -141,27 +141,27 @@ class EmailCampaign extends Model implements EmailSendable
         return config('email-management.migrations_dir') . '/' . $filename;
     }
 
-    public static function getSeederFileClassName(string $slug, string $type = 'create')
-    {
-        if ($type === 'create') {
-            $seederClassName = str($slug)->studly() . 'Seeder';
-        }
+    // public static function getSeederFileClassName(string $slug, string $type = 'create')
+    // {
+    //     if ($type === 'create') {
+    //         $seederClassName = str($slug)->studly() . 'Seeder';
+    //     }
 
-        if ($type === 'delete') {
-            $seederClassName = str($slug)->studly() . 'DeleteSeeder';
-        }
+    //     if ($type === 'delete') {
+    //         $seederClassName = str($slug)->studly() . 'DeleteSeeder';
+    //     }
 
-        return $seederClassName;
-    }
+    //     return $seederClassName;
+    // }
 
-    public static function getSeederFilePath(string $slug, string $type = 'create')
-    {
-        $seederClassName = self::getSeederFileClassName($slug, $type);
+    // public static function getSeederFilePath(string $slug, string $type = 'create')
+    // {
+    //     $seederClassName = self::getSeederFileClassName($slug, $type);
 
-        $seederFileName = "$seederClassName.php";
+    //     $seederFileName = "$seederClassName.php";
 
-        $seederPath = config('email-management.seeders_dir') . '/EmailCampaigns';
+    //     $seederPath = config('email-management.seeders_dir') . '/EmailCampaigns';
 
-        return $seederPath . "/{$seederFileName}";
-    }
+    //     return $seederPath . "/{$seederFileName}";
+    // }
 }

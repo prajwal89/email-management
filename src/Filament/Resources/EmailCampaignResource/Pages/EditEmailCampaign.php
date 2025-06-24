@@ -37,25 +37,27 @@ class EditEmailCampaign extends EditRecord
                 ->outlined()
                 ->icon('heroicon-o-trash')
                 ->requiresConfirmation()
-                ->disabled(fn (): bool => !app()->isLocal())
+                ->disabled(fn(): bool => !app()->isLocal())
                 ->tooltip('Can Be deleted from local Environment only')
-                ->modalDescription('This action will delate seeder file, handler class, email class and file, and all associated DB records')
+                ->modalDescription('This action will delete email handler class, email class and file, and all associated DB records and will create migration file for deleting the record')
                 ->modalSubmitActionLabel('Delete')
                 ->action(function (EmailCampaign $record) {
-                    if (app()->environment('local')) {
-                        EmailCampaignService::destroy($record);
-
+                    if (!app()->environment('local')) {
                         Notification::make()
-                            ->title('Deleted Successfully')
-                            ->success()
+                            ->title('Deletion allowed only in local environment')
+                            ->danger()
                             ->send();
-
-                        return redirect(EmailCampaignResource::getUrl('index'));
+                        return;
                     }
+
+                    EmailCampaignService::destroy($record);
+
                     Notification::make()
-                        ->title('Deletion allowed only in local environment')
-                        ->danger()
+                        ->title('Deleted Successfully')
+                        ->success()
                         ->send();
+
+                    return redirect(EmailCampaignResource::getUrl('index'));
                 }),
 
             Action::make('start')

@@ -13,7 +13,7 @@ use Prajwal89\EmailManagement\Models\EmailVariant;
 class EmailVariantSeeder
 {
     public function __construct(
-        public string|Model $forModel,
+        public string|EmailVariant $forModel,
         public array $modelAttributes,
         public ?string $sendableType,
         public ?string $sendableSlug,
@@ -62,13 +62,12 @@ class EmailVariantSeeder
 
         $seederFilePath = __DIR__ . '/../../../../stubs/migrations/email-variant-delete-migration.stub';
 
-        $fileContents = str(File::get($seederFilePath))
-            ->replace('{slug}', $slug);
+        $fileContents = str(File::get($seederFilePath))->replace('{slug}', $slug);
 
         $migrationFilePath = EmailVariant::getMigrationFilePath(
-            sendableType: $this->sendableType,
-            sendableSlug: $this->sendableSlug,
-            variantSlug: $slug->toString(),
+            sendableType: get_class($this->forModel->sendable),
+            sendableSlug: $this->forModel->sendable->slug,
+            variantSlug: $slug,
         );
 
         $folder = dirname($migrationFilePath);

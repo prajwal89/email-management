@@ -30,7 +30,10 @@ class EmailEventService
                 EmailLogService::destroy($emailLog);
             });
 
-            (new SeederFileManager($emailEvent))->generateDeleteSeederFile();
+            (new SeederFileManager($emailEvent))
+                ->setSendableType(EmailEvent::class)
+                ->setSendableSlug($emailEvent->slug)
+                ->generateDeleteSeederFile();
 
             // this will effectively delete the email event record
             $exitCode = Artisan::call('em:seed-db');
