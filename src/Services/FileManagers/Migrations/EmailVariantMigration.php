@@ -69,6 +69,7 @@ class EmailVariantMigration
             sendableType: addslashes(get_class($this->forModel->sendable)),
             sendableSlug: $this->forModel->sendable->slug,
             variantSlug: $slug,
+            type: 'deseed'
         );
 
         $folder = dirname($migrationFilePath);
