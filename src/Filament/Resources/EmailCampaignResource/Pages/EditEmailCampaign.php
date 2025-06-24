@@ -53,7 +53,7 @@ class EditEmailCampaign extends EditRecord
                     EmailCampaignService::destroy($record);
 
                     Notification::make()
-                        ->title('Deleted Successfully')
+                        ->title('Now run `php artisan migrate` to delete the records')
                         ->success()
                         ->send();
 

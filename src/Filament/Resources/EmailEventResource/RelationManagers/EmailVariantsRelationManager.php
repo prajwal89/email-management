@@ -101,7 +101,7 @@ class EmailVariantsRelationManager extends RelationManager
                     ->color('danger')
                     ->icon('heroicon-o-trash')
                     ->requiresConfirmation()
-                    ->disabled(fn (): bool => !app()->isLocal())
+                    ->disabled(fn(): bool => !app()->isLocal())
                     ->tooltip('Can Be deleted from local Environment only')
                     ->modalDescription('This action will email file, and all associated DB records and will create seeder file for deleting the record')
                     ->modalSubmitActionLabel('Delete')
@@ -122,7 +122,7 @@ class EmailVariantsRelationManager extends RelationManager
                         EmailVariantService::destroy($record);
 
                         Notification::make()
-                            ->title('Deleted Successfully')
+                            ->title('Now run `php artisan migrate` to delete the records')
                             ->success()
                             ->send();
                     }),

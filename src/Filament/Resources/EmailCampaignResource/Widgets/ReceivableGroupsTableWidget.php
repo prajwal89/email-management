@@ -63,7 +63,6 @@ class ReceivableGroupsTableWidget extends BaseWidget
                         ->title('Deleted Successfully')
                         ->success()
                         ->send();
-
                 }),
             ]);
     }

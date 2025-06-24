@@ -15,6 +15,7 @@ use Prajwal89\EmailManagement\Services\FileManagers\SeederFileManager;
 
 class EmailEventService
 {
+    // ask user to run migration
     public static function destroy(EmailEvent $emailEvent): bool
     {
         // Do not delete seeder file as they will be deleted in pairs
@@ -34,13 +35,6 @@ class EmailEventService
                 ->setSendableType(EmailEvent::class)
                 ->setSendableSlug($emailEvent->slug)
                 ->generateDeleteSeederFile();
-
-            // this will effectively delete the email event record
-            $exitCode = Artisan::call('em:seed-db');
-
-            if ($exitCode !== 0) {
-                throw new Exception("Command 'php artisan em:seed-db' Failed " . $exitCode);
-            }
 
             // delete email handler
             $handlerPath = EmailEvent::getEmailHandlerFilePath($emailEvent->slug);
