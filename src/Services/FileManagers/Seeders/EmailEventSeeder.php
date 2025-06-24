@@ -37,7 +37,6 @@ class EmailEventSeeder
 
         $seederFilePath = EmailEvent::getMigrationFilePath($slug->toString(), 'seed');
 
-
         $directory = dirname($seederFilePath);
 
         if (!File::exists($directory)) {

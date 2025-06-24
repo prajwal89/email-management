@@ -35,7 +35,6 @@ class EmailCampaignSeeder
             ->replace('{sendable_model_name}', 'EmailCampaign')
             ->replace('{namespace_path}', 'EmailCampaigns');
 
-
         $seederFilePath = EmailCampaign::getMigrationFilePath($slug->toString(), 'seed');
 
         $directory = dirname($seederFilePath);
