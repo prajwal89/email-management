@@ -13,15 +13,16 @@ use Prajwal89\EmailManagement\Commands\CreateEmailCampaignCommand;
 use Prajwal89\EmailManagement\Commands\CreateEmailEventCommand;
 use Prajwal89\EmailManagement\Commands\CreateEmailVariantCommand;
 use Prajwal89\EmailManagement\Commands\CreateReceivableGroupCommand;
-use Prajwal89\EmailManagement\Commands\ScanMailboxCommand;
-use Prajwal89\EmailManagement\Commands\SeedEmailsDatabaseCommand;
 use Prajwal89\EmailManagement\Listeners\MessageSendingListener;
 use Prajwal89\EmailManagement\Listeners\MessageSentListener;
 
 // todo use spaties package skeleton
 class EmailManagementServiceProvider extends ServiceProvider
 {
-    public function register() {}
+    public function register()
+    {
+        // 
+    }
 
     public function boot(): void
     {
@@ -58,9 +59,7 @@ class EmailManagementServiceProvider extends ServiceProvider
         $this->commands([
             CreateEmailEventCommand::class,
             CreateEmailCampaignCommand::class,
-            SeedEmailsDatabaseCommand::class,
             CreateReceivableGroupCommand::class,
-            ScanMailboxCommand::class,
             CreateEmailVariantCommand::class,
         ]);
 
