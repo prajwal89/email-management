@@ -66,7 +66,7 @@ class EmailVariantMigration
             ->replace('{slug}', $slug);
 
         $migrationFilePath = EmailVariant::getMigrationFilePath(
-            sendableType: get_class($this->forModel->sendable),
+            sendableType: addslashes(get_class($this->forModel->sendable)),
             sendableSlug: $this->forModel->sendable->slug,
             variantSlug: $slug,
         );
