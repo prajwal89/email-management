@@ -1,4 +1,4 @@
-# Complete Email Management Solution
+# Complete Email Management Solution for Laravel Apps
 
 This is an **opinionated email management solution** with powerful features for modern Laravel applications:
 

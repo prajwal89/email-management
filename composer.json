@@ -1,6 +1,6 @@
 {
     "name": "prajwal89/email-management",
-    "description": "Manage Your Emails",
+    "description": "Complete Email Management Solution for Laravel Apps",
     "license": "MIT",
     "autoload": {
         "psr-4": {

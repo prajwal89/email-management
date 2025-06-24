@@ -158,7 +158,7 @@ class CreateEmailVariantCommand extends Command
 
         $this->info("Created Email Variant Seeder file: {$filePath}");
 
-        Artisan::call('em:seed-db');
+        Artisan::call('migrate');
 
         return self::SUCCESS;
     }
