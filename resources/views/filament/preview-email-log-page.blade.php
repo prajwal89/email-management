@@ -98,25 +98,13 @@
                 </x-slot>
 
                 @php
-                    $status = $record->getStatus();
-                    $statusDetails = [
-                        'sent' => ['color' => 'primary', 'icon' => 'heroicon-s-paper-airplane'],
-                        'opened' => ['color' => 'success', 'icon' => 'heroicon-s-eye'],
-                        'clicked' => ['color' => 'success', 'icon' => 'heroicon-s-cursor-arrow-rays'],
-                        'replied' => ['color' => 'success', 'icon' => 'heroicon-s-chat-bubble-left-right'],
-                        'unsubscribed' => ['color' => 'warning', 'icon' => 'heroicon-s-user-minus'],
-                        'complained' => ['color' => 'warning', 'icon' => 'heroicon-s-shield-exclamation'],
-                        'soft_bounced' => ['color' => 'danger', 'icon' => 'heroicon-s-exclamation-triangle'],
-                        'hard_bounced' => ['color' => 'danger', 'icon' => 'heroicon-s-x-circle'],
-                        'pending' => ['color' => 'gray', 'icon' => 'heroicon-s-clock'],
-                    ];
-                    $currentStatus = $statusDetails[$status] ?? $statusDetails['pending'];
+                    $status = $record->getStatus(); // This now returns EmailStatus enum
                 @endphp
 
                 <div class="flex items-center justify-between gap-4">
                     <span class="text-lg font-medium text-gray-900 dark:text-white">Status</span>
-                    <x-filament::badge :color="$currentStatus['color']" :icon="$currentStatus['icon']">
-                        {{ \Illuminate\Support\Str::of($status)->replace('_', ' ')->title() }}
+                    <x-filament::badge :color="$status->getColor()" :icon="$status->getIcon()">
+                        {{ $status->getLabel() }}
                     </x-filament::badge>
                 </div>
 

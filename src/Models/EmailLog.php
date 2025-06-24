@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Models;
 
+use Prajwal89\EmailManagement\Enums\EmailStatus;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -224,48 +225,64 @@ class EmailLog extends Model
     // }
 
     /**
-     * Get the status of the email
+     * Get the email status
      */
-    public function getStatus(): string
+    public function getStatus(): EmailStatus
     {
-        // Check for bounces first (most critical)
-        if ($this->hard_bounced_at) {
-            return 'hard_bounced';
-        }
+        return EmailStatus::fromEmailLog($this);
+    }
 
-        if ($this->soft_bounced_at) {
-            return 'soft_bounced';
-        }
+    /**
+     * Get the status as string (for backward compatibility)
+     */
+    public function getStatusString(): string
+    {
+        return $this->getStatus()->value;
+    }
 
-        // Check for unsubscribe
-        if ($this->unsubscribed_at) {
-            return 'unsubscribed';
-        }
-
-        // Check for complaints
-        if ($this->complained_at) {
-            return 'complained';
-        }
-
-        // Check for engagement (in order of value)
-        if ($this->replied_at) {
-            return 'replied';
-        }
-
-        if ($this->last_clicked_at) {
-            return 'clicked';
-        }
-
-        if ($this->last_opened_at) {
-            return 'opened';
-        }
-
-        // Check if sent
-        if ($this->sent_at) {
-            return 'sent';
-        }
-
-        // Default status
-        return 'pending';
+    /**
+     * Scope for filtering by status
+     */
+    public function scopeWithStatus($query, EmailStatus $status)
+    {
+        return match ($status) {
+            EmailStatus::HARD_BOUNCED => $query->whereNotNull('hard_bounced_at'),
+            EmailStatus::SOFT_BOUNCED => $query->whereNotNull('soft_bounced_at')
+                ->whereNull('hard_bounced_at'),
+            EmailStatus::UNSUBSCRIBED => $query->whereNotNull('unsubscribed_at')
+                ->whereNull('hard_bounced_at')
+                ->whereNull('soft_bounced_at'),
+            EmailStatus::COMPLAINED => $query->whereNotNull('complained_at')
+                ->whereNull('hard_bounced_at')
+                ->whereNull('soft_bounced_at')
+                ->whereNull('unsubscribed_at'),
+            EmailStatus::REPLIED => $query->whereNotNull('replied_at')
+                ->whereNull('hard_bounced_at')
+                ->whereNull('soft_bounced_at')
+                ->whereNull('unsubscribed_at')
+                ->whereNull('complained_at'),
+            EmailStatus::CLICKED => $query->whereNotNull('last_clicked_at')
+                ->whereNull('replied_at')
+                ->whereNull('hard_bounced_at')
+                ->whereNull('soft_bounced_at')
+                ->whereNull('unsubscribed_at')
+                ->whereNull('complained_at'),
+            EmailStatus::OPENED => $query->whereNotNull('last_opened_at')
+                ->whereNull('last_clicked_at')
+                ->whereNull('replied_at')
+                ->whereNull('hard_bounced_at')
+                ->whereNull('soft_bounced_at')
+                ->whereNull('unsubscribed_at')
+                ->whereNull('complained_at'),
+            EmailStatus::SENT => $query->whereNotNull('sent_at')
+                ->whereNull('last_opened_at')
+                ->whereNull('last_clicked_at')
+                ->whereNull('replied_at')
+                ->whereNull('hard_bounced_at')
+                ->whereNull('soft_bounced_at')
+                ->whereNull('unsubscribed_at')
+                ->whereNull('complained_at'),
+            EmailStatus::PENDING => $query->whereNull('sent_at'),
+        };
     }
 }
