@@ -14,7 +14,7 @@ class FollowUp extends Model
         'followupable_id',
         'followupable_type',
         'is_enabled',
-        'wait_for_hours',
+        'wait_for_days',
     ];
 
     /**

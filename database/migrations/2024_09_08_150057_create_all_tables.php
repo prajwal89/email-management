@@ -54,7 +54,7 @@ return new class extends Migration
 
             $table->boolean('is_enabled')->default(true);
 
-            $table->unsignedInteger('wait_for_hours');
+            $table->unsignedInteger('wait_for_days');
 
             $table->index(['followupable_id', 'followupable_type']);
             // $table->index(['sendable_id', 'sendable_type']);
