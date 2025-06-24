@@ -32,11 +32,8 @@ class EmailCampaignSeeder
             ->replace('{name}', $this->modelAttributes['name'])
             ->replace('{slug}', $slug)
             ->replace('{description}', $this->modelAttributes['description'])
-            // ->replace('{content_type}', $this->modelAttributes['content_type'])
             ->replace('{sendable_model_name}', 'EmailCampaign')
-            ->replace('{namespace_path}', 'EmailCampaigns')
-            // ->replace('{seeder_class_name}', $seederClassName)
-        ;
+            ->replace('{namespace_path}', 'EmailCampaigns');
 
 
         $seederFilePath = EmailCampaign::getMigrationFilePath($slug->toString(), 'seed');
@@ -47,12 +44,6 @@ class EmailCampaignSeeder
             File::makeDirectory($directory, 0755, true);
         }
 
-        if (File::exists($seederFilePath)) {
-            throw new Exception("Seeder file is already available: {$seederFilePath}");
-
-            return;
-        }
-
         File::put($seederFilePath, $fileContents);
 
         return $seederFilePath;
@@ -60,28 +51,21 @@ class EmailCampaignSeeder
 
     public function generateDeleteSeederFile()
     {
-        $slug = str($this->forModel->slug);
+        $slug = $this->forModel->slug;
 
-        $seederClassName = EmailCampaign::getSeederFileClassName($slug->toString(), 'delete');
+        $stubPath = __DIR__ . '/../../../../stubs/migrations/sendable-delete-migration.stub';
 
-        $fileContents = str(File::get(__DIR__ . '/../../../../stubs/seeders/sendable-delete-seeder.stub'))
+        $fileContents = str(File::get($stubPath))
             ->replace('{slug}', $slug)
             ->replace('{sendable_model_name}', 'EmailCampaign')
-            ->replace('{namespace_path}', 'EmailCampaigns')
-            ->replace('{seeder_class_name}', $seederClassName);
+            ->replace('{namespace_path}', 'EmailCampaigns');
 
-        $seederFilePath = EmailCampaign::getSeederFilePath($slug->toString(), 'delete');
+        $seederFilePath = EmailCampaign::getSeederFilePath($slug, 'deseed');
 
         $folder = dirname($seederFilePath);
 
         if (!File::exists($folder)) {
             File::makeDirectory($folder, 0755, true);
-        }
-
-        if (File::exists($seederFilePath)) {
-            throw new Exception("Delete Seeder file is already available: {$seederFilePath}");
-
-            return;
         }
 
         File::put($seederFilePath, $fileContents);

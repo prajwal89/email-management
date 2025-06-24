@@ -44,7 +44,7 @@ class EmailVariantService
     public static function destroy(EmailVariant $emailVariant)
     {
         if (!app()->isLocal()) {
-            throw new Exception('Email Variants Can Be Deleted from Local Environment Only');
+            throw new Exception('Email Variants Can Be Deleted from Local Environment Only. as it includes deleting files.');
         }
 
         $emailViewFilePath = EmailVariant::getEmailViewFilePath(
@@ -52,17 +52,20 @@ class EmailVariantService
             $emailVariant->slug,
         );
 
-        (new SeederFileManager($emailVariant->sendable))->generateDeleteSeederFile();
+        // delete sendable record
+        // (new SeederFileManager($emailVariant->sendable))->generateDeleteSeederFile();
 
+        // delete email variant
         (new SeederFileManager($emailVariant))->generateDeleteSeederFile();
 
         File::delete($emailViewFilePath);
 
         // effectively deleted the email variant record
-        $exitCode = Artisan::call('em:seed-db');
+        // ask for if to run migrations
+        $exitCode = Artisan::call('migrate');
 
         if ($exitCode !== 0) {
-            throw new Exception('command php artisan em:seed-db Failed ' . $exitCode);
+            throw new Exception('command `php artisan migrate` Failed ' . $exitCode);
         }
 
         return true;

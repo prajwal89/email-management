@@ -1,0 +1,13 @@
+<?php
+
+declare(strict_types=1);
+
+use Prajwal89\EmailManagement\Models\EmailVariant;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        EmailVariant::query()->where(['slug' => '{slug}'])->first()->delete();
+    }
+}

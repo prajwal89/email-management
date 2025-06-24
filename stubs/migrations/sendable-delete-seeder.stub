@@ -1,0 +1,14 @@
+<?php
+
+declare(strict_types=1);
+
+use Illuminate\Database\Migrations\Migration;
+use Prajwal89\EmailManagement\Models\{sendable_model_name};
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        {sendable_model_name}::query()->where(['slug' => '{slug}'])->first()->delete();
+    }
+}

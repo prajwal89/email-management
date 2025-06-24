@@ -103,7 +103,7 @@ class EmailVariant extends Model
         string $sendableType,
         string $sendableSlug,
         string $variantSlug,
-        string $type = 'create'
+        string $type = 'seed'
     ) {
         $sendableType = str($sendableType)->afterLast('\\')->lower();
 
