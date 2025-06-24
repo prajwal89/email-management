@@ -2,6 +2,7 @@
     "name": "prajwal89/email-management",
     "description": "Complete Email Management Solution for Laravel Apps",
     "license": "MIT",
+    "type": "library",
     "autoload": {
         "psr-4": {
             "Prajwal89\\EmailManagement\\": "src/",
@@ -14,14 +15,22 @@
             "email": "22263436+prajwal89@users.noreply.github.com"
         }
     ],
-    "require-dev": {
-        "laravel/pint": "^1.22"
-    },
     "require": {
         "spatie/laravel-honeypot": "^4.5",
         "flowframe/laravel-trend": "^0.4.0",
         "prajwal89/lara-toast": "dev-main",
         "jaybizzle/crawler-detect": "^1.3",
         "directorytree/imapengine-laravel": "^1.1"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.22"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Prajwal89\\EmailManagement\\EmailManagementServiceProvider",
+                "DirectoryTree\\ImapEngine\\Laravel\\ImapServiceProvider"
+            ]
+        }
     }
 }
