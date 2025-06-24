@@ -14,7 +14,7 @@ use Prajwal89\EmailManagement\Models\EmailVariant;
 use Prajwal89\EmailManagement\Services\FileManagers\EmailHandlerFileManager;
 use Prajwal89\EmailManagement\Services\FileManagers\EmailViewFileManager;
 use Prajwal89\EmailManagement\Services\FileManagers\MailableClassFileManager;
-use Prajwal89\EmailManagement\Services\FileManagers\SeederFileManager;
+use Prajwal89\EmailManagement\Services\FileManagers\MigrationFileManager;
 
 use function Laravel\Prompts\select;
 use function Laravel\Prompts\text;
@@ -53,9 +53,9 @@ class CreateEmailCampaignCommand extends Command
                 })->toArray(),
                 default: EmailContentType::MARKDOWN->value,
                 required: true,
-                validate: fn (string $value) => in_array(
+                validate: fn(string $value) => in_array(
                     $value,
-                    collect(EmailContentType::cases())->map(fn ($case) => $case->value)->toArray(),
+                    collect(EmailContentType::cases())->map(fn($case) => $case->value)->toArray(),
                     true
                 ) ? null : 'Invalid content type selected.'
             ),
@@ -80,7 +80,7 @@ class CreateEmailCampaignCommand extends Command
 
         $this->createSeederFile($data);
 
-        $this->createDefaultEmailVariantSeederFile($data, EmailCampaign::class, $slug->toString());
+        $this->createDefaultEmailVariantMigrationFile($data, EmailCampaign::class, $slug->toString());
 
         $this->createEmailHandlerClassFile($data);
 
@@ -102,19 +102,19 @@ class CreateEmailCampaignCommand extends Command
 
     public function createSeederFile(array $data): void
     {
-        $filePath = (new SeederFileManager(EmailCampaign::class))
+        $filePath = (new MigrationFileManager(EmailCampaign::class))
             ->setAttributes($data)
             ->generateFile();
 
         $this->info("Created Seeder file: {$filePath}");
     }
 
-    public function createDefaultEmailVariantSeederFile(
+    public function createDefaultEmailVariantMigrationFile(
         array $data,
         string $sendableType,
         string $sendableSlug
     ): void {
-        $filePath = (new SeederFileManager(EmailVariant::class))
+        $filePath = (new MigrationFileManager(EmailVariant::class))
             ->setAttributes(
                 array_merge(
                     (new EmailVariant)->getDefaultAttributes(),

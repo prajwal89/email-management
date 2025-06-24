@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Prajwal89\EmailManagement\Services\FileManagers\Seeders;
+namespace Prajwal89\EmailManagement\Services\FileManagers\Migrations;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use Prajwal89\EmailManagement\Models\EmailEvent;
 
-class EmailEventSeeder
+class EmailEventMigration
 {
     public function __construct(
         public string|Model $forModel,

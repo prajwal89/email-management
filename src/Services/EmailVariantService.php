@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 use Prajwal89\EmailManagement\Models\EmailVariant;
-use Prajwal89\EmailManagement\Services\FileManagers\SeederFileManager;
+use Prajwal89\EmailManagement\Services\FileManagers\MigrationFileManager;
 
 class EmailVariantService
 {
@@ -53,10 +53,10 @@ class EmailVariantService
         );
 
         // delete sendable record
-        // (new SeederFileManager($emailVariant->sendable))->generateDeleteSeederFile();
+        // (new MigrationFileManager($emailVariant->sendable))->generateDeleteSeederFile();
 
         // delete email variant
-        (new SeederFileManager($emailVariant))->generateDeleteSeederFile();
+        (new MigrationFileManager($emailVariant))->generateDeleteSeederFile();
 
         File::delete($emailViewFilePath);
 

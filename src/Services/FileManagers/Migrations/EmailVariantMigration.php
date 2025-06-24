@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Prajwal89\EmailManagement\Services\FileManagers\Seeders;
+namespace Prajwal89\EmailManagement\Services\FileManagers\Migrations;
 
 use Illuminate\Support\Facades\File;
 use LogicException;
 use Prajwal89\EmailManagement\Models\EmailVariant;
 
-class EmailVariantSeeder
+class EmailVariantMigration
 {
     public function __construct(
         public string|EmailVariant $forModel,

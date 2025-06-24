@@ -10,7 +10,7 @@ use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailCampaignRun;
 use Prajwal89\EmailManagement\Models\EmailLog;
 use Prajwal89\EmailManagement\Models\EmailVariant;
-use Prajwal89\EmailManagement\Services\FileManagers\SeederFileManager;
+use Prajwal89\EmailManagement\Services\FileManagers\MigrationFileManager;
 
 class EmailCampaignService
 {
@@ -33,7 +33,7 @@ class EmailCampaignService
                 EmailCampaignRunService::destroy($emailCampaignRun);
             });
 
-            (new SeederFileManager($emailCampaign))
+            (new MigrationFileManager($emailCampaign))
                 ->setSendableType(EmailCampaign::class)
                 ->setSendableSlug($emailCampaign->slug)
                 ->generateDeleteSeederFile();
