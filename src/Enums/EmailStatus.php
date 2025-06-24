@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Prajwal89\EmailManagement\Enums;
 
 use Filament\Support\Contracts\HasColor;
@@ -134,7 +136,8 @@ enum EmailStatus: string implements HasColor, HasIcon, HasLabel
     public static function orderedByPriority(): array
     {
         $cases = self::cases();
-        usort($cases, fn($a, $b) => $a->getPriority() <=> $b->getPriority());
+        usort($cases, fn ($a, $b) => $a->getPriority() <=> $b->getPriority());
+
         return $cases;
     }
 

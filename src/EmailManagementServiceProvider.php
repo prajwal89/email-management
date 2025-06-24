@@ -24,7 +24,7 @@ class EmailManagementServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        // 
+        //
     }
 
     public function boot(): void
@@ -66,7 +66,7 @@ class EmailManagementServiceProvider extends ServiceProvider
             CreateEmailCampaignCommand::class,
             CreateReceivableGroupCommand::class,
             CreateEmailVariantCommand::class,
-            CreateFollowUpCommand::class
+            CreateFollowUpCommand::class,
         ]);
 
         Factory::guessFactoryNamesUsing(function (string $modelName) {

@@ -6,14 +6,11 @@ namespace Prajwal89\EmailManagement\Commands;
 
 use Exception;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\Models\FollowUp;
 
 use function Laravel\Prompts\confirm;
-use function Laravel\Prompts\text;
 use function Laravel\Prompts\select;
 use function Pest\Laravel\options;
 
@@ -39,7 +36,6 @@ class CreateFollowUpCommand extends Command
         //     validate: ['required', 'string']
         // );
 
-
         // follow up for this sendable
         // b.c EmailEvent,and EmailCampaign can have follow ups
         $followupableType = select(
@@ -63,7 +59,6 @@ class CreateFollowUpCommand extends Command
             validate: ['required', 'integer', 'min:1']
         );
 
-
         // move this logic
         $allFollowupEmailEvents = EmailEvent::query()
             ->latest()
@@ -71,9 +66,8 @@ class CreateFollowUpCommand extends Command
             ->get();
 
         if ($allFollowupEmailEvents->isEmpty()) {
-            throw new Exception("There are no follow up emailEvents please create email event");
+            throw new Exception('There are no follow up emailEvents please create email event');
         }
-
 
         $followupable = $followupableType::query()
             ->with(['followUps' => function ($query) {
@@ -85,8 +79,8 @@ class CreateFollowUpCommand extends Command
         $largestFollowUpDays = 0;
 
         if ($followupable->followUps->isNotEmpty()) {
-            $this->info("Current Follow ups");
-            $this->info("Note: Next Follow up needs bigger delay");
+            $this->info('Current Follow ups');
+            $this->info('Note: Next Follow up needs bigger delay');
             // so we need to add next follow up with the bigger gap
             $largestFollowUpDays = $followupable->followUps->max('wait_for_days');
 
@@ -101,20 +95,20 @@ class CreateFollowUpCommand extends Command
 
         // the email that will be sent
         // todo: add constraint of suffix of FollowUp
-        // follow up emails are emailevents only 
+        // follow up emails are emailevents only
         $emailEventId = select(
             label: 'Choose follow up email',
-            hint: "Email event for follow up email",
+            hint: 'Email event for follow up email',
             options: $allFollowupEmailEvents->pluck('name', 'id'),
             required: true,
             validate: [
                 'required',
                 'integer',
-                'min:1'
+                'min:1',
             ]
         );
 
-        // todo check if there are already follow ups for 
+        // todo check if there are already follow ups for
         // this should have max time delay so we can filter out emails logs that needs to sent
         // follow up emails
         $options = [];

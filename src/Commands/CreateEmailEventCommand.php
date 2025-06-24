@@ -54,9 +54,9 @@ class CreateEmailEventCommand extends Command
                 })->toArray(),
                 default: EmailContentType::MARKDOWN->value,
                 required: true,
-                validate: fn(string $value) => in_array(
+                validate: fn (string $value) => in_array(
                     $value,
-                    collect(EmailContentType::cases())->map(fn($case) => $case->value)->toArray(),
+                    collect(EmailContentType::cases())->map(fn ($case) => $case->value)->toArray(),
                     true
                 ) ? null : 'Invalid content type selected.'
             ),
@@ -69,7 +69,7 @@ class CreateEmailEventCommand extends Command
             'is_followup_email' => confirm(
                 'Is this a follow up email to another sendable?',
                 default: false
-            ) ? 1 : 0
+            ) ? 1 : 0,
         ];
 
         $slug = str($data['name'])->slug();

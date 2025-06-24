@@ -28,9 +28,9 @@ return [
      * We use directorytree/imapengine-laravel for monitoring mailboxes.
      * You must configure the mailbox in the config/imap.php file and
      * provide the name of the mailbox here.
-     * 
+     *
      * To use the default mailbox, leave this value as 'default'.
-     * 
+     *
      * Docs: https://imapengine.com/docs/laravel/installation
      */
     'mailbox' => 'default',

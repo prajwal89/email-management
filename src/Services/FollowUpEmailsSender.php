@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Services;
 
-use Illuminate\Support\Facades\DB;
 use Prajwal89\EmailManagement\Models\EmailLog;
 
 class FollowUpEmailsSender
@@ -13,7 +12,7 @@ class FollowUpEmailsSender
     // it should throw an error
     public function __construct()
     {
-        // 
+        //
     }
 
     public function send()
@@ -34,7 +33,6 @@ class FollowUpEmailsSender
             ->get();
 
         // loop through the potential emails that may require follow up email
-
 
         // $followUpsSent = 0;
         // $followUpsSkipped = 0;
@@ -103,11 +101,11 @@ class FollowUpEmailsSender
 
     public function checkIfMailboxAccessible()
     {
-        // 
+        //
     }
 
     public function schedule()
     {
-        // 
+        //
     }
 }
