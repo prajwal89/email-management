@@ -9,6 +9,13 @@ return new class extends Migration
 {
     public function up(): void
     {
-        EmailVariant::query()->where(['slug' => '{slug}'])->first()->delete();
+        EmailVariant::query()
+          ->where([
+            'slug' => '{slug}'
+            'sendable_type' => '{sendable_type}',
+            'sendable_id' => '{sendable_id}'
+           ])
+          ->first()
+          ->delete();
     }
 };

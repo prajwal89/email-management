@@ -60,7 +60,10 @@ class EmailVariantMigration
 
         $seederFilePath = __DIR__ . '/../../../../stubs/migrations/email-variant-delete-migration.stub';
 
-        $fileContents = str(File::get($seederFilePath))->replace('{slug}', $slug);
+        $fileContents = str(File::get($seederFilePath))
+            ->replace('{sendable_type}', get_class($this->forModel->sendable))
+            ->replace('{sendable_id}', $this->forModel->sendable->id)
+            ->replace('{slug}', $slug);
 
         $migrationFilePath = EmailVariant::getMigrationFilePath(
             sendableType: get_class($this->forModel->sendable),
