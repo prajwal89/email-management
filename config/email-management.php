@@ -22,6 +22,8 @@ return [
 
     'mailer' => 'smtp',
 
+    'max_delay_for_followup_email' => 21,
+
     /**
      * We use directorytree/imapengine-laravel for monitoring mailboxes.
      * You must configure the mailbox in the config/imap.php file and

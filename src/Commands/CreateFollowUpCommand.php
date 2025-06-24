@@ -119,7 +119,7 @@ class CreateFollowUpCommand extends Command
         // follow up emails
         $options = [];
 
-        foreach (range(1, 21) as $day) {
+        foreach (range(1, config('email-management.max_delay_for_followup_email')) as $day) {
             if ($day <= $largestFollowUpDays) {
                 continue;
             }
