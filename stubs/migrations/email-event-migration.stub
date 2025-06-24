@@ -1,0 +1,19 @@
+<?php
+
+declare(strict_types=1);
+
+use Illuminate\Database\Migrations\Migration;
+use Prajwal89\EmailManagement\Models\{sendable_model_name};
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        {sendable_model_name}::create([
+            'slug' => '{slug}',
+            'name' => '{name}',
+            'description' => '{description}',
+            'is_followup_email' => '{is_followup_email}',
+        ]);
+    }
+};

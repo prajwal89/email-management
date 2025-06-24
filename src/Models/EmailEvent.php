@@ -67,6 +67,11 @@ class EmailEvent extends Model implements EmailSendable
         )->where('sendable_type', self::class);
     }
 
+    public function followUps(): MorphMany
+    {
+        return $this->morphMany(FollowUp::class, 'followupable');
+    }
+
     public function isEnabled(): bool
     {
         return $this->is_enabled;

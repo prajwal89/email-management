@@ -26,7 +26,7 @@ class EmailCampaignMigration
             throw new Exception('Email Campaign Name is Taken');
         }
 
-        $stubPath = __DIR__ . '/../../../../stubs/migrations/sendable-migration.stub';
+        $stubPath = __DIR__ . '/../../../../stubs/migrations/email-campaign-migration.stub';
 
         $fileContents = str(File::get($stubPath))
             ->replace('{name}', $this->modelAttributes['name'])

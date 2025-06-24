@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->boolean('is_enabled')->default(1);
+            $table->boolean('is_followup_email')->default(0);
 
             $table->foreignId('parent_event_id')
                 ->nullable()
@@ -38,6 +39,25 @@ return new class extends Migration
             $table->string('slug', 255)->unique();
             $table->text('description')->nullable();
             $table->boolean('is_enabled')->default(true);
+
+            $table->timestamps();
+        });
+
+        Schema::create('follow_ups', function (Blueprint $table): void {
+            $table->id();
+
+            $table->unsignedBigInteger('followupable_id');
+            $table->string('followupable_type');
+
+            // actual email will be sent for the followupable
+            $table->unsignedBigInteger('followup_email_event_id');
+
+            $table->boolean('is_enabled')->default(true);
+
+            $table->unsignedInteger('wait_for_hours');
+
+            $table->index(['followupable_id', 'followupable_type']);
+            // $table->index(['sendable_id', 'sendable_type']);
 
             $table->timestamps();
         });
@@ -64,7 +84,7 @@ return new class extends Migration
             $table->enum(
                 column: 'content_type',
                 allowed: collect(EmailContentType::cases())
-                    ->map(fn ($case) => $case->value)->toArray()
+                    ->map(fn($case) => $case->value)->toArray()
             )->default('markdown');
 
             $table->unsignedBigInteger('sendable_id')->nullable();

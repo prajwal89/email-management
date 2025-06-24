@@ -26,12 +26,13 @@ class EmailEventMigration
             throw new Exception('Email Event Name is Taken');
         }
 
-        $stubPath = __DIR__ . '/../../../../stubs/migrations/sendable-migration.stub';
+        $stubPath = __DIR__ . '/../../../../stubs/migrations/email-event-migration.stub';
 
         $fileContents = str(File::get($stubPath))
             ->replace('{name}', $this->modelAttributes['name'])
             ->replace('{slug}', $slug)
             ->replace('{description}', $this->modelAttributes['description'])
+            ->replace('{is_followup_email}', $this->modelAttributes['is_followup_email'])
             ->replace('{sendable_model_name}', 'EmailEvent')
             ->replace('{namespace_path}', 'EmailEvents');
 

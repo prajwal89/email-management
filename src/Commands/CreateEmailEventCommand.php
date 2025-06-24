@@ -68,6 +68,16 @@ class CreateEmailEventCommand extends Command
                 default: 1,
                 required: true,
             ),
+            // ?get this value only from command line
+            'is_followup_email' => select(
+                label: 'Is this follow up email to other sendable',
+                options: [
+                    0 => 'No',
+                    1 => 'Yes',
+                ],
+                default: 0,
+                required: true,
+            ),
         ];
 
         $slug = str($data['name'])->slug();

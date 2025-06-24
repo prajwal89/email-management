@@ -69,6 +69,11 @@ class EmailCampaign extends Model implements EmailSendable
         return $this->hasMany(EmailCampaignRun::class);
     }
 
+    public function followUps(): MorphMany
+    {
+        return $this->morphMany(FollowUp::class, 'followupable');
+    }
+
     public function totalActiveVariants(): int
     {
         $this->load('emailVariants');
