@@ -16,6 +16,7 @@ use Prajwal89\EmailManagement\Services\FileManagers\EmailViewFileManager;
 use Prajwal89\EmailManagement\Services\FileManagers\MailableClassFileManager;
 use Prajwal89\EmailManagement\Services\FileManagers\MigrationFileManager;
 
+use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\select;
 use function Laravel\Prompts\text;
 use function Laravel\Prompts\textarea;
@@ -69,15 +70,21 @@ class CreateEmailEventCommand extends Command
                 required: true,
             ),
             // ?get this value only from command line
-            'is_followup_email' => select(
-                label: 'Is this follow up email to other sendable',
-                options: [
-                    0 => 'No',
-                    1 => 'Yes',
-                ],
-                default: 0,
-                required: true,
-            ),
+            // 'is_followup_email' => select(
+            //     label: 'Is this follow up email to other sendable',
+            //     options: [
+            //         '0' => 'No',
+            //         '1' => 'Yes',
+            //     ],
+            //     default: '0',
+            //     required: true,
+            // ),
+
+            'is_followup_email' => confirm(
+                'Is this a follow up email to another sendable?',
+                default: false
+            ) ? 1 : 0
+
         ];
 
         $slug = str($data['name'])->slug();

@@ -11,6 +11,8 @@ use Illuminate\Validation\Rule;
 use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\Models\FollowUp;
+
+use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\text;
 use function Laravel\Prompts\select;
 use function Pest\Laravel\options;
@@ -41,45 +43,50 @@ class CreateFollowUpCommand extends Command
         // follow up for these sendable
         // b.c EmailEvent,and EmailCampaign can have follow ups
         $followupableType = select(
-            label: 'Followupable Model Class',
+            label: 'For which followupable',
             options: [
                 EmailEvent::class,
                 EmailCampaign::class,
             ],
-            hint: 'Follow up for these sendable',
+            hint: 'Follow up for these followupable',
             required: true,
             validate: ['required', 'string']
         );
 
         $followupableId = select(
-            label: 'Followupable ID',
+            label: 'sendable ID',
             options: EmailEvent::query()
                 ->where('is_followup_email', 0)
+                ->latest()
                 ->pluck('name', 'id'),
             required: true,
             validate: ['required', 'integer', 'min:1']
         );
 
 
-
-        $allFollowupEmails = EmailEvent::query()
+        $allFollowupEmailEvents = EmailEvent::query()
+            ->latest()
             ->where('is_followup_email', 1)
             ->get();
 
-        if ($allFollowupEmails->isEmpty()) {
+        if ($allFollowupEmailEvents->isEmpty()) {
             throw new Exception("There are no follow up emailEvents please create email event");
         }
 
         // the email that will be sent
         // todo: add constraint of suffix of FollowUp
         // follow up emails are emailevents only 
-        $sendableId = select(
-            label: 'Sendable name',
-            options: $allFollowupEmails->pluck('name', 'id'),
+        $emailEventId = select(
+            label: 'Choose follow up email',
+            hint: "Email event for follow up email",
+            options: $allFollowupEmailEvents->pluck('name', 'id'),
             required: true,
-            validate: ['required', 'integer', 'min:1']
+            validate: [
+                'required',
+                'integer',
+                'min:1'
+            ]
         );
-
 
 
         // todo check if there are already follow ups for 
@@ -89,39 +96,17 @@ class CreateFollowUpCommand extends Command
             validate: ['required', 'integer', 'min:1']
         );
 
-
-        $data = [
-            'is_enabled' => select(
-                label: 'Enable follow-up?',
-                options: [
-                    1 => 'Yes',
-                    0 => 'No'
-                ],
-                default: 1
-            ),
-        ];
-
-        $validator = Validator::make($data, [
-            'sendable_type' => ['required', 'string'],
-            'sendable_id' => ['required', 'integer', 'min:1'],
-            'followupable_type' => ['required', 'string'],
-            'followupable_id' => ['required', 'integer', 'min:1'],
-            'wait_for_hours' => ['required', 'integer', 'min:1'],
-            'is_enabled' => ['required', Rule::in([0, 1])],
-        ]);
-
-        if ($validator->fails()) {
-            $this->error("Invalid input:\n" . $validator->errors()->toJson(JSON_PRETTY_PRINT));
-            return;
-        }
+        $isEnabled =  confirm(
+            label: 'Enable follow-up?',
+            default: false
+        ) ? 1 : 0;
 
         $followUp = FollowUp::create([
-            'sendable_type' => $data['sendable_type'],
-            'sendable_id' => (int) $data['sendable_id'],
-            'followupable_type' => $data['followupable_type'],
-            'followupable_id' => (int) $data['followupable_id'],
-            'wait_for_hours' => (int) $data['wait_for_hours'],
-            'is_enabled' => (bool) $data['is_enabled'],
+            'followup_email_event_id' => $emailEventId,
+            'followupable_type' => $followupableType,
+            'followupable_id' => $followupableId,
+            'wait_for_hours' => $waitForHours,
+            'is_enabled' => (bool) $isEnabled,
         ]);
 
         $this->info("✅ Follow-up created with ID: {$followUp->id}");
