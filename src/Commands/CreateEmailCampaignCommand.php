@@ -7,6 +7,7 @@ namespace Prajwal89\EmailManagement\Commands;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Validation\Rule;
 use Prajwal89\EmailManagement\Enums\EmailContentType;
 use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailVariant;
@@ -35,10 +36,14 @@ class CreateEmailCampaignCommand extends Command
                 label: 'Campaign Name',
                 hint: 'Keep it short. Do not include "Email" as suffix',
                 required: true,
-                validate: ['name' => 'required|max:40']
+                validate: [
+                    'required',
+                    'max:40',
+                    Rule::unique('em_email_events', 'slug'),
+                ]
             ),
             'description' => textarea(
-                label: 'Enter Campaign description',
+                label: 'Enter Campaign Description',
                 required: false
             ),
             'content_type' => select(
@@ -48,9 +53,9 @@ class CreateEmailCampaignCommand extends Command
                 })->toArray(),
                 default: EmailContentType::MARKDOWN->value,
                 required: true,
-                validate: fn (string $value) => in_array(
+                validate: fn(string $value) => in_array(
                     $value,
-                    collect(EmailContentType::cases())->map(fn ($case) => $case->value)->toArray(),
+                    collect(EmailContentType::cases())->map(fn($case) => $case->value)->toArray(),
                     true
                 ) ? null : 'Invalid content type selected.'
             ),
@@ -86,9 +91,13 @@ class CreateEmailCampaignCommand extends Command
             sendableSlug: $slug->toString()
         );
 
-        Artisan::call('em:seed-db');
+        if ($this->confirm('Do you want to run the migration now?', true)) {
+            $this->call('migrate');
+        } else {
+            $this->info('You can run it later with: php artisan migrate');
+        }
 
-        $this->info("Use: (new $emailHandlerClassName())->send()");
+        $this->info("Use: (new $emailHandlerClassName(User::first()))->send()");
     }
 
     public function createSeederFile(array $data): void

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Models;
 
+use DateTime;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -125,6 +126,19 @@ class EmailCampaign extends Model implements EmailSendable
         $mailPath = config('email-management.mail_classes_path') . '/EmailCampaigns';
 
         return $mailPath . "/{$emailClassName}.php";
+    }
+
+    public static function getMigrationFilePath(string $slug, string $type = 'create')
+    {
+        $microtime = microtime(true);
+
+        $datetime = DateTime::createFromFormat('U.u', (string) $microtime);
+
+        $dateTime = $datetime->format('Y_m_d_Hisv'); // 'v' = milliseconds
+
+        $filename = "{$dateTime}_{$type}_emailcampaign_{$slug}.php";
+
+        return config('email-management.migrations_dir') . '/' . $filename;
     }
 
     public static function getSeederFileClassName(string $slug, string $type = 'create')

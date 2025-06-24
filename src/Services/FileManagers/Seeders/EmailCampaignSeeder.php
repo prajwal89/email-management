@@ -26,18 +26,20 @@ class EmailCampaignSeeder
             throw new Exception('Email Campaign Name is Taken');
         }
 
-        $seederClassName = EmailCampaign::getSeederFileClassName($slug->toString(), 'create');
+        $stubPath = __DIR__ . '/../../../../stubs/migrations/sendable-migration.stub';
 
-        $fileContents = str(File::get(__DIR__ . '/../../../../stubs/seeders/sendable-seeder.stub'))
+        $fileContents = str(File::get($stubPath))
             ->replace('{name}', $this->modelAttributes['name'])
             ->replace('{slug}', $slug)
             ->replace('{description}', $this->modelAttributes['description'])
-            ->replace('{content_type}', $this->modelAttributes['content_type'])
+            // ->replace('{content_type}', $this->modelAttributes['content_type'])
             ->replace('{sendable_model_name}', 'EmailCampaign')
             ->replace('{namespace_path}', 'EmailCampaigns')
-            ->replace('{seeder_class_name}', $seederClassName);
+            // ->replace('{seeder_class_name}', $seederClassName)
+        ;
 
-        $seederFilePath = EmailCampaign::getSeederFilePath($slug->toString(), 'create');
+
+        $seederFilePath = EmailCampaign::getMigrationFilePath($slug->toString(), 'create');
 
         $directory = dirname($seederFilePath);
 
