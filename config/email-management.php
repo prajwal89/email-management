@@ -2,46 +2,49 @@
 
 declare(strict_types=1);
 
-// todo add comments explaining all the settings
 return [
     'receivable_groups_path' => app_path('/EmailManagement/ReceivableGroups'),
     'mail_classes_path' => app_path('/EmailManagement/Emails'),
     'email_handlers_dir' => app_path('/EmailManagement/EmailHandlers'),
-    'seeders_dir' => database_path('/seeders/EmailManagement'),
     'view_dir' => resource_path('/views/email-management'),
     'migrations_dir' => database_path('/migrations/email-management'),
 
-    // todo get this from config with no default value
     /**
-     * where the mail server should report the bounced emails
-     * This Email address should be watched for bounce emails
+     * The email address where the mail server should report bounced emails.
+     * This mailbox should be monitored for bounce notifications.
      */
     'return_path' => 'bounces@example.com',
 
     /**
-     * This is where users reply will be diverted
+     * The email address where user replies should be directed.
      */
     'reply_to' => 'replyto@example.com',
 
     'mailer' => 'smtp',
 
     /**
-     * https://imapengine.com/docs/laravel/installation
+     * We use directorytree/imapengine-laravel for monitoring mailboxes.
+     * You must configure the mailbox in the config/imap.php file and
+     * provide the name of the mailbox here.
+     * 
+     * To use the default mailbox, leave this value as 'default'.
+     * 
+     * Docs: https://imapengine.com/docs/laravel/installation
      */
-    'mailbox' => 'imap',
+    'mailbox' => 'default',
 
     /**
-     * Record visits from the emails
+     * Record visits originating from the email (e.g. link clicks).
      */
     'track_visits' => true,
 
     /**
-     * Record if user have opened the email
+     * Record when a user opens the email.
      */
     'track_opens' => true,
 
     /**
-     * adds the unsubscribe link to the footer
+     * Automatically append an unsubscribe link to the email footer.
      */
     'inject_unsubscribe_link' => true,
 ];
