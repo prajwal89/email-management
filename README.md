@@ -27,7 +27,7 @@ This is an **opinionated email management solution** with powerful features for 
    Email events are events that are automatically triggered by app eg. user registration
 
 - Email Campaign
-   Manually run email campaigns e.g notifing new feature
+   Manually run email campaigns e.g notifying new feature
 
 ### Usage
 
