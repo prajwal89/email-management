@@ -28,8 +28,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Prajwal89\\EmailManagement\\EmailManagementServiceProvider",
-                "DirectoryTree\\ImapEngine\\Laravel\\ImapServiceProvider"
+                "Prajwal89\\EmailManagement\\EmailManagementServiceProvider"
             ]
         }
     }
