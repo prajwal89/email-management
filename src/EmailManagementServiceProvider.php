@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement;
 
+use DirectoryTree\ImapEngine\Laravel\Events\MessageReceived;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Mail\Events\MessageSent;
@@ -15,6 +16,7 @@ use Prajwal89\EmailManagement\Commands\CreateEmailVariantCommand;
 use Prajwal89\EmailManagement\Commands\CreateReceivableGroupCommand;
 use Prajwal89\EmailManagement\Listeners\MessageSendingListener;
 use Prajwal89\EmailManagement\Listeners\MessageSentListener;
+use Prajwal89\EmailManagement\Listeners\NewEmailReceivedListener;
 
 // todo use spaties package skeleton
 class EmailManagementServiceProvider extends ServiceProvider
@@ -48,6 +50,8 @@ class EmailManagementServiceProvider extends ServiceProvider
         Event::listen(MessageSending::class, MessageSendingListener::class);
 
         Event::listen(MessageSent::class, MessageSentListener::class);
+
+        Event::listen(MessageReceived::class, NewEmailReceivedListener::class);
 
         if ($this->app->runningInConsole()) {
             $this->loadMigrationsFrom([
