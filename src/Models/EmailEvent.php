@@ -102,19 +102,6 @@ class EmailEvent extends Model implements EmailSendable
         return 'App\\EmailManagement\\EmailHandlers\\EmailEvents\\' . $this->emailHandlerClassName();
     }
 
-    public static function getSeederFileClassName(string $slug, string $type = 'create')
-    {
-        if ($type === 'create') {
-            $seederClassName = str($slug)->studly() . 'Seeder';
-        }
-
-        if ($type === 'delete') {
-            $seederClassName = str($slug)->studly() . 'DeleteSeeder';
-        }
-
-        return $seederClassName;
-    }
-
     public static function getMigrationFilePath(string $slug, string $type = 'seed')
     {
         $microtime = microtime(true);
@@ -126,17 +113,6 @@ class EmailEvent extends Model implements EmailSendable
         $filename = "{$dateTime}_{$type}_emailevent_{$slug}.php";
 
         return config('email-management.migrations_dir') . '/' . $filename;
-    }
-
-    public static function getSeederFilePath(string $slug, string $type = 'create')
-    {
-        $seederClassName = self::getSeederFileClassName($slug, $type);
-
-        $seederFileName = "$seederClassName.php";
-
-        $seederPath = config('email-management.seeders_dir') . '/EmailEvents';
-
-        return $seederPath . "/{$seederFileName}";
     }
 
     public static function getEmailHandlerFilePath(string $slug)
