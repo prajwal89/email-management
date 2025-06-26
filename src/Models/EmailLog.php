@@ -40,10 +40,6 @@ class EmailLog extends Model
         // email has left from our app
         'sent_at',
 
-        // 'resent_at',
-        // 'accepted_at',
-        // 'delivered_at',
-
         // Tracked from tracking pixel
         'last_opened_at',
 
@@ -51,7 +47,9 @@ class EmailLog extends Model
         'last_clicked_at',
         'complained_at',
 
+        // this email log is reply to the email log with following message id
         'in_reply_to',
+
         'replied_at',
 
         // Recoverable bounce type (we can schedule this for later)
@@ -83,11 +81,6 @@ class EmailLog extends Model
         ];
     }
 
-    // public function emailEvent(): BelongsTo
-    // {
-    //     return $this->belongsTo(EmailEvent::class, 'email_event_id');
-    // }
-
     public function emailVisits(): HasMany
     {
         return $this->hasMany(EmailVisit::class, 'message_id', 'message_id');
@@ -109,7 +102,7 @@ class EmailLog extends Model
     }
 
     /**
-     * This can be EmailEvent, Campaign Model
+     * This can be EmailEvent, EmailCampaign Model
      */
     public function sendable(): MorphTo
     {
@@ -117,7 +110,7 @@ class EmailLog extends Model
     }
 
     /**
-     * This can be User, NewsletterEmails, Cold Email Model
+     * This can be User, NewsletterEmails, ColdEmail Model
      */
     public function receivable(): MorphTo
     {
