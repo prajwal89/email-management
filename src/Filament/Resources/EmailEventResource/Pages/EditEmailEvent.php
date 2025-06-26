@@ -38,7 +38,7 @@ class EditEmailEvent extends EditRecord
                 ->outlined()
                 ->icon('heroicon-o-trash')
                 ->requiresConfirmation()
-                ->disabled(fn(): bool => !app()->isLocal())
+                ->disabled(fn (): bool => !app()->isLocal())
                 ->tooltip('Can Be deleted from local Environment only')
                 ->modalDescription('This action will delete email handler class, email class and file, and all associated DB records and will create migration file for deleting the record')
                 ->modalSubmitActionLabel('Delete')

@@ -20,7 +20,7 @@ class FollowUpEmailsSender
     public function send()
     {
         // check if mailbox is being listened (if not this should not send follow up email)
-        // as user cannot listen to the emails 
+        // as user cannot listen to the emails
         $this->checkIfMailboxAccessible();
 
         // Get emails logs that may require to send follow up emails
@@ -32,7 +32,7 @@ class FollowUpEmailsSender
                 'sendable_type',
                 'receivable_id',
                 'receivable_type',
-                'sent_at'
+                'sent_at',
             ])
             ->with(['sendable.followUps'])
             // Filters sendables that have followUps
@@ -45,9 +45,8 @@ class FollowUpEmailsSender
             ->where('sent_at', '>', now()->subDays(config('email-management.max_delay_for_followup_email')))
             ->get();
 
-
         // check all followups for a sendable (are they sent ) if not are they qualified to send
-        // if yes sent it 
+        // if yes sent it
 
         // loop through the potential emails that may require follow up email
         foreach ($emailLogs as $emailLog) {
@@ -80,7 +79,6 @@ class FollowUpEmailsSender
                     $followUp
                 );
 
-
                 if ($alreadySent) {
                     continue;
                 }
@@ -94,7 +92,7 @@ class FollowUpEmailsSender
                     // Send the follow-up email
                     $this->sendFollowUpEmail($emailLog, $followUpEvent, $followUp);
 
-                    // 
+                    //
                     return;
                 }
             }
@@ -121,9 +119,8 @@ class FollowUpEmailsSender
     ) {
         // dd($emailLog->message_id);
 
-
         dump(
-            "Follow up email will be sent",
+            'Follow up email will be sent',
             $emailLog,
             $followUpEvent,
             $followUp
@@ -137,13 +134,12 @@ class FollowUpEmailsSender
         //     ->buildEmail($emailLog->message_id)
         //     ->send();
 
-
         // Log the activity
-        Log::info("Follow-up email sent", [
+        Log::info('Follow-up email sent', [
             'original_email_id' => $emailLog->id,
             'follow_up_event_id' => $followUpEvent->id,
             'recipient' => $emailLog->receivable_type . ':' . $emailLog->receivable_id,
-            'days_after_original' => $followUp->wait_for_days
+            'days_after_original' => $followUp->wait_for_days,
         ]);
     }
 

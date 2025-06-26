@@ -12,11 +12,10 @@ use Prajwal89\EmailManagement\Models\FollowUp;
 
 use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\select;
-use function Pest\Laravel\options;
 
 /**
  * Create a new follow-up for a sendable
- * 
+ *
  * Usage:
  * php artisan em:create-follow-up
  * php artisan em:create-follow-up --type="Prajwal89\EmailManagement\Models\EmailEvent" --slug="welcome-email"
@@ -155,7 +154,7 @@ class CreateFollowUpCommand extends Command
         if ($slug) {
             // Check if the record exists
             $exists = $followupableType::query()
-                ->when($followupableType == EmailEvent::class, function ($query) {
+                ->when($followupableType === EmailEvent::class, function ($query) {
                     $query->where('is_followup_email', 0);
                 })
                 ->where('slug', $slug)
@@ -172,7 +171,7 @@ class CreateFollowUpCommand extends Command
         return select(
             label: 'For which followupable name?',
             options: $followupableType::query()
-                ->when($followupableType == EmailEvent::class, function ($query) {
+                ->when($followupableType === EmailEvent::class, function ($query) {
                     $query->where('is_followup_email', 0);
                 })
                 ->latest()

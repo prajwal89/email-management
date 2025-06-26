@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\RelationManagers;
 
 use Filament\Forms;
@@ -9,12 +11,7 @@ use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Prajwal89\EmailManagement\Filament\Resources\EmailCampaignResource;
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource;
-use Prajwal89\EmailManagement\Models\EmailCampaign;
-use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\Services\FollowUpEmailsSender;
 
 class FollowUpsRelationManager extends RelationManager
@@ -42,11 +39,11 @@ class FollowUpsRelationManager extends RelationManager
             ->columns([
                 // and when it was sent
                 TextColumn::make('followupEmailEvent.name')
-                    ->label("Follow Up Email Event")
+                    ->label('Follow Up Email Event')
                     ->openUrlInNewTab()
                     ->url(function ($record) {
                         return EmailEventResource::getUrl('edit', [
-                            'record' => $record->followupEmailEvent->slug
+                            'record' => $record->followupEmailEvent->slug,
                         ]);
                     }),
 
@@ -73,7 +70,7 @@ class FollowUpsRelationManager extends RelationManager
                     ->icon('heroicon-o-eye')
                     ->url(function ($record): string {
                         return EmailEventResource::getUrl('preview-email', [
-                            'record' => $record->followupEmailEvent->slug
+                            'record' => $record->followupEmailEvent->slug,
                         ]);
                     })
                     ->openUrlInNewTab(),
