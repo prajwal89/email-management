@@ -55,6 +55,23 @@ class HeadersManager
         if ($eventContext !== null) {
             $headers->addTextHeader('X-Event-Context', json_encode($eventContext));
         }
+
+        return $this;
+    }
+
+    public function addInReplyToHeader(string|array $inReplyTo)
+    {
+        if (is_array($inReplyTo)) {
+            // Use the last message ID for In-Reply-To
+            $this->email->getHeaders()->addIdHeader('In-Reply-To', end($inReplyTo));
+
+            // Optionally add all previous message IDs to the References header
+            $this->email->getHeaders()->addTextHeader('References', implode(' ', $inReplyTo));
+        } else {
+            $this->email->getHeaders()->addIdHeader('In-Reply-To', $inReplyTo);
+        }
+
+        return $this;
     }
 
     /**

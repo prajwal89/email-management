@@ -18,7 +18,7 @@ use ReflectionClass;
 use Symfony\Component\Mime\Email;
 
 /**
- * These classes are responsible for validating emails
+ * Email Handler classes are responsible for validating emails
  * and sending
  */
 abstract class EmailHandlerBase
@@ -44,6 +44,8 @@ abstract class EmailHandlerBase
      * For resolving sendable
      */
     public static string $sendableSlug;
+
+    public ?string $inRelyToMessageId = null;
 
     /**
      * This sendable triggered the sending of email
@@ -102,7 +104,7 @@ abstract class EmailHandlerBase
     public function send(): void
     {
         if (!$this->finalEmail) {
-            $this->buildEmail();
+            $this->buildEmail($this->inRelyToMessageId);
         }
 
         if (!$this->qualifiesForSending()) {
@@ -112,8 +114,13 @@ abstract class EmailHandlerBase
         Mail::to($this->receivable->getEmail())->send($this->finalEmail);
     }
 
-    public function buildEmail()
+    // todo: find better way to pass $inRelyToMessageId
+    public function buildEmail(?string $inRelyToMessageId = null)
     {
+        if ($inRelyToMessageId) {
+            $this->inRelyToMessageId = $inRelyToMessageId;
+        }
+
         $this->sendable = self::resolveSendable();
 
         $this->chosenEmailVariant = (new EmailVariantSelector($this->sendable))->choose();
@@ -185,6 +192,10 @@ abstract class EmailHandlerBase
             eventContext: $this->eventContext,
             chosenEmailVariant: $this->chosenEmailVariant,
         );
+
+        if ($this->inRelyToMessageId) {
+            $headersManager->addInReplyToHeader($this->inRelyToMessageId);
+        }
 
         return $message;
     }
