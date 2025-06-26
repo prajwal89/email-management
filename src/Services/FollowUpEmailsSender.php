@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Services;
 
+use Illuminate\Support\Facades\Log;
+use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\Models\EmailLog;
+use Prajwal89\EmailManagement\Models\FollowUp;
 
 class FollowUpEmailsSender
 {
@@ -19,9 +22,11 @@ class FollowUpEmailsSender
     {
         $this->checkIfMailboxAccessible();
 
+        $minDelayForFollowUpsInDays = config('email-management.min_delay_for_followup_email');
         $maxDelayForFollowUpsInDays = config('email-management.max_delay_for_followup_email');
 
-        // Get emails logs that are qualified to send the follow up emails
+        // Get emails logs that may require to send follow up emails
+        // todo select only required fields
         $emailLogs = EmailLog::query()
             ->with(['sendable.followUps'])
             // Filters sendables that have followUps
@@ -29,74 +34,100 @@ class FollowUpEmailsSender
             ->successful()
             ->whereNull('replied_at')
             ->whereNull('unsubscribed_at')
-            ->where('sent_at', '<', now()->subDays($maxDelayForFollowUpsInDays))
+            ->where('sent_at', '<', now()->subDays($minDelayForFollowUpsInDays))
+            ->where('sent_at', '>', now()->subDays($maxDelayForFollowUpsInDays))
             ->get();
 
+        // dd($emailLogs);
+
+
+        // check all followups for a sendable (are they sent ) if not are they qualified to send
+        // if yes sent it 
+
         // loop through the potential emails that may require follow up email
+        foreach ($emailLogs as $emailLog) {
+            // Get all enabled follow-ups for this sendable
+            $followUps = $emailLog
+                ->sendable
+                ->followUps;
 
-        // $followUpsSent = 0;
-        // $followUpsSkipped = 0;
+            // dd($followUps);
 
-        // // loop through the potential emails that may require follow up email
-        // foreach ($emailLogs as $emailLog) {
-        //     try {
-        //         // Get all enabled follow-ups for this sendable
-        //         $followUps = $emailLog
-        //             ->sendable
-        //             ->followUps()
-        //             ->where('is_enabled', true)
-        //             ->get();
+            foreach ($followUps as $followUp) {
 
-        //         foreach ($followUps as $followUp) {
-        //             // Calculate when this follow-up should be sent
-        //             $followUpSendDate = $emailLog->sent_at->addDays($followUp->wait_for_days);
+                // Calculate when this follow-up should be sent
+                $followUpSendDate = $emailLog->sent_at->addDays($followUp->wait_for_days);
 
-        //             // Check if it's time to send this follow-up
-        //             if ($followUpSendDate->isPast()) {
-        //                 // Check if follow-up hasn't been sent already
-        //                 $alreadySent = EmailLog::query()
-        //                     ->where('receivable_id', $emailLog->receivable_id)
-        //                     ->where('receivable_type', $emailLog->receivable_type)
-        //                     ->where('sendable_id', $followUp->followup_email_event_id)
-        //                     ->where('sendable_type', 'App\Models\EmailEvent') // Assuming EmailEvent model
-        //                     ->where('sent_at', '>=', $emailLog->sent_at)
-        //                     ->exists();
+                // dd($followUpSendDate);
 
-        //                 if (!$alreadySent) {
-        //                     // Get the follow-up email event
-        //                     $followUpEvent = EmailEvent::find($followUp->followup_email_event_id);
+                // Check if it's time to send this follow-up
+                if (!$followUpSendDate->isPast()) {
+                    // not in past so it must be in future so skip the email
+                    return;
+                }
 
-        //                     if ($followUpEvent && $followUpEvent->is_enabled) {
+                // Check if follow-up hasn't been sent already
+                $alreadySent = EmailLog::query()
+                    ->where('receivable_id', $emailLog->receivable_id)
+                    ->where('receivable_type', $emailLog->receivable_type)
+                    ->where('sendable_id', $followUp->followup_email_event_id)
+                    ->where('sendable_type', 'App\Models\EmailEvent')
+                    ->where('sent_at', '>=', $emailLog->sent_at)
+                    ->exists();
 
-        //                         // Send the follow-up email
-        //                         $this->sendFollowUpEmail($emailLog, $followUpEvent, $followUp);
-        //                         $followUpsSent++;
+                if ($alreadySent) {
+                    dd("Follow-up email skipped - already sent", [
+                        'original_email_id' => $emailLog->id,
+                        'follow_up_event_id' => $followUp->followup_email_event_id,
+                        'recipient' => $emailLog->receivable_type . ':' . $emailLog->receivable_id
+                    ]);
 
-        //                         // Log the activity
-        //                         \Log::info("Follow-up email sent", [
-        //                             'original_email_id' => $emailLog->id,
-        //                             'follow_up_event_id' => $followUpEvent->id,
-        //                             'recipient' => $emailLog->receivable_type . ':' . $emailLog->receivable_id,
-        //                             'days_after_original' => $followUp->wait_for_days
-        //                         ]);
-        //                     }
-        //                 } else {
-        //                     $followUpsSkipped++;
-        //                     \Log::info("Follow-up email skipped - already sent", [
-        //                         'original_email_id' => $emailLog->id,
-        //                         'follow_up_event_id' => $followUp->followup_email_event_id,
-        //                         'recipient' => $emailLog->receivable_type . ':' . $emailLog->receivable_id
-        //                     ]);
-        //                 }
-        //             }
-        //         }
-        //     } catch (\Exception $e) {
-        //         \Log::error("Error processing follow-up for email log {$emailLog->id}: " . $e->getMessage());
-        //         continue;
-        //     }
-        // }
+                    return;
+                }
 
-        dd($emailLogs);
+                // Get the follow-up email event
+                $followUpEvent = EmailEvent::find($followUp->followup_email_event_id);
+
+                if ($followUpEvent && $followUpEvent->is_enabled) {
+
+                    // Send the follow-up email
+                    $this->sendFollowUpEmail($emailLog, $followUpEvent, $followUp);
+
+                    $followUpsSent++;
+                }
+            }
+        }
+    }
+
+    public function sendFollowUpEmail(
+        EmailLog $emailLog,
+        EmailEvent $followUpEvent,
+        FollowUp $followUp
+    ) {
+        // dd($emailLog->message_id);
+
+        // todo ad in reply to header
+        $handler = $followUpEvent->resolveEmailHandler();
+
+        (new $handler($emailLog->receivable))
+            ->buildEmail($emailLog->message_id)
+            ->send();
+
+
+        dd(
+            "Follow up email will be sent",
+            $emailLog,
+            $followUpEvent,
+            $followUp
+        );
+
+        // Log the activity
+        Log::info("Follow-up email sent", [
+            'original_email_id' => $emailLog->id,
+            'follow_up_event_id' => $followUpEvent->id,
+            'recipient' => $emailLog->receivable_type . ':' . $emailLog->receivable_id,
+            'days_after_original' => $followUp->wait_for_days
+        ]);
     }
 
     public function checkIfMailboxAccessible()

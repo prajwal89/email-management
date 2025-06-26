@@ -22,7 +22,17 @@ return [
 
     'mailer' => 'smtp',
 
+    /**
+     * In days
+     */
+    'min_delay_for_followup_email' => 1,
+
+
+    /**
+     * In days
+     */
     'max_delay_for_followup_email' => 21,
+
 
     /**
      * We use directorytree/imapengine-laravel for monitoring mailboxes.
