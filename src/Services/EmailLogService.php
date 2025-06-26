@@ -19,6 +19,8 @@ class EmailLogService
         try {
             DB::beginTransaction();
 
+            $inReplyToHeaders = $headersManager->getInReplyToHeader();
+
             $emailLog = EmailLog::query()->create([
                 'message_id' => $headersManager->getMessageId(),
 
@@ -38,6 +40,10 @@ class EmailLogService
                 'text' => $message->getTextBody(),
                 'headers' => $message->getHeaders()->toArray(),
                 'context' => $headersManager->getEventContext(),
+
+                ...!empty($inReplyToHeaders) ? [
+                    'in_reply_to' => $inReplyToHeaders[0]
+                ] : []
 
                 // todo: add this
                 // 'mailer' => $mailerName,
