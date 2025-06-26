@@ -6,6 +6,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -33,7 +34,10 @@ class FollowUpsRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('sendable.name')
+            ->recordTitleAttribute('followupEmailEvent.name')
+            ->modifyQueryUsing(function ($query) {
+                // $query->with(['sendable']);
+            })
             ->defaultSort('wait_for_days', 'asc')
             ->columns([
                 // and when it was sent
@@ -64,6 +68,15 @@ class FollowUpsRelationManager extends RelationManager
             ->actions([
                 // Tables\Actions\EditAction::make(),
                 // Tables\Actions\DeleteAction::make(),
+                Action::make('preview')
+                    ->label('Email Preview')
+                    ->icon('heroicon-o-eye')
+                    ->url(function ($record): string {
+                        return EmailEventResource::getUrl('preview-email', [
+                            'record' => $record->followupEmailEvent->slug
+                        ]);
+                    })
+                    ->openUrlInNewTab(),
             ])
             ->bulkActions([
                 // Tables\Actions\BulkActionGroup::make([
