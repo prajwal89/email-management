@@ -19,6 +19,7 @@ use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\Pages\ListEm
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\Pages\PreviewEmailPage;
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\RelationManagers\EmailLogsRelationManager;
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\RelationManagers\EmailVariantsRelationManager;
+use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\RelationManagers\FollowUpsRelationManager;
 use Prajwal89\EmailManagement\Models\EmailEvent;
 
 class EmailEventResource extends Resource
@@ -82,6 +83,7 @@ class EmailEventResource extends Resource
         return [
             EmailLogsRelationManager::class,
             EmailVariantsRelationManager::class,
+            FollowUpsRelationManager::class,
         ];
     }
 

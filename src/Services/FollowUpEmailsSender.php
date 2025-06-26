@@ -67,13 +67,10 @@ class FollowUpEmailsSender
                 }
 
                 // Check if follow-up hasn't been sent already
-                $alreadySent = EmailLog::query()
-                    ->where('receivable_id', $emailLog->receivable_id)
-                    ->where('receivable_type', $emailLog->receivable_type)
-                    ->where('sendable_id', $followUp->followup_email_event_id)
-                    ->where('sendable_type', 'App\Models\EmailEvent')
-                    ->where('sent_at', '>=', $emailLog->sent_at)
-                    ->exists();
+                $alreadySent = self::checkIfFollowUpEmailSent(
+                    $emailLog,
+                    $followUp
+                );
 
                 if ($alreadySent) {
                     dd("Follow-up email skipped - already sent", [
@@ -97,6 +94,19 @@ class FollowUpEmailsSender
                 }
             }
         }
+    }
+
+    public static function checkIfFollowUpEmailSent(
+        EmailLog $emailLog,
+        FollowUp $followUp
+    ) {
+        return EmailLog::query()
+            ->where('receivable_id', $emailLog->receivable_id)
+            ->where('receivable_type', $emailLog->receivable_type)
+            ->where('sendable_id', $followUp->followup_email_event_id)
+            ->where('sendable_type', 'App\Models\EmailEvent')
+            ->where('sent_at', '>=', $emailLog->sent_at)
+            ->exists();
     }
 
     public function sendFollowUpEmail(
