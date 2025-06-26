@@ -101,6 +101,24 @@ class EmailLog extends Model
         return $this->belongsTo(EmailVariant::class, 'email_variant_id', 'id');
     }
 
+    public function followUpEmailLogs(): HasMany
+    {
+        return $this->hasMany(
+            related: EmailLog::class,
+            foreignKey: 'in_reply_to',
+            localKey: 'message_id',
+        );
+    }
+
+    public function followUpEmailLogFor(): BelongsTo
+    {
+        return $this->belongsTo(
+            related: EmailLog::class,
+            foreignKey: 'in_reply_to',
+            ownerKey: 'message_id',
+        );
+    }
+
     /**
      * This can be EmailEvent, EmailCampaign Model
      */

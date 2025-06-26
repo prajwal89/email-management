@@ -257,20 +257,24 @@
                                     'color' => 'text-red-500',
                                 ],
                             ];
-                            
+
                             // Helper function to ensure Carbon instance
-                            $ensureCarbon = function($date) {
-                                if (!$date) return null;
-                                if ($date instanceof \Carbon\Carbon) return $date;
+                            $ensureCarbon = function ($date) {
+                                if (!$date) {
+                                    return null;
+                                }
+                                if ($date instanceof \Carbon\Carbon) {
+                                    return $date;
+                                }
                                 try {
                                     return \Carbon\Carbon::parse($date);
                                 } catch (\Exception $e) {
                                     return null;
                                 }
                             };
-                            
+
                             $events = collect($event_details)
-                                ->map(function($details, $field) use ($record, $ensureCarbon) {
+                                ->map(function ($details, $field) use ($record, $ensureCarbon) {
                                     $date = $ensureCarbon($record->{$field});
                                     return $date ? ['date' => $date, 'details' => $details] : null;
                                 })
@@ -324,6 +328,172 @@
                     </ul>
                 </div>
             </x-filament::section>
+
+            @if ($this->record->followUpEmailLogs->isNotEmpty())
+                {{-- Follow up emails --}}
+                <x-filament::section :collapsible="true" :collapsed="true">
+                    <x-slot name="heading">
+                        Follow-up Emails ({{ $this->record->followUpEmailLogs->count() }})
+                    </x-slot>
+
+                    <div class="flow-root">
+                        <ul role="list" class="-mb-8">
+                            @foreach ($this->record->followUpEmailLogs as $followUpEmail)
+                                @php
+                                    $status = $followUpEmail->getStatus();
+                                    $statusConfig = [
+                                        'pending' => [
+                                            'icon' => 'heroicon-m-clock',
+                                            'color' => 'text-gray-400',
+                                            'bg' => 'bg-gray-100 dark:bg-gray-800',
+                                        ],
+                                        'sent' => [
+                                            'icon' => 'heroicon-m-paper-airplane',
+                                            'color' => 'text-blue-500',
+                                            'bg' => 'bg-blue-50 dark:bg-blue-900/20',
+                                        ],
+                                        'opened' => [
+                                            'icon' => 'heroicon-m-eye',
+                                            'color' => 'text-green-500',
+                                            'bg' => 'bg-green-50 dark:bg-green-900/20',
+                                        ],
+                                        'clicked' => [
+                                            'icon' => 'heroicon-m-cursor-arrow-rays',
+                                            'color' => 'text-green-600',
+                                            'bg' => 'bg-green-50 dark:bg-green-900/20',
+                                        ],
+                                        'replied' => [
+                                            'icon' => 'heroicon-m-chat-bubble-left-right',
+                                            'color' => 'text-purple-500',
+                                            'bg' => 'bg-purple-50 dark:bg-purple-900/20',
+                                        ],
+                                        'bounced' => [
+                                            'icon' => 'heroicon-m-exclamation-triangle',
+                                            'color' => 'text-red-500',
+                                            'bg' => 'bg-red-50 dark:bg-red-900/20',
+                                        ],
+                                        'unsubscribed' => [
+                                            'icon' => 'heroicon-m-user-minus',
+                                            'color' => 'text-yellow-500',
+                                            'bg' => 'bg-yellow-50 dark:bg-yellow-900/20',
+                                        ],
+                                    ];
+
+                                    $currentStatus = $statusConfig[$status->value] ?? $statusConfig['pending'];
+                                @endphp
+
+                                <li>
+                                    <div class="relative pb-8">
+                                        @if (!$loop->last)
+                                            <span
+                                                class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-200 dark:bg-gray-700"
+                                                aria-hidden="true"></span>
+                                        @endif
+
+                                        <div class="relative flex space-x-3">
+                                            {{-- Status Icon --}}
+                                            <div>
+                                                <span
+                                                    class="flex items-center justify-center w-8 h-8 rounded-full ring-8 ring-white dark:ring-gray-900 {{ $currentStatus['bg'] }}">
+                                                    <x-dynamic-component :component="$currentStatus['icon']" :class="'w-5 h-5 ' . $currentStatus['color']" />
+                                                </span>
+                                            </div>
+
+                                            {{-- Email Details --}}
+                                            <div class="flex-1 min-w-0">
+                                                <div class="flex items-start justify-between">
+                                                    <div class="flex-1 min-w-0">
+                                                        {{-- Email Title/Subject --}}
+                                                        <p
+                                                            class="text-sm font-medium text-gray-900 truncate dark:text-gray-200">
+                                                            @if ($followUpEmail->sendable)
+                                                                {{ $followUpEmail->sendable->name ?? $followUpEmail->subject }}
+                                                            @else
+                                                                {{ $followUpEmail->subject }}
+                                                            @endif
+                                                        </p>
+
+                                                        {{-- Status Badge --}}
+                                                        <div class="flex items-center gap-2 mt-1">
+                                                            <x-filament::badge :color="$status->getColor()" :icon="$status->getIcon()"
+                                                                size="sm">
+                                                                {{ $status->getLabel() }}
+                                                            </x-filament::badge>
+
+                                                            {{-- Engagement Stats --}}
+                                                            @if ($followUpEmail->opens > 0 || $followUpEmail->clicks > 0)
+                                                                <div
+                                                                    class="flex items-center gap-3 text-xs text-gray-500">
+                                                                    @if ($followUpEmail->opens > 0)
+                                                                        <span class="flex items-center gap-1">
+                                                                            <x-heroicon-m-eye class="w-3 h-3" />
+                                                                            {{ $followUpEmail->opens }}
+                                                                        </span>
+                                                                    @endif
+                                                                    @if ($followUpEmail->clicks > 0)
+                                                                        <span class="flex items-center gap-1">
+                                                                            <x-heroicon-m-cursor-arrow-rays
+                                                                                class="w-3 h-3" />
+                                                                            {{ $followUpEmail->clicks }}
+                                                                        </span>
+                                                                    @endif
+                                                                </div>
+                                                            @endif
+                                                        </div>
+
+                                                        {{-- Timestamp --}}
+                                                        <p class="mt-1 text-xs text-gray-400 dark:text-gray-500">
+                                                            @if ($followUpEmail->sent_at)
+                                                                <span
+                                                                    title="{{ $followUpEmail->sent_at->toIso8601String() }}">
+                                                                    {{ $followUpEmail->sent_at->diffForHumans() }}
+                                                                </span>
+                                                                <span class="mx-1">•</span>
+                                                                <span class="font-mono">
+                                                                    {{ $followUpEmail->sent_at->format('M d, Y H:i') }}
+                                                                </span>
+                                                            @else
+                                                                <span class="text-gray-400">Pending</span>
+                                                            @endif
+                                                        </p>
+
+                                                        {{-- Recipients --}}
+                                                        {{-- @if ($followUpEmail->recipients->isNotEmpty())
+                                                            <div class="mt-2">
+                                                                <p class="text-xs text-gray-500 dark:text-gray-400">
+                                                                    <span class="font-medium">To:</span>
+                                                                    @foreach ($followUpEmail->recipients->take(2) as $recipient)
+                                                                        <span
+                                                                            class="font-mono">{{ $recipient->email }}</span>{{ !$loop->last ? ', ' : '' }}
+                                                                    @endforeach
+                                                                    @if ($followUpEmail->recipients->count() > 2)
+                                                                        <span class="text-gray-400">
+                                                                            +{{ $followUpEmail->recipients->count() - 2 }}
+                                                                            more</span>
+                                                                    @endif
+                                                                </p>
+                                                            </div>
+                                                        @endif --}}
+                                                    </div>
+
+                                                    {{-- Action Button --}}
+                                                    {{-- <div class="flex-shrink-0 ml-4">
+                                                        <a href="{{ EmailLogResource::getUrl('preview', ['record' => $followUpEmail->id]) }}"
+                                                            class="inline-flex items-center px-2.5 py-1.5 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700">
+                                                            <x-heroicon-m-eye class="w-4 h-4 mr-1" />
+                                                            View
+                                                        </a>
+                                                    </div> --}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </x-filament::section>
+            @endif
 
             {{-- Technical Details (Collapsible) --}}
             <x-filament::section :collapsible="true" :collapsed="true">

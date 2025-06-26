@@ -17,11 +17,17 @@ class PreviewEmailPage extends Page
 
     public $record;
 
-    // public string $emailContent;
-
     public function mount($record): void
     {
         $this->record = EmailLog::query()->findOrFail($record);
+
+        $this->record->load([
+            'followUpEmailLogs' => function ($query) {
+                $query->orderBy('sent_at', 'desc');
+            },
+            'followUpEmailLogs.sendable',
+            'recipients'
+        ]);
     }
 
     protected function getHeaderActions(): array
@@ -30,6 +36,7 @@ class PreviewEmailPage extends Page
             Action::make('resend')
                 ->label('Resend')
                 ->action(function ($record): void {
+                    // todo: implement this
                     // dd($record);
                 }),
 
