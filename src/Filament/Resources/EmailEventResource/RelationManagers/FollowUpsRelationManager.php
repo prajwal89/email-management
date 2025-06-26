@@ -36,7 +36,7 @@ class FollowUpsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('followupEmailEvent.name')
             ->modifyQueryUsing(function ($query) {
-                // $query->with(['sendable']);
+                $query->with(['followupEmailEvent']);
             })
             ->defaultSort('wait_for_days', 'asc')
             ->columns([
