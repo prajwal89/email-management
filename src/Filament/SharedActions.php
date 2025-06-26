@@ -26,4 +26,21 @@ class SharedActions
                 );
             });
     }
+
+    public static function createFollowUp()
+    {
+        return Action::make('create_follow_up')
+            ->icon('heroicon-o-plus')
+            ->outlined()
+            ->color('info')
+            ->label('Create Follow Up')
+            ->modalHeading('Instructions for creating a follow up email')
+            ->modalContent(function ($record): Htmlable {
+                $type = addslashes(get_class($record));
+
+                return new HtmlString(
+                    "php artisan em:create-follow-up --type=$type --slug={$record->slug}"
+                );
+            });
+    }
 }
