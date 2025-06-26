@@ -54,16 +54,15 @@ class CreateEmailCampaignCommand extends Command
                 })->toArray(),
                 default: EmailContentType::MARKDOWN->value,
                 required: true,
-                validate: fn (string $value) => in_array(
+                validate: fn(string $value) => in_array(
                     $value,
-                    collect(EmailContentType::cases())->map(fn ($case) => $case->value)->toArray(),
+                    collect(EmailContentType::cases())->map(fn($case) => $case->value)->toArray(),
                     true
                 ) ? null : 'Invalid content type selected.'
             ),
             'once_per_receivable' => confirm(
-                label: 'Send Email once per receivable',
+                label: 'Send email once per receivable',
                 default: true,
-                required: true
             ) ? 1 : 0,
         ];
 

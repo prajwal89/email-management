@@ -15,57 +15,41 @@ use function Laravel\Prompts\select;
 use function Pest\Laravel\options;
 
 /**
- * todo: this should accept the sendable type  and slug
+ * Create a new follow-up for a sendable
+ * 
+ * Usage:
  * php artisan em:create-follow-up
+ * php artisan em:create-follow-up --type="Prajwal89\EmailManagement\Models\EmailEvent" --slug="welcome-email"
  */
 class CreateFollowUpCommand extends Command
 {
-    protected $signature = 'em:create-follow-up';
+    protected $signature = 'em:create-follow-up 
+                            {--type= : The followupable type (EmailEvent or EmailCampaign class)}
+                            {--slug= : The followupable slug}';
 
     protected $description = 'Create a new follow-up for a sendable';
 
     public function handle(): void
     {
-        // b.c EmailEvent,and EmailCampaign can have follow ups
-        $followupableType = select(
-            label: 'For which followupable type?',
-            options: [
-                EmailEvent::class,
-                EmailCampaign::class,
-            ],
-            // hint: '',
-            required: true,
-            validate: ['required', 'string']
-        );
+        // Get followupable type from option or prompt
+        $followupableType = $this->getFollowupableType();
 
-        $followupableId = select(
-            label: 'For which followupable name?',
-            options: $followupableType::query()
-                ->when($followupableType == EmailEvent::class, function ($query) {
-                    $query->where('is_followup_email', 0);
-                })
-                ->latest()
-                ->pluck('name', 'id'),
-            required: true,
-            validate: ['required', 'integer', 'min:1']
-        );
+        // Get followupable slug from option or prompt
+        $followupableSlug = $this->getFollowupableSlug($followupableType);
 
-        // move this logic
-        $allFollowupEmailEvents = EmailEvent::query()
-            ->latest()
-            ->where('is_followup_email', 1)
-            ->get();
-
-        if ($allFollowupEmailEvents->isEmpty()) {
-            throw new Exception('There are no follow up emailEvents please create email event');
-        }
+        // Get all available follow-up email events
+        $allFollowupEmailEvents = $this->getFollowupEmailEvents();
 
         $followupable = $followupableType::query()
             ->with(['followUps' => function ($query) {
                 $query->orderBy('wait_for_days', 'asc');
             }, 'followUps.followupEmailEvent'])
-            ->where('id', $followupableId)
+            ->where('slug', $followupableSlug)
             ->first();
+
+        if (!$followupable) {
+            throw new Exception("No {$followupableType} found with slug: {$followupableSlug}");
+        }
 
         $largestFollowUpDays = 0;
 
@@ -118,16 +102,100 @@ class CreateFollowUpCommand extends Command
         //     default: false
         // ) ? 1 : 0;
 
-        // ?we should create the migration for this
+        // todo: move this to migration file
         $followUp = FollowUp::create([
             'followup_email_event_id' => $emailEventId,
             'followupable_type' => $followupableType,
-            'followupable_id' => $followupableId,
+            'followupable_id' => $followupable->id,
             'wait_for_days' => $waitForDays,
             // 'is_enabled' => (bool) $isEnabled,
             'is_enabled' => true,
         ]);
 
         $this->info("✅ Follow-up created with ID: {$followUp->id}");
+    }
+
+    /**
+     * Get the followupable type from option or prompt user
+     */
+    private function getFollowupableType(): string
+    {
+        $type = $this->option('type');
+
+        if ($type) {
+            // Validate the provided type
+            $validTypes = [EmailEvent::class, EmailCampaign::class];
+
+            if (!in_array($type, $validTypes)) {
+                throw new Exception("Invalid type: {$type}. Valid types are: " . implode(', ', $validTypes));
+            }
+
+            return $type;
+        }
+
+        // Prompt user if not provided
+        return select(
+            label: 'For which followupable type?',
+            options: [
+                EmailEvent::class,
+                EmailCampaign::class,
+            ],
+            required: true,
+            validate: ['required', 'string']
+        );
+    }
+
+    /**
+     * Get the followupable slug from option or prompt user
+     */
+    private function getFollowupableSlug(string $followupableType): string
+    {
+        $slug = $this->option('slug');
+
+        if ($slug) {
+            // Check if the record exists
+            $exists = $followupableType::query()
+                ->when($followupableType == EmailEvent::class, function ($query) {
+                    $query->where('is_followup_email', 0);
+                })
+                ->where('slug', $slug)
+                ->exists();
+
+            if (!$exists) {
+                throw new Exception("No {$followupableType} found with slug: {$slug}");
+            }
+
+            return $slug;
+        }
+
+        // Prompt user if not provided
+        return select(
+            label: 'For which followupable name?',
+            options: $followupableType::query()
+                ->when($followupableType == EmailEvent::class, function ($query) {
+                    $query->where('is_followup_email', 0);
+                })
+                ->latest()
+                ->pluck('name', 'slug'),
+            required: true,
+            validate: ['required', 'string']
+        );
+    }
+
+    /**
+     * Get all available follow-up email events
+     */
+    private function getFollowupEmailEvents()
+    {
+        $allFollowupEmailEvents = EmailEvent::query()
+            ->latest()
+            ->where('is_followup_email', 1)
+            ->get();
+
+        if ($allFollowupEmailEvents->isEmpty()) {
+            throw new Exception('There are no follow up emailEvents please create email event');
+        }
+
+        return $allFollowupEmailEvents;
     }
 }
