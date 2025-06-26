@@ -43,7 +43,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('follow_ups', function (Blueprint $table): void {
+        Schema::create('em_follow_ups', function (Blueprint $table): void {
             $table->id();
 
             $table->unsignedBigInteger('followupable_id');
@@ -84,7 +84,7 @@ return new class extends Migration
             $table->enum(
                 column: 'content_type',
                 allowed: collect(EmailContentType::cases())
-                    ->map(fn ($case) => $case->value)->toArray()
+                    ->map(fn($case) => $case->value)->toArray()
             )->default('markdown');
 
             $table->unsignedBigInteger('sendable_id')->nullable();
@@ -207,6 +207,8 @@ return new class extends Migration
         Schema::dropIfExists('em_email_logs');
         Schema::dropIfExists('em_email_campaigns');
         Schema::dropIfExists('em_email_events');
+        Schema::dropIfExists('em_follow_ups');
+        Schema::dropIfExists('em_email_campaign_runs');
 
         Schema::table('users', function (Blueprint $table): void {
             $table->dropColumn('is_subscribed_for_emails');

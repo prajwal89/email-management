@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class FollowUp extends Model
 {
+    protected $table = 'em_follow_ups';
+
     protected $fillable = [
         'followup_email_event_id',
         'followupable_id',
