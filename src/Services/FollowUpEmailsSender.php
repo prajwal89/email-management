@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Services;
 
+use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Log;
 use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\Models\EmailLog;
@@ -19,8 +20,6 @@ class FollowUpEmailsSender
 
     public function send()
     {
-        // check if mailbox is being listened (if not this should not send follow up email)
-        // as user cannot listen to the emails
         $this->checkIfMailboxAccessible();
 
         // Get emails logs that may require to send follow up emails
@@ -60,12 +59,13 @@ class FollowUpEmailsSender
 
             // ch
             foreach ($followUps as $followUp) {
-
                 // Calculate when this follow-up should be sent
                 $followUpSendDate = $emailLog->sent_at->addDays($followUp->wait_for_days);
 
                 // dump($followUp);
                 dump($followUpSendDate->toDateString());
+
+                // continue;
 
                 // Check if it's time to send this follow-up
                 if (!$followUpSendDate->isPast()) {
@@ -82,6 +82,8 @@ class FollowUpEmailsSender
                 if ($alreadySent) {
                     continue;
                 }
+
+                // todo check when was last follow up email sent
 
                 // dd('ds');
 
@@ -115,34 +117,30 @@ class FollowUpEmailsSender
     public function sendFollowUpEmail(
         EmailLog $emailLog,
         EmailEvent $followUpEvent,
-        FollowUp $followUp
     ) {
         // dd($emailLog->message_id);
 
         dump(
-            'Follow up email will be sent',
-            $emailLog,
-            $followUpEvent,
-            $followUp
+            // $emailLog,
+            $followUpEvent->name,
         );
 
         // todo add subject header as "Re: "
         $handler = $followUpEvent->resolveEmailHandler();
 
-        // (new $handler($emailLog->receivable))
-        //     // hind a better way to pass the message id
-        //     ->buildEmail($emailLog->message_id)
-        //     ->send();
-
-        // Log the activity
-        Log::info('Follow-up email sent', [
-            'original_email_id' => $emailLog->id,
-            'follow_up_event_id' => $followUpEvent->id,
-            'recipient' => $emailLog->receivable_type . ':' . $emailLog->receivable_id,
-            'days_after_original' => $followUp->wait_for_days,
-        ]);
+        (new $handler($emailLog->receivable))
+            // ! why this is not working
+            // ->modifyEmailUsing(function (Mailable $email) use ($emailLog) {
+            //     $email->subject("Re: {$emailLog->subject}");
+            // })
+            // find a better way to pass the message id
+            ->buildEmail($emailLog->message_id)
+            ->send();
     }
 
+    // check if mailbox is being listened (if not this should not send follow up email)
+    // as user cannot listen to the emails
+    // throws error 
     public function checkIfMailboxAccessible()
     {
         //
