@@ -74,6 +74,13 @@ class HeadersManager
         return $this;
     }
 
+    public function getInReplyToHeader()
+    {
+        return $this->email->getHeaders()->has('In-Reply-To')
+            ? $this->email->getHeaders()->getHeaderBody('In-Reply-To')
+            : null;
+    }
+
     /**
      * Remove all configured email headers
      */
