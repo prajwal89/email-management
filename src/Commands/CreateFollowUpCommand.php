@@ -15,6 +15,7 @@ use function Laravel\Prompts\select;
 use function Pest\Laravel\options;
 
 /**
+ * todo: this should accept the sendable type  and slug
  * php artisan em:create-follow-up
  */
 class CreateFollowUpCommand extends Command
@@ -25,18 +26,6 @@ class CreateFollowUpCommand extends Command
 
     public function handle(): void
     {
-        // $sendableType = select(
-        //     label: 'Sendable Model Class',
-        //     hint: 'E.g. App\\Models\\EmailEvent',
-        //     options: [
-        //         EmailEvent::class,
-        //         EmailCampaign::class,
-        //     ],
-        //     required: true,
-        //     validate: ['required', 'string']
-        // );
-
-        // follow up for this sendable
         // b.c EmailEvent,and EmailCampaign can have follow ups
         $followupableType = select(
             label: 'For which followupable type?',
@@ -51,8 +40,10 @@ class CreateFollowUpCommand extends Command
 
         $followupableId = select(
             label: 'For which followupable name?',
-            options: EmailEvent::query()
-                ->where('is_followup_email', 0)
+            options: $followupableType::query()
+                ->when($followupableType == EmailEvent::class, function ($query) {
+                    $query->where('is_followup_email', 0);
+                })
                 ->latest()
                 ->pluck('name', 'id'),
             required: true,
@@ -87,11 +78,7 @@ class CreateFollowUpCommand extends Command
             foreach ($followupable->followUps as $i => $followUp) {
                 $this->info(++$i . " : {$followUp->followupEmailEvent->name} (+{$followUp->wait_for_days} hours)");
             }
-
-            // $this->info("");
         }
-
-        // dd($followupable->followUps);
 
         // the email that will be sent
         // todo: add constraint of suffix of FollowUp
