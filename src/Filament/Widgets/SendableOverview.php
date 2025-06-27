@@ -160,13 +160,13 @@ class SendableOverview extends BaseWidget
         }
 
         return [
-            Stat::make('Total Sent (7 days)', number_format($emailsSentLast7Days))
+            Stat::make('Total Sent (7 days)', number_format((int) $emailsSentLast7Days))
                 ->description($emailsSentChange >= 0 ? "+{$emailsSentChange}% from previous week" : "{$emailsSentChange}% from previous week")
                 ->descriptionIcon($emailsSentChange >= 0 ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->chart($sentChartData)
                 ->color($emailsSentChange >= 0 ? 'success' : 'danger'),
 
-            Stat::make('Total Opens', number_format($totalOpensLast7Days))
+            Stat::make('Total Opens', number_format((int) $totalOpensLast7Days))
                 ->description($opensChange >= 0 ? "+{$opensChange}% from previous week" : "{$opensChange}% from previous week")
                 ->descriptionIcon($opensChange >= 0 ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->chart($opensChartData)
