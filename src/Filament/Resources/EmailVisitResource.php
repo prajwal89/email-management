@@ -53,7 +53,7 @@ class EmailVisitResource extends Resource
                     ->searchable()
                     ->openUrlInNewTab()
                     ->url(function ($record): string {
-                        return EmailLogResource::getUrl('preview-email', [
+                        return EmailLogResource::getUrl('details', [
                             'record' => $record->emailLogs->id,
                         ]);
                     }),
@@ -63,7 +63,7 @@ class EmailVisitResource extends Resource
                     ->searchable()
                     ->openUrlInNewTab()
                     ->url(function ($record): string {
-                        return EmailLogResource::getUrl('preview-email', [
+                        return EmailLogResource::getUrl('details', [
                             'record' => $record->emailLogs->id,
                         ]);
                     }),
@@ -131,7 +131,7 @@ class EmailVisitResource extends Resource
                                     get_class($sendable) . ':' . $sendable->id => $sendable->name,
                                 ];
                             })
-                            ->mapWithKeys(fn ($data) => $data)
+                            ->mapWithKeys(fn($data) => $data)
                             ->filter();
 
                         return $result->isEmpty()
@@ -139,9 +139,7 @@ class EmailVisitResource extends Resource
                             : $result->merge(['no_sendable' => 'No sendable']);
                     }),
             ])
-            ->actions([
-                EditAction::make(),
-            ])
+            ->actions([])
             ->bulkActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
@@ -166,8 +164,6 @@ class EmailVisitResource extends Resource
     {
         return [
             'index' => ListEmailVisits::route('/'),
-            // 'create' => Pages\CreateEmailVisit::route('/create'),
-            // 'edit' => Pages\EditEmailVisit::route('/{record}/edit'),
         ];
     }
 }
