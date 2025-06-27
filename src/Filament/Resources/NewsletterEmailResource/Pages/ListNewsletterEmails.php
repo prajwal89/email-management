@@ -17,8 +17,9 @@ class ListNewsletterEmails extends ListRecords
     {
         return [
             CreateAction::make()
-                ->label('New Email')
-                ->icon('heroicon-o-plus'),
+                ->label('Create')
+                ->icon('heroicon-o-plus')
+                ->outlined(),
         ];
     }
 
