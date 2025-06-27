@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Prajwal89\EmailManagement\Services\FileManagers;
+namespace Prajwal89\EmailManagement\FileManagers;
 
 use Illuminate\Database\Eloquent\Model;
 use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailEvent;
-use Prajwal89\EmailManagement\Services\FileManagers\MailableClass\EmailCampaignMailableClass;
-use Prajwal89\EmailManagement\Services\FileManagers\MailableClass\EmailEventMailableClass;
+use Prajwal89\EmailManagement\FileManagers\Handlers\EmailCampaignHandler;
+use Prajwal89\EmailManagement\FileManagers\Handlers\EmailEventHandler;
 
-class MailableClassFileManager
+class EmailHandlerFileManager
 {
     public array $modelAttributes = [];
 
@@ -34,11 +34,11 @@ class MailableClassFileManager
     public function resolveGenerator()
     {
         return match (is_string(($this->forModel)) ? $this->forModel : get_class($this->forModel)) {
-            EmailEvent::class => new EmailEventMailableClass(
+            EmailEvent::class => new EmailEventHandler(
                 $this->forModel,
                 $this->modelAttributes
             ),
-            EmailCampaign::class => new EmailCampaignMailableClass(
+            EmailCampaign::class => new EmailCampaignHandler(
                 $this->forModel,
                 $this->modelAttributes
             ),

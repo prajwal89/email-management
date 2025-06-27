@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 use Prajwal89\EmailManagement\Models\EmailVariant;
-use Prajwal89\EmailManagement\Services\FileManagers\MigrationFileManager;
+use Prajwal89\EmailManagement\FileManagers\MigrationFileManager;
 
 class EmailVariantService
 {

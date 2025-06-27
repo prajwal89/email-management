@@ -10,7 +10,7 @@ use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailCampaignRun;
 use Prajwal89\EmailManagement\Models\EmailLog;
 use Prajwal89\EmailManagement\Models\EmailVariant;
-use Prajwal89\EmailManagement\Services\FileManagers\MigrationFileManager;
+use Prajwal89\EmailManagement\FileManagers\MigrationFileManager;
 
 class EmailCampaignService
 {

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Prajwal89\EmailManagement\Services\FileManagers\MailableClass;
+namespace Prajwal89\EmailManagement\FileManagers\MailableClass;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
-use Prajwal89\EmailManagement\Models\EmailEvent;
+use Prajwal89\EmailManagement\Models\EmailCampaign;
 
-class EmailEventMailableClass
+class EmailCampaignMailableClass
 {
     public function __construct(
         public string|Model $forModel,
@@ -22,18 +22,18 @@ class EmailEventMailableClass
     {
         $slug = str($this->modelAttributes['name'])->slug();
 
-        $emailClassName = EmailEvent::getMailableClassName($slug->toString());
+        $emailClassName = EmailCampaign::getMailableClassName($slug->toString());
 
         $emailViewName = $slug . '-email';
 
         $emailHandlerStub = str(File::get(__DIR__ . '/../../../../stubs/email-class.stub'))
-            ->replace('{sendable_class_name}', 'EmailEvents') // aka folder name
+            ->replace('{sendable_class_name}', 'EmailCampaigns') // aka folder name
             ->replace('{email_class_name}', $emailClassName)
-            ->replace('{sendable_folder_name}', 'email-events') // folder for email views
+            ->replace('{sendable_folder_name}', 'email-campaigns') // folder for email views
             ->replace('{email_subject}', $this->modelAttributes['name'])
             ->replace('{email_view_file_name}', $emailViewName);
 
-        $mailableClassPath = EmailEvent::getMailableClassPath($slug->toString());
+        $mailableClassPath = EmailCampaign::getMailableClassPath($slug->toString());
 
         $mailPath = dirname($mailableClassPath);
 

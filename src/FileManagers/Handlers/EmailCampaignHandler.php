@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Prajwal89\EmailManagement\Services\FileManagers\Handlers;
+namespace Prajwal89\EmailManagement\FileManagers\Handlers;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Prajwal89\EmailManagement\Services\FileManagers\Migrations;
+namespace Prajwal89\EmailManagement\FileManagers\Migrations;
 
 use Illuminate\Support\Facades\File;
 use LogicException;

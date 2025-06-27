@@ -11,10 +11,10 @@ use Illuminate\Validation\Rule;
 use Prajwal89\EmailManagement\Enums\EmailContentType;
 use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\Models\EmailVariant;
-use Prajwal89\EmailManagement\Services\FileManagers\EmailHandlerFileManager;
-use Prajwal89\EmailManagement\Services\FileManagers\EmailViewFileManager;
-use Prajwal89\EmailManagement\Services\FileManagers\MailableClassFileManager;
-use Prajwal89\EmailManagement\Services\FileManagers\MigrationFileManager;
+use Prajwal89\EmailManagement\FileManagers\EmailHandlerFileManager;
+use Prajwal89\EmailManagement\FileManagers\EmailViewFileManager;
+use Prajwal89\EmailManagement\FileManagers\MailableClassFileManager;
+use Prajwal89\EmailManagement\FileManagers\MigrationFileManager;
 
 use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\select;
@@ -54,9 +54,9 @@ class CreateEmailEventCommand extends Command
                 })->toArray(),
                 default: EmailContentType::MARKDOWN->value,
                 required: true,
-                validate: fn (string $value) => in_array(
+                validate: fn(string $value) => in_array(
                     $value,
-                    collect(EmailContentType::cases())->map(fn ($case) => $case->value)->toArray(),
+                    collect(EmailContentType::cases())->map(fn($case) => $case->value)->toArray(),
                     true
                 ) ? null : 'Invalid content type selected.'
             ),

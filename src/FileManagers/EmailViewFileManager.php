@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Prajwal89\EmailManagement\Services\FileManagers;
+namespace Prajwal89\EmailManagement\FileManagers;
 
 use Illuminate\Database\Eloquent\Model;
 use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailEvent;
-use Prajwal89\EmailManagement\Services\FileManagers\EmailView\EmailCampaignEmailView;
-use Prajwal89\EmailManagement\Services\FileManagers\EmailView\EmailEventEmailView;
+use Prajwal89\EmailManagement\FileManagers\EmailView\EmailCampaignEmailView;
+use Prajwal89\EmailManagement\FileManagers\EmailView\EmailEventEmailView;
 
 class EmailViewFileManager
 {
