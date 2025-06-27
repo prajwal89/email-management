@@ -6,11 +6,11 @@ namespace Prajwal89\EmailManagement\Services;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Prajwal89\EmailManagement\FileManagers\MigrationFileManager;
 use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailCampaignRun;
 use Prajwal89\EmailManagement\Models\EmailLog;
 use Prajwal89\EmailManagement\Models\EmailVariant;
-use Prajwal89\EmailManagement\FileManagers\MigrationFileManager;
 
 class EmailCampaignService
 {

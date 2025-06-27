@@ -34,7 +34,7 @@ class EmailManagementFilamentPlugin implements Plugin
                 EmailVisitResource::class,
             ])
             ->widgets([
-                SendableOverview::class
+                SendableOverview::class,
             ])
             ->navigationGroups([
                 NavigationGroup::make()

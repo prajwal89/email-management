@@ -44,7 +44,7 @@ class ListEmailCampaigns extends ListRecords
     {
         return [
             SendableOverview::make([
-                'sendableType' => EmailCampaign::class
+                'sendableType' => EmailCampaign::class,
             ]),
         ];
     }

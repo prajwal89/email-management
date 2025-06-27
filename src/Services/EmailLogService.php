@@ -42,8 +42,8 @@ class EmailLogService
                 'context' => $headersManager->getEventContext(),
 
                 ...!empty($inReplyToHeaders) ? [
-                    'in_reply_to' => $inReplyToHeaders[0]
-                ] : []
+                    'in_reply_to' => $inReplyToHeaders[0],
+                ] : [],
 
                 // todo: add this
                 // 'mailer' => $mailerName,

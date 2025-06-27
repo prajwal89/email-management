@@ -9,12 +9,12 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Validation\Rule;
 use Prajwal89\EmailManagement\Enums\EmailContentType;
-use Prajwal89\EmailManagement\Models\EmailCampaign;
-use Prajwal89\EmailManagement\Models\EmailVariant;
 use Prajwal89\EmailManagement\FileManagers\EmailHandlerFileManager;
 use Prajwal89\EmailManagement\FileManagers\EmailViewFileManager;
 use Prajwal89\EmailManagement\FileManagers\MailableClassFileManager;
 use Prajwal89\EmailManagement\FileManagers\MigrationFileManager;
+use Prajwal89\EmailManagement\Models\EmailCampaign;
+use Prajwal89\EmailManagement\Models\EmailVariant;
 
 use function Laravel\Prompts\confirm;
 use function Laravel\Prompts\select;
@@ -54,9 +54,9 @@ class CreateEmailCampaignCommand extends Command
                 })->toArray(),
                 default: EmailContentType::MARKDOWN->value,
                 required: true,
-                validate: fn(string $value) => in_array(
+                validate: fn (string $value) => in_array(
                     $value,
-                    collect(EmailContentType::cases())->map(fn($case) => $case->value)->toArray(),
+                    collect(EmailContentType::cases())->map(fn ($case) => $case->value)->toArray(),
                     true
                 ) ? null : 'Invalid content type selected.'
             ),

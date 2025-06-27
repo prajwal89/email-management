@@ -7,9 +7,9 @@ namespace Prajwal89\EmailManagement\Services;
 use Exception;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use Prajwal89\EmailManagement\FileManagers\MigrationFileManager;
 use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 use Prajwal89\EmailManagement\Models\EmailVariant;
-use Prajwal89\EmailManagement\FileManagers\MigrationFileManager;
 
 class EmailVariantService
 {

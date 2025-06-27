@@ -26,7 +26,7 @@ class PreviewEmailPage extends Page
                 $query->orderBy('sent_at', 'desc');
             },
             'followUpEmailLogs.sendable',
-            'recipients'
+            'recipients',
         ]);
     }
 

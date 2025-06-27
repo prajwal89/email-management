@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Prajwal89\EmailManagement\FileManagers;
 
 use Illuminate\Database\Eloquent\Model;
-use Prajwal89\EmailManagement\Models\EmailCampaign;
-use Prajwal89\EmailManagement\Models\EmailEvent;
-use Prajwal89\EmailManagement\Models\EmailVariant;
 use Prajwal89\EmailManagement\FileManagers\Migrations\EmailCampaignMigration;
 use Prajwal89\EmailManagement\FileManagers\Migrations\EmailEventMigration;
 use Prajwal89\EmailManagement\FileManagers\Migrations\EmailVariantMigration;
+use Prajwal89\EmailManagement\Models\EmailCampaign;
+use Prajwal89\EmailManagement\Models\EmailEvent;
+use Prajwal89\EmailManagement\Models\EmailVariant;
 
 /**
  * Generate for delete seeder files for

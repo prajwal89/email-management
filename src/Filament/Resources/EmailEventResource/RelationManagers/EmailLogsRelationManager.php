@@ -46,7 +46,7 @@ class EmailLogsRelationManager extends RelationManager
                     ->visible(function () {
                         return $this->getOwnerRecord() instanceof EmailSendable;
                     })
-                    ->options(fn() => $this->getOwnerRecord()->emailVariants()->pluck('name', 'id')->toArray()),
+                    ->options(fn () => $this->getOwnerRecord()->emailVariants()->pluck('name', 'id')->toArray()),
             ])
             ->actions([
                 Action::make('preview')

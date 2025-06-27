@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Prajwal89\EmailManagement\Services;
 
 use Illuminate\Mail\Mailable;
-use Illuminate\Support\Facades\Log;
 use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\Models\EmailLog;
 use Prajwal89\EmailManagement\Models\FollowUp;
@@ -43,7 +42,6 @@ class FollowUpEmailsSender
             ->where('sent_at', '<', now()->subDays(config('email-management.min_delay_for_followup_email')))
             ->where('sent_at', '>', now()->subDays(config('email-management.max_delay_for_followup_email')))
             ->get();
-
 
         // loop through the potential emails that may require follow up email
         foreach ($emailLogs as $emailLog) {
@@ -112,7 +110,7 @@ class FollowUpEmailsSender
 
     public static function checkIfFollowUpEmailSentToday()
     {
-        // 
+        //
     }
 
     public function sendFollowUpEmail(
@@ -141,7 +139,7 @@ class FollowUpEmailsSender
 
     // check if mailbox is being listened (if not this should not send follow up email)
     // as user cannot listen to the emails
-    // throws error 
+    // throws error
     public function checkIfMailboxAccessible()
     {
         //

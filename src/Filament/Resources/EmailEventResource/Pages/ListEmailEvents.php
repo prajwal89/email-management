@@ -36,7 +36,7 @@ class ListEmailEvents extends ListRecords
     {
         return [
             SendableOverview::make([
-                'sendableType' => EmailEvent::class
+                'sendableType' => EmailEvent::class,
             ]),
         ];
     }

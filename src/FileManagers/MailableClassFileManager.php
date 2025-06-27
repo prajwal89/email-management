@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Prajwal89\EmailManagement\FileManagers;
 
 use Illuminate\Database\Eloquent\Model;
-use Prajwal89\EmailManagement\Models\EmailCampaign;
-use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\FileManagers\MailableClass\EmailCampaignMailableClass;
 use Prajwal89\EmailManagement\FileManagers\MailableClass\EmailEventMailableClass;
+use Prajwal89\EmailManagement\Models\EmailCampaign;
+use Prajwal89\EmailManagement\Models\EmailEvent;
 
 class MailableClassFileManager
 {

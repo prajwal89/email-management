@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Prajwal89\EmailManagement\Filament\Widgets;
 
+use Carbon\Carbon;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Database\Eloquent\Builder;
-use Carbon\Carbon;
 use Prajwal89\EmailManagement\Models\EmailLog;
 
 class SendableOverview extends BaseWidget
@@ -177,7 +179,7 @@ class SendableOverview extends BaseWidget
                 ->color($ctrChange >= 0 ? 'success' : 'danger'),
 
             Stat::make('Bounce Rate (7 days)', $bounceRateLast7Days . '%')
-                ->description($bounceRateChange <= 0 ? abs($bounceRateChange) . "% decrease from previous week" : "+{$bounceRateChange}% from previous week")
+                ->description($bounceRateChange <= 0 ? abs($bounceRateChange) . '% decrease from previous week' : "+{$bounceRateChange}% from previous week")
                 ->descriptionIcon($bounceRateChange <= 0 ? 'heroicon-m-arrow-trending-down' : 'heroicon-m-arrow-trending-up')
                 ->chart($bounceChartData)
                 ->color($bounceRateChange <= 0 ? 'success' : 'danger'),
