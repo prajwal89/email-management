@@ -8,8 +8,9 @@ use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Prajwal89\EmailManagement\Filament\Resources\EmailLogResource;
 use Prajwal89\EmailManagement\Filament\Resources\EmailLogResource\Widgets\SentEmailsTrendWidget;
+use Prajwal89\EmailManagement\Filament\Widgets\SendableOverview;
 
-class ListSentEmails extends ListRecords
+class ListEmailLogs extends ListRecords
 {
     protected static string $resource = EmailLogResource::class;
 
@@ -17,6 +18,13 @@ class ListSentEmails extends ListRecords
     {
         return [
             // Actions\CreateAction::make(),
+        ];
+    }
+
+    public function getHeaderWidgets(): array
+    {
+        return [
+            SendableOverview::make(),
         ];
     }
 

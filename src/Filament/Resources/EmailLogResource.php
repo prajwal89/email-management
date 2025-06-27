@@ -22,7 +22,7 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 use Modules\Auth\Filament\Resources\UserResource;
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\RelationManagers\EmailLogsRelationManager;
-use Prajwal89\EmailManagement\Filament\Resources\EmailLogResource\Pages\ListSentEmails;
+use Prajwal89\EmailManagement\Filament\Resources\EmailLogResource\Pages\ListEmailLogs;
 use Prajwal89\EmailManagement\Filament\Resources\EmailLogResource\Pages\PreviewEmailPage;
 use Prajwal89\EmailManagement\Filament\Resources\EmailLogResource\Widgets\SentEmailsTrendWidget;
 use Prajwal89\EmailManagement\Models\EmailCampaign;
@@ -121,7 +121,7 @@ class EmailLogResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListSentEmails::route('/'),
+            'index' => ListEmailLogs::route('/'),
             // we can crease side section modal
             'details' => PreviewEmailPage::route('/{record}/details'),
         ];
