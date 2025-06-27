@@ -22,11 +22,7 @@ class EmailCampaignMigration
     {
         $slug = str($this->modelAttributes['name'])->slug();
 
-        if (EmailCampaign::query()->where('slug', $slug)->exists()) {
-            throw new Exception('Email Campaign Name is Taken');
-        }
-
-        $stubPath = __DIR__ . '/../../../../stubs/migrations/email-campaign-migration.stub';
+        $stubPath = __DIR__ . '/../../../stubs/migrations/email-campaign-migration.stub';
 
         $fileContents = str(File::get($stubPath))
             ->replace('{name}', $this->modelAttributes['name'])
@@ -52,7 +48,7 @@ class EmailCampaignMigration
     {
         $slug = $this->forModel->slug;
 
-        $stubPath = __DIR__ . '/../../../../stubs/migrations/sendable-delete-migration.stub';
+        $stubPath = __DIR__ . '/../../../stubs/migrations/sendable-delete-migration.stub';
 
         $fileContents = str(File::get($stubPath))
             ->replace('{slug}', $slug)

@@ -157,9 +157,13 @@ class CreateEmailVariantCommand extends Command
             data: $data
         );
 
-        $this->info("Created Email Variant Seeder file: {$filePath}");
+        $this->info("Created email variant migration file: {$filePath}");
 
-        Artisan::call('migrate');
+        if ($this->confirm('Do you want to run the migration now?', true)) {
+            $this->call('migrate');
+        } else {
+            $this->info('You can run it later with: php artisan migrate');
+        }
 
         return self::SUCCESS;
     }

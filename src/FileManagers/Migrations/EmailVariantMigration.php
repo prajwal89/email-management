@@ -27,7 +27,7 @@ class EmailVariantMigration
 
         $slug = str($this->modelAttributes['name'])->slug()->toString();
 
-        $seederFilePath = __DIR__ . '/../../../../stubs/migrations/email-variant-migration.stub';
+        $seederFilePath = __DIR__ . '/../../../stubs/migrations/email-variant-migration.stub';
 
         $seederStub = str(File::get($seederFilePath))
             ->replace('{name}', $this->modelAttributes['name'])
@@ -58,9 +58,9 @@ class EmailVariantMigration
     {
         $slug = $this->forModel->slug;
 
-        $seederFilePath = __DIR__ . '/../../../../stubs/migrations/email-variant-delete-migration.stub';
+        $stubPath = __DIR__ . '/../../../stubs/migrations/email-variant-delete-migration.stub';
 
-        $fileContents = str(File::get($seederFilePath))
+        $fileContents = str(File::get($stubPath))
             ->replace('{sendable_type}', get_class($this->forModel->sendable))
             ->replace('{sendable_id}', $this->forModel->sendable->id)
             ->replace('{slug}', $slug);

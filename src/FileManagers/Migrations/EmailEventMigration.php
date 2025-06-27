@@ -22,11 +22,7 @@ class EmailEventMigration
     {
         $slug = str($this->modelAttributes['name'])->slug();
 
-        if (EmailEvent::query()->where('slug', $slug)->exists()) {
-            throw new Exception('Email Event Name is Taken');
-        }
-
-        $stubPath = __DIR__ . '/../../../../stubs/migrations/email-event-migration.stub';
+        $stubPath = __DIR__ . '/../../../stubs/migrations/email-event-migration.stub';
 
         $fileContents = str(File::get($stubPath))
             ->replace('{name}', $this->modelAttributes['name'])
@@ -53,7 +49,7 @@ class EmailEventMigration
     {
         $slug = $this->forModel->slug;
 
-        $stubPath = __DIR__ . '/../../../../stubs/migrations/sendable-delete-migration.stub';
+        $stubPath = __DIR__ . '/../../../stubs/migrations/sendable-delete-migration.stub';
 
         $fileContents = str(File::get($stubPath))
             ->replace('{slug}', $slug)

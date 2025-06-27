@@ -26,7 +26,7 @@ class EmailCampaignHandler
 
         $emailHandlerClassName = str($slug)->studly() . 'EmailHandler';
 
-        $emailHandlerStub = str(File::get(__DIR__ . '/../../../../stubs/email-handler.stub'))
+        $emailHandlerStub = str(File::get(__DIR__ . '/../../../stubs/email-handler.stub'))
             ->replace('{sendable_model_name}', 'EmailCampaign')
             ->replace('{sendable_class_name}', 'EmailCampaigns') // Folder name
             ->replace('{mailable_class}', $emailClassName)

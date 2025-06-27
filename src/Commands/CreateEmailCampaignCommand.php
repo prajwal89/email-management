@@ -74,7 +74,7 @@ class CreateEmailCampaignCommand extends Command
             throw new Exception('Duplicate EmailCampaign name');
         }
 
-        $this->createSeederFile($data);
+        $this->createMigrationFile($data);
 
         $this->createDefaultEmailVariantMigrationFile($data, EmailCampaign::class, $slug->toString());
 
@@ -96,13 +96,13 @@ class CreateEmailCampaignCommand extends Command
         $this->info("Use: (new $emailHandlerClassName(User::first()))->send()");
     }
 
-    public function createSeederFile(array $data): void
+    public function createMigrationFile(array $data): void
     {
         $filePath = (new MigrationFileManager(EmailCampaign::class))
             ->setAttributes($data)
             ->generateFile();
 
-        $this->info("Created Seeder file: {$filePath}");
+        $this->info("Created Migration file: {$filePath}");
     }
 
     public function createDefaultEmailVariantMigrationFile(
@@ -120,7 +120,7 @@ class CreateEmailCampaignCommand extends Command
             ->setSendableSlug($sendableSlug)
             ->generateFile();
 
-        $this->info("Created Email Variant Seeder file: {$filePath}");
+        $this->info("Created Email Variant Migration file: {$filePath}");
     }
 
     public function createEmailHandlerClassFile(array $data): void

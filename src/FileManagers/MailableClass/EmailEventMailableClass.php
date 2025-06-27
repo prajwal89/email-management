@@ -26,8 +26,8 @@ class EmailEventMailableClass
 
         $emailViewName = $slug . '-email';
 
-        $emailHandlerStub = str(File::get(__DIR__ . '/../../../../stubs/email-class.stub'))
-            ->replace('{sendable_class_name}', 'EmailEvents') // aka folder name
+        $emailHandlerStub = str(File::get(__DIR__ . '/../../../stubs/email-class.stub'))
+            ->replace('{sendable_class_name}', 'EmailEvents') // folder name
             ->replace('{email_class_name}', $emailClassName)
             ->replace('{sendable_folder_name}', 'email-events') // folder for email views
             ->replace('{email_subject}', $this->modelAttributes['name'])

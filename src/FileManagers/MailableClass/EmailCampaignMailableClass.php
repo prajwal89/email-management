@@ -26,7 +26,7 @@ class EmailCampaignMailableClass
 
         $emailViewName = $slug . '-email';
 
-        $emailHandlerStub = str(File::get(__DIR__ . '/../../../../stubs/email-class.stub'))
+        $emailHandlerStub = str(File::get(__DIR__ . '/../../../stubs/email-class.stub'))
             ->replace('{sendable_class_name}', 'EmailCampaigns') // aka folder name
             ->replace('{email_class_name}', $emailClassName)
             ->replace('{sendable_folder_name}', 'email-campaigns') // folder for email views

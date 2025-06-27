@@ -26,7 +26,7 @@ class EmailEventHandler
 
         $emailHandlerClassName = str($slug)->studly() . 'EmailHandler';
 
-        $emailHandlerStub = str(File::get(__DIR__ . '/../../../../stubs/email-handler.stub'))
+        $emailHandlerStub = str(File::get(__DIR__ . '/../../../stubs/email-handler.stub'))
             ->replace('{sendable_model_name}', 'EmailEvent')
             ->replace('{sendable_class_name}', 'EmailEvents') // Folder name
             ->replace('{mailable_class}', $emailClassName)

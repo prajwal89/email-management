@@ -23,9 +23,9 @@ class EmailCampaignEmailView
     public function generateFile()
     {
         $stubPath = match ($this->modelAttributes['content_type']) {
-            'markdown' => __DIR__ . '/../../../../stubs/email-views/email-markdown-view.stub',
-            'html' => __DIR__ . '/../../../../stubs/email-views/email-html-view.stub',
-            'text' => __DIR__ . '/../../../../stubs/email-views/email-text-view.stub',
+            'markdown' => __DIR__ . '/../../../stubs/email-views/email-markdown-view.stub',
+            'html' => __DIR__ . '/../../../stubs/email-views/email-html-view.stub',
+            'text' => __DIR__ . '/../../../stubs/email-views/email-text-view.stub',
         };
 
         $emailHandlerStub = str(File::get($stubPath))
