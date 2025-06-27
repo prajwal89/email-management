@@ -46,15 +46,15 @@ class EmailLogsRelationManager extends RelationManager
                     ->visible(function () {
                         return $this->getOwnerRecord() instanceof EmailSendable;
                     })
-                    ->options(fn () => $this->getOwnerRecord()->emailVariants()->pluck('name', 'id')->toArray()),
+                    ->options(fn() => $this->getOwnerRecord()->emailVariants()->pluck('name', 'id')->toArray()),
             ])
             ->actions([
                 Action::make('preview')
-                    ->label('Email Preview')
-                    ->icon('heroicon-o-eye')
+                    ->label('Details')
+                    ->icon('heroicon-o-circle-stack')
                     ->openUrlInNewTab()
                     ->url(function ($record): string {
-                        return EmailLogResource::getUrl('preview-email', ['record' => $record->id]);
+                        return EmailLogResource::getUrl('details', ['record' => $record->id]);
                     }),
             ])
             ->bulkActions([

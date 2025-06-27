@@ -94,7 +94,7 @@ class EmailLogResource extends Resource
                     ->icon('heroicon-o-eye')
                     ->openUrlInNewTab()
                     ->url(function ($record): string {
-                        return self::getUrl('preview-email', ['record' => $record->id]);
+                        return self::getUrl('details', ['record' => $record->id]);
                     }),
             ])
             ->bulkActions([
@@ -106,8 +106,9 @@ class EmailLogResource extends Resource
                 $query->with(['to']);
             })
             ->recordUrl(function ($record): string {
-                return self::getUrl('preview-email', ['record' => $record->id]);
-            })->defaultSort('created_at', 'desc');
+                return self::getUrl('details', ['record' => $record->id]);
+            })
+            ->defaultSort('created_at', 'desc');
     }
 
     public static function getRelations(): array
@@ -122,7 +123,7 @@ class EmailLogResource extends Resource
         return [
             'index' => ListSentEmails::route('/'),
             // we can crease side section modal
-            'preview-email' => PreviewEmailPage::route('/{record}/preview-email'),
+            'details' => PreviewEmailPage::route('/{record}/details'),
         ];
     }
 
