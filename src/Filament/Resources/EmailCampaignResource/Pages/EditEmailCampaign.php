@@ -10,6 +10,7 @@ use Filament\Resources\Pages\EditRecord;
 use Prajwal89\EmailManagement\Filament\Resources\EmailCampaignResource;
 use Prajwal89\EmailManagement\Filament\Resources\EmailCampaignResource\Widgets\JobBatchInfoWidget;
 use Prajwal89\EmailManagement\Filament\SharedActions;
+use Prajwal89\EmailManagement\Filament\Widgets\SendableOverview;
 use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Services\EmailCampaignService;
 
@@ -39,7 +40,7 @@ class EditEmailCampaign extends EditRecord
                 ->outlined()
                 ->icon('heroicon-o-trash')
                 ->requiresConfirmation()
-                ->disabled(fn (): bool => !app()->isLocal())
+                ->disabled(fn(): bool => !app()->isLocal())
                 ->tooltip('Can Be deleted from local Environment only')
                 ->modalDescription('This action will delete email handler class, email class and file, and all associated DB records and will create migration file for deleting the record')
                 ->modalSubmitActionLabel('Delete')
@@ -70,6 +71,16 @@ class EditEmailCampaign extends EditRecord
                 ->url(function ($record): string {
                     return EmailCampaignResource::getUrl('start-campaign', ['record' => $record]);
                 }),
+        ];
+    }
+
+
+    public function getHeaderWidgets(): array
+    {
+        return [
+            SendableOverview::make([
+                'sendableType' => EmailCampaign::class
+            ]),
         ];
     }
 

@@ -10,7 +10,9 @@ use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\HtmlString;
 use Prajwal89\EmailManagement\Commands\CreateEmailEventCommand;
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource;
+use Prajwal89\EmailManagement\Filament\Widgets\SendableOverview;
 use Prajwal89\EmailManagement\Helpers\Helper;
+use Prajwal89\EmailManagement\Models\EmailEvent;
 
 class ListEmailEvents extends ListRecords
 {
@@ -27,6 +29,15 @@ class ListEmailEvents extends ListRecords
                 ->modalContent(function (): Htmlable {
                     return new HtmlString(Helper::getCommandSignature(CreateEmailEventCommand::class));
                 }),
+        ];
+    }
+
+    public function getHeaderWidgets(): array
+    {
+        return [
+            SendableOverview::make([
+                'sendableType' => EmailEvent::class
+            ]),
         ];
     }
 }

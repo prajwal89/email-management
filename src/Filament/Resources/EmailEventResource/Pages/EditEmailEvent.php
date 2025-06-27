@@ -9,7 +9,9 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource;
 use Prajwal89\EmailManagement\Filament\Resources\EmailLogResource\Widgets\SentEmailsTrendWidget;
+use Prajwal89\EmailManagement\Filament\Widgets\SendableOverview;
 use Prajwal89\EmailManagement\Filament\SharedActions;
+use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\Services\EmailEventService;
 
 class EditEmailEvent extends EditRecord
@@ -38,7 +40,7 @@ class EditEmailEvent extends EditRecord
                 ->outlined()
                 ->icon('heroicon-o-trash')
                 ->requiresConfirmation()
-                ->disabled(fn (): bool => !app()->isLocal())
+                ->disabled(fn(): bool => !app()->isLocal())
                 ->tooltip('Can Be deleted from local Environment only')
                 ->modalDescription('This action will delete email handler class, email class and file, and all associated DB records and will create migration file for deleting the record')
                 ->modalSubmitActionLabel('Delete')
@@ -62,6 +64,16 @@ class EditEmailEvent extends EditRecord
                     return redirect(EmailEventResource::getUrl('index'));
                 }),
 
+        ];
+    }
+
+    public function getHeaderWidgets(): array
+    {
+        return [
+            SendableOverview::make([
+                'sendableType' => EmailEvent::class,
+                'sendableId' => $this->record->id
+            ]),
         ];
     }
 

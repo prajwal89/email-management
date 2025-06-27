@@ -84,7 +84,7 @@ return new class extends Migration
             $table->enum(
                 column: 'content_type',
                 allowed: collect(EmailContentType::cases())
-                    ->map(fn ($case) => $case->value)->toArray()
+                    ->map(fn($case) => $case->value)->toArray()
             )->default('markdown');
 
             $table->unsignedBigInteger('sendable_id')->nullable();
@@ -107,15 +107,15 @@ return new class extends Migration
             $table->string('transport');
             $table->string('subject');
 
-            $table->unsignedBigInteger('receivable_id')->nullable();
             $table->string('receivable_type')->nullable();
+            $table->unsignedBigInteger('receivable_id')->nullable();
 
             // ! if sendable get deleted these columns may point to wrong log
             // as we are deleting using seeder file (only record of sendable)
             // same goes for receivable
             // ?should i use model observer to set these fields null on delete
-            $table->unsignedBigInteger('sendable_id')->nullable();
             $table->string('sendable_type')->nullable();
+            $table->unsignedBigInteger('sendable_id')->nullable();
 
             $table->unsignedBigInteger('email_variant_id')->nullable();
 

@@ -13,6 +13,7 @@ use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource;
 use Prajwal89\EmailManagement\Filament\Resources\EmailLogResource;
 use Prajwal89\EmailManagement\Filament\Resources\EmailVisitResource;
 use Prajwal89\EmailManagement\Filament\Resources\NewsletterEmailResource;
+use Prajwal89\EmailManagement\Filament\Widgets\SendableOverview;
 
 class EmailManagementFilamentPlugin implements Plugin
 {
@@ -31,6 +32,9 @@ class EmailManagementFilamentPlugin implements Plugin
                 NewsletterEmailResource::class,
                 EmailLogResource::class,
                 EmailVisitResource::class,
+            ])
+            ->widgets([
+                SendableOverview::class
             ])
             ->navigationGroups([
                 NavigationGroup::make()

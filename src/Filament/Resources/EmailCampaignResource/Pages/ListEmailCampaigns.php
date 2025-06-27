@@ -11,7 +11,9 @@ use Illuminate\Support\HtmlString;
 use Prajwal89\EmailManagement\Commands\CreateEmailCampaignCommand;
 use Prajwal89\EmailManagement\Filament\Resources\EmailCampaignResource;
 use Prajwal89\EmailManagement\Filament\Resources\EmailCampaignResource\Widgets\ReceivableGroupsTableWidget;
+use Prajwal89\EmailManagement\Filament\Widgets\SendableOverview;
 use Prajwal89\EmailManagement\Helpers\Helper;
+use Prajwal89\EmailManagement\Models\EmailCampaign;
 
 class ListEmailCampaigns extends ListRecords
 {
@@ -35,6 +37,15 @@ class ListEmailCampaigns extends ListRecords
     {
         return [
             ReceivableGroupsTableWidget::class,
+        ];
+    }
+
+    public function getHeaderWidgets(): array
+    {
+        return [
+            SendableOverview::make([
+                'sendableType' => EmailCampaign::class
+            ]),
         ];
     }
 }
