@@ -44,18 +44,14 @@ class FollowUpEmailsSender
             ->where('sent_at', '>', now()->subDays(config('email-management.max_delay_for_followup_email')))
             ->get();
 
-        // check all followups for a sendable (are they sent ) if not are they qualified to send
-        // if yes sent it
 
         // loop through the potential emails that may require follow up email
         foreach ($emailLogs as $emailLog) {
 
             // Get all follow-ups for this sendable
-            $followUps = $emailLog
-                ->sendable
-                ->followUps;
+            $followUps = $emailLog->sendable->followUps;
 
-            // dd($followUps->toArray());
+            dd($followUps->toArray());
 
             // ch
             foreach ($followUps as $followUp) {
@@ -114,6 +110,11 @@ class FollowUpEmailsSender
             ->exists();
     }
 
+    public static function checkIfFollowUpEmailSentToday()
+    {
+        // 
+    }
+
     public function sendFollowUpEmail(
         EmailLog $emailLog,
         EmailEvent $followUpEvent,
@@ -142,11 +143,6 @@ class FollowUpEmailsSender
     // as user cannot listen to the emails
     // throws error 
     public function checkIfMailboxAccessible()
-    {
-        //
-    }
-
-    public function schedule()
     {
         //
     }
