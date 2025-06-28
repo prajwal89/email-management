@@ -1,0 +1,6 @@
+* text=auto
+composer.lock   -diff
+
+# Export ignores
+/art export-ignore
+README.md export-ignore
