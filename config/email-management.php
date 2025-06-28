@@ -57,4 +57,10 @@ return [
      * Automatically append an unsubscribe link to the email footer.
      */
     'inject_unsubscribe_link' => true,
+
+    /**
+     * View name for the newsletter status when a user unsubscribes from emails.
+     * The view has a public property $isUnsubscribed to check the status, which you can use in a custom view.
+     */
+    'newsletter_status_view' => 'em::newsletter-status'
 ];
