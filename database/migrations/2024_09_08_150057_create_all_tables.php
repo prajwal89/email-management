@@ -84,7 +84,7 @@ return new class extends Migration
             $table->enum(
                 column: 'content_type',
                 allowed: collect(EmailContentType::cases())
-                    ->map(fn ($case) => $case->value)->toArray()
+                    ->map(fn($case) => $case->value)->toArray()
             )->default('markdown');
 
             $table->unsignedBigInteger('sendable_id')->nullable();
@@ -142,6 +142,9 @@ return new class extends Migration
             $table->timestamp('soft_bounced_at')->nullable();
             $table->timestamp('hard_bounced_at')->nullable();
             $table->timestamp('unsubscribed_at')->nullable();
+
+            $table->string('bounce_code')->nullable();
+            $table->text('bounce_reason')->nullable();
 
             $table->timestamps();
 
