@@ -50,7 +50,6 @@ class EmailManagementServiceProvider extends ServiceProvider
             __DIR__ . '/../config/email-management.php' => config_path('email-management.php'),
         ], 'email-management-config');
 
-
         if ($this->app->runningInConsole()) {
             $this->loadMigrationsFrom([
                 __DIR__ . '/../database/migrations', // package tables

@@ -68,5 +68,5 @@ return [
      */
     'newsletter_status_view' => 'em::newsletter-status',
 
-    'do_not_send_emails_to_honey_potted_ips' => true
+    'do_not_send_emails_to_honey_potted_ips' => true,
 ];
