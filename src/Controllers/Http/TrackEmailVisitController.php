@@ -34,10 +34,11 @@ class TrackEmailVisitController extends Controller
         }
 
         if ($validator->fails()) {
-            Log::warning('Track Visit: Validation failed', [
-                'errors' => $validator->errors()->toArray(),
-                'request' => $request->all(),
-            ]);
+            // ? should i throw error
+            // Log::warning('Track Email Visit: Validation failed', [
+            //     'errors' => $validator->errors()->toArray(),
+            //     'request' => $request->all(),
+            // ]);
 
             return abort(400, 'Invalid input');
         }
@@ -47,7 +48,8 @@ class TrackEmailVisitController extends Controller
             ->first();
 
         if (!$emailLog) {
-            Log::warning('Track Visit: Email not found', ['message_id' => $request->message_id]);
+            // ? should i throw error
+            // Log::warning('Track Visit: Email not found', ['message_id' => $request->message_id]);
 
             return redirect($request->url, 301);
         }

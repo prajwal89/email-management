@@ -33,10 +33,11 @@ class TrackEmailOpenedController extends Controller
         }
 
         if ($validator->fails()) {
-            Log::warning('Track Open: Validation failed', [
-                'errors' => $validator->errors()->toArray(),
-                'request' => $request->all(),
-            ]);
+            // ? should i throw error
+            // Log::warning('Track Open: Validation failed', [
+            //     'errors' => $validator->errors()->toArray(),
+            //     'request' => $request->all(),
+            // ]);
 
             return abort(400, 'Invalid input');
         }
@@ -46,7 +47,8 @@ class TrackEmailOpenedController extends Controller
             ->first();
 
         if (!$emailLog) {
-            Log::warning('Track Opened: Message Id', ['message_id' => $request->message_id]);
+            // should i throw error
+            // Log::warning('Track Opened: Message Id', ['message_id' => $request->message_id]);
 
             return false;
         }
