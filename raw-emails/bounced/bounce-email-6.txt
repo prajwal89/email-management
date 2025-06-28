@@ -1,0 +1,216 @@
+X-Mozilla-Status: 0001
+X-Mozilla-Status2: 00000000
+Return-Path: <>
+Delivered-To: prajwal@reddradar.com
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+	by fr-int-smtpin6.hostinger.io (mx.hostinger.com) with ESMTPS id 4bQqk45ZCLz9ttDy
+	for <prajwal@reddradar.com>; Mon, 23 Jun 2025 14:10:52 +0000 (UTC)
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=reddradar.com;
+	s=hostingermail-a; t=1750687853;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:dkim-signature;
+	bh=YYM2M833do+PaxBvsHo9S03UUc2+8vj3P8W5xDnLdwE=;
+	b=Y6yW1aLdeIoYD4l4myJBOLZ5w4K5dbSeQge9KgkjuXjptwAJMF7qMEqrakJjR2XlJPkRGh
+	v0QfT/d7n8uXptbEMuiJl6PLBbiE312TDFR70p7hmKmTn6ZZMrbnyNPy84SL0Ct4KJ3DU2
+	FahDqZvTGEPcHLOlQvV8ggIA3rKk8w0VazvPS5vl47iwSLfu+w8ojbVbdzYjQzL0NRwQnM
+	un/2i8XeVZ7gOfotJCIff8W4hAy8wVcaF3egw4eYmjXU4+C5HXyo7nnCDYYxHm1vV00PrA
+	n2aJ4Ea8UyLvQNzhNBn49FUHGP+i2zSktlOsmvD+hN06NUJgCGjgfbceWqkdfQ==
+ARC-Authentication-Results: i=1;
+	fr-int-smtpin6.hostinger.io;
+	dkim=pass header.d=googlemail.com header.s=20230601 header.b=DyDiQgrN;
+	spf=none (fr-int-smtpin6.hostinger.io: domain of mail-pl1-x643.google.com has no SPF policy when checking 2607:f8b0:4864:20::643) smtp.helo=mail-pl1-x643.google.com;
+	dmarc=pass (policy=quarantine) header.from=googlemail.com
+ARC-Seal: i=1; s=hostingermail-a; d=reddradar.com; t=1750687853; a=rsa-sha256;
+	cv=none;
+	b=B2Iiijr9dFhPfm/e1mXgNyFZFky9EY2y6KdSQnBxvKonh+XUp01JYjsgoWFcrRFsT54Cfs
+	9pvbn74VTC0kfvIiYRyZsa/QMa+IfRf6Ud6ebHbGgl269JsGpogZAMnRt98PjoZrTQErfF
+	Yp1AMqbgYCt8GeWAcQm+VfR+wo8rtHVrZA3DMvpK9SnMpKJb0OOqEFxb76J5NVy2Z4KOoV
+	qf6e1/NPuzuuDBqnaSltezsfQi3S/U4utLhJyLgF+208jS4Cay7vZLLvy6A7rozmsMlHCr
+	sesdbLmeRJnpX62vCBEBCdQTmETUkm0L996fTwb41qr0LJrdOWn3thQkI10+sw==
+Received: by mail-pl1-x643.google.com with SMTP id d9443c01a7336-2350fc2591dso35809875ad.1
+        for <prajwal@reddradar.com>; Mon, 23 Jun 2025 07:10:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20230601; t=1750687851; x=1751292651; darn=reddradar.com;
+        h=content-transfer-encoding:in-reply-to:references:subject:from:date
+         :message-id:auto-submitted:to:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YYM2M833do+PaxBvsHo9S03UUc2+8vj3P8W5xDnLdwE=;
+        b=DyDiQgrNLg8l+s6w8st5/L93IzLrVZ1Xks6JIKeLl5+hASYoRWh3cYZaJyW41cRF8z
+         AsVHqk9x3ENzrBwUEkgTZKTxmrlYt4V/yxJEnhbEwWxSesVmspy/HiQkK5RsCSjR2lRp
+         9sHMXgmPzX3nXdXZGmWTrShP/vgYNpi10CR7XwzVrwhmB9MlD+E3xVwLUdz9CD0qBRAp
+         NJlVQM6nSkVpiy0Rg3BumjP8hNg5PlQ75/b5J+s/Low60/0wOQm6g49K4tTO0j6CHEz5
+         ftG0hCRfn92iaBV2oKqgxUr7ANqqNCLziu68E/9zk6ZEbZg7QFUeWx15LhejZ/G7tGet
+         CNBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750687851; x=1751292651;
+        h=content-transfer-encoding:in-reply-to:references:subject:from:date
+         :message-id:auto-submitted:to:mime-version:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=YYM2M833do+PaxBvsHo9S03UUc2+8vj3P8W5xDnLdwE=;
+        b=t8e29jVKjMlTnqiaAMg3PVJniC7qgwKLvXjlZuaejX2Wh20FdE4XtJMvxxgZ0g+hVe
+         o2cy5/9EYowpWckxjuTh3P7lV2FGzN9KHJNy55y6SbFkcYldDuMNOhtNltyUBIrH3Lzc
+         ebJG5mGiG66ozssuvijufkZ1CFv5F7t8zryhIsreNguZJdi7l6aYIP8AkNLd6xfpaO9k
+         WXB/kiX7Ps1biVa29v0sbnTayCuDo8DDBTDdWEPQhB+Z7yxym+zP7f8H5LbzYlHpliuP
+         8soDpsXqFps25qLHCYJcLmOpSwSqFdqylX76i57JgwEs1vEzZIikKrDO38VLzCNFKAaX
+         lgcA==
+X-Gm-Message-State: AOJu0YyysaeZFK9h7pvAfQ6ZcXP+xfweszj4NsoxXQPh+HWnIo4mwpOD
+	SBEEgUXz2hkoZd1y9RKE/mN9ss/XTOfhTwkejEGkpqA5GtVZG/HXiMy3knnpsDBoAWSIYRhdkzv
+	OYxMGjm1m47C3Diw56iFidA77/KmPAqukkbnyEay/xOFi3Wr0P6DKdRrJBA==
+X-Google-Smtp-Source: AGHT+IHc/LLFEhENw8aixzW/iARt1gg4BvTvqjwR4lFzjEqu5YiNCxk8lrTRg0C6UO1N/hMAAnUXiBBvGHoqGnCJWa5O62Yz2NkfORE=
+X-Received: by 2002:a17:903:120f:b0:236:15b7:62e3 with SMTP id d9443c01a7336-237dafbc416mr183879085ad.9.1750687851576;
+        Mon, 23 Jun 2025 07:10:51 -0700 (PDT)
+MIME-Version: 1.0
+To: prajwal@reddradar.com
+Received: by 2002:a17:903:120f:b0:236:15b7:62e3 with SMTP id
+ d9443c01a7336-237dafbc416mr169077085ad.9; Mon, 23 Jun 2025 07:10:51 -0700 (PDT)
+Auto-Submitted: auto-replied
+Message-ID: <6859606b.170a0220.107a6f.e550.GMR@mx.google.com>
+Date: Mon, 23 Jun 2025 07:10:51 -0700 (PDT)
+From: Mail Delivery Subsystem <mailer-daemon@googlemail.com>
+Subject: Delivery Status Notification (Failure)
+References: <2df965560424abd5a35fafe779cc334c@reddradar.com>
+In-Reply-To: <2df965560424abd5a35fafe779cc334c@reddradar.com>
+X-Failed-Recipients: hello@flowsign.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-CM-Analysis: v=2.4 cv=Vv1xAP2n c=1 sm=1 tr=0 ts=6859606d a=IDQTvASQpxskLcxcFW3+Kg==:617 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=x7bEGLp0ZPQA:10 a=GTaqD-o4MxUA:10 a=Z2Ca99owBiUA:10 a=1XWaLZrsAAAA:8 a=QZQwxBK2AAAA:8 a=XscgZnnHAAAA:8 a=2oLBVI32AAAA:8 a=ZgN-DOtDAAAA:8 a=MpTW1oHKJ_9fmmoRlPoA:9 a=QEXdDO2ut3YA:10 a=RmSQBcustoof5g0jVvlx:22 a=iM5LwpYqGr55AEjtejzb:22 a=3gZu_BiOnum5qzAIxaGE:22 a=jMROYaktyPko46j5XlsI:22
+X-CM-Envelope: MS4xfFGNhkWvRUzrJeNayxYQzhsT/LFWrrmOS1OXZQNdqMLTq6DmOfQKFVMbeyN8lZcMTu2D9fzeL9jxyKworN0FefArSD7t7pCy5pYka8N9KXfQrwqlvhLp Eo2aMnX9mqGaTICAIgCqQjXhbppslnNcWobzXIkwOWSnF/qafRSywJwc/+AK6nM2fitatPPpCEiEK7FzOqL+c2wvwwEQFepO+1k=
+
+Hello prajwal@reddradar.com,
+
+We're writing to let you know that the group you tried to contact (hello) m=
+ay not exist, or you may not have permission to post messages to the group.=
+ A few more details on why you weren't able to post:
+
+ * You might have spelled or formatted the group name incorrectly.
+ * The owner of the group may have removed this group.
+ * You may need to join the group before receiving permission to post.
+ * This group may not be open to posting.
+
+If you have questions related to this or any other Google Group, visit the =
+Help Center at https://support.google.com/a/flowsign.com/bin/topic.py?topic=
+=3D25838.
+
+Thanks,
+
+flowsign.com admins
+
+
+
+----- Original message -----
+
+X-Google-Smtp-Source: AGHT+IF8t2HyLNI0VOePkBntuL0f6FbGO+BGUcRefckluO7Sdew9F=
+UuCRhRzTbHKxryeaZFCKdWY
+X-Received: by 2002:a17:903:120f:b0:236:15b7:62e3 with SMTP id d9443c01a733=
+6-237dafbc416mr183878555ad.9.1750687851030;
+        Mon, 23 Jun 2025 07:10:51 -0700 (PDT)
+Return-Path: <prajwal@reddradar.com>
+Received: from cow.pear.relay.mailchannels.net (cow.pear.relay.mailchannels=
+.net. [23.83.216.41])
+        by mx.google.com with ESMTPS id d9443c01a7336-237d8664ed7si11207481=
+5ad.342.2025.06.23.07.10.50
+        for <hello@flowsign.com>
+        (version=3DTLS1_3 cipher=3DTLS_AES_256_GCM_SHA384 bits=3D256/256);
+        Mon, 23 Jun 2025 07:10:50 -0700 (PDT)
+Received-SPF: pass (google.com: domain of prajwal@reddradar.com designates =
+23.83.216.41 as permitted sender) client-ip=3D23.83.216.41;
+Authentication-Results: mx.google.com;
+       dkim=3Dpass header.i=3D@reddradar.com header.s=3Dhostingermail-a hea=
+der.b=3DQoIvJAuB;
+       arc=3Dfail (body hash mismatch);
+       spf=3Dpass (google.com: domain of prajwal@reddradar.com designates 2=
+3.83.216.41 as permitted sender) smtp.mailfrom=3Dprajwal@reddradar.com;
+       dmarc=3Dpass (p=3DNONE sp=3DNONE dis=3DNONE) header.from=3Dreddradar=
+.com
+X-Sender-Id: hostingeremail|x-authuser|prajwal@reddradar.com
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id 3DE9478355C
+	for <hello@flowsign.com>; Mon, 23 Jun 2025 14:10:50 +0000 (UTC)
+Received: from fr-int-smtpout2.hostinger.io (100-99-178-144.trex-nlb.outbou=
+nd.svc.cluster.local [100.99.178.144])
+	(Authenticated sender: hostingeremail)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 70335783618
+	for <hello@flowsign.com>; Mon, 23 Jun 2025 14:10:49 +0000 (UTC)
+ARC-Seal: i=3D1; s=3Darc-2022; d=3Dmailchannels.net; t=3D1750687849; a=3Drs=
+a-sha256;
+	cv=3Dnone;
+	b=3D7GYAP+YG8N9YVI2jRgwBCNY172RBXnYxebv0HA6PU7mC1+YVgTq1czJn7jv2FS+/kpsbmf
+	Bk8LCpBbomimAXnVF0stAAhgNMx6rpIhhBsQazXyAzOHCLX+EmefLkTNQQnuVI1/6LqYlh
+	m6JMsQEE6zR+AZT93OPU72aO2J4hpfRAN2z2Oue2+MH3abtNG3ugh9IalJurkgpGed0iaB
+	H1JxpNpwAzjvc7Xd/6bCTZCjQuOw5zjS+UGxw6duCGcGGwlS1WrqnLimiCr9fUkEQ3GIUA
+	QIUSLGPaT9dln8TAjVHOLLttWYO01bPyAFB+ndGjPFezJuScM7b+lmWFTl8t+A=3D=3D
+ARC-Message-Signature: i=3D1; a=3Drsa-sha256; c=3Drelaxed/relaxed;
+ d=3Dmailchannels.net;
+	s=3Darc-2022; t=3D1750687849;
+	h=3Dfrom:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:list-unsubscribe:
+	 list-unsubscribe-post:dkim-signature;
+	bh=3Db0kHg3paBWH3pVPaVXKQfPxPZbP8CwvfGrT2hwOLZTY=3D;
+	b=3DzlheQCJPusRZJbNvp5zafGa0uuKB7ZYAXq6bYaQvSZel6M95+nBJAVTJRPitQRztuNSfPi
+	g0k8rapqZelXU2xo0asaUpVXX4nbc0qsWPhCnMLdw9pTj4oDwiu8PB+dOhWEZ1kx/O42Gn
+	epLJ+w9tCMhhYnH0oIouthbrlmPfB7gnRu2nMNuS8CiJuxqpqCVngECpe/bQN3s3BihAlp
+	borL66H8AiOv+ja78g2UJDs1/pVhUuXBx59dJGz22tedgx3ITHCS7ahxFKL0PVEPPbXPRz
+	NXLI/C7jCgl7d2O8UFqWi+CqyYbXUceg4lXB81bfdY0F3fvSPFvb07IJu2AJbw=3D=3D
+ARC-Authentication-Results: i=3D1;
+	rspamd-679c59f89-9stmf;
+	auth=3Dpass smtp.auth=3Dhostingeremail smtp.mailfrom=3Dprajwal@reddradar.c=
+om
+X-Sender-Id: hostingeremail|x-authuser|prajwal@reddradar.com
+X-MC-Relay: Good
+X-MailChannels-SenderId: hostingeremail|x-authuser|prajwal@reddradar.com
+X-MailChannels-Auth-Id: hostingeremail
+X-Arch-Harbor: 30bb0edd7d8dca80_1750687850147_1782113303
+X-MC-Loop-Signature: 1750687850147:3348975355
+X-MC-Ingress-Time: 1750687850147
+Received: from fr-int-smtpout2.hostinger.io (fr-int-smtpout2.hostinger.io
+ [89.116.146.81])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.99.178.144 (trex/7.0.3);
+	Mon, 23 Jun 2025 14:10:50 +0000
+Received: from reddradar.com (srv692255.hstgr.cloud [IPv6:2a02:4780:2d:766a=
+::1])
+	(Authenticated sender: prajwal@reddradar.com)
+	by smtp.hostinger.com (smtp.hostinger.com) with ESMTPSA id 4bQqjy6wgvz6ntg=
+j
+	for <hello@flowsign.com>; Mon, 23 Jun 2025 14:10:46 +0000 (UTC)
+DKIM-Signature: v=3D1; a=3Drsa-sha256; c=3Drelaxed/relaxed; d=3Dreddradar.c=
+om;
+	s=3Dhostingermail-a; t=3D1750687847;
+	h=3Dfrom:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:list-unsubscribe:
+	 list-unsubscribe-post; bh=3D2Pqt/xVaCOGRLXj2HYiIh+vEh8LULynPL4feHQ+ZQLE=
+=3D;
+	b=3DQoIvJAuBcBt5q/AfSLHjp1CHDhDzFLp6MiVRVRHPNSbG3RDSb/z9zz8dz2wOQ8TBc/Ndjf
+	42NO6yCzd7ADu0+OHf0W2R55ST6n2IChTkcfMYBKgDcVcigbdcQ2mhDmcpUAX0kd9pHDTQ
+	7c1g2alRcnNQkWL+oieuHj5aUeipZQcaIehbtZbYq8gS5W8RWdRXCZCRfgskI648YjSmV4
+	nBmE4hl54fNCLzwan7o4sorElsoP0E+B7Ml9Us40/TrnvjIuX5qWiE3tvOOEj3BiNsDpPr
+	OroHG40BeET6P0QaTR9hlsCdxQu1+/+DI0rKs0LuWN3Kivm6Z2sl0rBzq4rZxg=3D=3D
+From: ReddRadar <prajwal@reddradar.com>
+To: hello@flowsign.com
+Subject: Flowsign.com x ReddRadar
+X-Mailer-Hash: 8kSKqLCLsFClf9lSKOuMdyOInzRi82Vm
+List-Unsubscribe: <https://reddradar.com/emails/unsubscribe/8kSKqLCLsFClf9l=
+SKOuMdyOInzRi82Vm?signature=3D119a79773268b3895673b9826e8aac7f2fac57d966981=
+b3f90d285acb54d4de6>
+List-Unsubscribe-Post: List-Unsubscribe=3DOne-Click
+Message-ID: <2df965560424abd5a35fafe779cc334c@reddradar.com>
+MIME-Version: 1.0
+Content-Type: text/html; charset=3Dutf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 23 Jun 2025 14:10:46 +0000 (UTC)
+X-CM-Analysis: v=3D2.4 cv=3DVv1xAP2n c=3D1 sm=3D1 tr=3D0 ts=3D68596067 a=3D=
+c1X0f9a9Vy2uqbb4lKF3+w=3D=3D:617 a=3DQZQwxBK2AAAA:8 a=3DxqWC_Br6kY4A:10 a=
+=3DIkcTkHD0fZMA:10 a=3DXscgZnnHAAAA:8 a=3D1sNmk6GoAAAA:8 a=3DSSmOFEACAAAA:8=
+ a=3DBolBV-lT8L4jMDeZkNgA:9 a=3D2OPwW_0dp8wnBIS0:21 a=3D_W_S_7VecoQA:10 a=
+=3DQEXdDO2ut3YA:10 a=3DRVmHIydaz68A:10 a=3DRmSQBcustoof5g0jVvlx:22 a=3DiM5L=
+wpYqGr55AEjtejzb:22 a=3DgZ_oX9TB1vHUT2mleGFF:22 a=3DpHP09k5ZHALNRmqz7V5C:22
+X-CM-Envelope: MS4xfIB/1PiMbktjgy7USVBGgy80I/sDp4MfllpOxh1Fz4BXgKgjtJ1AoSX2=
+QWfRDEdQ6cswXYEfScWMes1VfxlkkScbj04RrGXm3voO57Bu+nV5g4ygTBs8 cYbpoYeh7QMoEv=
+03AeCOdtFdcysInkE98Ra2NOz6yCJp5nzxyXVihBE2Fi7wSYmPts8aeE+ZWGZhxAW39T/EMibQu=
+hUB4M9Z3Xw=3D
+X-AuthUser: prajwal@reddradar.com
+

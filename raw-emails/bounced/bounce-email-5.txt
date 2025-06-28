@@ -1,0 +1,1883 @@
+X-Mozilla-Status: 0001
+X-Mozilla-Status2: 00000000
+Return-Path: <>
+Delivered-To: prajwal@reddradar.com
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10hn2210.outbound.protection.outlook.com [52.100.155.210])
+	by fr-int-smtpin1.hostinger.io (mx.hostinger.com) with ESMTPS id 4bTGc901X0zHnGlb
+	for <prajwal@reddradar.com>; Fri, 27 Jun 2025 13:29:12 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=sK3ch3XV4KBOnXi26lYZ1qk54lQvPMvaCTs2Fz6M33qSq5LVJFPWer5CHlEtuIxNuWEoHD8Fsoa+ixsV4lO0l0LmM/iNr14pdmM2rnWU47ca5za3PKtIf1cpD+VGAKV2/UlqYAcb+59uLKn6NM8NHUvGlAHNdwVqLLzk1Jz14SWOUfWe1PwyIKmJZYqjlYa1xxbDBJWkwOVffb4QrqttDJAxGmfLVrY2CcvUcApV1Z1PTjI5Ro3AVXZyrY9z4cnrhtgXaR5E7CZTwssAoImV162nW4RKJROncKbLcKrzFZBxqUaEUdGLdnyVs0scy3QclweGOWvUM4VfR6CrctppyA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6qVsjCEffLx+JfSaN0uVdnM/8+Bivpc7PM1+oNaHeaA=;
+ b=Tqny50bEPx52F9C1epX8I/hhILnGWvisQZ3KVvmM4GM6ejXm6oK3L0lo5taphqByzAarjDq+bBAPFcxSuDrPwoTJyLrix0Y1MytUw4kddfoMsCtJbcNQLJO2E+8/IvEcsLuii1oWKsZ4ufGkCmP1C4VJK55wQrLm8BWBOVwf74y5jqRVOA54QFavpdQQmnTc9WpsnT3Qmujr0+46Xj8rtbNenM2g58rMbAabMtADA4lAQJc1PbtIRf5X1GCSClq7+MnEZfYFcIA5LuZyZIAVXmrsqBOwp5OYCY9YMcwUc0Yb2iRZzzJWattvADigUlD5qC2nm234/knGkdyiFJttkQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=pass
+ action=none header.from=newfold.com; dkim=pass header.d=newfold.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=newfold.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6qVsjCEffLx+JfSaN0uVdnM/8+Bivpc7PM1+oNaHeaA=;
+ b=QG6TlLwrWBjcqQ1XNlfEotGIwzMkQ+h7ILrfDAK3x/unk61i05ssRYgeXt5WOfg0qgqqwwZwt0/oWr9ARPlTX2O9YyGm5ABDefCktzMeem47i1zNTULzQ+q5UuAMm3gkhhosFsmdMvBPZoejIzB+tO4n08wHMB3uIw+XJn1Ii3E+W9CiLNBXi8suqODeJm90qsozb+iagNsA1zAGVGtSc9F47dKvL2UTatw7xK3qEAqGIy/U1zuKZslZr0Vq9wXULROkbycYLZ1gonAG5sflfvEG25WvaZktMVicGhEFj8RPzUjQiPdxXdwVw5JxDn+0VywDHBfABMvcmCFHG67VjA==
+MIME-Version: 1.0
+From: <postmaster@newfold.com>
+To: <prajwal@reddradar.com>
+Date: Fri, 27 Jun 2025 13:29:10 +0000
+Content-Type: multipart/report; report-type=delivery-status;
+	boundary="e8b2c820-f20b-4cc9-a146-f7df60e4291d"
+X-MS-Exchange-Message-Is-Ndr:
+Content-Language: en-US
+Message-ID:
+ <196e2235-1b79-4e57-a73f-10cbf1c81c70@MW4PR07MB9589.namprd07.prod.outlook.com>
+In-Reply-To: <0108793847cb7ccdadaac0956c30a264@reddradar.com>
+References: <0108793847cb7ccdadaac0956c30a264@reddradar.com>
+Subject: Undeliverable: 34qr.com x ReddRadar
+Auto-Submitted: auto-replied
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW4PR07MB9589:EE_
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|50650200027|4022899009|366016|376014|1930700014|61400799027|69100299015|8096899003|32400700002|4076899003|13003099007|4053099003;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?1+5qnbePlYeY9moOdNu32uX9p+rpDJdnHghDWgsI9uUKozgXvU5b2hkHKYMH?=
+ =?us-ascii?Q?arS6OIi0fHXfWIqSA209X+qzYz0Pg2pfQ2KHUVIuog+TOLYX6bTYMgw3784l?=
+ =?us-ascii?Q?5PxGGevB5bZK8kr+gb8Gtp9y9JfVYCc+jkbSMhQnKcvvzhv+FFKjTXRrcElF?=
+ =?us-ascii?Q?H5/TvIfrGsPq52vHgLJ14vW4/AASN8vl3PXuYszhUMfMgU7fFeUDkZP37SDy?=
+ =?us-ascii?Q?rxHJbnyveY8TFFykJ0+nN376dQXyMqePc9XX9SmlnU5gShl/P6VrNtnSDM5r?=
+ =?us-ascii?Q?fvHC5XsPqXzNIPBC7vIfIv14CkvfUmy27rzimchi+K/i7dkpNNnt6+jNWfdG?=
+ =?us-ascii?Q?EWY+tUuEFhHSl8GU15MxP4np07+fCrZvtzhyiGTAwkjaAaW99kUPMlfeE3PZ?=
+ =?us-ascii?Q?7B616l5sIykKQnmGsO+jWVn6ExHnSWDFacveOEyq4z2vvgJvyukDkGhuoGKv?=
+ =?us-ascii?Q?xKsaY9ArdRG5qRkIQjhUq08jQW4itx5yUmlMxD8Iu+NpchHi/ITl47S5yNCD?=
+ =?us-ascii?Q?7BXJkvpmVEDRFvxnJZyXX9Vc1XCiqMI5GJtN4VhLmlxCXjvFvcX5EOw+fOGE?=
+ =?us-ascii?Q?iFS91258tkB1+2QyIlY/UFoBCP/CNFOiUQePOMkfZxo5rCvEhwboq0lO0EFR?=
+ =?us-ascii?Q?gwMWWBEb3hhDg7aquBnbTqSMOOhlSaTp6eZnPfWTksFbmrTZevdRWf6M30jm?=
+ =?us-ascii?Q?xzPHxGnQe2C3JbTYnc6CRtKGDVYAHK3xcXuLHzXORE9qsKp9HDD8FL1a65wL?=
+ =?us-ascii?Q?uHnxHITuSxIt+knMg8QcBmxHrhpGJT9uaFZ9YOYAWGPTC3p0bZ1SBL1lHmre?=
+ =?us-ascii?Q?IWUpDVnTO6yfwe/8I2CZxWeL/ysd6f37DOa+4d0AgccJjkHjca0nlyU9ctuA?=
+ =?us-ascii?Q?/HRVoXX9PgLRXIT9B/Y8aSSInwiaRvEvLDmsv2Fh64pH4Q2h844hBDxH+Zn6?=
+ =?us-ascii?Q?88+PpJ2m9DrzuHIWNdNaHRIJJ2WiERDgUREcVVVvWJ5BGDE4VcnPTztxU8dJ?=
+ =?us-ascii?Q?cy5ZuGldCxHE9o1PgXUwSe539b2nCT1huwlWXVXW3c1uvIDn7H8ifeQh2Wjq?=
+ =?us-ascii?Q?Dw73Jcu6TdgmvJKvvaU6pSQDCoxdmKUJdGrFgs8DURWVAZF6JQVUG5cNfOET?=
+ =?us-ascii?Q?46xhVh92rLJqIONGHk2UnSxNQiWtmUaWpMOHvykuCt2HhXGgDPx6X9Rv3alh?=
+ =?us-ascii?Q?etXU8ie6b6BsfipNCU3zZfPuxVMCnHMEJmE6PfuXnBVCHWzQOcDx71lIAGDG?=
+ =?us-ascii?Q?fX3M8i2F8uZZHagFnG9/GYLWbhAzDKdl/Dh6VWgnoscvgVvHrZq1/goKMBP5?=
+ =?us-ascii?Q?rrxnbkDf0/TOBYEy+ZUt5/vI2rSDYOIzIBrnlFCcPneqccfVVV/psvk0Lh8y?=
+ =?us-ascii?Q?MVZ16BVXoHMM8tF5x7UJxc3UUHC2n6VvBUb8cBdY7ZsF2wnf39HNa13afz4T?=
+ =?us-ascii?Q?lhXBCQ4/u0LSP6OxKiZQgFMcf2vM7Cx/ooHTdnM41ijA7Ma2UyRCqvr5T2Qc?=
+ =?us-ascii?Q?mYpNrfxVCFFVHP4i2mek4CYOWHNdRMEkPA3V1EnC1/hAoA7iqcO+9/mYRA?=
+ =?us-ascii?Q?=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:;PTR:;CAT:NONE;SFS:(13230040)(50650200027)(4022899009)(366016)(376014)(1930700014)(61400799027)(69100299015)(8096899003)(32400700002)(4076899003)(13003099007)(4053099003);DIR:OUT;SFP:1501;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	7Yk5P6H+iWfB612LkT2ml4f7fHERjHTGSTf0Nf84i1YJeL0GCHgzlLqVvUdLdcMxZikkuCJHiWvkbonMXwmMNgPYXZmz6mVpOqqhRvCbiixYyaheHpjOl7/YNa0I3ODaO4Rnt2u4h1H7sgGwIf8pj2TNyaJ71VhcEodqMxmrD2nbt9/ItmbxGhU4rsXNE0bI
+X-OriginatorOrg: newfold.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jun 2025 13:29:10.3464
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-AuthSource: MW4PR07MB9589.namprd07.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-Network-Message-Id:
+	90b20a7e-163c-42aa-69cb-08ddb57e9992
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR07MB9589
+X-CM-Analysis: v=2.4 cv=Vv1xAP2n c=1 sm=1 tr=0 ts=685e9ca9 a=GpEgjE6Fw17hRqvbd9v1Zg==:117 a=APfXo7_vAAAA:8 a=zecddpzjU/72TKr9T84HHc9wrg4=:19 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=oYzvUBbJ-pEA:10 a=jJvM4ofyc6IA:10 a=yt6vgg7RAAAA:8 a=yMhMjlubAAAA:8 a=XscgZnnHAAAA:8 a=eAAL1In8AAAA:8 a=UqCG9HQmAAAA:8 a=ZgN-DOtDAAAA:8 a=2oLBVI32AAAA:8 a=IVvqCPU2AAAA:8 a=Ez2CbgTkAAAA:8 a=g1JdLtvJw9xAWWtrOxwA:9 a=CjuIK1q_8ugA:10 a=LyV2BHVIt55iXJ-ndD4A:9 a=-H2kHvG1xkKPyv3w:21 a=_W_S_7VecoQA:10 a=CMxC1pixRHGVqEQhg-QA:9 a=f7g3CFGLjmAxJFOoyGbZT193Uiw=:19 a=1sNmk6GoAAAA:8 a=SSmOFEACAAAA:8 a=poATz6k5Aizuzga3P9QA:9 a=2OPwW_0dp8wnBIS0:21 a=QEXdDO2ut3YA:10 a=RVmHIydaz68A:10 a=NMfd4P0Ds5dUw84Zghwu:22 a=iM5LwpYqGr55AEjtejzb:22 a=3gZu_BiOnum5qzAIxaGE:22 a=xR-Psr1p5Zblciy2OuxS:22 a=gZ_oX9TB1vHUT2mleGFF:22
+X-CM-Envelope: MS4xfDNpLvv3H9u+IwFLd0POrIWPfyWgq7oHuLvUIqR1ZL91CFaQeWgih9iRsXy/u2AJOUo47iUYvFa1lyAf1F82Zdisxq3PyU2kmbHAkw5DYWa5TNgJVzUB SgDFtu1ReGzjse7DoPpHthQsOzdT2C+XmyzQ2biGB4aQpjZqxEW+PBCIKne7FNQXWTyZkngvtrg58x5kYG0l/PWpHYv9IeD0JFA=
+
+--e8b2c820-f20b-4cc9-a146-f7df60e4291d
+Content-Type: multipart/alternative; differences=Content-Type;
+	boundary="1e365f85-9a97-4e6c-bb9a-a36bcf3d7163"
+
+--1e365f85-9a97-4e6c-bb9a-a36bcf3d7163
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+[https://products.office.com/en-us/CMSImages/Office365Logo_Orange.png?versi=
+on=3Db8d100a9-0a8b-8e6a-88e1-ef488fee0470]
+Your message to username@domain.com couldn't be delivered.
+username wasn't found at domain.com.
+prajwal         Office 365      username
+Action Required                 Recipient
+Unknown To address
+
+How to Fix It
+The address may be misspelled or may not exist. Try one or more of the foll=
+owing:
+
+  *   Send the message again following these steps: In Outlook, open this n=
+on-delivery report (NDR) and choose Send Again from the Report ribbon. In O=
+utlook on the web, select this NDR, then select the link "To send this mess=
+age again, click here." Then delete and retype the entire recipient address=
+. If prompted with an Auto-Complete List suggestion don't select it. After =
+typing the complete address, click Send.
+  *   Contact the recipient (by phone, for example) to check that the addre=
+ss exists and is correct.
+  *   The recipient may have set up email forwarding to an incorrect addres=
+s. Ask them to check that any forwarding they've set up is working correctl=
+y.
+  *   Clear the recipient Auto-Complete List in Outlook or Outlook on the w=
+eb by following the steps in this article: Fix email delivery issues for er=
+ror code 5.1.1 in Office 365<https://go.microsoft.com/fwlink/?LinkId=3D3893=
+63>, and then send the message again. Retype the entire recipient address b=
+efore selecting Send.
+
+If the problem continues, forward this message to your email admin. If you'=
+re an email admin, refer to the More Info for Email Admins section below.
+
+Was this helpful? Send feedback to Microsoft<https://go.microsoft.com/fwlin=
+k/?LinkId=3D525920>.
+________________________________
+
+More Info for Email Admins
+Status code: 550 5.1.1
+
+This error occurs because the sender sent a message to an email address out=
+side of Office 365, but the address is incorrect or doesn't exist at the de=
+stination domain. The error is reported by the recipient domain's email ser=
+ver, but most often it must be fixed by the person who sent the message. If=
+ the steps in the How to Fix It section above don't fix the problem, and yo=
+u're the email admin for the recipient, try one or more of the following:
+
+The email address exists and is correct - Confirm that the recipient addres=
+s exists, is correct, and is accepting messages.
+
+Synchronize your directories - If you have a hybrid environment and are usi=
+ng directory synchronization make sure the recipient's email address is syn=
+ced correctly in both Office 365 and in your on-premises directory.
+
+Errant forwarding rule - Check for forwarding rules that aren't behaving as=
+ expected. Forwarding can be set up by an admin via mail flow rules or mail=
+box forwarding address settings, or by the recipient via the Inbox Rules fe=
+ature.
+
+Mail flow settings and MX records are not correct - Misconfigured mail flow=
+ or MX record settings can cause this error. Check your Office 365 mail flo=
+w settings to make sure your domain and any mail flow connectors are set up=
+ correctly. Also, work with your domain registrar to make sure the MX recor=
+ds for your domain are configured correctly.
+
+For more information and additional tips to fix this issue, see Fix email d=
+elivery issues for error code 550 5.1.1 in Office 365<https://go.microsoft.=
+com/fwlink/?LinkId=3D389363>.
+
+Original Message Details
+Created Date:   6/27/2025 1:27:46 PM
+Sender Address: prajwal@reddradar.com
+Recipient Address:      username@domain.com
+Subject:        34qr.com x ReddRadar
+
+Error Details
+Error:  550 5.1.1 <username@domain.com> recipient rejected
+Message rejected by:    bosimpinc03
+
+Notification Details
+Sent by:        MW4PR07MB9589.namprd07.prod.outlook.com
+
+Message Hops
+HOP     TIME (UTC)      FROM    TO      WITH    RELAY TIME
+1       6/27/2025
+1:27:46 PM      reddradar.com   smtp.hostinger.com      ESMTPSA *
+2       6/27/2025
+1:27:49 PM      fr-int-smtpout2.hostinger.io    100.108.116.109 cipher TLS_=
+AES_256_GCM_SHA384)  3 sec
+3       6/27/2025
+1:27:48 PM      fr-int-smtpout2.hostinger.io    relay.mailchannels.net  ESM=
+TPA  *
+4       6/27/2025
+1:27:49 PM      relay.mailchannels.net  relay.mailchannels.net  ESMTP   1 s=
+ec
+5       6/27/2025
+1:27:50 PM      common.pear.relay.mailchannels.net      MWH0EPF000971E2.mai=
+l.protection.outlook.com     Microsoft SMTP Server (version=3DTLS1_3, ciphe=
+r=3DTLS_AES_256_GCM_SHA384)   1 sec
+6       6/27/2025
+1:27:51 PM      MWH0EPF000971E2.namprd02.prod.outlook.com       SJ0PR03CA00=
+20.outlook.office365.com     Microsoft SMTP Server (version=3DTLS1_3, ciphe=
+r=3DTLS_AES_256_GCM_SHA384)   1 sec
+7       6/27/2025
+1:27:51 PM      SJ0PR03CA0020.namprd03.prod.outlook.com MW4PR07MB9589.nampr=
+d07.prod.outlook.com Microsoft SMTP Server (version=3DTLS1_2, cipher=3DTLS_=
+ECDHE_RSA_WITH_AES_256_GCM_SHA384)    *
+
+Original Message Headers
+
+ARC-Seal: i=3D2; a=3Drsa-sha256; s=3Darcselector10001; d=3Dmicrosoft.com; c=
+v=3Dfail;
+ b=3Dit0ZqN5UYroZ59o8p5RbWpBjBVrIL2tz0VrW3iC0GADFk0wvL0N349E0jMDQQhm9CzcHPu=
+/UnP2TbazjvB6DTSRPyqMV9JW8XOwLD9B7BwNVnGAgTsR8qQGidY7omzb2Ty9aO0al/y7YjTvnq=
+/c3aOiAathN79wyZbYKejRcu/fStGLod35BhnNQO5qwSDzbwFf+YFq5Aw/cYzCNfCC2ihkYwqIG=
+oldNvm/1/4GVKDXsVyb6HAgepp27uQzSSIBttJpTLuSlKWuwZxw4bu2R/Ncrpn5V6afx98mE3LE=
+vXirUQWIOgQXgvxd2qCCzcX8VaKZaiWOBbcugRtImwe9UyQ=3D=3D
+ARC-Message-Signature: i=3D2; a=3Drsa-sha256; c=3Drelaxed/relaxed; d=3Dmicr=
+osoft.com;
+ s=3Darcselector10001;
+ h=3DFrom:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-A=
+ntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Ex=
+change-AntiSpam-MessageData-1;
+ bh=3DqfKV9j66UOHDXjgFeDVUyweoHhVUq+MpUN87k2cC3Yw=3D;
+ b=3DO68IaNUD2AGlPDlQ1GfvMQUiiUhIdxbk5n1OaDdraD3cikveEnMbeN9AbfyrcVk0cdOmi0=
+ubjNXCYHnBUbIGE4q121GDjK6eIvDsarhYgM1MJ+Zbouw8Ty8oHKHWdaRVVXt8Q4kbHmjGNTknV=
+oN2LAjGbTDc0L52zvOyoDx+kp4HNJUa8u77MWOEhu/MVjHa9I26iVdmC+OCRpLfXUEvyz4AhGH0=
+rnaMM4rbGdMyI5vgW/8oUQm6lTf6tJWDyczD2Xo/GWx/Y3KanLYZrKXR0ugJ5ZJp/nZEQSk5sX9=
+ZV77vJx4CW8kgkIfE3zuKytE1dFaW9+0It39qvv7fC47PVQ=3D=3D
+ARC-Authentication-Results: i=3D2; mx.microsoft.com 1; spf=3Dpass (sender i=
+p is
+ 23.83.216.38) smtp.rcpttodomain=3Ddomain.com smtp.mailfrom=3Dreddradar.com=
+;
+ dmarc=3Dpass (p=3Dnone sp=3Dnone pct=3D100) action=3Dnone header.from=3Dre=
+ddradar.com;
+ dkim=3Dnone (message not signed); arc=3Dfail (47)
+Received: from SJ0PR03CA0020.namprd03.prod.outlook.com (2603:10b6:a03:33a::=
+25)
+ by MW4PR07MB9589.namprd07.prod.outlook.com (2603:10b6:303:21a::19) with
+ Microsoft SMTP Server (version=3DTLS1_2,
+ cipher=3DTLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.21; Fri, 27 =
+Jun
+ 2025 13:27:51 +0000
+Received: from MWH0EPF000971E2.namprd02.prod.outlook.com
+ (2603:10b6:a03:33a:cafe::90) by SJ0PR03CA0020.outlook.office365.com
+ (2603:10b6:a03:33a::25) with Microsoft SMTP Server (version=3DTLS1_3,
+ cipher=3DTLS_AES_256_GCM_SHA384) id 15.20.8880.21 via Frontend Transport; =
+Fri,
+ 27 Jun 2025 13:27:51 +0000
+Authentication-Results: spf=3Dpass (sender IP is 23.83.216.38)
+ smtp.mailfrom=3Dreddradar.com; dkim=3Dnone (message not signed)
+ header.d=3Dnone;dmarc=3Dpass action=3Dnone header.from=3Dreddradar.com;com=
+pauth=3Dpass
+ reason=3D100
+Received-SPF: Pass (protection.outlook.com: domain of reddradar.com designa=
+tes
+ 23.83.216.38 as permitted sender) receiver=3Dprotection.outlook.com;
+ client-ip=3D23.83.216.38; helo=3Dcommon.pear.relay.mailchannels.net; pr=3D=
+C
+Received: from common.pear.relay.mailchannels.net (23.83.216.38) by
+ MWH0EPF000971E2.mail.protection.outlook.com (10.167.243.69) with Microsoft
+ SMTP Server (version=3DTLS1_3, cipher=3DTLS_AES_256_GCM_SHA384) id 15.20.8=
+880.14
+ via Frontend Transport; Fri, 27 Jun 2025 13:27:50 +0000
+X-Sender-Id: hostingeremail|x-authuser|prajwal@reddradar.com
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+        by relay.mailchannels.net (Postfix) with ESMTP id CAC3B8A5E80;
+        Fri, 27 Jun 2025 13:27:49 +0000 (UTC)
+Received: from fr-int-smtpout2.hostinger.io (trex-green-5.trex.outbound.svc=
+.cluster.local [100.108.116.109])
+        (Authenticated sender: hostingeremail)
+        by relay.mailchannels.net (Postfix) with ESMTPA id 159498A530A
+        for <username@domain.com>; Fri, 27 Jun 2025 13:27:48 +0000 (UTC)
+ARC-Seal: i=3D1; s=3Darc-2022; d=3Dmailchannels.net; t=3D1751030869; a=3Drs=
+a-sha256;
+        cv=3Dnone;
+        b=3DZupqcdP+/ntUVxw4tOcsq40yy20ePWRdU5rCLGsrP/IOPOrCFlcMHSgmRE7r0sa=
+Le1j9EF
+        kDaGJ+Vo1atxZdNYuVjEP/0OHXCwsJKqxAmip/unD0pNfLtruAa/XytuiUOO/QNlEul=
+ppM
+        VfmFE196bXzykDO5C4hunbmj8eI+mKk2rJC78rT4juzcgMdbTEwVaRxWODdgpw2Tahv=
+s5R
+        9MLHmJZSM+p/nOLbWoadQLCAlMCoEKGccl6hAeeJMJ2BhIDLu5b5hUwuNxn4h1urHSu=
+vOz
+        ZNd6ZqhnjHYDXd1x++KjcBBvLgPtLFI1Y2zvt2VpjOnV2BMkS9PxnMLWjpSdGQ=3D=
+=3D
+ARC-Message-Signature: i=3D1; a=3Drsa-sha256; c=3Drelaxed/relaxed;
+ d=3Dmailchannels.net;
+        s=3Darc-2022; t=3D1751030869;
+        h=3Dfrom:from:reply-to:subject:subject:date:date:message-id:message=
+-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:list-unsubscri=
+be:
+         list-unsubscribe-post; bh=3DKfbzzMt5IU9EDeDaI/PhptfbGYOGQtw2QHC7UH=
+Gyl8c=3D;
+        b=3Da2DLjOIF9LLz/SQ3mK7Nb/FOdaiz+OQEsQPeu9sM15ewUuGR7OIfglM3WvAHINb=
+37VeNqK
+        /DDUtVG8slkLzGmgxWfKrNLn7/7wK5cbmTGmN71QWFFZL3ac/0KsU+apBWnqhwFUoi+=
+vlo
+        76sikcgir0NfWig+rCOAvRoRySYBPpN90Z1P+SbitpLo2FFmBXLipSTUbj8/M9RIdlh=
+cPF
+        +KDDTo6DtYMl+S28RGqGuXPUMUoj7kgfjuzhRMyWgH23TsZMt3P9Vw05fTVLA7dAIh3=
+yvx
+        2mUWpX1kuyekAz+1NjxA8Svt5o/CfOwi1m1kAUbn7TmPQB9M0o1WYQdug3fYdA=3D=
+=3D
+ARC-Authentication-Results: i=3D1;
+        rspamd-6597f9cdc7-mb2pk;
+        auth=3Dpass smtp.auth=3Dhostingeremail smtp.mailfrom=3Dprajwal@redd=
+radar.com
+X-Sender-Id: hostingeremail|x-authuser|prajwal@reddradar.com
+X-MC-Relay: Good
+X-MC-Copy: stored-urls
+X-MailChannels-SenderId: hostingeremail|x-authuser|prajwal@reddradar.com
+X-MailChannels-Auth-Id: hostingeremail
+X-Suffer-Gusty: 21b516b90a78d0a7_1751030869751_3405485613
+X-MC-Loop-Signature: 1751030869751:2055093213
+X-MC-Ingress-Time: 1751030869751
+Received: from fr-int-smtpout2.hostinger.io (fr-int-smtpout2.hostinger.io
+ [89.116.146.81])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+        by 100.108.116.109 (trex/7.1.3);
+        Fri, 27 Jun 2025 13:27:49 +0000
+Received: from reddradar.com (srv692255.hstgr.cloud [IPv6:2a02:4780:2d:766a=
+::1])
+        (Authenticated sender: prajwal@reddradar.com)
+        by smtp.hostinger.com (smtp.hostinger.com) with ESMTPSA id 4bTGZV5y=
+CHz6ntmr
+        for <username@domain.com>; Fri, 27 Jun 2025 13:27:46 +0000 (UTC)
+From: ReddRadar <prajwal@reddradar.com>
+To: username@domain.com
+Subject: 34qr.com x ReddRadar
+X-Mailer-Hash: QwlfWt1BiSNiZLeh0xnLBFQsWlh6jp0F
+List-Unsubscribe:
+        <https://reddradar.com/emails/unsubscribe/QwlfWt1BiSNiZLeh0xnLBFQsW=
+lh6jp0F?signature=3D6e7a925ef8e6a6f3471a53781423b6bf3b5b789e42a20df462df684=
+a4df4c93f>
+List-Unsubscribe-Post: List-Unsubscribe=3DOne-Click
+Message-ID: <0108793847cb7ccdadaac0956c30a264@reddradar.com>
+MIME-Version: 1.0
+Content-Type: text/html; charset=3Dutf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 27 Jun 2025 13:27:46 +0000 (UTC)
+X-CM-Envelope: MS4xfCmddrcbrjmFANXi+s13Q/QxWuesWPyjJgef2X45YvylOuR0UyAz9K/Z=
+G7K9b3PhaPNeGNW8o7HsQ9QHtHLQYe+pHBmnMmDdUbz5upaD4jYbuxe6ZEKC stWvOn+zbbK7T0=
+YQETP4H+XqZNTR/gqeK6DyBPYSdHvV0L76HDhToc6KypGTdg8aofmN2b4UiHjfcjMCa4OCbSJLz=
+fzwWiM6KKM=3D
+X-CM-Analysis: v=3D2.4 cv=3DVv1xAP2n c=3D1 sm=3D1 tr=3D0 ts=3D685e9c53 a=3D=
+c1X0f9a9Vy2uqbb4lKF3+w=3D=3D:617 a=3DAPfXo7_vAAAA:8 a=3DxqWC_Br6kY4A:10 a=
+=3DIkcTkHD0fZMA:10 a=3DXscgZnnHAAAA:8 a=3D1sNmk6GoAAAA:8 a=3DSSmOFEACAAAA:8=
+ a=3DpoATz6k5Aizuzga3P9QA:9 a=3D2OPwW_0dp8wnBIS0:21 a=3D_W_S_7VecoQA:10 a=
+=3DQEXdDO2ut3YA:10 a=3DRVmHIydaz68A:10 a=3DNMfd4P0Ds5dUw84Zghwu:22 a=3DiM5L=
+wpYqGr55AEjtejzb:22 a=3DgZ_oX9TB1vHUT2mleGFF:22 a=3DpHP09k5ZHALNRmqz7V5C:22
+X-AuthUser: prajwal@reddradar.com
+Return-Path: prajwal@reddradar.com
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: d3008fd4-0d20-418b-bf30-4e70d910c727:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000971E2:EE_|MW4PR07MB9589:EE_
+X-MS-Office365-Filtering-Correlation-Id: aba48a9a-1c16-4e32-fd40-08ddb57e6a=
+4e
+X-MS-Exchange-AtpMessageProperties: SA|SL
+X-Forefront-Antispam-Report:
+        CIP:23.83.216.38;CTRY:CA;LANG:en;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:commo=
+n.pear.relay.mailchannels.net;PTR:common.pear.relay.mailchannels.net;CAT:SP=
+M;SFS:(13230040)(4022899009)(29132699027)(8096899003)(13003099007)(76890200=
+001);DIR:INB;
+X-Microsoft-Antispam:
+        BCL:0;ARA:13230040|4022899009|29132699027|8096899003|13003099007|76=
+890200001;
+X-Microsoft-Antispam-Message-Info:
+        =3D?us-ascii?Q?3G1BB3WLAzuX2g6RDIbzzRFNZU2wAnIEaRdnCtjtzfX0jc1KRg1X=
+km/p0q2s?=3D
+ =3D?us-ascii?Q?KMRkN3G/cRKioMAmtFK2WQoqeIr7UbLWevTSJOBS2KHujvexmuz1F+ieg0U=
+X?=3D
+ =3D?us-ascii?Q?d57/rTOFQNSc5s6Dbxh+o4XWRsJXnZUpmydx98vJagkB57Z0A5cEIpusQdl=
+z?=3D
+ =3D?us-ascii?Q?TNs9zkZ+H/mzRM4v76Za4Tbh1Snnn4yx3TBCwzThagXzkFF1IW3CR13FXtx=
+B?=3D
+ =3D?us-ascii?Q?teYGflDZF4PNoGAr47cduZBpdMBZvgLhNTkoNxAe77FNqQGBUZXg2wN8cMa=
+i?=3D
+ =3D?us-ascii?Q?CZt23zRd9HdQDxUF6iGchQJ9a2UW9MC4RC1XDfji1kHFGTeUKWyNPNp7wko=
+g?=3D
+ =3D?us-ascii?Q?74FkEVbHsdtQyECCgzY745eGs/NX2HSc5Awe4gl3h5hXwdRMjgIDsGbd33u=
+6?=3D
+ =3D?us-ascii?Q?YiZ1q2BLSIBBzFtjsRgP1gS1YHTsd+uc/wSO8DqNr9yNMm9CKgFZHHaI7kR=
+P?=3D
+ =3D?us-ascii?Q?+sqz8rSlD25J9Bj04d+/P/twh0ffLrM98xnWerZB/wH8LVUM43O+ZyxHzUf=
+b?=3D
+ =3D?us-ascii?Q?pM7hudvAKufQRb78tigGJL389h+K8STdYlCwStD6OC5DsCDGm/hSGE3rgP5=
+V?=3D
+ =3D?us-ascii?Q?4sAQwHlV+DsC3/OI78l6VYSKuaaSwFe6lVuiAkUZm1AiRZL/fy63Gg81KYG=
++?=3D
+ =3D?us-ascii?Q?r0GZiMIreIyBZRzi4voQUHXCxWId6ABSgGshH799NNRr9buZNG35ElKyYES=
+V?=3D
+ =3D?us-ascii?Q?3OWuV2RBQAa5HCsYqbl0wLkDQl/saHj6blfIKotUzHoS6PMTVsfw6mDTNdE=
+d?=3D
+ =3D?us-ascii?Q?SZthGNstEs7VBuQ2JO8HHPP9C0qZGm+GAwmY3ZdE+ZAJxlySwdWW7joi+//=
+Y?=3D
+ =3D?us-ascii?Q?eDCWWv41wejA67jhvnEMVkzP2Qix+j5nQ4As3dTEjLQTabx19YvOkz4QINN=
+d?=3D
+ =3D?us-ascii?Q?DS+SqV0khBDkajGVPk/0BTUzjv+5c3KLEJ8j5qu4Jacp2zvss4K+zFqvxYr=
+I?=3D
+ =3D?us-ascii?Q?ntlH0RhJ7eeWjMRKmJj14LL68GkU4tksdVoqhfg3Bi8UuIK/EuAeueZy18/=
+U?=3D
+ =3D?us-ascii?Q?Vs9juydkr780ElqkNBM6yOeR7M2vGvhBiXWmFmdza+999Wlvt6dokCPgOIg=
+j?=3D
+ =3D?us-ascii?Q?YbOEF37UG4IgwnL45w3I7jQAsy+tULC/vWRcSccLWzIdpPoITEFYaXCU8YT=
+G?=3D
+ =3D?us-ascii?Q?NZIWJWLqCVdN10oVXxHo/jhmJx+eRnIojLN0wLVK6mJTLPwWu31wouZOQhE=
+a?=3D
+ =3D?us-ascii?Q?GMLfW2C4VweaivOQq+4u55b41x+ras/0segxTSyoUzyL0zY2djuAhqZ5QGH=
+L?=3D
+ =3D?us-ascii?Q?0VA87U1em8VjfoenKuzuz4o/AQwc6188HPs8nKrmjlPCyFabTiU+mCJZEYT=
+4?=3D
+ =3D?us-ascii?Q?NePLLOY5TRG+gisZnM96oq31MWRsQ8KQqbOkPSf+MOHUG6jlLXP+ZP1+NlN=
+K?=3D
+ =3D?us-ascii?Q?K1G8XJOPT7CDOFbwwVh1EqqPb3QFKZSY4qsE3+pppqaBrpU5iMFtd65tEFL=
+O?=3D
+ =3D?us-ascii?Q?+DjG8DxsESjQ4fAxBxAb3S7XnUvPYY++tbdznFiBtsEGkQLzuK0qiTIeyCp=
+X?=3D
+ =3D?us-ascii?Q?HEaBnQycqaRXTyay5+3THjkvC437hm+zthbxkPltdq8hVcOMkuFYeRlsLyS=
+e?=3D
+ =3D?us-ascii?Q?AGMQ4Bzpju5s4b525xCzyeRRDw6AwED/Pr3ULPIXna0GZv2IKbKuUcoqz4V=
+g?=3D
+ =3D?us-ascii?Q?z6cf7ezrF6X4vArNpfD+nB62Io2GhtMkOR/jreB4RPhQbq0kcLg4tOWCwhf=
+6?=3D
+ =3D?us-ascii?Q?SUiBGA29MQW8Qh58iooQEyzcHF/IbLkuIqc1LnBrskIWBdAfCzyuE6c8NF1=
+E?=3D
+ =3D?us-ascii?Q?0qS/1NXtAkXpn5IRr0SBHhQXFb3YgJw24xHfsADagx2W9Rt8vl7H0/hGP7a=
+y?=3D
+ =3D?us-ascii?Q?mfCtSzf0V+ML94SOlpqgB4bqqxAntUqWq5rPIfH0foL6PgCqm6Hs3pSzWWg=
+j?=3D
+ =3D?us-ascii?Q?TiR647jDXDQGxCQYJV/lw4c3KLBn7SB623TNd2pqTdE8doAdJ5yvDMO+/MX=
+y?=3D
+ =3D?us-ascii?Q?nSTjUS+9HuOEqeTVjWpuIAh9eiXPLrw5ZqPTmDuJgMPVKzOpyX7GD+c9BnE=
+u?=3D
+ =3D?us-ascii?Q?YrFfU8d3TZqF68t00vFaJHvsfLxNK/UilkfX9elRCcD7EDbGvAOJxcox9ZE=
+K?=3D
+ =3D?us-ascii?Q?sa/LieKgvhr3G4bMnEeIuj4K3ba8cwYYx8bYALjzOMbsMQ+1gzQW6epQKuC=
+t?=3D
+ =3D?us-ascii?Q?WgNvnAMvOfCSvuHA8cptkXAVmttHHIt/ectI9Ohv3jixPkmbnJUfyNZhP6U=
+e?=3D
+ =3D?us-ascii?Q?HtF7L9SHGK5NjgWcTPTfgfpoNHW4T0/AVh4Du3SRoeA7iuwdV0O5phhw//a=
+K?=3D
+ =3D?us-ascii?Q?vk6/jwhnKKkMWacB1A6T4qmB0PQxkm7bGVvS0fpNro3eKOmdVudcZD09V65=
+9?=3D
+ =3D?us-ascii?Q?lXAlJOhUhT07CJs7wSK7/BcTbpDUnEs+uajCYD9GQwnOtiulmaENj1HHtUg=
+z?=3D
+ =3D?us-ascii?Q?Wxe7SZ07qErFFJFN6ykj3wsVrxfynLCzQTgtMhibvvApkGEUHPJX0qa+77p=
+S?=3D
+ =3D?us-ascii?Q?hGB2Od+bebbzBmvx0g/OiVFePj99UV1Q8Wa5Vn2g5SPMDJ4Li4QaRAM5wKJ=
+a?=3D
+ =3D?us-ascii?Q?4NyZM3yrSGuQWif+pgKac2mA6j2YB53mF+POGxnvCkmro4t0tF6jf+f2RYa=
+z?=3D
+ =3D?us-ascii?Q?9V8fRH7/LAGIz7gDt6I0acwvklnUUng8KdKIGhbMpjSSXu9Uehiw4CsINwm=
+v?=3D
+ =3D?us-ascii?Q?HPwkd8zXLP2/s034etqJq6pQhUmJEAWcntK/mi5AJD/qqdP4CGGksDRxZ8G=
+F?=3D
+ =3D?us-ascii?Q?J0dEEMdNE55AOiZGxvguqk+FJcz5jGLQtAfLgql6RkTMOuig1btJJX8fS/S=
+Y?=3D
+ =3D?us-ascii?Q?hTIkquKhngKoGgcojaW4d3tcPHr8/7Aw955UpmcGDkmEUQqD+oOh0aNEGgO=
+f?=3D
+ =3D?us-ascii?Q?bGkwa41o/keY5uFQ663opZoa96ikp2ES2L4qb4ujML2tIDP/Dxxi2AQBp06=
+w?=3D
+ =3D?us-ascii?Q?UED5bNeReMYb9p9vmcTKhCZF3FBixHGSrB737SHzG0M9r4aKtRJUETTJ81w=
+V?=3D
+X-MS-Exchange-ATPSafeLinks-Stat: 0
+X-MS-Exchange-ATPSafeLinks-BitVector: 60000:0x0|0x0|0x0|0x0|0x0|0x60000;
+X-OriginatorOrg: newfold.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jun 2025 13:27:50.7697
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: aba48a9a-1c16-4e32-fd40-08ddb=
+57e6a4e
+X-MS-Exchange-CrossTenant-Id: d3008fd4-0d20-418b-bf30-4e70d910c727
+X-MS-Exchange-CrossTenant-AuthSource:
+        MWH0EPF000971E2.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR07MB9589
+
+
+--1e365f85-9a97-4e6c-bb9a-a36bcf3d7163
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+  <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D=
+1" />
+  <head>
+    <title>
+          DSN
+        </title>
+  </head>
+  <body style=3D"        background-color: white;      ">
+    <table style=3D"        background-color: white;         max-width: 548=
+px;         color: black;         border-spacing: 0px 0px;         padding-=
+top: 0px;         padding-bottom: 0px;        border-collapse: collapse;   =
+   " width=3D"548" cellspacing=3D"0" cellpadding=3D"0">
+      <tbody>
+        <tr>
+          <td style=3D"        text-align: left;        padding-bottom: 20p=
+x;      ">
+            <img height=3D"28" width=3D"126" style=3D"        max-width: 10=
+0%;      " src=3D"https://products.office.com/en-us/CMSImages/Office365Logo=
+_Orange.png?version=3Db8d100a9-0a8b-8e6a-88e1-ef488fee0470" />
+          </td>
+        </tr>
+        <tr>
+          <td style=3D"        font-family: 'Segoe UI', Frutiger, Arial, sa=
+ns-serif;        font-size: 16px;         padding-bottom: 10px;         -ms=
+-text-size-adjust: 100%;        text-align: left;      ">Your message to <s=
+pan style=3D"        color: #0072c6;      ">username@domain.com</span> coul=
+dn't be delivered.<br /></td>
+        </tr>
+        <tr>
+          <td style=3D"        font-family: 'Segoe UI', Frutiger, Arial, sa=
+ns-serif;         font-size: 24px;         padding-top: 0px;         paddin=
+g-bottom: 20px;         text-align: center;         -ms-text-size-adjust: 1=
+00%;      ">
+            <span style=3D"        color: #0072c6;      ">username</span> w=
+asn't found at <span style=3D"        color: #0072c6;      ">domain.com</sp=
+an>.<br /></td>
+        </tr>
+        <tr>
+          <td style=3D"        padding-bottom: 15px;         padding-left: =
+0px;         padding-right: 0px;         border-spacing: 0px 0px;      ">
+            <table style=3D"        max-width: 548px;         font-weight: =
+600;        border-spacing: 0px 0px;         padding-top: 0px;         padd=
+ing-bottom: 0px;        border-collapse: collapse;      ">
+              <tbody>
+                <tr>
+                  <td style=3D"        font-family: 'Segoe UI', Frutiger, A=
+rial, sans-serif;        font-size: 15px;        font-weight: 600;        t=
+ext-align: left;        width: 181px;        -ms-text-size-adjust: 100%;   =
+     vertical-align: bottom;      ">
+                    <font color=3D"#ffffff">
+                      <span style=3D"color:#000000">prajwal</span>
+                    </font>
+                  </td>
+                  <td style=3D"        font-family: 'Segoe UI', Frutiger, A=
+rial, sans-serif;        font-size: 15px;        font-weight: 600;        t=
+ext-align: center;        width: 186px;        -ms-text-size-adjust: 100%; =
+       vertical-align: bottom;      ">
+                    <font color=3D"#ffffff">
+                      <span style=3D"color:#000000">Office 365</span>
+                    </font>
+                  </td>
+                  <td style=3D"        font-family: 'Segoe UI', Frutiger, A=
+rial, sans-serif;         -ms-text-size-adjust: 100%;         font-size: 15=
+px;         font-weight: 600;        text-align: right;         width: 181p=
+x;         vertical-align: bottom;      ">
+                    <font color=3D"#ffffff">
+                      <span style=3D"color:#000000">username</span>
+                    </font>
+                  </td>
+                </tr>
+                <tr>
+                  <td style=3D"        font-family: 'Segoe UI', Frutiger, A=
+rial, sans-serif;        -ms-text-size-adjust: 100%;        font-size: 14px=
+;        font-weight: 400;        text-align: left;        padding-top: 0px=
+;        padding-bottom: 0px;        vertical-align: middle;        width: =
+181px;      ">
+                    <font color=3D"#ffffff">
+                      <span style=3D"        color: #c00000;      ">
+                        <b>Action Required</b>
+                      </span>
+                    </font>
+                  </td>
+                  <td style=3D"        font-family: 'Segoe UI', Frutiger, A=
+rial, sans-serif;        -ms-text-size-adjust: 100%;        font-size: 14px=
+;        font-weight: 400;        text-align: center;        padding-top: 0=
+px;        padding-bottom: 0px;        vertical-align: middle;        width=
+: 186px;      " />
+                  <td style=3D"        font-family: 'Segoe UI', Frutiger, A=
+rial, sans-serif;        -ms-text-size-adjust: 100%;        font-size: 14px=
+;        font-weight: 400;        text-align: right;        padding-top: 0p=
+x;        padding-bottom: 0px;        vertical-align: middle;        width:=
+ 181px;      ">
+                    <font color=3D"#ffffff">
+                      <span style=3D"color:#000000">Recipient</span>
+                    </font>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan=3D"3" style=3D"        padding-top:0;        =
+padding-bottom:0;        padding-left:0;        padding-right:0      ">
+                    <table cellspacing=3D"0" cellpadding=3D"0" style=3D"   =
+     border-spacing: 0px 0px;        padding-top: 0px;        padding-botto=
+m: 0px;        padding-left: 0px;        padding-right: 0px;        border-=
+collapse: collapse;      ">
+                      <tbody>
+                        <tr height=3D"10">
+                          <td width=3D"180" height=3D"10" bgcolor=3D"#c0000=
+0" style=3D"        width: 180px;        line-height: 10px;        height: =
+10px;        font-size: 6px;        padding-top: 0;        padding-bottom: =
+0;        padding-left: 0;        padding-right: 0;      "><!--[if gte mso =
+15]>&nbsp;<![endif]--></td>
+                          <td width=3D"4" height=3D"10" bgcolor=3D"#ffffff"=
+ style=3D"        width: 4px;        line-height: 10px;        height: 10px=
+;        font-size: 6px;        padding-top: 0;        padding-bottom: 0;  =
+      padding-left: 0;        padding-right: 0;      "><!--[if gte mso 15]>=
+&nbsp;<![endif]--></td>
+                          <td width=3D"180" height=3D"10" bgcolor=3D"#ccccc=
+c" style=3D"        width: 180px;        line-height: 10px;        height: =
+10px;        font-size: 6px;        padding-top: 0;        padding-bottom: =
+0;        padding-left: 0;        padding-right: 0;      "><!--[if gte mso =
+15]>&nbsp;<![endif]--></td>
+                          <td width=3D"4" height=3D"10" bgcolor=3D"#ffffff"=
+ style=3D"        width: 4px;        line-height: 10px;        height: 10px=
+;        font-size: 6px;        padding-top: 0;        padding-bottom: 0;  =
+      padding-left: 0;        padding-right: 0;      "><!--[if gte mso 15]>=
+&nbsp;<![endif]--></td>
+                          <td width=3D"180" height=3D"10" bgcolor=3D"#ccccc=
+c" style=3D"        width: 180px;        line-height: 10px;        height: =
+10px;        font-size: 6px;        padding-top: 0;        padding-bottom: =
+0;        padding-left: 0;        padding-right: 0;      "><!--[if gte mso =
+15]>&nbsp;<![endif]--></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td style=3D"        font-family: 'Segoe UI', Frutiger, A=
+rial, sans-serif;        -ms-text-size-adjust: 100%;        font-size: 14px=
+;        text-align: left;        width: 181px;        line-height: 20px;  =
+      font-weight: 400;        padding-top: 0px;        padding-left: 0px; =
+       padding-right: 0px;        padding-bottom: 0px;      ">
+                    <font color=3D"#ffffff">
+                      <span style=3D"        color: #c00000;      ">Unknown=
+ To address</span>
+                    </font>
+                  </td>
+                  <td style=3D"        font-family: 'Segoe UI', Frutiger, A=
+rial, sans-serif;        -ms-text-size-adjust: 100%;        font-size: 14px=
+;        text-align: center;        width: 186px;        line-height: 20px;=
+        font-weight: 400;        padding-top: 0px;        padding-left: 0px=
+;        padding-right: 0px;        padding-bottom: 0px;      " />
+                  <td style=3D"        font-family: 'Segoe UI', Frutiger, A=
+rial, sans-serif;        -ms-text-size-adjust: 100%;        font-size: 14px=
+;        text-align: right;        width: 181px;        line-height: 20px; =
+       font-weight: 400;        padding-top: 0px;        padding-left: 0px;=
+        padding-right: 0px;        padding-bottom: 0px;      " />
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td style=3D"        width: 100%;        padding-top: 0px;       =
+ padding-right: 10px;        padding-left: 10px;      ">
+            <br />
+            <table style=3D"        width: 100%;        padding-right: 0px;=
+        padding-left: 0px;        padding-top: 0px;        padding-bottom: =
+0px;        background-color: #f2f5fa;        margin-left: 0px;      ">
+              <tbody>
+                <tr>
+                  <td style=3D"        font-family: 'Segoe UI', Frutiger, A=
+rial, sans-serif;        -ms-text-size-adjust: 100%;        font-size: 21px=
+;        font-weight: 500;        background-color: #f2f5fa;        padding=
+-top: 0px;        padding-bottom: 0px;        padding-left: 10px;        pa=
+dding-right: 10px;      ">How to Fix It</td>
+                </tr>
+                <tr>
+                  <td style=3D"        font-family: 'Segoe UI', Frutiger, A=
+rial, sans-serif;        -ms-text-size-adjust: 100%;        font-size: 16px=
+;        font-weight: 400;        padding-top: 0px;        padding-bottom: =
+6px;        padding-left: 10px;        padding-right: 10px;        backgrou=
+nd-color: #f2f5fa;      ">The address may be misspelled or may not exist. T=
+ry one or more of the following:</td>
+                </tr>
+                <tr>
+                  <td style=3D"         padding-top: 0px;         padding-b=
+ottom: 0px;         padding-left: 0px;         padding-right: 0px;        b=
+order-spacing: 0px 0px;      ">
+                    <ul style=3D"        font-family: 'Segoe UI', Frutiger,=
+ Arial, sans-serif;        -ms-text-size-adjust: 100%;        font-size: 16=
+px;        font-weight: 400;        margin-left: 40px;        margin-bottom=
+: 5px;        background-color: #f2f5fa;        padding-top: 0px;        pa=
+dding-bottom: 0px;        padding-left: 6px;        padding-right: 6px;    =
+  ">
+                      <li>Send the message again following these steps: In =
+Outlook, open this non-delivery report (NDR) and choose <b>Send Again</b> f=
+rom the Report ribbon. In Outlook on the web, select this NDR, then select =
+the link "<b>To send this message again, click here.</b>" Then delete and r=
+etype the entire recipient address. If prompted with an Auto-Complete List =
+suggestion don't select it. After typing the complete address, click <b>Sen=
+d</b>.</li>
+                      <li>Contact the recipient (by phone, for example) to =
+check that the address exists and is correct.</li>
+                      <li>The recipient may have set up email forwarding to=
+ an incorrect address. Ask them to check that any forwarding they've set up=
+ is working correctly.</li>
+                      <li>Clear the recipient Auto-Complete List in Outlook=
+ or Outlook on the web by following the steps in this article: <a href=3D"h=
+ttps://go.microsoft.com/fwlink/?LinkId=3D389363">Fix email delivery issues =
+for error code 5.1.1 in Office 365</a>, and then send the message again. Re=
+type the entire recipient address before selecting <b>Send</b>.</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <td style=3D"        font-family: 'Segoe UI', Frutiger, A=
+rial, sans-serif;        -ms-text-size-adjust: 100%;        font-size: 16px=
+;        font-weight: 400;        padding-top: 0px;        padding-bottom: =
+6px;        padding-left: 10px;        padding-right: 10px;        backgrou=
+nd-color: #f2f5fa;      ">If the problem continues, forward this message to=
+ your email admin. If you're an email admin, refer to the <b>More Info for =
+Email Admins</b> section below.</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td style=3D"        font-family: 'Segoe UI', Frutiger, Arial, sa=
+ns-serif;        -ms-text-size-adjust: 100%;        font-size: 14px;       =
+ font-weight: 400;        padding-top: 10px;        padding-bottom: 0px;   =
+     padding-bottom: 4px;      ">
+            <br />
+            <em>Was this helpful? <a href=3D"https://go.microsoft.com/fwlin=
+k/?LinkId=3D525920">Send feedback to Microsoft</a>.</em>
+          </td>
+        </tr>
+        <tr>
+          <td style=3D"        -ms-text-size-adjust: 100%;        font-size=
+: 0px;        line-height: 0px;        padding-top: 0px;        padding-bot=
+tom: 0px;      ">
+            <hr />
+          </td>
+        </tr>
+        <tr>
+          <td style=3D"        font-family: 'Segoe UI', Frutiger, Arial, sa=
+ns-serif;        -ms-text-size-adjust: 100%;        font-size: 21px;       =
+ font-weight: 500;      ">
+            <br />More Info for Email Admins</td>
+        </tr>
+        <tr>
+          <td style=3D"        font-family: 'Segoe UI', Frutiger, Arial, sa=
+ns-serif;        -ms-text-size-adjust: 100%;        font-size: 14px;      "=
+>
+            <em>Status code: 550 5.1.1</em>
+            <br />
+            <br />This error occurs because the sender sent a message to an=
+ email address outside of Office 365, but the address is incorrect or doesn=
+'t exist at the destination domain. The error is reported by the recipient =
+domain's email server, but most often it must be fixed by the person who se=
+nt the message. If the steps in the <b>How to Fix It</b> section above don'=
+t fix the problem, and you're the email admin for the recipient, try one or=
+ more of the following:<br /><br /><b>The email address exists and is corre=
+ct</b> - Confirm that the recipient address exists, is correct, and is acce=
+pting messages.<br /><br /><b>Synchronize your directories</b> - If you hav=
+e a hybrid environment and are using directory synchronization make sure th=
+e recipient's email address is synced correctly in both Office 365 and in y=
+our on-premises directory.<br /><br /><b>Errant forwarding rule</b> - Check=
+ for forwarding rules that aren't behaving as expected. Forwarding can be s=
+et up by an admin via mail flow rules or mailbox forwarding address setting=
+s, or by the recipient via the Inbox Rules feature.<br /><br /><b>Mail flow=
+ settings and MX records are not correct</b> - Misconfigured mail flow or M=
+X record settings can cause this error. Check your Office 365 mail flow set=
+tings to make sure your domain and any mail flow connectors are set up corr=
+ectly. Also, work with your domain registrar to make sure the MX records fo=
+r your domain are configured correctly.<br /><br />For more information and=
+ additional tips to fix this issue, see <a href=3D"https://go.microsoft.com=
+/fwlink/?LinkId=3D389363">Fix email delivery issues for error code 550 5.1.=
+1 in Office 365</a>.<br /><br /></td>
+        </tr>
+        <tr>
+          <td style=3D"        font-family: 'Segoe UI', Frutiger, Arial, sa=
+ns-serif;        -ms-text-size-adjust: 100%;        font-size: 17px;       =
+ font-weight: 500;      ">Original Message Details</td>
+        </tr>
+        <tr>
+          <td style=3D"        font-size: 14px;        line-height: 20px;  =
+      font-family: 'Segoe UI', Frutiger, Arial, sans-serif;        -ms-text=
+-size-adjust: 100%;        font-weight: 500;      ">
+            <table style=3D"        width: 100%;        border-collapse: co=
+llapse;        margin-left: 10px;      ">
+              <tbody>
+                <tr>
+                  <td valign=3D"top" style=3D"        font-family: 'Segoe U=
+I', Frutiger, Arial, sans-serif;        font-size: 14px;        -ms-text-si=
+ze-adjust: 100%;        white-space: nowrap;        font-weight: 500;      =
+  width: 140px;      ">Created Date:</td>
+                  <td style=3D"        font-family: 'Segoe UI', Frutiger, A=
+rial, sans-serif;        -ms-text-size-adjust: 100%;        font-size: 14px=
+;        font-weight: 400;      ">6/27/2025 1:27:46 PM</td>
+                </tr>
+                <tr>
+                  <td valign=3D"top" style=3D"        font-family: 'Segoe U=
+I', Frutiger, Arial, sans-serif;        font-size: 14px;        -ms-text-si=
+ze-adjust: 100%;        white-space: nowrap;        font-weight: 500;      =
+  width: 140px;      ">Sender Address:</td>
+                  <td style=3D"        font-family: 'Segoe UI', Frutiger, A=
+rial, sans-serif;        -ms-text-size-adjust: 100%;        font-size: 14px=
+;        font-weight: 400;      ">prajwal@reddradar.com</td>
+                </tr>
+                <tr>
+                  <td style=3D"        font-family: 'Segoe UI', Frutiger, A=
+rial, sans-serif;        font-size: 14px;        -ms-text-size-adjust: 100%=
+;        white-space: nowrap;        font-weight: 500;        width: 140px;=
+      ">Recipient Address:</td>
+                  <td style=3D"        font-family: 'Segoe UI', Frutiger, A=
+rial, sans-serif;        -ms-text-size-adjust: 100%;        font-size: 14px=
+;        font-weight: 400;      ">username@domain.com</td>
+                </tr>
+                <tr>
+                  <td style=3D"        font-family: 'Segoe UI', Frutiger, A=
+rial, sans-serif;        font-size: 14px;        -ms-text-size-adjust: 100%=
+;        white-space: nowrap;        font-weight: 500;        width: 140px;=
+      ">Subject:</td>
+                  <td style=3D"        font-family: 'Segoe UI', Frutiger, A=
+rial, sans-serif;        -ms-text-size-adjust: 100%;        font-size: 14px=
+;        font-weight: 400;      ">34qr.com x ReddRadar</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td style=3D"        font-family: 'Segoe UI', Frutiger, Arial, sa=
+ns-serif;        -ms-text-size-adjust: 100%;        font-size: 17px;       =
+ font-weight: 500;      ">
+            <br />Error Details</td>
+        </tr>
+        <tr>
+          <td style=3D"        font-size: 14px;        line-height: 20px;  =
+      font-family: 'Segoe UI', Frutiger, Arial, sans-serif;        -ms-text=
+-size-adjust: 100%;        font-weight: 500;      ">
+            <table style=3D"        width: 100%;        border-collapse: co=
+llapse;        margin-left: 10px;      ">
+              <tbody>
+                <tr>
+                  <td valign=3D"top" style=3D"        font-family: 'Segoe U=
+I', Frutiger, Arial, sans-serif;        font-size: 14px;        -ms-text-si=
+ze-adjust: 100%;        white-space: nowrap;        font-weight: 500;      =
+  width: 140px;      ">Error:</td>
+                  <td style=3D"        font-family: 'Segoe UI', Frutiger, A=
+rial, sans-serif;        -ms-text-size-adjust: 100%;        font-size: 14px=
+;        font-weight: 400;      ">
+                    <em>550 5.1.1 &lt;username@domain.com&gt; recipient rej=
+ected</em>
+                  </td>
+                </tr>
+                <tr>
+                  <td style=3D"        font-family: 'Segoe UI', Frutiger, A=
+rial, sans-serif;        font-size: 14px;        -ms-text-size-adjust: 100%=
+;        white-space: nowrap;        font-weight: 500;        width: 140px;=
+      ">Message rejected by:</td>
+                  <td style=3D"        font-family: 'Segoe UI', Frutiger, A=
+rial, sans-serif;        -ms-text-size-adjust: 100%;        font-size: 14px=
+;        font-weight: 400;      ">bosimpinc03</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td style=3D"        font-family: 'Segoe UI', Frutiger, Arial, sa=
+ns-serif;        -ms-text-size-adjust: 100%;        font-size: 17px;       =
+ font-weight: 500;      ">
+            <br />Notification Details</td>
+        </tr>
+        <tr>
+          <td style=3D"        font-size: 14px;        line-height: 20px;  =
+      font-family: 'Segoe UI', Frutiger, Arial, sans-serif;        -ms-text=
+-size-adjust: 100%;        font-weight: 500;      ">
+            <table style=3D"        width: 100%;        border-collapse: co=
+llapse;        margin-left: 10px;      ">
+              <tbody>
+                <tr>
+                  <td valign=3D"top" style=3D"        font-family: 'Segoe U=
+I', Frutiger, Arial, sans-serif;        font-size: 14px;        -ms-text-si=
+ze-adjust: 100%;        white-space: nowrap;        font-weight: 500;      =
+  width: 140px;      ">Sent by:</td>
+                  <td style=3D"        font-family: 'Segoe UI', Frutiger, A=
+rial, sans-serif;        -ms-text-size-adjust: 100%;        font-size: 14px=
+;        font-weight: 400;      ">
+                    <em>MW4PR07MB9589.namprd07.prod.outlook.com</em>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br />
+    <table style=3D"width: 880px;" cellspacing=3D"0">
+      <tr>
+        <td colspan=3D"6" style=3D"        padding-top: 4px;        border-=
+bottom: 1px solid #999999;        padding-bottom: 4px;        line-height: =
+120%;        font-size: 17px;        font-family: 'Segoe UI', Frutiger, Ari=
+al, sans-serif;        -ms-text-size-adjust: 100%;        font-weight: 500;=
+      ">Message Hops</td>
+      </tr>
+      <tr>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        background-color: #f2f5fa;        border-bottom: 1p=
+x solid #999999;        white-space: nowrap;        padding: 8px;      ">HO=
+P</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        background-color: #f2f5fa;        border-bottom: 1p=
+x solid #999999;        white-space: nowrap;        padding: 8px;        wi=
+dth: 80px;      ">TIME (UTC)</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        background-color: #f2f5fa;        border-bottom: 1p=
+x solid #999999;        white-space: nowrap;        padding: 8px;      ">FR=
+OM</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        background-color: #f2f5fa;        border-bottom: 1p=
+x solid #999999;        white-space: nowrap;        padding: 8px;      ">TO=
+</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        background-color: #f2f5fa;        border-bottom: 1p=
+x solid #999999;        white-space: nowrap;        padding: 8px;      ">WI=
+TH</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        background-color: #f2f5fa;        border-bottom: 1p=
+x solid #999999;        white-space: nowrap;        padding: 8px;      ">RE=
+LAY TIME</td>
+      </tr>
+      <tr>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: center;      ">1</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;        width: 80px;      ">6/27/2025<br />1:27=
+:46 PM</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;      ">reddradar.com</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;      ">smtp.hostinger.com</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;      ">ESMTPSA</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;      ">*</td>
+      </tr>
+      <tr>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: center;      ">2</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;        width: 80px;      ">6/27/2025<br />1:27=
+:49 PM</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;      ">fr-int-smtpout2.hostinger.io</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;      ">100.108.116.109</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;      ">cipher TLS_AES_256_GCM_SHA384)</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;      ">3&nbsp;sec</td>
+      </tr>
+      <tr>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: center;      ">3</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;        width: 80px;      ">6/27/2025<br />1:27=
+:48 PM</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;      ">fr-int-smtpout2.hostinger.io</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;      ">relay.mailchannels.net</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;      ">ESMTPA</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;      ">*</td>
+      </tr>
+      <tr>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: center;      ">4</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;        width: 80px;      ">6/27/2025<br />1:27=
+:49 PM</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;      ">relay.mailchannels.net</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;      ">relay.mailchannels.net</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;      ">ESMTP</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;      ">1&nbsp;sec</td>
+      </tr>
+      <tr>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: center;      ">5</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;        width: 80px;      ">6/27/2025<br />1:27=
+:50 PM</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;      ">common.pear.relay.mailchannels.net</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;      ">MWH0EPF000971E2.mail.protection.outlook=
+.com</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;      ">Microsoft SMTP Server (version=3DTLS1_3=
+, cipher=3DTLS_AES_256_GCM_SHA384)</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;      ">1&nbsp;sec</td>
+      </tr>
+      <tr>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: center;      ">6</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;        width: 80px;      ">6/27/2025<br />1:27=
+:51 PM</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;      ">MWH0EPF000971E2.namprd02.prod.outlook.c=
+om</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;      ">SJ0PR03CA0020.outlook.office365.com</td=
+>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;      ">Microsoft SMTP Server (version=3DTLS1_3=
+, cipher=3DTLS_AES_256_GCM_SHA384)</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;      ">1&nbsp;sec</td>
+      </tr>
+      <tr>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: center;      ">7</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;        width: 80px;      ">6/27/2025<br />1:27=
+:51 PM</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;      ">SJ0PR03CA0020.namprd03.prod.outlook.com=
+</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;      ">MW4PR07MB9589.namprd07.prod.outlook.com=
+</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;      ">Microsoft SMTP Server (version=3DTLS1_2=
+, cipher=3DTLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384)</td>
+        <td style=3D"        font-size: 12px;        font-family: 'Segoe UI=
+', Frutiger, Arial, sans-serif;        -ms-text-size-adjust: 100%;        f=
+ont-weight: 500;        border-bottom: 1px solid #999999;        padding: 8=
+px;        text-align: left;      ">*</td>
+      </tr>
+    </table>
+    <p style=3D"        font-family: 'Segoe UI', Frutiger, Arial, sans-seri=
+f;        -ms-text-size-adjust: 100%;        font-size: 17px;        font-w=
+eight: 500;        padding-top: 4px;        padding-bottom: 0;        margi=
+n-top: 19px;        margin-bottom: 5px;      ">Original Message Headers</p>
+    <pre style=3D"        color: gray;        white-space: pre;        padd=
+ing-top: 0;        margin-top: 5px;      ">ARC-Seal: i=3D2; a=3Drsa-sha256;=
+ s=3Darcselector10001; d=3Dmicrosoft.com; cv=3Dfail;
+ b=3Dit0ZqN5UYroZ59o8p5RbWpBjBVrIL2tz0VrW3iC0GADFk0wvL0N349E0jMDQQhm9CzcHPu=
+/UnP2TbazjvB6DTSRPyqMV9JW8XOwLD9B7BwNVnGAgTsR8qQGidY7omzb2Ty9aO0al/y7YjTvnq=
+/c3aOiAathN79wyZbYKejRcu/fStGLod35BhnNQO5qwSDzbwFf+YFq5Aw/cYzCNfCC2ihkYwqIG=
+oldNvm/1/4GVKDXsVyb6HAgepp27uQzSSIBttJpTLuSlKWuwZxw4bu2R/Ncrpn5V6afx98mE3LE=
+vXirUQWIOgQXgvxd2qCCzcX8VaKZaiWOBbcugRtImwe9UyQ=3D=3D
+ARC-Message-Signature: i=3D2; a=3Drsa-sha256; c=3Drelaxed/relaxed; d=3Dmicr=
+osoft.com;
+ s=3Darcselector10001;
+ h=3DFrom:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-A=
+ntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Ex=
+change-AntiSpam-MessageData-1;
+ bh=3DqfKV9j66UOHDXjgFeDVUyweoHhVUq+MpUN87k2cC3Yw=3D;
+ b=3DO68IaNUD2AGlPDlQ1GfvMQUiiUhIdxbk5n1OaDdraD3cikveEnMbeN9AbfyrcVk0cdOmi0=
+ubjNXCYHnBUbIGE4q121GDjK6eIvDsarhYgM1MJ+Zbouw8Ty8oHKHWdaRVVXt8Q4kbHmjGNTknV=
+oN2LAjGbTDc0L52zvOyoDx+kp4HNJUa8u77MWOEhu/MVjHa9I26iVdmC+OCRpLfXUEvyz4AhGH0=
+rnaMM4rbGdMyI5vgW/8oUQm6lTf6tJWDyczD2Xo/GWx/Y3KanLYZrKXR0ugJ5ZJp/nZEQSk5sX9=
+ZV77vJx4CW8kgkIfE3zuKytE1dFaW9+0It39qvv7fC47PVQ=3D=3D
+ARC-Authentication-Results: i=3D2; mx.microsoft.com 1; spf=3Dpass (sender i=
+p is
+ 23.83.216.38) smtp.rcpttodomain=3Ddomain.com smtp.mailfrom=3Dreddradar.com=
+;
+ dmarc=3Dpass (p=3Dnone sp=3Dnone pct=3D100) action=3Dnone header.from=3Dre=
+ddradar.com;
+ dkim=3Dnone (message not signed); arc=3Dfail (47)
+Received: from SJ0PR03CA0020.namprd03.prod.outlook.com (2603:10b6:a03:33a::=
+25)
+ by MW4PR07MB9589.namprd07.prod.outlook.com (2603:10b6:303:21a::19) with
+ Microsoft SMTP Server (version=3DTLS1_2,
+ cipher=3DTLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.21; Fri, 27 =
+Jun
+ 2025 13:27:51 +0000
+Received: from MWH0EPF000971E2.namprd02.prod.outlook.com
+ (2603:10b6:a03:33a:cafe::90) by SJ0PR03CA0020.outlook.office365.com
+ (2603:10b6:a03:33a::25) with Microsoft SMTP Server (version=3DTLS1_3,
+ cipher=3DTLS_AES_256_GCM_SHA384) id 15.20.8880.21 via Frontend Transport; =
+Fri,
+ 27 Jun 2025 13:27:51 +0000
+Authentication-Results: spf=3Dpass (sender IP is 23.83.216.38)
+ smtp.mailfrom=3Dreddradar.com; dkim=3Dnone (message not signed)
+ header.d=3Dnone;dmarc=3Dpass action=3Dnone header.from=3Dreddradar.com;com=
+pauth=3Dpass
+ reason=3D100
+Received-SPF: Pass (protection.outlook.com: domain of reddradar.com designa=
+tes
+ 23.83.216.38 as permitted sender) receiver=3Dprotection.outlook.com;
+ client-ip=3D23.83.216.38; helo=3Dcommon.pear.relay.mailchannels.net; pr=3D=
+C
+Received: from common.pear.relay.mailchannels.net (23.83.216.38) by
+ MWH0EPF000971E2.mail.protection.outlook.com (10.167.243.69) with Microsoft
+ SMTP Server (version=3DTLS1_3, cipher=3DTLS_AES_256_GCM_SHA384) id 15.20.8=
+880.14
+ via Frontend Transport; Fri, 27 Jun 2025 13:27:50 +0000
+X-Sender-Id: hostingeremail|x-authuser|prajwal@reddradar.com
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id CAC3B8A5E80;
+	Fri, 27 Jun 2025 13:27:49 +0000 (UTC)
+Received: from fr-int-smtpout2.hostinger.io (trex-green-5.trex.outbound.svc=
+.cluster.local [100.108.116.109])
+	(Authenticated sender: hostingeremail)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 159498A530A
+	for &lt;username@domain.com&gt;; Fri, 27 Jun 2025 13:27:48 +0000 (UTC)
+ARC-Seal: i=3D1; s=3Darc-2022; d=3Dmailchannels.net; t=3D1751030869; a=3Drs=
+a-sha256;
+	cv=3Dnone;
+	b=3DZupqcdP+/ntUVxw4tOcsq40yy20ePWRdU5rCLGsrP/IOPOrCFlcMHSgmRE7r0saLe1j9EF
+	kDaGJ+Vo1atxZdNYuVjEP/0OHXCwsJKqxAmip/unD0pNfLtruAa/XytuiUOO/QNlEulppM
+	VfmFE196bXzykDO5C4hunbmj8eI+mKk2rJC78rT4juzcgMdbTEwVaRxWODdgpw2Tahvs5R
+	9MLHmJZSM+p/nOLbWoadQLCAlMCoEKGccl6hAeeJMJ2BhIDLu5b5hUwuNxn4h1urHSuvOz
+	ZNd6ZqhnjHYDXd1x++KjcBBvLgPtLFI1Y2zvt2VpjOnV2BMkS9PxnMLWjpSdGQ=3D=3D
+ARC-Message-Signature: i=3D1; a=3Drsa-sha256; c=3Drelaxed/relaxed;
+ d=3Dmailchannels.net;
+	s=3Darc-2022; t=3D1751030869;
+	h=3Dfrom:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:list-unsubscribe:
+	 list-unsubscribe-post; bh=3DKfbzzMt5IU9EDeDaI/PhptfbGYOGQtw2QHC7UHGyl8c=
+=3D;
+	b=3Da2DLjOIF9LLz/SQ3mK7Nb/FOdaiz+OQEsQPeu9sM15ewUuGR7OIfglM3WvAHINb37VeNqK
+	/DDUtVG8slkLzGmgxWfKrNLn7/7wK5cbmTGmN71QWFFZL3ac/0KsU+apBWnqhwFUoi+vlo
+	76sikcgir0NfWig+rCOAvRoRySYBPpN90Z1P+SbitpLo2FFmBXLipSTUbj8/M9RIdlhcPF
+	+KDDTo6DtYMl+S28RGqGuXPUMUoj7kgfjuzhRMyWgH23TsZMt3P9Vw05fTVLA7dAIh3yvx
+	2mUWpX1kuyekAz+1NjxA8Svt5o/CfOwi1m1kAUbn7TmPQB9M0o1WYQdug3fYdA=3D=3D
+ARC-Authentication-Results: i=3D1;
+	rspamd-6597f9cdc7-mb2pk;
+	auth=3Dpass smtp.auth=3Dhostingeremail smtp.mailfrom=3Dprajwal@reddradar.c=
+om
+X-Sender-Id: hostingeremail|x-authuser|prajwal@reddradar.com
+X-MC-Relay: Good
+X-MC-Copy: stored-urls
+X-MailChannels-SenderId: hostingeremail|x-authuser|prajwal@reddradar.com
+X-MailChannels-Auth-Id: hostingeremail
+X-Suffer-Gusty: 21b516b90a78d0a7_1751030869751_3405485613
+X-MC-Loop-Signature: 1751030869751:2055093213
+X-MC-Ingress-Time: 1751030869751
+Received: from fr-int-smtpout2.hostinger.io (fr-int-smtpout2.hostinger.io
+ [89.116.146.81])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.108.116.109 (trex/7.1.3);
+	Fri, 27 Jun 2025 13:27:49 +0000
+Received: from reddradar.com (srv692255.hstgr.cloud [IPv6:2a02:4780:2d:766a=
+::1])
+	(Authenticated sender: prajwal@reddradar.com)
+	by smtp.hostinger.com (smtp.hostinger.com) with ESMTPSA id 4bTGZV5yCHz6ntm=
+r
+	for &lt;username@domain.com&gt;; Fri, 27 Jun 2025 13:27:46 +0000 (UTC)
+From: ReddRadar &lt;prajwal@reddradar.com&gt;
+To: username@domain.com
+Subject: 34qr.com x ReddRadar
+X-Mailer-Hash: QwlfWt1BiSNiZLeh0xnLBFQsWlh6jp0F
+List-Unsubscribe:
+	&lt;https://nam12.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fre=
+ddradar.com%2Femails%2Funsubscribe%2FQwlfWt1BiSNiZLeh0xnLBFQsWlh6jp0F%3Fsig=
+nature%3D6e7a925ef8e6a6f3471a53781423b6bf3b5b789e42a20df462df684a4df4c93f&a=
+mp;data=3D05%7C02%7Cusername%40domain.com%7Caba48a9a1c164e32fd4008ddb57e6a4=
+e%7Cd3008fd40d20418bbf304e70d910c727%7C0%7C0%7C638866277469826080%7CUnknown=
+%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIs=
+IkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C60000%7C%7C%7C&amp;sdata=3DYpsjd07cL1AM7=
+V5V%2Fd3uwJp%2FSfC7PBm6ttHXejLn91M%3D&amp;reserved=3D0&gt;
+List-Unsubscribe-Post: List-Unsubscribe=3DOne-Click
+Message-ID: &lt;0108793847cb7ccdadaac0956c30a264@reddradar.com&gt;
+MIME-Version: 1.0
+Content-Type: text/html; charset=3Dutf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 27 Jun 2025 13:27:46 +0000 (UTC)
+X-CM-Envelope: MS4xfCmddrcbrjmFANXi+s13Q/QxWuesWPyjJgef2X45YvylOuR0UyAz9K/Z=
+G7K9b3PhaPNeGNW8o7HsQ9QHtHLQYe+pHBmnMmDdUbz5upaD4jYbuxe6ZEKC stWvOn+zbbK7T0=
+YQETP4H+XqZNTR/gqeK6DyBPYSdHvV0L76HDhToc6KypGTdg8aofmN2b4UiHjfcjMCa4OCbSJLz=
+fzwWiM6KKM=3D
+X-CM-Analysis: v=3D2.4 cv=3DVv1xAP2n c=3D1 sm=3D1 tr=3D0 ts=3D685e9c53 a=3D=
+c1X0f9a9Vy2uqbb4lKF3+w=3D=3D:617 a=3DAPfXo7_vAAAA:8 a=3DxqWC_Br6kY4A:10 a=
+=3DIkcTkHD0fZMA:10 a=3DXscgZnnHAAAA:8 a=3D1sNmk6GoAAAA:8 a=3DSSmOFEACAAAA:8=
+ a=3DpoATz6k5Aizuzga3P9QA:9 a=3D2OPwW_0dp8wnBIS0:21 a=3D_W_S_7VecoQA:10 a=
+=3DQEXdDO2ut3YA:10 a=3DRVmHIydaz68A:10 a=3DNMfd4P0Ds5dUw84Zghwu:22 a=3DiM5L=
+wpYqGr55AEjtejzb:22 a=3DgZ_oX9TB1vHUT2mleGFF:22 a=3DpHP09k5ZHALNRmqz7V5C:22
+X-AuthUser: prajwal@reddradar.com
+Return-Path: prajwal@reddradar.com
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: d3008fd4-0d20-418b-bf30-4e70d910c727:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000971E2:EE_|MW4PR07MB9589:EE_
+X-MS-Office365-Filtering-Correlation-Id: aba48a9a-1c16-4e32-fd40-08ddb57e6a=
+4e
+X-MS-Exchange-AtpMessageProperties: SA|SL
+X-Forefront-Antispam-Report:
+	CIP:23.83.216.38;CTRY:CA;LANG:en;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:common.pear.=
+relay.mailchannels.net;PTR:common.pear.relay.mailchannels.net;CAT:SPM;SFS:(=
+13230040)(4022899009)(29132699027)(8096899003)(13003099007)(76890200001);DI=
+R:INB;
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|4022899009|29132699027|8096899003|13003099007|768902000=
+01;
+X-Microsoft-Antispam-Message-Info:
+	=3D?us-ascii?Q?3G1BB3WLAzuX2g6RDIbzzRFNZU2wAnIEaRdnCtjtzfX0jc1KRg1Xkm/p0q2=
+s?=3D
+ =3D?us-ascii?Q?KMRkN3G/cRKioMAmtFK2WQoqeIr7UbLWevTSJOBS2KHujvexmuz1F+ieg0U=
+X?=3D
+ =3D?us-ascii?Q?d57/rTOFQNSc5s6Dbxh+o4XWRsJXnZUpmydx98vJagkB57Z0A5cEIpusQdl=
+z?=3D
+ =3D?us-ascii?Q?TNs9zkZ+H/mzRM4v76Za4Tbh1Snnn4yx3TBCwzThagXzkFF1IW3CR13FXtx=
+B?=3D
+ =3D?us-ascii?Q?teYGflDZF4PNoGAr47cduZBpdMBZvgLhNTkoNxAe77FNqQGBUZXg2wN8cMa=
+i?=3D
+ =3D?us-ascii?Q?CZt23zRd9HdQDxUF6iGchQJ9a2UW9MC4RC1XDfji1kHFGTeUKWyNPNp7wko=
+g?=3D
+ =3D?us-ascii?Q?74FkEVbHsdtQyECCgzY745eGs/NX2HSc5Awe4gl3h5hXwdRMjgIDsGbd33u=
+6?=3D
+ =3D?us-ascii?Q?YiZ1q2BLSIBBzFtjsRgP1gS1YHTsd+uc/wSO8DqNr9yNMm9CKgFZHHaI7kR=
+P?=3D
+ =3D?us-ascii?Q?+sqz8rSlD25J9Bj04d+/P/twh0ffLrM98xnWerZB/wH8LVUM43O+ZyxHzUf=
+b?=3D
+ =3D?us-ascii?Q?pM7hudvAKufQRb78tigGJL389h+K8STdYlCwStD6OC5DsCDGm/hSGE3rgP5=
+V?=3D
+ =3D?us-ascii?Q?4sAQwHlV+DsC3/OI78l6VYSKuaaSwFe6lVuiAkUZm1AiRZL/fy63Gg81KYG=
++?=3D
+ =3D?us-ascii?Q?r0GZiMIreIyBZRzi4voQUHXCxWId6ABSgGshH799NNRr9buZNG35ElKyYES=
+V?=3D
+ =3D?us-ascii?Q?3OWuV2RBQAa5HCsYqbl0wLkDQl/saHj6blfIKotUzHoS6PMTVsfw6mDTNdE=
+d?=3D
+ =3D?us-ascii?Q?SZthGNstEs7VBuQ2JO8HHPP9C0qZGm+GAwmY3ZdE+ZAJxlySwdWW7joi+//=
+Y?=3D
+ =3D?us-ascii?Q?eDCWWv41wejA67jhvnEMVkzP2Qix+j5nQ4As3dTEjLQTabx19YvOkz4QINN=
+d?=3D
+ =3D?us-ascii?Q?DS+SqV0khBDkajGVPk/0BTUzjv+5c3KLEJ8j5qu4Jacp2zvss4K+zFqvxYr=
+I?=3D
+ =3D?us-ascii?Q?ntlH0RhJ7eeWjMRKmJj14LL68GkU4tksdVoqhfg3Bi8UuIK/EuAeueZy18/=
+U?=3D
+ =3D?us-ascii?Q?Vs9juydkr780ElqkNBM6yOeR7M2vGvhBiXWmFmdza+999Wlvt6dokCPgOIg=
+j?=3D
+ =3D?us-ascii?Q?YbOEF37UG4IgwnL45w3I7jQAsy+tULC/vWRcSccLWzIdpPoITEFYaXCU8YT=
+G?=3D
+ =3D?us-ascii?Q?NZIWJWLqCVdN10oVXxHo/jhmJx+eRnIojLN0wLVK6mJTLPwWu31wouZOQhE=
+a?=3D
+ =3D?us-ascii?Q?GMLfW2C4VweaivOQq+4u55b41x+ras/0segxTSyoUzyL0zY2djuAhqZ5QGH=
+L?=3D
+ =3D?us-ascii?Q?0VA87U1em8VjfoenKuzuz4o/AQwc6188HPs8nKrmjlPCyFabTiU+mCJZEYT=
+4?=3D
+ =3D?us-ascii?Q?NePLLOY5TRG+gisZnM96oq31MWRsQ8KQqbOkPSf+MOHUG6jlLXP+ZP1+NlN=
+K?=3D
+ =3D?us-ascii?Q?K1G8XJOPT7CDOFbwwVh1EqqPb3QFKZSY4qsE3+pppqaBrpU5iMFtd65tEFL=
+O?=3D
+ =3D?us-ascii?Q?+DjG8DxsESjQ4fAxBxAb3S7XnUvPYY++tbdznFiBtsEGkQLzuK0qiTIeyCp=
+X?=3D
+ =3D?us-ascii?Q?HEaBnQycqaRXTyay5+3THjkvC437hm+zthbxkPltdq8hVcOMkuFYeRlsLyS=
+e?=3D
+ =3D?us-ascii?Q?AGMQ4Bzpju5s4b525xCzyeRRDw6AwED/Pr3ULPIXna0GZv2IKbKuUcoqz4V=
+g?=3D
+ =3D?us-ascii?Q?z6cf7ezrF6X4vArNpfD+nB62Io2GhtMkOR/jreB4RPhQbq0kcLg4tOWCwhf=
+6?=3D
+ =3D?us-ascii?Q?SUiBGA29MQW8Qh58iooQEyzcHF/IbLkuIqc1LnBrskIWBdAfCzyuE6c8NF1=
+E?=3D
+ =3D?us-ascii?Q?0qS/1NXtAkXpn5IRr0SBHhQXFb3YgJw24xHfsADagx2W9Rt8vl7H0/hGP7a=
+y?=3D
+ =3D?us-ascii?Q?mfCtSzf0V+ML94SOlpqgB4bqqxAntUqWq5rPIfH0foL6PgCqm6Hs3pSzWWg=
+j?=3D
+ =3D?us-ascii?Q?TiR647jDXDQGxCQYJV/lw4c3KLBn7SB623TNd2pqTdE8doAdJ5yvDMO+/MX=
+y?=3D
+ =3D?us-ascii?Q?nSTjUS+9HuOEqeTVjWpuIAh9eiXPLrw5ZqPTmDuJgMPVKzOpyX7GD+c9BnE=
+u?=3D
+ =3D?us-ascii?Q?YrFfU8d3TZqF68t00vFaJHvsfLxNK/UilkfX9elRCcD7EDbGvAOJxcox9ZE=
+K?=3D
+ =3D?us-ascii?Q?sa/LieKgvhr3G4bMnEeIuj4K3ba8cwYYx8bYALjzOMbsMQ+1gzQW6epQKuC=
+t?=3D
+ =3D?us-ascii?Q?WgNvnAMvOfCSvuHA8cptkXAVmttHHIt/ectI9Ohv3jixPkmbnJUfyNZhP6U=
+e?=3D
+ =3D?us-ascii?Q?HtF7L9SHGK5NjgWcTPTfgfpoNHW4T0/AVh4Du3SRoeA7iuwdV0O5phhw//a=
+K?=3D
+ =3D?us-ascii?Q?vk6/jwhnKKkMWacB1A6T4qmB0PQxkm7bGVvS0fpNro3eKOmdVudcZD09V65=
+9?=3D
+ =3D?us-ascii?Q?lXAlJOhUhT07CJs7wSK7/BcTbpDUnEs+uajCYD9GQwnOtiulmaENj1HHtUg=
+z?=3D
+ =3D?us-ascii?Q?Wxe7SZ07qErFFJFN6ykj3wsVrxfynLCzQTgtMhibvvApkGEUHPJX0qa+77p=
+S?=3D
+ =3D?us-ascii?Q?hGB2Od+bebbzBmvx0g/OiVFePj99UV1Q8Wa5Vn2g5SPMDJ4Li4QaRAM5wKJ=
+a?=3D
+ =3D?us-ascii?Q?4NyZM3yrSGuQWif+pgKac2mA6j2YB53mF+POGxnvCkmro4t0tF6jf+f2RYa=
+z?=3D
+ =3D?us-ascii?Q?9V8fRH7/LAGIz7gDt6I0acwvklnUUng8KdKIGhbMpjSSXu9Uehiw4CsINwm=
+v?=3D
+ =3D?us-ascii?Q?HPwkd8zXLP2/s034etqJq6pQhUmJEAWcntK/mi5AJD/qqdP4CGGksDRxZ8G=
+F?=3D
+ =3D?us-ascii?Q?J0dEEMdNE55AOiZGxvguqk+FJcz5jGLQtAfLgql6RkTMOuig1btJJX8fS/S=
+Y?=3D
+ =3D?us-ascii?Q?hTIkquKhngKoGgcojaW4d3tcPHr8/7Aw955UpmcGDkmEUQqD+oOh0aNEGgO=
+f?=3D
+ =3D?us-ascii?Q?bGkwa41o/keY5uFQ663opZoa96ikp2ES2L4qb4ujML2tIDP/Dxxi2AQBp06=
+w?=3D
+ =3D?us-ascii?Q?UED5bNeReMYb9p9vmcTKhCZF3FBixHGSrB737SHzG0M9r4aKtRJUETTJ81w=
+V?=3D
+X-MS-Exchange-ATPSafeLinks-Stat: 0
+X-MS-Exchange-ATPSafeLinks-BitVector: 60000:0x0|0x0|0x0|0x0|0x0|0x60000;
+X-OriginatorOrg: newfold.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jun 2025 13:27:50.7697
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: aba48a9a-1c16-4e32-fd40-08ddb=
+57e6a4e
+X-MS-Exchange-CrossTenant-Id: d3008fd4-0d20-418b-bf30-4e70d910c727
+X-MS-Exchange-CrossTenant-AuthSource:
+	MWH0EPF000971E2.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR07MB9589
+</pre>
+  </body>
+</html>=
+
+--1e365f85-9a97-4e6c-bb9a-a36bcf3d7163--
+
+--e8b2c820-f20b-4cc9-a146-f7df60e4291d
+Content-Type: message/delivery-status
+
+Reporting-MTA: dns;MW4PR07MB9589.namprd07.prod.outlook.com
+Received-From-MTA: dns;common.pear.relay.mailchannels.net
+Arrival-Date: Fri, 27 Jun 2025 13:27:51 +0000
+
+Final-Recipient: rfc822;username@domain.com
+Action: failed
+Status: 5.1.1
+Diagnostic-Code: smtp;550 5.1.1 <username@domain.com> recipient rejected
+Remote-MTA: dns;bosimpinc03
+
+
+--e8b2c820-f20b-4cc9-a146-f7df60e4291d
+Content-Type: message/rfc822
+
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=fail;
+ b=it0ZqN5UYroZ59o8p5RbWpBjBVrIL2tz0VrW3iC0GADFk0wvL0N349E0jMDQQhm9CzcHPu/UnP2TbazjvB6DTSRPyqMV9JW8XOwLD9B7BwNVnGAgTsR8qQGidY7omzb2Ty9aO0al/y7YjTvnq/c3aOiAathN79wyZbYKejRcu/fStGLod35BhnNQO5qwSDzbwFf+YFq5Aw/cYzCNfCC2ihkYwqIGoldNvm/1/4GVKDXsVyb6HAgepp27uQzSSIBttJpTLuSlKWuwZxw4bu2R/Ncrpn5V6afx98mE3LEvXirUQWIOgQXgvxd2qCCzcX8VaKZaiWOBbcugRtImwe9UyQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qfKV9j66UOHDXjgFeDVUyweoHhVUq+MpUN87k2cC3Yw=;
+ b=O68IaNUD2AGlPDlQ1GfvMQUiiUhIdxbk5n1OaDdraD3cikveEnMbeN9AbfyrcVk0cdOmi0ubjNXCYHnBUbIGE4q121GDjK6eIvDsarhYgM1MJ+Zbouw8Ty8oHKHWdaRVVXt8Q4kbHmjGNTknVoN2LAjGbTDc0L52zvOyoDx+kp4HNJUa8u77MWOEhu/MVjHa9I26iVdmC+OCRpLfXUEvyz4AhGH0rnaMM4rbGdMyI5vgW/8oUQm6lTf6tJWDyczD2Xo/GWx/Y3KanLYZrKXR0ugJ5ZJp/nZEQSk5sX9ZV77vJx4CW8kgkIfE3zuKytE1dFaW9+0It39qvv7fC47PVQ==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 23.83.216.38) smtp.rcpttodomain=domain.com smtp.mailfrom=reddradar.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=reddradar.com;
+ dkim=none (message not signed); arc=fail (47)
+Received: from SJ0PR03CA0020.namprd03.prod.outlook.com (2603:10b6:a03:33a::25)
+ by MW4PR07MB9589.namprd07.prod.outlook.com (2603:10b6:303:21a::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.21; Fri, 27 Jun
+ 2025 13:27:51 +0000
+Received: from MWH0EPF000971E2.namprd02.prod.outlook.com
+ (2603:10b6:a03:33a:cafe::90) by SJ0PR03CA0020.outlook.office365.com
+ (2603:10b6:a03:33a::25) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8880.21 via Frontend Transport; Fri,
+ 27 Jun 2025 13:27:51 +0000
+Authentication-Results: spf=pass (sender IP is 23.83.216.38)
+ smtp.mailfrom=reddradar.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=reddradar.com;compauth=pass
+ reason=100
+Received-SPF: Pass (protection.outlook.com: domain of reddradar.com designates
+ 23.83.216.38 as permitted sender) receiver=protection.outlook.com;
+ client-ip=23.83.216.38; helo=common.pear.relay.mailchannels.net; pr=C
+Received: from common.pear.relay.mailchannels.net (23.83.216.38) by
+ MWH0EPF000971E2.mail.protection.outlook.com (10.167.243.69) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8880.14
+ via Frontend Transport; Fri, 27 Jun 2025 13:27:50 +0000
+X-Sender-Id: hostingeremail|x-authuser|prajwal@reddradar.com
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id CAC3B8A5E80;
+	Fri, 27 Jun 2025 13:27:49 +0000 (UTC)
+Received: from fr-int-smtpout2.hostinger.io (trex-green-5.trex.outbound.svc.cluster.local [100.108.116.109])
+	(Authenticated sender: hostingeremail)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 159498A530A
+	for <username@domain.com>; Fri, 27 Jun 2025 13:27:48 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1751030869; a=rsa-sha256;
+	cv=none;
+	b=ZupqcdP+/ntUVxw4tOcsq40yy20ePWRdU5rCLGsrP/IOPOrCFlcMHSgmRE7r0saLe1j9EF
+	kDaGJ+Vo1atxZdNYuVjEP/0OHXCwsJKqxAmip/unD0pNfLtruAa/XytuiUOO/QNlEulppM
+	VfmFE196bXzykDO5C4hunbmj8eI+mKk2rJC78rT4juzcgMdbTEwVaRxWODdgpw2Tahvs5R
+	9MLHmJZSM+p/nOLbWoadQLCAlMCoEKGccl6hAeeJMJ2BhIDLu5b5hUwuNxn4h1urHSuvOz
+	ZNd6ZqhnjHYDXd1x++KjcBBvLgPtLFI1Y2zvt2VpjOnV2BMkS9PxnMLWjpSdGQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1751030869;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:list-unsubscribe:
+	 list-unsubscribe-post; bh=KfbzzMt5IU9EDeDaI/PhptfbGYOGQtw2QHC7UHGyl8c=;
+	b=a2DLjOIF9LLz/SQ3mK7Nb/FOdaiz+OQEsQPeu9sM15ewUuGR7OIfglM3WvAHINb37VeNqK
+	/DDUtVG8slkLzGmgxWfKrNLn7/7wK5cbmTGmN71QWFFZL3ac/0KsU+apBWnqhwFUoi+vlo
+	76sikcgir0NfWig+rCOAvRoRySYBPpN90Z1P+SbitpLo2FFmBXLipSTUbj8/M9RIdlhcPF
+	+KDDTo6DtYMl+S28RGqGuXPUMUoj7kgfjuzhRMyWgH23TsZMt3P9Vw05fTVLA7dAIh3yvx
+	2mUWpX1kuyekAz+1NjxA8Svt5o/CfOwi1m1kAUbn7TmPQB9M0o1WYQdug3fYdA==
+ARC-Authentication-Results: i=1;
+	rspamd-6597f9cdc7-mb2pk;
+	auth=pass smtp.auth=hostingeremail smtp.mailfrom=prajwal@reddradar.com
+X-Sender-Id: hostingeremail|x-authuser|prajwal@reddradar.com
+X-MC-Relay: Good
+X-MC-Copy: stored-urls
+X-MailChannels-SenderId: hostingeremail|x-authuser|prajwal@reddradar.com
+X-MailChannels-Auth-Id: hostingeremail
+X-Suffer-Gusty: 21b516b90a78d0a7_1751030869751_3405485613
+X-MC-Loop-Signature: 1751030869751:2055093213
+X-MC-Ingress-Time: 1751030869751
+Received: from fr-int-smtpout2.hostinger.io (fr-int-smtpout2.hostinger.io
+ [89.116.146.81])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.108.116.109 (trex/7.1.3);
+	Fri, 27 Jun 2025 13:27:49 +0000
+Received: from reddradar.com (srv692255.hstgr.cloud [IPv6:2a02:4780:2d:766a::1])
+	(Authenticated sender: prajwal@reddradar.com)
+	by smtp.hostinger.com (smtp.hostinger.com) with ESMTPSA id 4bTGZV5yCHz6ntmr
+	for <username@domain.com>; Fri, 27 Jun 2025 13:27:46 +0000 (UTC)
+From: ReddRadar <prajwal@reddradar.com>
+To: username@domain.com
+Subject: 34qr.com x ReddRadar
+X-Mailer-Hash: QwlfWt1BiSNiZLeh0xnLBFQsWlh6jp0F
+List-Unsubscribe:
+ <https://nam12.safelinks.protection.outlook.com/?url=https%3A%2F%2Freddradar.com%2Femails%2Funsubscribe%2FQwlfWt1BiSNiZLeh0xnLBFQsWlh6jp0F%3Fsignature%3D6e7a925ef8e6a6f3471a53781423b6bf3b5b789e42a20df462df684a4df4c93f&data=05%7C02%7Cusername%40domain.com%7Caba48a9a1c164e32fd4008ddb57e6a4e%7Cd3008fd40d20418bbf304e70d910c727%7C0%7C0%7C638866277469826080%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C60000%7C%7C%7C&sdata=Ypsjd07cL1AM7V5V%2Fd3uwJp%2FSfC7PBm6ttHXejLn91M%3D&reserved=0>
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+Message-ID: <0108793847cb7ccdadaac0956c30a264@reddradar.com>
+MIME-Version: 1.0
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 27 Jun 2025 13:27:46 +0000 (UTC)
+X-CM-Envelope: MS4xfCmddrcbrjmFANXi+s13Q/QxWuesWPyjJgef2X45YvylOuR0UyAz9K/ZG7K9b3PhaPNeGNW8o7HsQ9QHtHLQYe+pHBmnMmDdUbz5upaD4jYbuxe6ZEKC stWvOn+zbbK7T0YQETP4H+XqZNTR/gqeK6DyBPYSdHvV0L76HDhToc6KypGTdg8aofmN2b4UiHjfcjMCa4OCbSJLzfzwWiM6KKM=
+X-CM-Analysis: v=2.4 cv=Vv1xAP2n c=1 sm=1 tr=0 ts=685e9c53 a=c1X0f9a9Vy2uqbb4lKF3+w==:617 a=APfXo7_vAAAA:8 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=XscgZnnHAAAA:8 a=1sNmk6GoAAAA:8 a=SSmOFEACAAAA:8 a=poATz6k5Aizuzga3P9QA:9 a=2OPwW_0dp8wnBIS0:21 a=_W_S_7VecoQA:10 a=QEXdDO2ut3YA:10 a=RVmHIydaz68A:10 a=NMfd4P0Ds5dUw84Zghwu:22 a=iM5LwpYqGr55AEjtejzb:22 a=gZ_oX9TB1vHUT2mleGFF:22 a=pHP09k5ZHALNRmqz7V5C:22
+X-AuthUser: prajwal@reddradar.com
+Return-Path: prajwal@reddradar.com
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: d3008fd4-0d20-418b-bf30-4e70d910c727:0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000971E2:EE_|MW4PR07MB9589:EE_
+X-MS-Office365-Filtering-Correlation-Id: aba48a9a-1c16-4e32-fd40-08ddb57e6a4e
+X-MS-Exchange-AtpMessageProperties: SA|SL
+X-Forefront-Antispam-Report:
+ CIP:23.83.216.38;CTRY:CA;LANG:en;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:common.pear.relay.mailchannels.net;PTR:common.pear.relay.mailchannels.net;CAT:SPM;SFS:(13230040)(4022899009)(29132699027)(8096899003)(13003099007)(76890200001);DIR:INB;
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|4022899009|29132699027|8096899003|13003099007|76890200001;
+X-Microsoft-Antispam-Message-Info:
+ =?us-ascii?Q?3G1BB3WLAzuX2g6RDIbzzRFNZU2wAnIEaRdnCtjtzfX0jc1KRg1Xkm/p0q2s?=
+ =?us-ascii?Q?KMRkN3G/cRKioMAmtFK2WQoqeIr7UbLWevTSJOBS2KHujvexmuz1F+ieg0UX?=
+ =?us-ascii?Q?d57/rTOFQNSc5s6Dbxh+o4XWRsJXnZUpmydx98vJagkB57Z0A5cEIpusQdlz?=
+ =?us-ascii?Q?TNs9zkZ+H/mzRM4v76Za4Tbh1Snnn4yx3TBCwzThagXzkFF1IW3CR13FXtxB?=
+ =?us-ascii?Q?teYGflDZF4PNoGAr47cduZBpdMBZvgLhNTkoNxAe77FNqQGBUZXg2wN8cMai?=
+ =?us-ascii?Q?CZt23zRd9HdQDxUF6iGchQJ9a2UW9MC4RC1XDfji1kHFGTeUKWyNPNp7wkog?=
+ =?us-ascii?Q?74FkEVbHsdtQyECCgzY745eGs/NX2HSc5Awe4gl3h5hXwdRMjgIDsGbd33u6?=
+ =?us-ascii?Q?YiZ1q2BLSIBBzFtjsRgP1gS1YHTsd+uc/wSO8DqNr9yNMm9CKgFZHHaI7kRP?=
+ =?us-ascii?Q?+sqz8rSlD25J9Bj04d+/P/twh0ffLrM98xnWerZB/wH8LVUM43O+ZyxHzUfb?=
+ =?us-ascii?Q?pM7hudvAKufQRb78tigGJL389h+K8STdYlCwStD6OC5DsCDGm/hSGE3rgP5V?=
+ =?us-ascii?Q?4sAQwHlV+DsC3/OI78l6VYSKuaaSwFe6lVuiAkUZm1AiRZL/fy63Gg81KYG+?=
+ =?us-ascii?Q?r0GZiMIreIyBZRzi4voQUHXCxWId6ABSgGshH799NNRr9buZNG35ElKyYESV?=
+ =?us-ascii?Q?3OWuV2RBQAa5HCsYqbl0wLkDQl/saHj6blfIKotUzHoS6PMTVsfw6mDTNdEd?=
+ =?us-ascii?Q?SZthGNstEs7VBuQ2JO8HHPP9C0qZGm+GAwmY3ZdE+ZAJxlySwdWW7joi+//Y?=
+ =?us-ascii?Q?eDCWWv41wejA67jhvnEMVkzP2Qix+j5nQ4As3dTEjLQTabx19YvOkz4QINNd?=
+ =?us-ascii?Q?DS+SqV0khBDkajGVPk/0BTUzjv+5c3KLEJ8j5qu4Jacp2zvss4K+zFqvxYrI?=
+ =?us-ascii?Q?ntlH0RhJ7eeWjMRKmJj14LL68GkU4tksdVoqhfg3Bi8UuIK/EuAeueZy18/U?=
+ =?us-ascii?Q?Vs9juydkr780ElqkNBM6yOeR7M2vGvhBiXWmFmdza+999Wlvt6dokCPgOIgj?=
+ =?us-ascii?Q?YbOEF37UG4IgwnL45w3I7jQAsy+tULC/vWRcSccLWzIdpPoITEFYaXCU8YTG?=
+ =?us-ascii?Q?NZIWJWLqCVdN10oVXxHo/jhmJx+eRnIojLN0wLVK6mJTLPwWu31wouZOQhEa?=
+ =?us-ascii?Q?GMLfW2C4VweaivOQq+4u55b41x+ras/0segxTSyoUzyL0zY2djuAhqZ5QGHL?=
+ =?us-ascii?Q?0VA87U1em8VjfoenKuzuz4o/AQwc6188HPs8nKrmjlPCyFabTiU+mCJZEYT4?=
+ =?us-ascii?Q?NePLLOY5TRG+gisZnM96oq31MWRsQ8KQqbOkPSf+MOHUG6jlLXP+ZP1+NlNK?=
+ =?us-ascii?Q?K1G8XJOPT7CDOFbwwVh1EqqPb3QFKZSY4qsE3+pppqaBrpU5iMFtd65tEFLO?=
+ =?us-ascii?Q?+DjG8DxsESjQ4fAxBxAb3S7XnUvPYY++tbdznFiBtsEGkQLzuK0qiTIeyCpX?=
+ =?us-ascii?Q?HEaBnQycqaRXTyay5+3THjkvC437hm+zthbxkPltdq8hVcOMkuFYeRlsLySe?=
+ =?us-ascii?Q?AGMQ4Bzpju5s4b525xCzyeRRDw6AwED/Pr3ULPIXna0GZv2IKbKuUcoqz4Vg?=
+ =?us-ascii?Q?z6cf7ezrF6X4vArNpfD+nB62Io2GhtMkOR/jreB4RPhQbq0kcLg4tOWCwhf6?=
+ =?us-ascii?Q?SUiBGA29MQW8Qh58iooQEyzcHF/IbLkuIqc1LnBrskIWBdAfCzyuE6c8NF1E?=
+ =?us-ascii?Q?0qS/1NXtAkXpn5IRr0SBHhQXFb3YgJw24xHfsADagx2W9Rt8vl7H0/hGP7ay?=
+ =?us-ascii?Q?mfCtSzf0V+ML94SOlpqgB4bqqxAntUqWq5rPIfH0foL6PgCqm6Hs3pSzWWgj?=
+ =?us-ascii?Q?TiR647jDXDQGxCQYJV/lw4c3KLBn7SB623TNd2pqTdE8doAdJ5yvDMO+/MXy?=
+ =?us-ascii?Q?nSTjUS+9HuOEqeTVjWpuIAh9eiXPLrw5ZqPTmDuJgMPVKzOpyX7GD+c9BnEu?=
+ =?us-ascii?Q?YrFfU8d3TZqF68t00vFaJHvsfLxNK/UilkfX9elRCcD7EDbGvAOJxcox9ZEK?=
+ =?us-ascii?Q?sa/LieKgvhr3G4bMnEeIuj4K3ba8cwYYx8bYALjzOMbsMQ+1gzQW6epQKuCt?=
+ =?us-ascii?Q?WgNvnAMvOfCSvuHA8cptkXAVmttHHIt/ectI9Ohv3jixPkmbnJUfyNZhP6Ue?=
+ =?us-ascii?Q?HtF7L9SHGK5NjgWcTPTfgfpoNHW4T0/AVh4Du3SRoeA7iuwdV0O5phhw//aK?=
+ =?us-ascii?Q?vk6/jwhnKKkMWacB1A6T4qmB0PQxkm7bGVvS0fpNro3eKOmdVudcZD09V659?=
+ =?us-ascii?Q?lXAlJOhUhT07CJs7wSK7/BcTbpDUnEs+uajCYD9GQwnOtiulmaENj1HHtUgz?=
+ =?us-ascii?Q?Wxe7SZ07qErFFJFN6ykj3wsVrxfynLCzQTgtMhibvvApkGEUHPJX0qa+77pS?=
+ =?us-ascii?Q?hGB2Od+bebbzBmvx0g/OiVFePj99UV1Q8Wa5Vn2g5SPMDJ4Li4QaRAM5wKJa?=
+ =?us-ascii?Q?4NyZM3yrSGuQWif+pgKac2mA6j2YB53mF+POGxnvCkmro4t0tF6jf+f2RYaz?=
+ =?us-ascii?Q?9V8fRH7/LAGIz7gDt6I0acwvklnUUng8KdKIGhbMpjSSXu9Uehiw4CsINwmv?=
+ =?us-ascii?Q?HPwkd8zXLP2/s034etqJq6pQhUmJEAWcntK/mi5AJD/qqdP4CGGksDRxZ8GF?=
+ =?us-ascii?Q?J0dEEMdNE55AOiZGxvguqk+FJcz5jGLQtAfLgql6RkTMOuig1btJJX8fS/SY?=
+ =?us-ascii?Q?hTIkquKhngKoGgcojaW4d3tcPHr8/7Aw955UpmcGDkmEUQqD+oOh0aNEGgOf?=
+ =?us-ascii?Q?bGkwa41o/keY5uFQ663opZoa96ikp2ES2L4qb4ujML2tIDP/Dxxi2AQBp06w?=
+ =?us-ascii?Q?UED5bNeReMYb9p9vmcTKhCZF3FBixHGSrB737SHzG0M9r4aKtRJUETTJ81wV?=
+X-MS-Exchange-ATPSafeLinks-Stat: 0
+X-MS-Exchange-ATPSafeLinks-BitVector: 60000:0x0|0x0|0x0|0x0|0x0|0x60000;
+X-OriginatorOrg: newfold.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jun 2025 13:27:50.7697
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: aba48a9a-1c16-4e32-fd40-08ddb57e6a4e
+X-MS-Exchange-CrossTenant-Id: d3008fd4-0d20-418b-bf30-4e70d910c727
+X-MS-Exchange-CrossTenant-AuthSource:
+ MWH0EPF000971E2.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR07MB9589
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.=
+w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns=3D"http://www.w3.org/1999/xhtml">
+<head>
+<title>ReddRadar</title>
+<meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D1.=
+0">
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-8">
+<meta name=3D"color-scheme" content=3D"light">
+<meta name=3D"supported-color-schemes" content=3D"light">
+<style>
+@media only screen and (max-width: 600px) {
+.inner-body {
+width: 100% !important;
+}
+
+.footer {
+width: 100% !important;
+}
+}
+
+@media only screen and (max-width: 500px) {
+.button {
+width: 100% !important;
+}
+}
+</style>
+
+</head>
+<body>
+
+<table class=3D"wrapper" width=3D"100%" cellpadding=3D"0" cellspacing=3D"0"=
+ role=3D"presentation" style=3D"box-sizing: border-box; font-family: -apple=
+-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-ser=
+if, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: rel=
+ative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-wid=
+th: 100%; background-color: #edf2f7; margin: 0; padding: 0; width: 100%;">
+<tr>
+<td align=3D"center" style=3D"box-sizing: border-box; font-family: -apple-s=
+ystem, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif=
+, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relat=
+ive;">
+<table class=3D"content" width=3D"100%" cellpadding=3D"0" cellspacing=3D"0"=
+ role=3D"presentation" style=3D"box-sizing: border-box; font-family: -apple=
+-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-ser=
+if, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: rel=
+ative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer-wid=
+th: 100%; margin: 0; padding: 0; width: 100%;">
+<tr>
+<td class=3D"header" style=3D"box-sizing: border-box; font-family: -apple-s=
+ystem, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif=
+, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relat=
+ive; padding: 25px 0; text-align: center;">
+<a href=3D"https://nam12.safelinks.protection.outlook.com/?url=3Dhttps%3A%2=
+F%2Freddradar.com%2Femails%2Fredirect%2FQwlfWt1BiSNiZLeh0xnLBFQsWlh6jp0F%3F=
+url%3Dhttps%25253A%25252F%25252Freddradar.com%26signature%3D53b2fc22552b2d8=
+4983956ad4018ac79154a98cb1ea82ddb9414d28cf2d5527a&amp;data=3D05%7C02%7Cuser=
+name%40domain.com%7Caba48a9a1c164e32fd4008ddb57e6a4e%7Cd3008fd40d20418bbf30=
+4e70d910c727%7C0%7C0%7C638866277469765009%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0e=
+U1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoy=
+fQ%3D%3D%7C60000%7C%7C%7C&amp;sdata=3DM1Z%2FSojsSHHjudUPo6iCG63lO6XtV3C2YxT=
+vGKhTVrg%3D&amp;reserved=3D0" originalSrc=3D"https://reddradar.com/emails/r=
+edirect/QwlfWt1BiSNiZLeh0xnLBFQsWlh6jp0F?url=3Dhttps%253A%252F%252Freddrada=
+r.com&signature=3D53b2fc22552b2d84983956ad4018ac79154a98cb1ea82ddb9414d28cf=
+2d5527a" style=3D"box-sizing: border-box; font-family: -apple-system, Blink=
+MacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Col=
+or Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: =
+#3d4852; font-size: 19px; font-weight: bold; text-decoration: none; display=
+: inline-block;">
+ReddRadar
+</a>
+</td>
+</tr>
+
+<!-- Email Body -->
+<tr>
+<td class=3D"body" width=3D"100%" cellpadding=3D"0" cellspacing=3D"0" style=
+=3D"box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont,=
+ 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Se=
+goe UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpaddin=
+g: 0; -premailer-cellspacing: 0; -premailer-width: 100%; background-color: =
+#edf2f7; border-bottom: 1px solid #edf2f7; border-top: 1px solid #edf2f7; m=
+argin: 0; padding: 0; width: 100%; border: hidden !important;">
+<table class=3D"inner-body" align=3D"center" width=3D"570" cellpadding=3D"0=
+" cellspacing=3D"0" role=3D"presentation" style=3D"box-sizing: border-box; =
+font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helveti=
+ca, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Sym=
+bol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing=
+: 0; -premailer-width: 570px; background-color: #ffffff; border-color: #e8e=
+5ef; border-radius: 2px; border-width: 1px; box-shadow: 0 2px 0 rgba(0, 0, =
+150, 0.025), 2px 4px 0 rgba(0, 0, 150, 0.015); margin: 0 auto; padding: 0; =
+width: 570px;">
+<!-- Body content -->
+<tr>
+<td class=3D"content-cell" style=3D"box-sizing: border-box; font-family: -a=
+pple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans=
+-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position:=
+ relative; max-width: 100vw; padding: 32px;">
+<p style=3D"box-sizing: border-box; font-family: -apple-system, BlinkMacSys=
+temFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emo=
+ji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16=
+px; line-height: 1.5em; margin-top: 0; text-align: left;">Hi,</p>
+<p style=3D"box-sizing: border-box; font-family: -apple-system, BlinkMacSys=
+temFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emo=
+ji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16=
+px; line-height: 1.5em; margin-top: 0; text-align: left;">I saw <strong sty=
+le=3D"box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFon=
+t, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', '=
+Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">34qr.com</strong> =
+on ProductHunt, congratulations on the launch!</p>
+<p style=3D"box-sizing: border-box; font-family: -apple-system, BlinkMacSys=
+temFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emo=
+ji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16=
+px; line-height: 1.5em; margin-top: 0; text-align: left;">Finding initial u=
+sers for your product post-launch is tough; I=E2=80=99ve been there.</p>
+<p style=3D"box-sizing: border-box; font-family: -apple-system, BlinkMacSys=
+temFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emo=
+ji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16=
+px; line-height: 1.5em; margin-top: 0; text-align: left;">That=E2=80=99s wh=
+ere my tool <strong style=3D"box-sizing: border-box; font-family: -apple-sy=
+stem, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,=
+ 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relati=
+ve;"><a href=3D"https://nam12.safelinks.protection.outlook.com/?url=3Dhttps=
+%3A%2F%2Freddradar.com%2Femails%2Fredirect%2FQwlfWt1BiSNiZLeh0xnLBFQsWlh6jp=
+0F%3Furl%3Dhttps%25253A%25252F%25252Freddradar.com%26signature%3D53b2fc2255=
+2b2d84983956ad4018ac79154a98cb1ea82ddb9414d28cf2d5527a&amp;data=3D05%7C02%7=
+Cusername%40domain.com%7Caba48a9a1c164e32fd4008ddb57e6a4e%7Cd3008fd40d20418=
+bbf304e70d910c727%7C0%7C0%7C638866277469779268%7CUnknown%7CTWFpbGZsb3d8eyJF=
+bXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIld=
+UIjoyfQ%3D%3D%7C60000%7C%7C%7C&amp;sdata=3DyDEpbOGmBmw0lmHMUPd%2BcX%2FbXsBB=
+J5v1DY4fyYpxA4k%3D&amp;reserved=3D0" originalSrc=3D"https://reddradar.com/e=
+mails/redirect/QwlfWt1BiSNiZLeh0xnLBFQsWlh6jp0F?url=3Dhttps%253A%252F%252Fr=
+eddradar.com&signature=3D53b2fc22552b2d84983956ad4018ac79154a98cb1ea82ddb94=
+14d28cf2d5527a" style=3D"box-sizing: border-box; font-family: -apple-system=
+, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Ap=
+ple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; =
+color: #3869d4;">ReddRadar</a></strong> can help.</p>
+<p style=3D"box-sizing: border-box; font-family: -apple-system, BlinkMacSys=
+temFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emo=
+ji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16=
+px; line-height: 1.5em; margin-top: 0; text-align: left;">ReddRadar monitor=
+s Reddit 24/7 for leads related to your product,<br>
+delivering qualified leads directly to you so you can:</p>
+<ul style=3D"box-sizing: border-box; font-family: -apple-system, BlinkMacSy=
+stemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Em=
+oji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; line-height:=
+ 1.4; text-align: left;">
+<li style=3D"box-sizing: border-box; font-family: -apple-system, BlinkMacSy=
+stemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Em=
+oji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<strong style=3D"box-sizing: border-box; font-family: -apple-system, BlinkM=
+acSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Colo=
+r Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">Be the =
+first to engage</strong> with high-intent leads for 34qr.com.</li>
+<li style=3D"box-sizing: border-box; font-family: -apple-system, BlinkMacSy=
+stemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Em=
+oji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<strong style=3D"box-sizing: border-box; font-family: -apple-system, BlinkM=
+acSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Colo=
+r Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">Convert=
+ interest</strong> into users effectively.</li>
+<li style=3D"box-sizing: border-box; font-family: -apple-system, BlinkMacSy=
+stemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Em=
+oji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<strong style=3D"box-sizing: border-box; font-family: -apple-system, BlinkM=
+acSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Colo=
+r Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">Save ho=
+urs</strong> of manual searching.</li>
+</ul>
+<p style=3D"box-sizing: border-box; font-family: -apple-system, BlinkMacSys=
+temFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emo=
+ji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16=
+px; line-height: 1.5em; margin-top: 0; text-align: left;">We offer a <stron=
+g style=3D"box-sizing: border-box; font-family: -apple-system, BlinkMacSyst=
+emFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoj=
+i', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">15-day free t=
+rial (no credit card required)</strong>.<br>
+Setup takes about 2 minutes, and our full plan is just $7/month.</p>
+<table class=3D"action" align=3D"center" width=3D"100%" cellpadding=3D"0" c=
+ellspacing=3D"0" role=3D"presentation" style=3D"box-sizing: border-box; fon=
+t-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,=
+ Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol=
+'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0=
+; -premailer-width: 100%; margin: 30px auto; padding: 0; text-align: center=
+; width: 100%; float: unset;">
+<tr>
+<td align=3D"center" style=3D"box-sizing: border-box; font-family: -apple-s=
+ystem, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif=
+, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relat=
+ive;">
+<table width=3D"100%" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=
+=3D"presentation" style=3D"box-sizing: border-box; font-family: -apple-syst=
+em, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, '=
+Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative=
+;">
+<tr>
+<td align=3D"center" style=3D"box-sizing: border-box; font-family: -apple-s=
+ystem, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif=
+, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relat=
+ive;">
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentatio=
+n" style=3D"box-sizing: border-box; font-family: -apple-system, BlinkMacSys=
+temFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emo=
+ji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td style=3D"box-sizing: border-box; font-family: -apple-system, BlinkMacSy=
+stemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Em=
+oji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<a href=3D"https://nam12.safelinks.protection.outlook.com/?url=3Dhttps%3A%2=
+F%2Freddradar.com%2Femails%2Fredirect%2FQwlfWt1BiSNiZLeh0xnLBFQsWlh6jp0F%3F=
+url%3Dhttps%25253A%25252F%25252Freddradar.com%26signature%3D53b2fc22552b2d8=
+4983956ad4018ac79154a98cb1ea82ddb9414d28cf2d5527a&amp;data=3D05%7C02%7Cuser=
+name%40domain.com%7Caba48a9a1c164e32fd4008ddb57e6a4e%7Cd3008fd40d20418bbf30=
+4e70d910c727%7C0%7C0%7C638866277469791673%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0e=
+U1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoy=
+fQ%3D%3D%7C60000%7C%7C%7C&amp;sdata=3DpjFhKZCMpJCIaWhEJTYydoIRPXeHs4cpnulry=
+wacJmc%3D&amp;reserved=3D0" originalSrc=3D"https://reddradar.com/emails/red=
+irect/QwlfWt1BiSNiZLeh0xnLBFQsWlh6jp0F?url=3Dhttps%253A%252F%252Freddradar.=
+com&signature=3D53b2fc22552b2d84983956ad4018ac79154a98cb1ea82ddb9414d28cf2d=
+5527a" class=3D"button button-success" target=3D"_blank" rel=3D"noopener" s=
+tyle=3D"box-sizing: border-box; font-family: -apple-system, BlinkMacSystemF=
+ont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji',=
+ 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; -webkit-text-size=
+-adjust: none; border-radius: 4px; color: #fff; display: inline-block; over=
+flow: hidden; text-decoration: none; background-color: #48bb78; border-bott=
+om: 8px solid #48bb78; border-left: 18px solid #48bb78; border-right: 18px =
+solid #48bb78; border-top: 8px solid #48bb78;">Try ReddRadar</a>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<p style=3D"box-sizing: border-box; font-family: -apple-system, BlinkMacSys=
+temFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emo=
+ji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16=
+px; line-height: 1.5em; margin-top: 0; text-align: left;">If you have any q=
+uestions, feel free to reach out.</p>
+<p style=3D"box-sizing: border-box; font-family: -apple-system, BlinkMacSys=
+temFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emo=
+ji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16=
+px; line-height: 1.5em; margin-top: 0; text-align: left;">Thanks,<br>
+Prajwal Hallale<br>
+ReddRadar.com</p>
+
+
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+<tr>
+<td style=3D"box-sizing: border-box; font-family: -apple-system, BlinkMacSy=
+stemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Em=
+oji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<table class=3D"footer" align=3D"center" width=3D"570" cellpadding=3D"0" ce=
+llspacing=3D"0" role=3D"presentation" style=3D"box-sizing: border-box; font=
+-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, =
+Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'=
+; position: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0;=
+ -premailer-width: 570px; margin: 0 auto; padding: 0; text-align: center; w=
+idth: 570px;">
+<tr>
+<td class=3D"content-cell" align=3D"center" style=3D"box-sizing: border-box=
+; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helve=
+tica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI S=
+ymbol'; position: relative; max-width: 100vw; padding: 32px;">
+<p style=3D"box-sizing: border-box; font-family: -apple-system, BlinkMacSys=
+temFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emo=
+ji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; line-height: =
+1.5em; margin-top: 0; color: #b0adc5; font-size: 12px; text-align: center;"=
+>=C2=A9 2025 ReddRadar. All rights reserved.</p>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<p style=3D"text-align: center; font-size: 14px; color: #ddd;">
+                                <a href=3D"https://nam12.safelinks.protecti=
+on.outlook.com/?url=3Dhttps%3A%2F%2Freddradar.com%2Femails%2Funsubscribe%2F=
+QwlfWt1BiSNiZLeh0xnLBFQsWlh6jp0F%3Fsignature%3D6e7a925ef8e6a6f3471a53781423=
+b6bf3b5b789e42a20df462df684a4df4c93f&amp;data=3D05%7C02%7Cusername%40domain=
+.com%7Caba48a9a1c164e32fd4008ddb57e6a4e%7Cd3008fd40d20418bbf304e70d910c727%=
+7C0%7C0%7C638866277469804077%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydW=
+UsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C60=
+000%7C%7C%7C&amp;sdata=3DRRbR%2FH5z04kFpo0gPJvGS7EsPUbynTGrnUfl4hlzLMg%3D&a=
+mp;reserved=3D0" originalSrc=3D"https://reddradar.com/emails/unsubscribe/Qw=
+lfWt1BiSNiZLeh0xnLBFQsWlh6jp0F?signature=3D6e7a925ef8e6a6f3471a53781423b6bf=
+3b5b789e42a20df462df684a4df4c93f" style=3D"color: #007bff; text-decoration:=
+ underline;">unsubscribe</a>
+                            </p></body>
+</html>
+
+--e8b2c820-f20b-4cc9-a146-f7df60e4291d--

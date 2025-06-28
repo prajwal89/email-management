@@ -1,0 +1,437 @@
+X-Mozilla-Status: 0001
+X-Mozilla-Status2: 00000000
+Return-Path: <>
+Delivered-To: prajwal@reddradar.com
+Received: from tiger.birch.relay.mailchannels.net (tiger.birch.relay.mailchannels.net [23.83.209.248])
+	by uk-fast-smtpin13.hostinger.io (mx.hostinger.com) with ESMTPS id 4bTGdn4yFGz8yjc2
+	for <prajwal@reddradar.com>; Fri, 27 Jun 2025 13:30:37 +0000 (UTC)
+Received: by relay.mailchannels.net (Postfix)
+	id 055A816121C; Fri, 27 Jun 2025 13:30:36 +0000 (UTC)
+Date: Fri, 27 Jun 2025 13:30:36 +0000 (UTC)
+From: MAILER-DAEMON@mailchannels.net (Mail Delivery System)
+Subject: Undelivered Mail Returned to Sender
+To: prajwal@reddradar.com
+Auto-Submitted: auto-replied
+MIME-Version: 1.0
+Content-Type: multipart/report; report-type=delivery-status;
+	boundary="CB54B1628EB.1751031036/relay.mailchannels.net"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20250627133036.055A816121C@relay.mailchannels.net>
+X-CM-Envelope: MS4xfENFg6N1gVKzwKXqv3Y4GeHddu7rZhCMDVDYaCYkgWIsWAycMw4rkGJb2ES5ATHST3VxYW1YOqPQ8mD4rFZRHfrtUwyb4YSWSYUHRSam6x8AyGhVvD+p ++0qWBYDOoKX64U2vTGHwyM9vW3yLjnX5qYhH5TT5wzFKE5dy1UZ48Bxh2gCzpam0s5gAh+ZIGfy2g==
+X-CM-Analysis: v=2.4 cv=bL5EI++Z c=1 sm=1 tr=0 ts=685e9cfe a=DY4PKLP3p1WqNAUdBoDpDg==:117 a=6IFa9wvqVegA:10 a=vX-N2HuyvEP-EhXdXtwA:9 a=2oLBVI32AAAA:8 a=m9wmmNRzG3RnX796Uw4A:9 a=QEXdDO2ut3YA:10 a=XscgZnnHAAAA:8 a=p2SmIWG6CJZWPvfalYMA:9 a=f7g3CFGLjmAxJFOoyGbZT193Uiw=:19 a=1sNmk6GoAAAA:8 a=SSmOFEACAAAA:8 a=QrVs1oFOAAAA:8 a=jhMUXhefxDeRDNN22dgA:9 a=2OPwW_0dp8wnBIS0:21 a=_W_S_7VecoQA:10 a=RVmHIydaz68A:10 a=3gZu_BiOnum5qzAIxaGE:22 a=iM5LwpYqGr55AEjtejzb:22 a=gZ_oX9TB1vHUT2mleGFF:22 a=VV_Qv7JSIqFpBTcoRcEC:22
+
+This is a MIME-encapsulated message.
+
+--CB54B1628EB.1751031036/relay.mailchannels.net
+Content-Description: Notification
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+This is the mail system at host relay.mailchannels.net.
+
+I'm sorry to have to inform you that your message could not
+be delivered to one or more recipients. It's attached below.
+
+For further assistance, please send mail to postmaster.
+
+If you do so, please include this problem report. You can
+delete your own text from the attached returned message.
+
+                   The mail system
+
+<ncontact@medicys.fr>: host mail.medicys.fr[109.234.165.189] said: 550 No Such
+    User Here (in reply to RCPT TO command)
+
+--CB54B1628EB.1751031036/relay.mailchannels.net
+Content-Description: Delivery report
+Content-Type: message/delivery-status
+
+Reporting-MTA: dns; relay.mailchannels.net
+X-Postfix-Queue-ID: CB54B1628EB
+X-Postfix-Sender: rfc822; prajwal@reddradar.com
+Arrival-Date: Fri, 27 Jun 2025 13:29:52 +0000 (UTC)
+
+Final-Recipient: rfc822; ncontact@medicys.fr
+Original-Recipient: rfc822;ncontact@medicys.fr
+Action: failed
+Status: 5.0.0
+Remote-MTA: dns; mail.medicys.fr
+Diagnostic-Code: smtp; 550 No Such User Here
+
+--CB54B1628EB.1751031036/relay.mailchannels.net
+Content-Description: Undelivered Message
+Content-Type: message/rfc822
+Content-Transfer-Encoding: 8bit
+
+Return-Path: <prajwal@reddradar.com>
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id CB54B1628EB;
+	Fri, 27 Jun 2025 13:29:52 +0000 (UTC)
+Received: from fr-int-smtpout2.hostinger.io (100-108-88-53.trex-nlb.outbound.svc.cluster.local [100.108.88.53])
+	(Authenticated sender: hostingeremail)
+	by relay.mailchannels.net (Postfix) with ESMTPA id C85B8162C47
+	for <ncontact@medicys.fr>; Fri, 27 Jun 2025 13:29:51 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1751030992; a=rsa-sha256;
+	cv=none;
+	b=fu1VCphyV9bylLE5sfwPo45PW4oojgXRdyiYY0aqnRv+H+yVLXzaOlTBPZdED9U2TTwxUq
+	hef+qMbbqoWscVQCY1S656pA/Clnq16GUGxq3Gh1bBUdgjFi/ewqawmaHEOzzlaM7Qji73
+	gYtR/7WqagPa4PCuObLaIyYWq2jgkGkmjLKp8cus/1rChZ1o7eu2QJrofTMQvtwwDNtX7C
+	Gmw7qmHBdk7C9cRrfqx+kmbVdGJk50VR4AsgUJspGCnPjlpJLXkgbxzFjgF3hCtXa6iPZE
+	bKK8/AfJap7selDMxMCrByxzKY56yw2oqCaIVsWE5Ltn/FvIomCF9LOXJqIZ1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1751030992;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:list-unsubscribe:
+	 list-unsubscribe-post; bh=sew4n1UD/RNVFoto6CEk/+ZZvtrII2GsePWMjM4AKNM=;
+	b=AbtThTgR/7jSSeao1xrr84rDlawoqDSvVh79o2zVR7iuO3PhOq7s3bD4+dvUIDFsnZBZuq
+	MI19SDSleD3fOgH0hVyHMjPVj1sxySxp99zo8aDWBSU5MClQr3I51PsfPO/jt/v06JFLPW
+	1PXpcvS2ODLW7U68i7TehWZ8AjXcdB0R0IziLbNUuV1mGwfX/7BU+HQOrTApKkhUDCKfa5
+	T5uheJvBSPTAvcKmtAhtKpNAWDvfE/PKd9hG8BgDE7/1A0SrsnMbb4meoFdTHcBUENv1XP
+	hZ4OpS4dhWraTcZOsmb3XKNS3Bt9fFThJbU+YBnp44o5nKfi7y/Q3aPHFDtx3w==
+ARC-Authentication-Results: i=1;
+	rspamd-6597f9cdc7-f6mml;
+	auth=pass smtp.auth=hostingeremail smtp.mailfrom=prajwal@reddradar.com
+X-Sender-Id: hostingeremail|x-authuser|prajwal@reddradar.com
+X-MC-Relay: Good
+X-MC-Copy: stored-urls
+X-MailChannels-SenderId: hostingeremail|x-authuser|prajwal@reddradar.com
+X-MailChannels-Auth-Id: hostingeremail
+X-Harmony-Chemical: 4c82c9226d56dee2_1751030992781_1476341490
+X-MC-Loop-Signature: 1751030992781:4142553687
+X-MC-Ingress-Time: 1751030992781
+Received: from fr-int-smtpout2.hostinger.io (fr-int-smtpout2.hostinger.io
+ [89.116.146.81])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.108.88.53 (trex/7.1.3);
+	Fri, 27 Jun 2025 13:29:52 +0000
+Received: from reddradar.com (srv692255.hstgr.cloud [IPv6:2a02:4780:2d:766a::1])
+	(Authenticated sender: prajwal@reddradar.com)
+	by smtp.hostinger.com (smtp.hostinger.com) with ESMTPSA id 4bTGcs51z7z6nv62
+	for <ncontact@medicys.fr>; Fri, 27 Jun 2025 13:29:49 +0000 (UTC)
+From: ReddRadar <prajwal@reddradar.com>
+To: ncontact@medicys.fr
+Subject: Soseeal.com x ReddRadar
+X-Mailer-Hash: mZ6Z406ViczmRccj5WaoPjgSNmBBykqT
+List-Unsubscribe: <https://reddradar.com/emails/unsubscribe/mZ6Z406ViczmRccj5WaoPjgSNmBBykqT?signature=fb5c66b45e2054c548c5fa786168e1cff1db93b3b9969a52abf79dbdde6904ca>
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+Message-ID: <5aeac2f7eb131e9669e2fabe8200064e@reddradar.com>
+MIME-Version: 1.0
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 27 Jun 2025 13:29:49 +0000 (UTC)
+X-CM-Envelope: MS4xfJROoCJaFLvdB93ndvoqrbRBeSfTDQ4iGt6IjQ3abWGtJuDlxhHRiEfDbsm9KyklytZBL+jlR1eTYb4FQgXNgr7dM2k8eTNHlczxJJY7ZTSJCjnJVYJE T2AIrE2U7/X85Z/EHiWiOOgJJbSn5NeOidz3b8mWObP9bGc0Wsvf9LVVyjMmNsoUeBKQ76fc452D6El+puOCTT84HW2v/E2hkEA=
+X-CM-Analysis: v=2.4 cv=Vv1xAP2n c=1 sm=1 tr=0 ts=685e9ccd a=c1X0f9a9Vy2uqbb4lKF3+w==:617 a=QrVs1oFOAAAA:8 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=XscgZnnHAAAA:8 a=1sNmk6GoAAAA:8 a=SSmOFEACAAAA:8 a=jhMUXhefxDeRDNN22dgA:9 a=2OPwW_0dp8wnBIS0:21 a=_W_S_7VecoQA:10 a=QEXdDO2ut3YA:10 a=RVmHIydaz68A:10 a=VV_Qv7JSIqFpBTcoRcEC:22 a=iM5LwpYqGr55AEjtejzb:22 a=gZ_oX9TB1vHUT2mleGFF:22 a=pHP09k5ZHALNRmqz7V5C:22
+X-AuthUser: prajwal@reddradar.com
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.=
+w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns=3D"http://www.=
+w3.org/1999/xhtml">
+<head>
+<title>ReddRadar</title>
+<meta name=3D"vie=
+wport" content=3D"width=3Ddevice-width, initial-scale=3D1.0">
+<meta http-=
+equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-8">
+<meta name=
+=3D"color-scheme" content=3D"light">
+<meta name=3D"supported-color-scheme=
+s" content=3D"light">
+<style>
+@media only screen and (max-width: 600px)=
+ {
+.inner-body {
+width: 100% !important;
+}
+
+.footer {
+width: 10=
+0% !important;
+}
+}
+
+@media only screen and (max-width: 500px) {
+.=
+button {
+width: 100% !important;
+}
+}
+</style>
+
+</head>
+<body>=
+
+
+<table class=3D"wrapper" width=3D"100%" cellpadding=3D"0" cellspacing=
+=3D"0" role=3D"presentation" style=3D"box-sizing: border-box; font-family: =
+-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sa=
+ns-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; positio=
+n: relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premail=
+er-width: 100%; background-color: #edf2f7; margin: 0; padding: 0; width: 10=
+0%;">
+<tr>
+<td align=3D"center" style=3D"box-sizing: border-box; font-f=
+amily: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Ar=
+ial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; =
+position: relative;">
+<table class=3D"content" width=3D"100%" cellpadding=
+=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"box-sizing: border-=
+box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, He=
+lvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe U=
+I Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellsp=
+acing: 0; -premailer-width: 100%; margin: 0; padding: 0; width: 100%;">
+<=
+tr>
+<td class=3D"header" style=3D"box-sizing: border-box; font-family: -a=
+pple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans=
+-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position:=
+ relative; padding: 25px 0; text-align: center;">
+<a href=3D"https://redd=
+radar.com/emails/redirect/mZ6Z406ViczmRccj5WaoPjgSNmBBykqT?url=3Dhttps%253A=
+%252F%252Freddradar.com&signature=3D7e281c05d07b978d3ca98d2eadbc9727cd17913=
+aed22d945eea9fcf184d698d5" style=3D"box-sizing: border-box; font-family: -a=
+pple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans=
+-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position:=
+ relative; color: #3d4852; font-size: 19px; font-weight: bold; text-decorat=
+ion: none; display: inline-block;">
+ReddRadar
+</a>
+</td>
+</tr>
+=
+
+<!-- Email Body -->
+<tr>
+<td class=3D"body" width=3D"100%" cellpaddi=
+ng=3D"0" cellspacing=3D"0" style=3D"box-sizing: border-box; font-family: -a=
+pple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans=
+-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position:=
+ relative; -premailer-cellpadding: 0; -premailer-cellspacing: 0; -premailer=
+-width: 100%; background-color: #edf2f7; border-bottom: 1px solid #edf2f7; =
+border-top: 1px solid #edf2f7; margin: 0; padding: 0; width: 100%; border: =
+hidden !important;">
+<table class=3D"inner-body" align=3D"center" width=
+=3D"570" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D=
+"box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'S=
+egoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe=
+ UI Emoji', 'Segoe UI Symbol'; position: relative; -premailer-cellpadding: =
+0; -premailer-cellspacing: 0; -premailer-width: 570px; background-color: #f=
+fffff; border-color: #e8e5ef; border-radius: 2px; border-width: 1px; box-sh=
+adow: 0 2px 0 rgba(0, 0, 150, 0.025), 2px 4px 0 rgba(0, 0, 150, 0.015); mar=
+gin: 0 auto; padding: 0; width: 570px;">
+<!-- Body content -->
+<tr>
+<=
+td class=3D"content-cell" style=3D"box-sizing: border-box; font-family: -ap=
+ple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-=
+serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: =
+relative; max-width: 100vw; padding: 32px;">
+<p style=3D"box-sizing: bord=
+er-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,=
+ Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Sego=
+e UI Symbol'; position: relative; font-size: 16px; line-height: 1.5em; marg=
+in-top: 0; text-align: left;">Hi,</p>
+<p style=3D"box-sizing: border-box;=
+ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvet=
+ica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Sy=
+mbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-top:=
+ 0; text-align: left;">I saw <strong style=3D"box-sizing: border-box; font-=
+family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, A=
+rial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';=
+ position: relative;">Soseeal.com</strong> on ProductHunt, congratulations =
+on the launch!</p>
+<p style=3D"box-sizing: border-box; font-family: -appl=
+e-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-se=
+rif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: re=
+lative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: lef=
+t;">Finding initial users for your product post-launch is tough; I=E2=80=
+=99ve been there.</p>
+<p style=3D"box-sizing: border-box; font-family: -a=
+pple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans=
+-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position:=
+ relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: =
+left;">That=E2=80=99s where my tool <strong style=3D"box-sizing: border-box=
+; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helve=
+tica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI S=
+ymbol'; position: relative;"><a href=3D"https://reddradar.com/emails/redire=
+ct/mZ6Z406ViczmRccj5WaoPjgSNmBBykqT?url=3Dhttps%253A%252F%252Freddradar.com=
+&signature=3D7e281c05d07b978d3ca98d2eadbc9727cd17913aed22d945eea9fcf184d698=
+d5" style=3D"box-sizing: border-box; font-family: -apple-system, BlinkMacSy=
+stemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Em=
+oji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #3869=
+d4;">ReddRadar</a></strong> can help.</p>
+<p style=3D"box-sizing: border-=
+box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, He=
+lvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe U=
+I Symbol'; position: relative; font-size: 16px; line-height: 1.5em; margin-=
+top: 0; text-align: left;">ReddRadar monitors Reddit 24/7 for leads related=
+ to your product,<br>
+delivering qualified leads directly to you so you c=
+an:</p>
+<ul style=3D"box-sizing: border-box; font-family: -apple-system, =
+BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Appl=
+e Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; li=
+ne-height: 1.4; text-align: left;">
+<li style=3D"box-sizing: border-box; =
+font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helveti=
+ca, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Sym=
+bol'; position: relative;">
+<strong style=3D"box-sizing: border-box; font=
+-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, =
+Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'=
+; position: relative;">Be the first to engage</strong> with high-intent lea=
+ds for Soseeal.com.</li>
+<li style=3D"box-sizing: border-box; font-family=
+: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, =
+sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; posit=
+ion: relative;">
+<strong style=3D"box-sizing: border-box; font-family: -a=
+pple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans=
+-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position:=
+ relative;">Convert interest</strong> into users effectively.</li>
+<li st=
+yle=3D"box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFo=
+nt, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', =
+'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<strong style=
+=3D"box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont,=
+ 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Se=
+goe UI Emoji', 'Segoe UI Symbol'; position: relative;">Save hours</strong> =
+of manual searching.</li>
+</ul>
+<p style=3D"box-sizing: border-box; fon=
+t-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,=
+ Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol=
+'; position: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; =
+text-align: left;">We offer a <strong style=3D"box-sizing: border-box; font=
+-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, =
+Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'=
+; position: relative;">15-day free trial (no credit card required)</strong>=
+.<br>
+Setup takes about 2 minutes, and our full plan is just $7/month.</p=
+>
+<table class=3D"action" align=3D"center" width=3D"100%" cellpadding=3D"=
+0" cellspacing=3D"0" role=3D"presentation" style=3D"box-sizing: border-box;=
+ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvet=
+ica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Sy=
+mbol'; position: relative; -premailer-cellpadding: 0; -premailer-cellspacin=
+g: 0; -premailer-width: 100%; margin: 30px auto; padding: 0; text-align: ce=
+nter; width: 100%; float: unset;">
+<tr>
+<td align=3D"center" style=3D"b=
+ox-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Seg=
+oe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe U=
+I Emoji', 'Segoe UI Symbol'; position: relative;">
+<table width=3D"100%" =
+border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" styl=
+e=3D"box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont=
+, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'S=
+egoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<td align=
+=3D"center" style=3D"box-sizing: border-box; font-family: -apple-system, Bl=
+inkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple =
+Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+=
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentatio=
+n" style=3D"box-sizing: border-box; font-family: -apple-system, BlinkMacSys=
+temFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emo=
+ji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<tr>
+<t=
+d style=3D"box-sizing: border-box; font-family: -apple-system, BlinkMacSyst=
+emFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoj=
+i', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">
+<a href=3D=
+"https://reddradar.com/emails/redirect/mZ6Z406ViczmRccj5WaoPjgSNmBBykqT?url=
+=3Dhttps%253A%252F%252Freddradar.com&signature=3D7e281c05d07b978d3ca98d2ead=
+bc9727cd17913aed22d945eea9fcf184d698d5" class=3D"button button-success" tar=
+get=3D"_blank" rel=3D"noopener" style=3D"box-sizing: border-box; font-famil=
+y: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial,=
+ sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; posi=
+tion: relative; -webkit-text-size-adjust: none; border-radius: 4px; color: =
+#fff; display: inline-block; overflow: hidden; text-decoration: none; backg=
+round-color: #48bb78; border-bottom: 8px solid #48bb78; border-left: 18px s=
+olid #48bb78; border-right: 18px solid #48bb78; border-top: 8px solid #48bb=
+78;">Try ReddRadar</a>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table=
+>
+</td>
+</tr>
+</table>
+<p style=3D"box-sizing: border-box; font-fam=
+ily: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Aria=
+l, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; po=
+sition: relative; font-size: 16px; line-height: 1.5em; margin-top: 0; text-=
+align: left;">If you have any questions, feel free to reach out.</p>
+<p s=
+tyle=3D"box-sizing: border-box; font-family: -apple-system, BlinkMacSystemF=
+ont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji',=
+ 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; =
+line-height: 1.5em; margin-top: 0; text-align: left;">Thanks,<br>
+Prajwal=
+ Hallale<br>
+ReddRadar.com</p>
+
+
+
+</td>
+</tr>
+</table>
+</td=
+>
+</tr>
+
+<tr>
+<td style=3D"box-sizing: border-box; font-family: -ap=
+ple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-=
+serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: =
+relative;">
+<table class=3D"footer" align=3D"center" width=3D"570" cellpa=
+dding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"box-sizing: bo=
+rder-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot=
+o, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Se=
+goe UI Symbol'; position: relative; -premailer-cellpadding: 0; -premailer-c=
+ellspacing: 0; -premailer-width: 570px; margin: 0 auto; padding: 0; text-al=
+ign: center; width: 570px;">
+<tr>
+<td class=3D"content-cell" align=3D"c=
+enter" style=3D"box-sizing: border-box; font-family: -apple-system, BlinkMa=
+cSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color=
+ Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; max-width=
+: 100vw; padding: 32px;">
+<p style=3D"box-sizing: border-box; font-family=
+: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, =
+sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; posit=
+ion: relative; line-height: 1.5em; margin-top: 0; color: #b0adc5; font-size=
+: 12px; text-align: center;">=C2=A9 2025 ReddRadar. All rights reserved.</p=
+>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>=
+
+</table>
+<p style=3D"text-align: center; font-size: 14px; color: #ddd;=
+">
+                                <a href=3D"https://reddradar.com/email=
+s/unsubscribe/mZ6Z406ViczmRccj5WaoPjgSNmBBykqT?signature=3Dfb5c66b45e2054c5=
+48c5fa786168e1cff1db93b3b9969a52abf79dbdde6904ca" style=3D"color: #007bff; =
+text-decoration: underline;">unsubscribe</a>
+                            =
+</p></body>
+</html>
+
+--CB54B1628EB.1751031036/relay.mailchannels.net--
