@@ -31,7 +31,7 @@ abstract class EmailHandlerBase
     /**
      * Message-ID header that we are setting manually
      */
-    public string $messageId;
+    public static string $messageId;
 
     public $finalEmail;
 
@@ -233,9 +233,11 @@ abstract class EmailHandlerBase
             ...$sampleEmailData
         );
 
-        $messageId = HeadersManager::generateNewMessageId();
+        $sampleBuildEmail->withSymfonyMessage([static::class, 'configureSymfonyMessageForSampleMail']);
 
-        $emailContentModifiers = new EmailContentModifiers($sampleBuildEmail, $messageId);
+        static::$messageId = HeadersManager::generateNewMessageId();
+
+        $emailContentModifiers = new EmailContentModifiers($sampleBuildEmail, static::$messageId);
 
         if (config('email-management.track_visits')) {
             $emailContentModifiers->injectTrackingUrls();
@@ -249,22 +251,16 @@ abstract class EmailHandlerBase
             $emailContentModifiers->injectUnsubscribeLink();
         }
 
-        // $sampleBuildEmail->withSymfonyMessage(function ($message) use ($sampleEmailData) {
-        //     $headersManager = new HeadersManager($message);
-        //     $headersManager->configureEmailHeaders(
-        //         sendable: $sampleEmailData['receivable'],
-        //         receivable: User::query()->inRandomOrder()->first(),
-        //         eventContext: [],
-        //     );
-        // });
-
-        // $symfonyEmail = new Email();
-
-        // foreach ($sampleBuildEmail->callbacks ?? [] as $callback) {
-        //     $callback($symfonyEmail);
-        // }
-
         return $sampleBuildEmail;
+    }
+
+    public static function configureSymfonyMessageForSampleMail(Email $message)
+    {
+        $headersManager = new HeadersManager($message);
+
+        $headersManager->createMessageId(static::$messageId);
+
+        $headersManager->addSendableHeaders(static::resolveSendable());
     }
 
     /**

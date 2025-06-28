@@ -32,6 +32,8 @@ class HeadersManager
 
         $this->addUnsubscribeHeader($messageId);
 
+        $this->addSendableHeaders($sendable);
+
         $returnPath = config('email-management.return_path');
 
         if ($returnPath) {
@@ -46,8 +48,6 @@ class HeadersManager
 
         $headers = $this->email->getHeaders();
 
-        $headers->addTextHeader('X-Sendable-Type', (string) get_class($sendable));
-        $headers->addTextHeader('X-Sendable-Id', (string) $sendable->getKey());
         $headers->addTextHeader('X-Receivable-Type', (string) get_class($receivable));
         $headers->addTextHeader('X-Receivable-Id', (string) $receivable->getKey());
         $headers->addTextHeader('X-Email-Variant-Id', (string) $chosenEmailVariant->getKey());
@@ -57,6 +57,15 @@ class HeadersManager
         }
 
         return $this;
+    }
+
+    public function addSendableHeaders(EmailSendable $sendable)
+    {
+        $headers = $this->email->getHeaders();
+
+        $headers->addTextHeader('X-Sendable-Type', (string) get_class($sendable));
+
+        $headers->addTextHeader('X-Sendable-Id', (string) $sendable->getKey());
     }
 
     public function addInReplyToHeader(string|array $inReplyTo)
