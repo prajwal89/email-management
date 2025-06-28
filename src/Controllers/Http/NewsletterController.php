@@ -74,7 +74,7 @@ class NewsletterController extends Controller
     public function confirmSubscription(string $encrypted_email)
     {
         try {
-            $email = Crypt::decryptString($encrypted_email);
+            $email = Crypt::decryptString(urldecode($encrypted_email));
         } catch (DecryptException $e) {
             // todo report
             abort(404);
@@ -102,7 +102,7 @@ class NewsletterController extends Controller
     public function unsubscribe(string $encrypted_email)
     {
         try {
-            $email = Crypt::decryptString($encrypted_email);
+            $email = Crypt::decryptString(urldecode($encrypted_email));
         } catch (DecryptException $e) {
             // todo report
             abort(404);
@@ -118,9 +118,9 @@ class NewsletterController extends Controller
             return redirect()->back();
         }
 
-        $newsletterEmail->update(['email_verified_at' => now()]);
+        $newsletterEmail->update(['unsubscribed_at' => now()]);
 
-        laraToast()->success('Email verification successful');
+        laraToast()->success('You have been unsubscribed successfully.');
 
         return redirect()->intended();
     }
