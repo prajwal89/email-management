@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 return [
     'receivable_groups_path' => app_path('/EmailManagement/ReceivableGroups'),
+
     'mail_classes_path' => app_path('/EmailManagement/Emails'),
+
     'email_handlers_dir' => app_path('/EmailManagement/EmailHandlers'),
+
     'view_dir' => resource_path('/views/email-management'),
+
     'migrations_dir' => database_path('/migrations/email-management'),
 
     /**
@@ -62,5 +66,7 @@ return [
      * View name for the newsletter status when a user unsubscribes from emails.
      * The view has a public property $isUnsubscribed to check the status, which you can use in a custom view.
      */
-    'newsletter_status_view' => 'em::newsletter-status'
+    'newsletter_status_view' => 'em::newsletter-status',
+
+    'do_not_send_emails_to_honey_potted_ips' => true
 ];

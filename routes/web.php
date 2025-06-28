@@ -25,7 +25,7 @@ Route::prefix('emails')
             ->group(function (): void {
                 Route::post('/subscribe', 'store')
                     ->name('subscribe')
-                    ->middleware(['throttle:2,1', ProtectAgainstSpam::class]);
+                    ->middleware(['throttle:3,1', ProtectAgainstSpam::class]);
 
                 Route::get('/confirm-subscription/{encrypted_email}', 'confirmSubscription')
                     ->name('confirm-subscription')

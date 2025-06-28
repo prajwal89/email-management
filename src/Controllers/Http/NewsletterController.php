@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Prajwal89\EmailManagement\Mail\NewsletterEmailVerificationEmail;
+use Prajwal89\EmailManagement\Models\HoneypottedIp;
 use Prajwal89\EmailManagement\Models\NewsletterEmail;
 use Prajwal89\EmailManagement\Services\NewsletterEmailService;
 
@@ -39,6 +40,12 @@ class NewsletterController extends Controller
             laraToast()->danger($validator->errors()->first());
 
             return redirect()->back();
+        }
+
+        if (config('email-management.do_not_send_emails_to_honey_potted_ips')) {
+            if (HoneypottedIp::query()->where('ip', $request->ip())->exists()) {
+                return;
+            }
         }
 
         $email = $request->input('email');
