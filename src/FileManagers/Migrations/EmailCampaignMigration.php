@@ -30,17 +30,17 @@ class EmailCampaignMigration
             ->replace('{sendable_model_name}', 'EmailCampaign')
             ->replace('{namespace_path}', 'EmailCampaigns');
 
-        $seederFilePath = EmailCampaign::getMigrationFilePath($slug->toString(), 'seed');
+        $migrationFilePath = EmailCampaign::getMigrationFilePath($slug->toString(), 'seed');
 
-        $directory = dirname($seederFilePath);
+        $directory = dirname($migrationFilePath);
 
         if (!File::exists($directory)) {
             File::makeDirectory($directory, 0755, true);
         }
 
-        File::put($seederFilePath, $fileContents);
+        File::put($migrationFilePath, $fileContents);
 
-        return $seederFilePath;
+        return $migrationFilePath;
     }
 
     public function generateDeleteSeederFile()
@@ -54,16 +54,16 @@ class EmailCampaignMigration
             ->replace('{sendable_model_name}', 'EmailCampaign')
             ->replace('{namespace_path}', 'EmailCampaigns');
 
-        $seederFilePath = EmailCampaign::getMigrationFilePath($slug, 'deseed');
+        $migrationFilePath = EmailCampaign::getMigrationFilePath($slug, 'deseed');
 
-        $folder = dirname($seederFilePath);
+        $folder = dirname($migrationFilePath);
 
         if (!File::exists($folder)) {
             File::makeDirectory($folder, 0755, true);
         }
 
-        File::put($seederFilePath, $fileContents);
+        File::put($migrationFilePath, $fileContents);
 
-        return $seederFilePath;
+        return $migrationFilePath;
     }
 }

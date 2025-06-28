@@ -27,9 +27,9 @@ class EmailVariantMigration
 
         $slug = str($this->modelAttributes['name'])->slug()->toString();
 
-        $seederFilePath = __DIR__ . '/../../../stubs/migrations/email-variant-migration.stub';
+        $stubPath = __DIR__ . '/../../../stubs/migrations/email-variant-migration.stub';
 
-        $seederStub = str(File::get($seederFilePath))
+        $seederStub = str(File::get($stubPath))
             ->replace('{name}', $this->modelAttributes['name'])
             ->replace('{slug}', $slug)
             ->replace('{exposure_percentage}', $this->modelAttributes['exposure_percentage'])
