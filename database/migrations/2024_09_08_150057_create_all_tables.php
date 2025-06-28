@@ -84,7 +84,7 @@ return new class extends Migration
             $table->enum(
                 column: 'content_type',
                 allowed: collect(EmailContentType::cases())
-                    ->map(fn ($case) => $case->value)->toArray()
+                    ->map(fn($case) => $case->value)->toArray()
             )->default('markdown');
 
             $table->unsignedBigInteger('sendable_id')->nullable();
@@ -199,6 +199,13 @@ return new class extends Migration
 
             $table->foreign('message_id')->references('message_id')->on('em_email_logs')->cascadeOnDelete();
         });
+
+        Schema::create('em_honeypotted_ips', function (Blueprint $table) {
+            $table->id();
+            $table->string('ip', 45)->unique();
+            $table->unsignedInteger('total_requests')->default(0);
+            $table->timestamps();
+        });
     }
 
     public function down(): void
@@ -212,6 +219,7 @@ return new class extends Migration
         Schema::dropIfExists('em_email_events');
         Schema::dropIfExists('em_follow_ups');
         Schema::dropIfExists('em_email_campaign_runs');
+        Schema::dropIfExists('em_honeypotted_ips');
 
         Schema::table('users', function (Blueprint $table): void {
             $table->dropColumn('is_subscribed_for_emails');

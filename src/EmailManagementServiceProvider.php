@@ -15,9 +15,11 @@ use Prajwal89\EmailManagement\Commands\CreateEmailEventCommand;
 use Prajwal89\EmailManagement\Commands\CreateEmailVariantCommand;
 use Prajwal89\EmailManagement\Commands\CreateFollowUpCommand;
 use Prajwal89\EmailManagement\Commands\CreateReceivableGroupCommand;
+use Prajwal89\EmailManagement\Listeners\HoneypotDetectedASpanListener;
 use Prajwal89\EmailManagement\Listeners\MessageSendingListener;
 use Prajwal89\EmailManagement\Listeners\MessageSentListener;
 use Prajwal89\EmailManagement\Listeners\NewEmailReceivedListener;
+use Spatie\Honeypot\Events\SpamDetectedEvent;
 
 // todo use spaties package skeleton
 class EmailManagementServiceProvider extends ServiceProvider
@@ -48,11 +50,6 @@ class EmailManagementServiceProvider extends ServiceProvider
             __DIR__ . '/../config/email-management.php' => config_path('email-management.php'),
         ], 'email-management-config');
 
-        Event::listen(MessageSending::class, MessageSendingListener::class);
-
-        Event::listen(MessageSent::class, MessageSentListener::class);
-
-        Event::listen(MessageReceived::class, NewEmailReceivedListener::class);
 
         if ($this->app->runningInConsole()) {
             $this->loadMigrationsFrom([
@@ -76,5 +73,16 @@ class EmailManagementServiceProvider extends ServiceProvider
 
             return 'Database\\Factories\\' . class_basename($modelName) . 'Factory'; // default for app models
         });
+    }
+
+    public function configListeners()
+    {
+        Event::listen(MessageSending::class, MessageSendingListener::class);
+
+        Event::listen(MessageSent::class, MessageSentListener::class);
+
+        Event::listen(MessageReceived::class, NewEmailReceivedListener::class);
+
+        Event::listen(SpamDetectedEvent::class, HoneypotDetectedASpanListener::class);
     }
 }
