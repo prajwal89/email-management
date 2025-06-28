@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Controllers\Http;
 
-use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
@@ -49,7 +49,9 @@ class UnsubscribeEmailController extends Controller
             return redirect()->route('home');
         }
 
-        $emailLog->receivable->unsubscribeFromEmails();
+        // ! for sample email receivable will not be available
+        // handle this explicitly
+        $emailLog?->receivable?->unsubscribeFromEmails();
 
         $isUnsubscribed = EmailLogService::update($emailLog, ['unsubscribed_at' => now()]);
 

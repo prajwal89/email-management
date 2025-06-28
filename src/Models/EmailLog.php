@@ -18,7 +18,7 @@ use Prajwal89\EmailManagement\Enums\RecipientType;
 class EmailLog extends Model
 {
     use HasFactory;
-    
+
     protected $table = 'em_email_logs';
 
     protected $fillable = [

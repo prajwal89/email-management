@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Controllers\Http;
 
-use Illuminate\Routing\Controller;
-// use App\Services\TurnstileService;
 use Illuminate\Contracts\Encryption\DecryptException;
+// use App\Services\TurnstileService;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;

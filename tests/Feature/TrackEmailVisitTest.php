@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Prajwal89\EmailManagement\Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;

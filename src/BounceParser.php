@@ -6,8 +6,8 @@ namespace Prajwal89\EmailManagement;
 
 use Prajwal89\EmailManagement\Dtos\BounceDataDto;
 use ZBateson\MailMimeParser\Header\HeaderConsts;
-use ZBateson\MailMimeParser\MailMimeParser;
-use ZBateson\MailMimeParser\IMessage; // Corrected: This is the main interface for a parsed message.
+use ZBateson\MailMimeParser\IMessage;
+use ZBateson\MailMimeParser\MailMimeParser; // Corrected: This is the main interface for a parsed message.
 
 /**
  * Parses raw email content to identify and extract structured data from bounce messages.
@@ -22,14 +22,14 @@ class BounceParser
 
     public function __construct()
     {
-        $this->parser = new MailMimeParser();
+        $this->parser = new MailMimeParser;
     }
 
     /**
      * The main entry point for parsing. It checks if an email is a bounce and, if so,
      * routes it to the correct parsing logic.
      *
-     * @param string $rawEmail The raw source of the email.
+     * @param  string  $rawEmail  The raw source of the email.
      * @return BounceDataDto|null A BounceDataDto object if it's a bounce, otherwise null.
      */
     public function parse(string $rawEmail): ?BounceDataDto
@@ -64,7 +64,7 @@ class BounceParser
         ];
 
         $partCount = $message->getPartCount();
-        for ($i = 0; $i < $partCount; ++$i) {
+        for ($i = 0; $i < $partCount; $i++) {
             $part = $message->getPart($i);
             $partContentType = $part->getHeaderValue(HeaderConsts::CONTENT_TYPE, '');
 
@@ -72,10 +72,18 @@ class BounceParser
                 $data['humanReadablePart'] = $part->getContent();
             } elseif (str_starts_with($partContentType, 'message/delivery-status')) {
                 $reportContent = $part->getContent();
-                if (preg_match('/Status: ([\d\.]+)/', $reportContent, $m)) $data['statusCode'] = $m[1];
-                if (preg_match('/Action: (.+)/', $reportContent, $m)) $data['action'] = trim($m[1]);
-                if (preg_match('/Final-Recipient: rfc822;(.+)/', $reportContent, $m)) $data['recipient'] = trim($m[1]);
-                if (preg_match('/Diagnostic-Code: smtp;(.+)/s', $reportContent, $m)) $data['reason'] = trim(preg_replace('/\s+/', ' ', $m[1]));
+                if (preg_match('/Status: ([\d\.]+)/', $reportContent, $m)) {
+                    $data['statusCode'] = $m[1];
+                }
+                if (preg_match('/Action: (.+)/', $reportContent, $m)) {
+                    $data['action'] = trim($m[1]);
+                }
+                if (preg_match('/Final-Recipient: rfc822;(.+)/', $reportContent, $m)) {
+                    $data['recipient'] = trim($m[1]);
+                }
+                if (preg_match('/Diagnostic-Code: smtp;(.+)/s', $reportContent, $m)) {
+                    $data['reason'] = trim(preg_replace('/\s+/', ' ', $m[1]));
+                }
             } elseif (str_starts_with($partContentType, 'message/rfc822')) {
                 $data['originalMessage'] = $this->parseOriginalMessagePart($part->getContent());
             }
@@ -119,7 +127,9 @@ class BounceParser
     private function parseOriginalMessagePart(string $rawOriginalEmail): ?array
     {
         $messageObject = $this->parser->parse($rawOriginalEmail, false);
-        if (!$messageObject) return null;
+        if (!$messageObject) {
+            return null;
+        }
 
         return [
             'to' => $messageObject->getHeaderValue(HeaderConsts::TO),

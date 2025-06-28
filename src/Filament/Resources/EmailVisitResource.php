@@ -8,13 +8,11 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
-use Prajwal89\EmailManagement\Filament\Resources\EmailVisitResource\Pages;
 use Prajwal89\EmailManagement\Filament\Resources\EmailVisitResource\Pages\ListEmailVisits;
 use Prajwal89\EmailManagement\Filament\Resources\EmailVisitResource\Widgets\EmailVisitsTrendWidget;
 use Prajwal89\EmailManagement\Models\EmailLog;
@@ -131,7 +129,7 @@ class EmailVisitResource extends Resource
                                     get_class($sendable) . ':' . $sendable->id => $sendable->name,
                                 ];
                             })
-                            ->mapWithKeys(fn($data) => $data)
+                            ->mapWithKeys(fn ($data) => $data)
                             ->filter();
 
                         return $result->isEmpty()
