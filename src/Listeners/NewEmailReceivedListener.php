@@ -52,6 +52,11 @@ class NewEmailReceivedListener
         $parser = new BounceParser();
         $result = $parser->parse($message->__toString());
 
+        Log::info('Message', [
+            'message' => $message->__toString(),
+            'result' => $result
+        ]);
+
         // 4. Dump the result
         // It will be a BounceData object or null.
         dd($result);

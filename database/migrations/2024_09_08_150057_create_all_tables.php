@@ -157,7 +157,7 @@ return new class extends Migration
             $table->id();
             $table->string('message_id')->nullable();
             $table->text('path');
-            $table->string('session_id', 64);
+            $table->string('session_id', 64)->nullable();
             $table->string('ip');
             $table->foreignIdFor(User::class)->nullable();
             $table->timestamps();

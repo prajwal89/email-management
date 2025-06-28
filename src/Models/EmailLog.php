@@ -6,6 +6,7 @@ namespace Prajwal89\EmailManagement\Models;
 
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -16,6 +17,8 @@ use Prajwal89\EmailManagement\Enums\RecipientType;
 
 class EmailLog extends Model
 {
+    use HasFactory;
+    
     protected $table = 'em_email_logs';
 
     protected $fillable = [
