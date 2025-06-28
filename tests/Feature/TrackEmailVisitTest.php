@@ -33,4 +33,21 @@ class TrackEmailVisitTest extends TestCase
             'clicks' => 1,
         ]);
     }
+
+    public function test_it_can_track_email_opens()
+    {
+        $log = EmailLog::factory()->create();
+
+        $this->assertNull($log->last_opened_at);
+        $this->assertEquals(0, $log->opens);
+
+        $response = $this->get(route('emails.pixel', ['message_id' => $log->message_id]));
+
+        $response->assertSuccessful();
+
+        $log->refresh();
+
+        $this->assertNotNull($log->last_opened_at);
+        $this->assertEquals(1, $log->opens);
+    }
 }
