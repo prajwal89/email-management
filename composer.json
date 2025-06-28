@@ -32,6 +32,9 @@
             "Prajwal89\\EmailManagement\\Tests\\": "tests/"
         }
     },
+    "scripts": {
+        "test": "./vendor/bin/phpunit --configuration phpunit.xml"
+    },
     "extra": {
         "laravel": {
             "providers": [
