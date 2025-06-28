@@ -73,6 +73,8 @@ class EmailManagementServiceProvider extends ServiceProvider
 
             return 'Database\\Factories\\' . class_basename($modelName) . 'Factory'; // default for app models
         });
+
+        $this->configListeners();
     }
 
     public function configListeners()

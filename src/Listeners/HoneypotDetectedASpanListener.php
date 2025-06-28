@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Listeners;
 
-use App\Models\HoneypottedIp;
 use Illuminate\Support\Facades\DB;
-use Prajwal89\EmailManagement\Models\HoneypottedIp as ModelsHoneypottedIp;
+use Prajwal89\EmailManagement\Models\HoneypottedIp;
 use Spatie\Honeypot\Events\SpamDetectedEvent;
 
 class HoneypotDetectedASpanListener
 {
     public function handle(SpamDetectedEvent $event): void
     {
-        ModelsHoneypottedIp::query()->updateOrCreate([
+        HoneypottedIp::query()->updateOrCreate([
             'ip' => $event->request->ip(),
         ], [
             'total_requests' => DB::raw('total_requests + 1'),
