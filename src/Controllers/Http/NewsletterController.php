@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Controllers\Http;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 // use App\Services\TurnstileService;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;

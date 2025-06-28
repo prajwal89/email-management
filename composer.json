@@ -23,7 +23,14 @@
         "directorytree/imapengine-laravel": "^1.1"
     },
     "require-dev": {
-        "laravel/pint": "^1.22"
+        "laravel/pint": "^1.22",
+        "orchestra/testbench": "^8.0",
+        "phpunit/phpunit": "^10.0"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Prajwal89\\EmailManagement\\Tests\\": "tests/"
+        }
     },
     "extra": {
         "laravel": {
