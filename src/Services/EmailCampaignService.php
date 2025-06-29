@@ -41,7 +41,7 @@ class EmailCampaignService
             (new MigrationFileManager($emailCampaign))
                 ->setSendableType(EmailCampaign::class)
                 ->setSendableSlug($emailCampaign->slug)
-                ->generateDeleteSeederFile();
+                ->generateDeleteMigrationFile();
 
             // delete email handler
             $handlerPath = EmailCampaign::getEmailHandlerFilePath($emailCampaign->slug);

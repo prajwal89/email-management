@@ -16,7 +16,7 @@ class FollowUpService
             followupAbleEvent: $followUp->followupEmailEvent,
             followupAble: $followUp->followupable
         ))
-            ->generateDeleteSeederFile();
+            ->generateDeleteMigrationFile();
 
         return true;
     }

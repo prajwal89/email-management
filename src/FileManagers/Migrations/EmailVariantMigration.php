@@ -54,7 +54,7 @@ class EmailVariantMigration
         return $migrationFilePath;
     }
 
-    public function generateDeleteSeederFile()
+    public function generateDeleteMigrationFile()
     {
         $slug = $this->forModel->slug;
 

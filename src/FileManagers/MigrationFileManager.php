@@ -61,9 +61,9 @@ class MigrationFileManager
         return $this->resolveGenerator()->generateFile();
     }
 
-    public function generateDeleteSeederFile()
+    public function generateDeleteMigrationFile()
     {
-        return $this->resolveGenerator()->generateDeleteSeederFile();
+        return $this->resolveGenerator()->generateDeleteMigrationFile();
     }
 
     public function resolveGenerator()

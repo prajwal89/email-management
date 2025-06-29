@@ -43,7 +43,7 @@ class EmailCampaignMigration
         return $migrationFilePath;
     }
 
-    public function generateDeleteSeederFile()
+    public function generateDeleteMigrationFile()
     {
         $slug = $this->forModel->slug;
 

@@ -42,7 +42,7 @@ class EmailEventService
             (new MigrationFileManager($emailEvent))
                 ->setSendableType(EmailEvent::class)
                 ->setSendableSlug($emailEvent->slug)
-                ->generateDeleteSeederFile();
+                ->generateDeleteMigrationFile();
 
             // delete email handler
             $handlerPath = EmailEvent::getEmailHandlerFilePath($emailEvent->slug);

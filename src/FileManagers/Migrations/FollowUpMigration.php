@@ -48,7 +48,7 @@ class FollowUpMigration
         return $migrationFilePath;
     }
 
-    public function generateDeleteSeederFile()
+    public function generateDeleteMigrationFile()
     {
         $stubPath = __DIR__ . '/../../../stubs/migrations/followup-delete-migration.stub';
 

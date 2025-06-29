@@ -55,10 +55,10 @@ class EmailVariantService
         );
 
         // delete sendable record
-        // (new MigrationFileManager($emailVariant->sendable))->generateDeleteSeederFile();
+        // (new MigrationFileManager($emailVariant->sendable))->generateDeleteMigrationFile();
 
         // delete email variant
-        (new MigrationFileManager($emailVariant))->generateDeleteSeederFile();
+        (new MigrationFileManager($emailVariant))->generateDeleteMigrationFile();
 
         File::delete($emailViewFilePath);
 
