@@ -47,6 +47,8 @@ class EmailVariantService
             throw new Exception('Email Variants Can Be Deleted from Local Environment Only. as it includes deleting files.');
         }
 
+        $emailVariant->load('sendable');
+
         $emailViewFilePath = EmailVariant::getEmailViewFilePath(
             $emailVariant->sendable,
             $emailVariant->slug,

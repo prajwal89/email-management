@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Services;
 
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Prajwal89\EmailManagement\FileManagers\MigrationFileManager;
@@ -17,6 +18,10 @@ class EmailEventService
     // ask user to run migration
     public static function destroy(EmailEvent $emailEvent): bool
     {
+        if ($emailEvent->is_followup_email && $emailEvent->followUps()->count() >= 1) {
+            throw new Exception('Cannot Delete this follow up event as it is used as follow up email');
+        }
+
         // Do not delete seeder file as they will be deleted in pairs
         DB::transaction(function () use ($emailEvent) {
             $emailEvent->load('emailLogs.emailVisits');
