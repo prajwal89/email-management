@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource;
 use Prajwal89\EmailManagement\Services\FollowUpEmailsSender;
 use Prajwal89\EmailManagement\Services\FollowUpService;
@@ -19,6 +20,13 @@ use Prajwal89\EmailManagement\Services\FollowUpService;
 class FollowUpsRelationManager extends RelationManager
 {
     protected static string $relationship = 'followUps';
+
+    public static function getBadge(Model $ownerRecord, string $pageClass): ?string
+    {
+        $total = $ownerRecord->followUps()->count();
+
+        return $total > 0 ? (string) $total : null;
+    }
 
     public function form(Form $form): Form
     {
@@ -72,7 +80,7 @@ class FollowUpsRelationManager extends RelationManager
                     ->outlined()
                     ->icon('heroicon-o-trash')
                     ->requiresConfirmation()
-                    ->disabled(fn (): bool => !app()->isLocal())
+                    ->disabled(fn(): bool => !app()->isLocal())
                     ->tooltip('Can Be deleted from local Environment only')
                     ->modalDescription('This action will create migration file for deleting the record')
                     ->modalSubmitActionLabel('Delete')
@@ -92,7 +100,6 @@ class FollowUpsRelationManager extends RelationManager
                             ->title('Now run `php artisan migrate` to delete the records')
                             ->success()
                             ->send();
-
                     }),
 
                 Action::make('preview')
