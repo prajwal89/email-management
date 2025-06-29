@@ -72,7 +72,7 @@ class FollowUpsRelationManager extends RelationManager
                     ->outlined()
                     ->icon('heroicon-o-trash')
                     ->requiresConfirmation()
-                    ->disabled(fn(): bool => !app()->isLocal())
+                    ->disabled(fn (): bool => !app()->isLocal())
                     ->tooltip('Can Be deleted from local Environment only')
                     ->modalDescription('This action will create migration file for deleting the record')
                     ->modalSubmitActionLabel('Delete')
@@ -93,7 +93,6 @@ class FollowUpsRelationManager extends RelationManager
                             ->success()
                             ->send();
 
-                        return;
                     }),
 
                 Action::make('preview')

@@ -4,15 +4,11 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Services;
 
-use Illuminate\Mail\Mailable;
 use Prajwal89\EmailManagement\FileManagers\Migrations\FollowUpMigration;
-use Prajwal89\EmailManagement\Models\EmailEvent;
-use Prajwal89\EmailManagement\Models\EmailLog;
 use Prajwal89\EmailManagement\Models\FollowUp;
 
 class FollowUpService
 {
-
     public static function destroy(FollowUp $followUp)
     {
         (new FollowUpMigration(

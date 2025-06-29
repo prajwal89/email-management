@@ -7,7 +7,6 @@ namespace Prajwal89\EmailManagement\Models;
 use DateTime;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Prajwal89\EmailManagement\Interfaces\EmailReceivable;
 use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 
 class FollowUp extends Model

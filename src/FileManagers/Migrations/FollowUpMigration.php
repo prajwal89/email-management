@@ -6,9 +6,7 @@ namespace Prajwal89\EmailManagement\FileManagers\Migrations;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
-use Prajwal89\EmailManagement\Interfaces\EmailReceivable;
 use Prajwal89\EmailManagement\Interfaces\EmailSendable;
-use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\Models\FollowUp;
 

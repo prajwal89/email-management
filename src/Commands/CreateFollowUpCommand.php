@@ -6,7 +6,6 @@ namespace Prajwal89\EmailManagement\Commands;
 
 use Exception;
 use Illuminate\Console\Command;
-use Prajwal89\EmailManagement\FileManagers\MigrationFileManager;
 use Prajwal89\EmailManagement\FileManagers\Migrations\FollowUpMigration;
 use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailEvent;

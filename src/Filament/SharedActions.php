@@ -39,6 +39,7 @@ class SharedActions
                 if ($record instanceof EmailEvent && $record->is_followup_email) {
                     return false;
                 }
+
                 return true;
             })
             ->modalHeading('Instructions for creating a follow up email')
