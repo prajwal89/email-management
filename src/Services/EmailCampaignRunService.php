@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Services;
 
-use App\Models\JobBatch;
 use Illuminate\Support\Facades\DB;
 use Prajwal89\EmailManagement\Models\EmailCampaignRun;
+use Prajwal89\EmailManagement\Models\JobBatch;
 
 class EmailCampaignRunService
 {

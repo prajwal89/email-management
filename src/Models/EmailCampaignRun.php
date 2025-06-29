@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Models;
 
-use App\Models\JobBatch;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
