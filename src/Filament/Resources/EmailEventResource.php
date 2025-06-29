@@ -82,7 +82,7 @@ class EmailEventResource extends Resource
     public static function getWidgets(): array
     {
         return [
-            SendableOverview::class
+            SendableOverview::class,
         ];
     }
 
