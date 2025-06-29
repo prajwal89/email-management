@@ -125,7 +125,7 @@ abstract class EmailHandlerBase
 
         $this->chosenEmailVariant = (new EmailVariantSelector($this->sendable))->choose();
 
-        $this->messageId = HeadersManager::generateNewMessageId();
+        static::$messageId = HeadersManager::generateNewMessageId();
 
         // pass parent constructor args to the email class
         $this->finalEmail = new static::$mail(
@@ -137,7 +137,7 @@ abstract class EmailHandlerBase
 
         $emailContentModifiers = new EmailContentModifiers(
             $this->finalEmail,
-            $this->messageId
+            static::$messageId
         );
 
         if (config('email-management.track_visits')) {
@@ -188,7 +188,7 @@ abstract class EmailHandlerBase
         $headersManager->configureEmailHeaders(
             sendable: $this->sendable,
             receivable: $this->receivable,
-            messageId: $this->messageId,
+            messageId: static::$messageId,
             eventContext: $this->eventContext,
             chosenEmailVariant: $this->chosenEmailVariant,
         );
