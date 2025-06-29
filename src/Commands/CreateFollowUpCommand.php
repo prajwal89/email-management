@@ -120,6 +120,12 @@ class CreateFollowUpCommand extends Command
             ->generateFile();
 
         $this->info("Created Migration file: {$filePath}");
+
+        if ($this->confirm('Do you want to run the migration now?', true)) {
+            $this->call('migrate');
+        } else {
+            $this->info('You can run it later with: php artisan migrate');
+        }
     }
 
     // public function createMigrationFile(array $data): void
@@ -211,7 +217,7 @@ class CreateFollowUpCommand extends Command
             ->get();
 
         if ($allFollowupEmailEvents->isEmpty()) {
-            throw new Exception('There are no follow up emailEvents please create email event');
+            throw new Exception('There are no follow up emailEvents. Please create email event first.');
         }
 
         return $allFollowupEmailEvents;
