@@ -6,6 +6,7 @@ namespace Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\Relati
 
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Actions\Action;
@@ -13,6 +14,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource;
 use Prajwal89\EmailManagement\Services\FollowUpEmailsSender;
+use Prajwal89\EmailManagement\Services\FollowUpService;
 
 class FollowUpsRelationManager extends RelationManager
 {
@@ -63,8 +65,37 @@ class FollowUpsRelationManager extends RelationManager
                 // Tables\Actions\CreateAction::make(),
             ])
             ->actions([
-                // Tables\Actions\EditAction::make(),
-                // Tables\Actions\DeleteAction::make(),
+
+                Action::make('delete')
+                    ->label('Delete')
+                    ->color('danger')
+                    ->outlined()
+                    ->icon('heroicon-o-trash')
+                    ->requiresConfirmation()
+                    ->disabled(fn(): bool => !app()->isLocal())
+                    ->tooltip('Can Be deleted from local Environment only')
+                    ->modalDescription('This action will create migration file for deleting the record')
+                    ->modalSubmitActionLabel('Delete')
+                    ->action(function ($record) {
+                        if (!app()->isLocal()) {
+                            Notification::make()
+                                ->title('Deletion allowed only in local environment')
+                                ->danger()
+                                ->send();
+
+                            return;
+                        }
+
+                        FollowUpService::destroy($record);
+
+                        Notification::make()
+                            ->title('Now run `php artisan migrate` to delete the records')
+                            ->success()
+                            ->send();
+
+                        return;
+                    }),
+
                 Action::make('preview')
                     ->label('Email Preview')
                     ->icon('heroicon-o-eye')

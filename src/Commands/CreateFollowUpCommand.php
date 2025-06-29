@@ -6,6 +6,8 @@ namespace Prajwal89\EmailManagement\Commands;
 
 use Exception;
 use Illuminate\Console\Command;
+use Prajwal89\EmailManagement\FileManagers\MigrationFileManager;
+use Prajwal89\EmailManagement\FileManagers\Migrations\FollowUpMigration;
 use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\Models\FollowUp;
@@ -101,18 +103,36 @@ class CreateFollowUpCommand extends Command
         //     default: false
         // ) ? 1 : 0;
 
-        // todo: move this to migration file
-        $followUp = FollowUp::create([
+        $data = [
             'followup_email_event_id' => $emailEventId,
             'followupable_type' => $followupableType,
             'followupable_id' => $followupable->id,
             'wait_for_days' => $waitForDays,
             // 'is_enabled' => (bool) $isEnabled,
             'is_enabled' => true,
-        ]);
+        ];
 
-        $this->info("✅ Follow-up created with ID: {$followUp->id}");
+        $filePath = (new FollowUpMigration(
+            // forModel: FollowUp::class,
+            modelAttributes: $data,
+            followupAbleEvent: EmailEvent::find($emailEventId),
+            followupAble: $followupable
+        ))
+            ->generateFile();
+
+        $this->info("Created Migration file: {$filePath}");
     }
+
+    // public function createMigrationFile(array $data): void
+    // {
+    //     $filePath = (new FollowUpMigration(
+    //         forModel: FollowUp::class,
+    //         modelAttributes: $data
+    //     ))
+    //         ->generateFile();
+
+    //     $this->info("Created Migration file: {$filePath}");
+    // }
 
     /**
      * Get the followupable type from option or prompt user

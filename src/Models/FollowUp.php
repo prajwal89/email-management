@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Models;
 
+use DateTime;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Prajwal89\EmailManagement\Interfaces\EmailReceivable;
+use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 
 class FollowUp extends Model
 {
@@ -33,5 +36,21 @@ class FollowUp extends Model
     public function followupable(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    public static function getMigrationFilePath(
+        EmailEvent $followupAbleEvent,
+        EmailSendable $followupAble,
+        string $type = 'seed'
+    ) {
+        $microtime = microtime(true);
+
+        $datetime = DateTime::createFromFormat('U.u', (string) $microtime);
+
+        $dateTime = $datetime->format('Y_m_d_Hisv'); // 'v' = milliseconds
+
+        $filename = "{$dateTime}_{$type}_followup_{$followupAbleEvent->slug}_sendable_{$followupAble->slug}.php";
+
+        return config('email-management.migrations_dir') . '/' . $filename;
     }
 }

@@ -10,6 +10,7 @@ use Prajwal89\EmailManagement\FileManagers\MigrationFileManager;
 use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\Models\EmailLog;
 use Prajwal89\EmailManagement\Models\EmailVariant;
+use Prajwal89\EmailManagement\Models\FollowUp;
 
 class EmailEventService
 {
@@ -27,6 +28,10 @@ class EmailEventService
             // ! this can become heavy in terms of total queries
             $emailEvent->emailLogs()->get()->map(function (EmailLog $emailLog): void {
                 EmailLogService::destroy($emailLog);
+            });
+
+            $emailEvent->followUps()->get()->map(function (FollowUp $followUp) {
+                FollowUpService::destroy($followUp);
             });
 
             (new MigrationFileManager($emailEvent))

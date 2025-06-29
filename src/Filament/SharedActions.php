@@ -7,6 +7,7 @@ namespace Prajwal89\EmailManagement\Filament;
 use Filament\Actions\Action;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\HtmlString;
+use Prajwal89\EmailManagement\Models\EmailEvent;
 
 class SharedActions
 {
@@ -34,6 +35,12 @@ class SharedActions
             ->outlined()
             ->color('info')
             ->label('Create Follow Up')
+            ->visible(function ($record) {
+                if ($record instanceof EmailEvent && $record->is_followup_email) {
+                    return false;
+                }
+                return true;
+            })
             ->modalHeading('Instructions for creating a follow up email')
             ->modalContent(function ($record): Htmlable {
                 $type = addslashes(get_class($record));

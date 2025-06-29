@@ -1,0 +1,20 @@
+<?php
+
+declare(strict_types=1);
+
+use Illuminate\Database\Migrations\Migration;
+use Prajwal89\EmailManagement\Models\FollowUp;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        FollowUp::create([
+            'followup_email_event_id' => '{followup_email_event_id}',
+            'followupable_type' => '{followupable_type}',
+            'followupable_id' => '{followupable_id}',
+            'wait_for_days' => '{wait_for_days}',
+            'is_enabled' => true,
+        ]);
+    }
+};

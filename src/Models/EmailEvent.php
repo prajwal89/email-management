@@ -23,12 +23,14 @@ class EmailEvent extends Model implements EmailSendable
         'slug',
         'description',
         'is_enabled',
+        'is_followup_email',
     ];
 
     protected function casts(): array
     {
         return [
             'is_enabled' => 'boolean',
+            'is_followup_email' => 'boolean',
         ];
     }
 

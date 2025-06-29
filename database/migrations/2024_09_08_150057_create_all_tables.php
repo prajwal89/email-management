@@ -57,7 +57,12 @@ return new class extends Migration
             $table->unsignedInteger('wait_for_days');
 
             $table->index(['followupable_id', 'followupable_type']);
-            // $table->index(['sendable_id', 'sendable_type']);
+
+            $table->unique([
+                'followup_email_event_id',
+                'followupable_id',
+                'followupable_type'
+            ], 'unique_record');
 
             $table->timestamps();
         });
@@ -84,7 +89,7 @@ return new class extends Migration
             $table->enum(
                 column: 'content_type',
                 allowed: collect(EmailContentType::cases())
-                    ->map(fn ($case) => $case->value)->toArray()
+                    ->map(fn($case) => $case->value)->toArray()
             )->default('markdown');
 
             $table->unsignedBigInteger('sendable_id')->nullable();

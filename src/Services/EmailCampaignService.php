@@ -11,6 +11,7 @@ use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailCampaignRun;
 use Prajwal89\EmailManagement\Models\EmailLog;
 use Prajwal89\EmailManagement\Models\EmailVariant;
+use Prajwal89\EmailManagement\Models\FollowUp;
 
 class EmailCampaignService
 {
@@ -31,6 +32,10 @@ class EmailCampaignService
 
             $emailCampaign->runs()->get()->map(function (EmailCampaignRun $emailCampaignRun): void {
                 EmailCampaignRunService::destroy($emailCampaignRun);
+            });
+
+            $emailCampaign->followUps()->get()->map(function (FollowUp $followUp) {
+                FollowUpService::destroy($followUp);
             });
 
             (new MigrationFileManager($emailCampaign))
