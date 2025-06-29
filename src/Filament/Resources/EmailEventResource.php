@@ -20,6 +20,7 @@ use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\Pages\Previe
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\RelationManagers\EmailLogsRelationManager;
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\RelationManagers\EmailVariantsRelationManager;
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\RelationManagers\FollowUpsRelationManager;
+use Prajwal89\EmailManagement\Filament\Widgets\SendableOverview;
 use Prajwal89\EmailManagement\Models\EmailEvent;
 
 class EmailEventResource extends Resource
@@ -76,6 +77,13 @@ class EmailEventResource extends Resource
                     ->openUrlInNewTab(),
             ])
             ->defaultSort('created_at', 'desc');
+    }
+
+    public static function getWidgets(): array
+    {
+        return [
+            SendableOverview::class
+        ];
     }
 
     public static function getRelations(): array
