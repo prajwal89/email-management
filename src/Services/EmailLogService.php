@@ -31,7 +31,7 @@ class EmailLogService
                 'sendable_slug' => $headersManager->getSendable()['slug'],
 
                 'receivable_type' => $headersManager->getReceivable()['type'],
-                'receivable_slug' => $headersManager->getReceivable()['slug'],
+                'receivable_id' => $headersManager->getReceivable()['id'],
 
                 'email_variant_slug' => $headersManager->getEmailVariantSlug(),
 

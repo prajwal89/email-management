@@ -108,7 +108,7 @@ return new class extends Migration
             $table->string('subject');
 
             $table->string('receivable_type')->nullable();
-            $table->string('receivable_slug')->nullable();
+            $table->string('receivable_id')->nullable();
 
             // ! if sendable get deleted these columns may point to wrong log
             // as we are deleting using seeder file (only record of sendable)
@@ -151,7 +151,7 @@ return new class extends Migration
             $table->foreign('email_variant_slug')
                 ->references('slug')
                 ->on('em_email_variants');
-            $table->index(['receivable_slug', 'receivable_type']);
+            $table->index(['receivable_id', 'receivable_type']);
             $table->index(['sendable_slug', 'sendable_type']);
         });
 

@@ -49,7 +49,7 @@ class HeadersManager
         $headers = $this->email->getHeaders();
 
         $headers->addTextHeader('X-Receivable-Type', (string) get_class($receivable));
-        $headers->addTextHeader('X-Receivable-Slug', (string) $receivable->getKey());
+        $headers->addTextHeader('X-Receivable-Id', (string) $receivable->getKey());
         $headers->addTextHeader('X-Email-Variant-Slug', (string) $chosenEmailVariant->getKey());
 
         if ($eventContext !== null) {
@@ -101,7 +101,7 @@ class HeadersManager
             'X-Sendable-Type',
             'X-Sendable-Slug',
             'X-Receivable-Type',
-            'X-Receivable-Slug',
+            'X-Receivable-Id',
             'X-Email-Variant-Slug',
             'X-Event-Context',
         ];
@@ -188,8 +188,8 @@ class HeadersManager
             ? $this->email->getHeaders()->getHeaderBody('X-Receivable-Type')
             : null;
 
-        $receivableId = $this->email->getHeaders()->has('X-Receivable-Slug')
-            ? $this->email->getHeaders()->getHeaderBody('X-Receivable-Slug')
+        $receivableId = $this->email->getHeaders()->has('X-Receivable-Id')
+            ? $this->email->getHeaders()->getHeaderBody('X-Receivable-Id')
             : null;
 
         return [

@@ -39,16 +39,16 @@ class PreviewEmailPage extends Page
                         ->email()
                         ->required()
                         ->default(config('custom.admin_email')),
-                    Select::make('email_variant_id')
+                    Select::make('email_variant_slug')
                         ->label('Email Variant')
                         ->options(function () {
-                            return $this->record->emailVariants->pluck('name', 'id');
+                            return $this->record->emailVariants->pluck('name', 'slug');
                         })
-                        ->default($this->record->emailVariants->first()->id),
+                        ->default($this->record->emailVariants->first()->slug),
                 ])
                 ->action(function (array $data): void {
 
-                    $emailVariant = EmailVariant::find($data['email_variant_id']);
+                    $emailVariant = EmailVariant::find($data['email_variant_slug']);
 
                     $this
                         ->record
