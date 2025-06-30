@@ -38,7 +38,13 @@ class EmailCampaign extends Model implements EmailSendable
 
     public function emailLogs(): MorphMany
     {
-        return $this->morphMany(EmailLog::class, 'sendable', 'sendable_type', 'sendable_slug', 'slug');
+        return $this->morphMany(
+            EmailLog::class,
+            'sendable',
+            'sendable_type',
+            'sendable_slug',
+            'slug'
+        );
     }
 
     /**
@@ -46,7 +52,13 @@ class EmailCampaign extends Model implements EmailSendable
      */
     public function sentEmails(): MorphMany
     {
-        return $this->morphMany(EmailLog::class, 'sendable', 'sendable_type', 'sendable_slug', 'slug')->sent();
+        return $this->morphMany(
+            EmailLog::class,
+            'sendable',
+            'sendable_type',
+            'sendable_slug',
+            'slug'
+        )->sent();
     }
 
     public function emailVisits(): HasManyThrough

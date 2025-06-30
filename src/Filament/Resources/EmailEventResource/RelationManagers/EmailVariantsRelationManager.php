@@ -50,6 +50,7 @@ class EmailVariantsRelationManager extends RelationManager
             ]);
     }
 
+    // todo: get unique page views
     public function table(Table $table): Table
     {
         return $table
@@ -67,13 +68,14 @@ class EmailVariantsRelationManager extends RelationManager
                 TextColumn::make('exposure_percentage')
                     ->label('Exposure')
                     ->suffix('%'),
-                IconColumn::make('is_paused')->label('Paused'),
-                IconColumn::make('is_winner')->label('Winner')
+                IconColumn::make('is_paused')
+                    ->label('Paused'),
+                IconColumn::make('is_winner')
+                    ->label('Winner')
                     ->tooltip('Winner for this AB test'),
-                // TextColumn::make('email_logs_count')
-                //     ->label('Sent')
-                //     ->counts('emailLogs'),
-                // TextColumn::make('email_unique_visits_count')
+                TextColumn::make('email_logs_count')
+                    ->label('Sent')
+                    ->counts('emailLogs'),
                 TextColumn::make('email_visits_count')
                     ->label('Visits')
                     ->counts('emailVisits'),
@@ -129,7 +131,6 @@ class EmailVariantsRelationManager extends RelationManager
                             ->send();
                     }),
             ])
-            ->bulkActions([])
         ;
     }
 }

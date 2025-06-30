@@ -62,8 +62,13 @@ class EmailEvent extends Model implements EmailSendable
 
     public function defaultEmailVariant(): MorphOne
     {
-        return $this->morphOne(EmailVariant::class, 'sendable', 'sendable_type', 'sendable_slug', 'slug')
-            ->where('slug', 'default');
+        return $this->morphOne(
+            EmailVariant::class,
+            'sendable',
+            'sendable_type',
+            'sendable_slug',
+            'slug'
+        )->where('slug', 'default');
     }
 
     public function emailVisits(): HasManyThrough

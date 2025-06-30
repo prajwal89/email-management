@@ -40,7 +40,7 @@ class CreateEmailCampaignCommand extends Command
                 validate: [
                     'required',
                     'max:40',
-                    Rule::unique('em_email_events', 'name'),
+                    Rule::unique('em_email_campaigns', 'name'),
                 ]
             ),
             'description' => textarea(
