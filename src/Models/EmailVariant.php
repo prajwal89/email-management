@@ -41,6 +41,16 @@ class EmailVariant extends Model
         'content_type' => 'markdown',
     ];
 
+    public function getKey()
+    {
+        return [$this->slug, $this->sendable_type];
+    }
+
+    public function getKeyName()
+    {
+        return ['slug', 'sendable_type'];
+    }
+
     public function casts(): array
     {
         return [

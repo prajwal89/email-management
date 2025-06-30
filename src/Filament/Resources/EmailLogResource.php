@@ -285,7 +285,7 @@ class EmailLogResource extends Resource
                             }
 
                             return [
-                                get_class($sendable) . ':' . $sendable->id => $sendable->name,
+                                get_class($sendable) . ':' . $sendable->slug => $sendable->name,
                             ];
                         })
                         ->mapWithKeys(fn($data) => $data)

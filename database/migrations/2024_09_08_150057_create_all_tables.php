@@ -76,9 +76,8 @@ return new class extends Migration
                 ->on('em_email_campaigns');
         });
 
-        // !should we use composite primary key here
         Schema::create('em_email_variants', function (Blueprint $table): void {
-            $table->string('slug')->primary();
+            $table->string('slug');
             $table->string('name', 255);
 
             $table->enum(
@@ -96,7 +95,7 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->unique(['sendable_type', 'slug']);
+            $table->unique(['slug', 'sendable_type']);
         });
 
         Schema::create('em_email_logs', function (Blueprint $table): void {
