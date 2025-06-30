@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Commands;
 
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Validation\Rule;
 use Prajwal89\EmailManagement\Enums\EmailContentType;
 use Prajwal89\EmailManagement\FileManagers\EmailViewFileManager;
 use Prajwal89\EmailManagement\FileManagers\MigrationFileManager;
@@ -60,7 +62,7 @@ class CreateEmailVariantCommand extends Command
         };
 
         // Fetch all email events to search through them.
-        $events = $sendableModel::query()->pluck('name', 'id');
+        $events = $sendableModel::query()->pluck('name', 'slug');
 
         // Check if any events exist before proceeding.
         if ($events->isEmpty()) {
@@ -83,7 +85,7 @@ class CreateEmailVariantCommand extends Command
             info("Using provided sendable. Selected {$sendableType}: '{$selectedSendable->name}'");
         } else {
             // Fetch all email events to search through them.
-            $events = $sendableModel::query()->pluck('name', 'id');
+            $events = $sendableModel::query()->pluck('name', 'slug');
 
             // Check if any events exist before proceeding.
             if ($events->isEmpty()) {
@@ -93,16 +95,16 @@ class CreateEmailVariantCommand extends Command
             }
 
             // Use the 'search' prompt to find the parent email event.
-            $eventId = search(
+            $eventSlug = search(
                 label: 'Which email event does this variant belong to?',
                 placeholder: 'Start typing to search for an event...',
-                options: fn (string $value) => strlen($value) > 0
-                    ? $sendableModel::where('name', 'like', "%{$value}%")->pluck('name', 'id')->all()
+                options: fn(string $value) => strlen($value) > 0
+                    ? $sendableModel::where('name', 'like', "%{$value}%")->pluck('name', 'slug')->all()
                     : $events->all(),
                 scroll: 10
             );
 
-            $selectedSendable = $sendableModel::find($eventId);
+            $selectedSendable = $sendableModel::where('slug', $eventSlug)->first();
 
             if (!$selectedSendable) {
                 warning('Invalid selection. Aborting command.');
@@ -117,14 +119,19 @@ class CreateEmailVariantCommand extends Command
             'name' => text(
                 label: 'What is the name for this new email variant?',
                 placeholder: 'Version B',
-                required: 'The variant name is required.'
+                required: 'The variant name is required.',
+                validate: [
+                    'required',
+                    'max:40',
+                    Rule::unique('em_email_variants', 'name'),
+                ]
             ),
             'exposure_percentage' => text(
                 label: 'What is the exposure percentage for this variant?',
                 placeholder: 'Enter a number between 0 and 100',
                 required: true,
                 default: '50',
-                validate: fn (string $value) => match (true) {
+                validate: fn(string $value) => match (true) {
                     !is_numeric($value) => 'The value must be a number.',
                     $value < 0 => 'The percentage cannot be less than 0.',
                     $value > 100 => 'The percentage cannot be greater than 100.',
@@ -138,13 +145,19 @@ class CreateEmailVariantCommand extends Command
                 })->toArray(),
                 default: EmailContentType::MARKDOWN->value,
                 required: true,
-                validate: fn (string $value) => in_array(
+                validate: fn(string $value) => in_array(
                     $value,
-                    collect(EmailContentType::cases())->map(fn ($case) => $case->value)->toArray(),
+                    collect(EmailContentType::cases())->map(fn($case) => $case->value)->toArray(),
                     true
                 ) ? null : 'Invalid content type selected.'
             ),
         ];
+
+        $variantSlug = str($data['name'])->slug();
+
+        if (EmailVariant::query()->where('slug', $variantSlug)->exists()) {
+            throw new Exception("Duplicate Email Variant Name");
+        }
 
         $filePath = (new MigrationFileManager(EmailVariant::class))
             ->setAttributes($data)

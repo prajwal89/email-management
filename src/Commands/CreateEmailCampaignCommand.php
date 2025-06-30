@@ -40,7 +40,7 @@ class CreateEmailCampaignCommand extends Command
                 validate: [
                     'required',
                     'max:40',
-                    Rule::unique('em_email_events', 'slug'),
+                    Rule::unique('em_email_events', 'name'),
                 ]
             ),
             'description' => textarea(
@@ -54,9 +54,9 @@ class CreateEmailCampaignCommand extends Command
                 })->toArray(),
                 default: EmailContentType::MARKDOWN->value,
                 required: true,
-                validate: fn (string $value) => in_array(
+                validate: fn(string $value) => in_array(
                     $value,
-                    collect(EmailContentType::cases())->map(fn ($case) => $case->value)->toArray(),
+                    collect(EmailContentType::cases())->map(fn($case) => $case->value)->toArray(),
                     true
                 ) ? null : 'Invalid content type selected.'
             ),
