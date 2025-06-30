@@ -56,14 +56,22 @@ class EmailVariant extends Model
      */
     public function sendable(): MorphTo
     {
-        return $this->morphTo();
+        // Adjust to use 'sendable_slug' as the foreign key name instead of the default 'sendable_id'.
+        return $this->morphTo(id: 'sendable_slug');
     }
 
+    /**
+     * Get the email logs associated with this variant.
+     */
     public function emailLogs()
     {
-        return $this->hasMany(EmailLog::class);
+        // Adjust to use the correct foreign key 'email_variant_slug' and local key 'slug'.
+        return $this->hasMany(EmailLog::class, 'email_variant_slug', 'slug');
     }
 
+    /**
+     * Get all the email visits for the email variant.
+     */
     public function emailVisits()
     {
         return $this->hasManyThrough(
@@ -71,7 +79,7 @@ class EmailVariant extends Model
             EmailLog::class,
             'email_variant_slug', // Foreign key on em_email_logs table
             'message_id',       // Foreign key on em_email_visits table
-            'id',               // Local key on em_email_variants table
+            'slug',             // Local key on em_email_variants table (was 'id')
             'message_id'        // Local key on em_email_logs table
         );
     }
@@ -110,7 +118,7 @@ class EmailVariant extends Model
         string $sendableSlug,
         string $variantSlug,
         string $type = 'seed'
-    ) {
+    ): string {
         $sendableType = str($sendableType)->afterLast('\\')->lower();
 
         $microtime = microtime(true);
@@ -129,7 +137,7 @@ class EmailVariant extends Model
         EmailSendable|string $sendable,
         string $variantSlug,
         ?string $sendableSlug = null
-    ) {
+    ): string {
         if ($sendable instanceof Model) {
             if ($variantSlug !== 'default') {
                 return $sendable->slug . '-' . $variantSlug . '-email.blade.php';
@@ -149,7 +157,7 @@ class EmailVariant extends Model
         EmailSendable|string $sendable,
         string $variantSlug,
         ?string $sendableSlug = null
-    ) {
+    ): string {
         $emailViewFileName = self::getEmailViewFileName($sendable, $variantSlug, $sendableSlug);
 
         $folderName = match (is_string($sendable) ? $sendable : get_class($sendable)) {
