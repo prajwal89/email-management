@@ -1,18 +1,41 @@
 {
     "name": "prajwal89/email-management",
-    "description": "Complete Email Management Solution for Laravel Apps",
+    "description": "Complete Email Management Solution for Laravel Apps with A/B Testing, Tracking, Cold Emailing, and Newsletter Support",
+    "keywords": [
+        "laravel",
+        "email",
+        "newsletter",
+        "campaign",
+        "tracking",
+        "cold-emailing",
+        "ab-testing",
+        "filament"
+    ],
     "license": "MIT",
     "type": "library",
-    "autoload": {
-        "psr-4": {
-            "Prajwal89\\EmailManagement\\": "src/",
-            "Prajwal89\\EmailManagement\\Database\\Factories\\": "database/Factories/"
-        }
-    },
     "authors": [
         {
-            "name": "prajwal89",
-            "email": "22263436+prajwal89@users.noreply.github.com"
+            "name": "Prajwal",
+            "email": "22263436+prajwal89@users.noreply.github.com",
+            "homepage": "https://github.com/prajwal89",
+            "role": "Developer"
+        }
+    ],
+    "homepage": "https://github.com/prajwal89/email-management",
+    "support": {
+        "email": "support@example.com",
+        "issues": "https://github.com/prajwal89/email-management/issues",
+        "source": "https://github.com/prajwal89/email-management",
+        "docs": "https://github.com/prajwal89/email-management#readme"
+    },
+    "funding": [
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/prajwal89"
+        },
+        {
+            "type": "patreon",
+            "url": "https://patreon.com/prajwal89"
         }
     ],
     "require": {
@@ -24,12 +47,27 @@
         "prajwal89/lara-toast": "dev-main",
         "jaybizzle/crawler-detect": "^1.3",
         "directorytree/imapengine-laravel": "^1.1",
-        "zbateson/mail-mime-parser": "^3.0"
+        "zbateson/mail-mime-parser": "^3.0",
+        "ext-json": "*",
+        "ext-mbstring": "*"
     },
     "require-dev": {
         "laravel/pint": "^1.22",
         "orchestra/testbench": "^10.0",
-        "phpunit/phpunit": "^11.0"
+        "phpunit/phpunit": "^11.0",
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "nunomaduro/phpinsights": "^2.0",
+        "phpstan/phpstan": "^1.0",
+        "roave/security-advisories": "dev-latest"
+    },
+    "autoload": {
+        "psr-4": {
+            "Prajwal89\\EmailManagement\\": "src/",
+            "Prajwal89\\EmailManagement\\Database\\Factories\\": "database/Factories/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
@@ -38,13 +76,55 @@
         }
     },
     "scripts": {
-        "test": "./vendor/bin/phpunit --configuration phpunit.xml"
+        "test": "phpunit",
+        "test-coverage": "phpunit --coverage-html coverage",
+        "analyse": "vendor/bin/phpstan analyse",
+        "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
+        "insights": "vendor/bin/phpinsights",
+        "pint": "vendor/bin/pint",
+        "post-autoload-dump": [
+            "@php artisan package:discover --ansi"
+        ],
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+        ]
+    },
+    "scripts-descriptions": {
+        "test": "Run the test suite",
+        "test-coverage": "Generate code coverage report",
+        "analyse": "Run static analysis with PHPStan",
+        "format": "Format the code with PHP-CS-Fixer",
+        "insights": "Run PHP Insights analysis",
+        "pint": "Run Laravel Pint for code styling"
     },
     "extra": {
         "laravel": {
             "providers": [
                 "Prajwal89\\EmailManagement\\EmailManagementServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "EmailManagement": "Prajwal89\\EmailManagement\\Facades\\EmailManagement"
+            }
+        },
+        "branch-alias": {
+            "dev-main": "1.x-dev"
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true,
+        "preferred-install": "dist",
+        "optimize-autoloader": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/prajwal89/lara-toast"
+        }
+    ]
 }
