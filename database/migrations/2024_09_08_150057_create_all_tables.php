@@ -17,26 +17,24 @@ return new class extends Migration
         });
 
         Schema::create('em_email_events', function (Blueprint $table): void {
-            $table->id();
+            $table->string('slug')->primary();
             $table->string('name');
-            $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->boolean('is_enabled')->default(1);
             $table->boolean('is_followup_email')->default(0);
 
-            $table->foreignId('parent_event_id')
+            $table->string('parent_event_slug')
                 ->nullable()
-                ->constrained('em_email_events')
+                ->references('slug')
+                ->on('em_email_events')
                 ->restrictOnDelete();
 
             $table->timestamps();
         });
 
         Schema::create('em_email_campaigns', function (Blueprint $table): void {
-            $table->id();
-
+            $table->string('slug')->primary();
             $table->string('name', 255);
-            $table->string('slug', 255)->unique();
             $table->text('description')->nullable();
             $table->boolean('is_enabled')->default(true);
 
@@ -46,53 +44,55 @@ return new class extends Migration
         Schema::create('em_follow_ups', function (Blueprint $table): void {
             $table->id();
 
-            $table->unsignedBigInteger('followupable_id');
+            $table->string('followupable_slug');
             $table->string('followupable_type');
 
             // actual email will be sent for the followupable
-            $table->unsignedBigInteger('followup_email_event_id');
+            $table->string('followup_email_event_slug');
 
             $table->boolean('is_enabled')->default(true);
 
             $table->unsignedInteger('wait_for_days');
 
-            $table->index(['followupable_id', 'followupable_type']);
+            $table->index(['followupable_slug', 'followupable_type']);
 
             $table->unique([
-                'followup_email_event_id',
-                'followupable_id',
+                'followup_email_event_slug',
+                'followupable_slug',
                 'followupable_type',
             ], 'unique_record');
+
+            $table->foreign('followup_email_event_slug')
+                ->references('slug')
+                ->on('em_email_events');
 
             $table->timestamps();
         });
 
         Schema::create('em_email_campaign_runs', function (Blueprint $table): void {
             $table->id();
-            $table->unsignedBigInteger('email_campaign_id');
+            $table->string('email_campaign_slug');
             $table->json('receivable_groups')->nullable();
             $table->string('batch_id')->index()->nullable();
             $table->timestamps();
 
             $table
-                ->foreign('email_campaign_id')
-                ->references('id')
+                ->foreign('email_campaign_slug')
+                ->references('slug')
                 ->on('em_email_campaigns');
         });
 
         Schema::create('em_email_variants', function (Blueprint $table): void {
-            $table->id();
-
+            $table->string('slug')->primary();
             $table->string('name', 255);
-            $table->string('slug', 255);
 
             $table->enum(
                 column: 'content_type',
                 allowed: collect(EmailContentType::cases())
-                    ->map(fn ($case) => $case->value)->toArray()
+                    ->map(fn($case) => $case->value)->toArray()
             )->default('markdown');
 
-            $table->unsignedBigInteger('sendable_id')->nullable();
+            $table->string('sendable_slug')->nullable();
             $table->string('sendable_type')->nullable();
 
             $table->boolean('is_paused')->default(false);
@@ -101,7 +101,7 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->unique(['sendable_type', 'sendable_id', 'slug']);
+            $table->unique(['sendable_type', 'sendable_slug']);
         });
 
         Schema::create('em_email_logs', function (Blueprint $table): void {
@@ -113,16 +113,16 @@ return new class extends Migration
             $table->string('subject');
 
             $table->string('receivable_type')->nullable();
-            $table->unsignedBigInteger('receivable_id')->nullable();
+            $table->string('receivable_slug')->nullable();
 
             // ! if sendable get deleted these columns may point to wrong log
             // as we are deleting using seeder file (only record of sendable)
             // same goes for receivable
             // ?should i use model observer to set these fields null on delete
             $table->string('sendable_type')->nullable();
-            $table->unsignedBigInteger('sendable_id')->nullable();
+            $table->string('sendable_slug')->nullable();
 
-            $table->unsignedBigInteger('email_variant_id')->nullable();
+            $table->string('email_variant_slug')->nullable();
 
             $table->json('context')->nullable();
             $table->json('headers')->nullable();
@@ -153,9 +153,11 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->foreign('email_variant_id')->references('id')->on('em_email_variants');
-            $table->index(['receivable_id', 'receivable_type']);
-            $table->index(['sendable_id', 'sendable_type']);
+            $table->foreign('email_variant_slug')
+                ->references('slug')
+                ->on('em_email_variants');
+            $table->index(['receivable_slug', 'receivable_type']);
+            $table->index(['sendable_slug', 'sendable_type']);
         });
 
         Schema::create('em_email_visits', function (Blueprint $table): void {
@@ -171,19 +173,17 @@ return new class extends Migration
         });
 
         Schema::create('em_newsletter_emails', function (Blueprint $table): void {
-            $table->id();
-            $table->string('email')->unique();
+            $table->string('email')->primary();
             $table->datetime('email_verified_at')->nullable();
             $table->datetime('unsubscribed_at')->nullable();
             $table->timestamps();
         });
 
         Schema::create('em_cold_emails', function (Blueprint $table): void {
-            $table->id();
-            $table->string('email')->unique();
+            $table->string('email')->primary();
             $table->string('collection_reason')->nullable();
 
-            $table->unsignedBigInteger('collectable_id')->nullable();
+            $table->string('collectable_slug')->nullable();
             $table->string('collectable_type')->nullable();
 
             $table->string('collected_from')->nullable();
@@ -206,8 +206,7 @@ return new class extends Migration
         });
 
         Schema::create('em_honeypotted_ips', function (Blueprint $table) {
-            $table->id();
-            $table->string('ip', 45)->unique();
+            $table->string('ip', 45)->primary();
             $table->unsignedInteger('total_requests')->default(0);
             $table->timestamps();
         });
@@ -220,10 +219,11 @@ return new class extends Migration
         Schema::dropIfExists('em_cold_emails');
         Schema::dropIfExists('em_newsletter_emails');
         Schema::dropIfExists('em_email_logs');
+        Schema::dropIfExists('em_email_variants');
+        Schema::dropIfExists('em_email_campaign_runs');
+        Schema::dropIfExists('em_follow_ups');
         Schema::dropIfExists('em_email_campaigns');
         Schema::dropIfExists('em_email_events');
-        Schema::dropIfExists('em_follow_ups');
-        Schema::dropIfExists('em_email_campaign_runs');
         Schema::dropIfExists('em_honeypotted_ips');
 
         Schema::table('users', function (Blueprint $table): void {
