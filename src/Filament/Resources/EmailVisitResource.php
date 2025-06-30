@@ -96,24 +96,24 @@ class EmailVisitResource extends Resource
                                 ->whereHas('emailLog.sendable', function ($query): void {
                                     $query
                                         ->whereNull('sendable_type')
-                                        ->whereNull('sendable_id');
+                                        ->whereNull('sendable_slug');
                                 });
                         }
 
-                        [$sendable_type, $sendable_id] = explode(':', $data['value']);
+                        [$sendable_type, $sendable_slug] = explode(':', $data['value']);
 
                         return $query
-                            ->whereHas('emailLog.sendable', function ($query) use ($sendable_type, $sendable_id): void {
+                            ->whereHas('emailLog.sendable', function ($query) use ($sendable_type, $sendable_slug): void {
                                 $query
                                     ->where('sendable_type', $sendable_type)
-                                    ->where('sendable_id', $sendable_id);
+                                    ->where('sendable_slug', $sendable_slug);
                             });
                     })
                     ->options(function () {
                         $result = EmailLog::query()
-                            ->select('sendable_type', 'sendable_id')
+                            ->select('sendable_type', 'sendable_slug')
                             ->with(['sendable'])
-                            ->whereNotNull('sendable_id')
+                            ->whereNotNull('sendable_slug')
                             ->whereNotNull('sendable_type')
                             ->distinct()
                             ->latest()
@@ -129,7 +129,7 @@ class EmailVisitResource extends Resource
                                     get_class($sendable) . ':' . $sendable->id => $sendable->name,
                                 ];
                             })
-                            ->mapWithKeys(fn ($data) => $data)
+                            ->mapWithKeys(fn($data) => $data)
                             ->filter();
 
                         return $result->isEmpty()

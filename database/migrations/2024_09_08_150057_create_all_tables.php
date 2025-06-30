@@ -23,12 +23,6 @@ return new class extends Migration
             $table->boolean('is_enabled')->default(1);
             $table->boolean('is_followup_email')->default(0);
 
-            $table->string('parent_event_slug')
-                ->nullable()
-                ->references('slug')
-                ->on('em_email_events')
-                ->restrictOnDelete();
-
             $table->timestamps();
         });
 
@@ -82,6 +76,7 @@ return new class extends Migration
                 ->on('em_email_campaigns');
         });
 
+        // !should we use composite primary key here
         Schema::create('em_email_variants', function (Blueprint $table): void {
             $table->string('slug')->primary();
             $table->string('name', 255);
@@ -101,7 +96,7 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->unique(['sendable_type', 'sendable_slug']);
+            $table->unique(['sendable_type', 'slug']);
         });
 
         Schema::create('em_email_logs', function (Blueprint $table): void {

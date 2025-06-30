@@ -54,9 +54,9 @@ class CreateEmailEventCommand extends Command
                 })->toArray(),
                 default: EmailContentType::MARKDOWN->value,
                 required: true,
-                validate: fn (string $value) => in_array(
+                validate: fn(string $value) => in_array(
                     $value,
-                    collect(EmailContentType::cases())->map(fn ($case) => $case->value)->toArray(),
+                    collect(EmailContentType::cases())->map(fn($case) => $case->value)->toArray(),
                     true
                 ) ? null : 'Invalid content type selected.'
             ),
@@ -139,7 +139,7 @@ class CreateEmailEventCommand extends Command
     }
 
     /**
-     * laravel's default mailable class
+     * laravel's mailable class
      */
     public function createEmailClass(array $data): void
     {

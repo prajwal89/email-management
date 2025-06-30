@@ -26,7 +26,7 @@ class FollowUpEmailsSender
             ->select([
                 'id',
                 'message_id',
-                'sendable_id',
+                'sendable_slug',
                 'sendable_type',
                 'receivable_id',
                 'receivable_type',
@@ -102,7 +102,7 @@ class FollowUpEmailsSender
         return EmailLog::query()
             ->where('receivable_id', $emailLog->receivable_id)
             ->where('receivable_type', $emailLog->receivable_type)
-            ->where('sendable_id', $followUp->followup_email_event_id)
+            ->where('sendable_slug', $followUp->followup_email_event_id)
             ->where('sendable_type', EmailEvent::class)
             ->where('sent_at', '>=', $emailLog->sent_at)
             ->exists();

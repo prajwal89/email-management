@@ -28,12 +28,12 @@ class EmailLogService
                 'from' => $message->getFrom()[0]->getAddress(),
 
                 'sendable_type' => $headersManager->getSendable()['type'],
-                'sendable_id' => $headersManager->getSendable()['id'],
+                'sendable_slug' => $headersManager->getSendable()['slug'],
 
                 'receivable_type' => $headersManager->getReceivable()['type'],
-                'receivable_id' => $headersManager->getReceivable()['id'],
+                'receivable_slug' => $headersManager->getReceivable()['slug'],
 
-                'email_variant_id' => $headersManager->getEmailVariantId(),
+                'email_variant_slug' => $headersManager->getEmailVariantSlug(),
 
                 'subject' => $message->getSubject(),
                 'html' => $message->getHtmlBody(),

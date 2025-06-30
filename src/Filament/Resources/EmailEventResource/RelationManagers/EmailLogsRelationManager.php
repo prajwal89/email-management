@@ -41,12 +41,12 @@ class EmailLogsRelationManager extends RelationManager
             ])
             ->filters([
                 ...EmailLogResource::commonFilters(),
-                SelectFilter::make('email_variant_id')
+                SelectFilter::make('email_variant_slug')
                     ->label('Email Variant')
                     ->visible(function () {
                         return $this->getOwnerRecord() instanceof EmailSendable;
                     })
-                    ->options(fn () => $this->getOwnerRecord()->emailVariants()->pluck('name', 'id')->toArray()),
+                    ->options(fn() => $this->getOwnerRecord()->emailVariants()->pluck('name', 'slug')->toArray()),
             ])
             ->actions([
                 Action::make('preview')

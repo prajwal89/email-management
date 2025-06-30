@@ -37,7 +37,7 @@ class EmailVariantsRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                TextInput::make('name')
                     ->required()
                     ->maxLength(255),
 
@@ -54,6 +54,13 @@ class EmailVariantsRelationManager extends RelationManager
     {
         return $table
             ->recordTitleAttribute('name')
+            ->modifyQueryUsing(function ($query) {
+                // $query->withCount([
+                //     'emailVisits as email_unique_visits_count' => function ($query) {
+                //         // $query->unique();
+                //     }
+                // ]);
+            })
             ->columns([
                 TextColumn::make('name'),
                 TextColumn::make('content_type'),
@@ -63,9 +70,9 @@ class EmailVariantsRelationManager extends RelationManager
                 IconColumn::make('is_paused')->label('Paused'),
                 IconColumn::make('is_winner')->label('Winner')
                     ->tooltip('Winner for this AB test'),
-                TextColumn::make('email_logs_count')
-                    ->label('Sent')
-                    ->counts('emailLogs'),
+                // TextColumn::make('email_logs_count')
+                //     ->label('Sent')
+                //     ->counts('emailLogs'),
                 // TextColumn::make('email_unique_visits_count')
                 TextColumn::make('email_visits_count')
                     ->label('Visits')
@@ -89,19 +96,14 @@ class EmailVariantsRelationManager extends RelationManager
             ->filters([
                 //
             ])
-            ->headerActions([
-                // Tables\Actions\CreateAction::make(),
-                // SharedActions::createEmailVariant(),
-            ])
             ->actions([
                 EditAction::make(),
-                // Tables\Actions\DeleteAction::make(),
                 ActionsAction::make('delete')
                     ->label('Delete')
                     ->color('danger')
                     ->icon('heroicon-o-trash')
                     ->requiresConfirmation()
-                    ->disabled(fn (): bool => !app()->isLocal())
+                    ->disabled(fn(): bool => !app()->isLocal())
                     ->tooltip('Can Be deleted from local Environment only')
                     ->modalDescription('This action will email file, and all associated DB records and will create seeder file for deleting the record')
                     ->modalSubmitActionLabel('Delete')
@@ -127,17 +129,7 @@ class EmailVariantsRelationManager extends RelationManager
                             ->send();
                     }),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ])
-            ->modifyQueryUsing(function ($query) {
-                // $query->withCount([
-                //     'emailVisits as email_unique_visits_count' => function ($query) {
-                //         // $query->unique();
-                //     }
-                // ]);
-            });
+            ->bulkActions([])
+        ;
     }
 }
