@@ -27,9 +27,9 @@ class EmailLog extends Model
         'mailer',
         'transport',
         'subject',
-        'receivable_id',
+        'receivable_slug',
         'receivable_type',
-        'sendable_id',
+        'sendable_slug',
         'sendable_type',
         'context',
         'headers',
@@ -38,7 +38,7 @@ class EmailLog extends Model
         'opens',
         'clicks',
 
-        'email_variant_id',
+        'email_variant_slug',
 
         // email has left from our app
         'sent_at',
@@ -101,7 +101,7 @@ class EmailLog extends Model
 
     public function emailVariant(): BelongsTo
     {
-        return $this->belongsTo(EmailVariant::class, 'email_variant_id', 'id');
+        return $this->belongsTo(EmailVariant::class, 'email_variant_slug', 'slug');
     }
 
     public function followUpEmailLogs(): HasMany
@@ -127,7 +127,7 @@ class EmailLog extends Model
      */
     public function sendable(): MorphTo
     {
-        return $this->morphTo();
+        return $this->morphTo('sendable', 'sendable_type', 'sendable_slug');
     }
 
     /**
@@ -135,7 +135,7 @@ class EmailLog extends Model
      */
     public function receivable(): MorphTo
     {
-        return $this->morphTo();
+        return $this->morphTo('receivable', 'receivable_type', 'receivable_slug');
     }
 
     #[Scope]

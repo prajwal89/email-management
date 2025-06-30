@@ -17,11 +17,17 @@ class EmailVariant extends Model
 
     protected $table = 'em_email_variants';
 
+    protected $primaryKey = 'slug';
+
+    protected $keyType = 'string';
+
+    public $incrementing = false;
+
     protected $fillable = [
         'name',
         'slug',
         'content_type',
-        'sendable_id',
+        'sendable_slug',
         'sendable_type',
         'is_paused',
         'is_winner',
@@ -63,7 +69,7 @@ class EmailVariant extends Model
         return $this->hasManyThrough(
             EmailVisit::class,
             EmailLog::class,
-            'email_variant_id', // Foreign key on em_email_logs table
+            'email_variant_slug', // Foreign key on em_email_logs table
             'message_id',       // Foreign key on em_email_visits table
             'id',               // Local key on em_email_variants table
             'message_id'        // Local key on em_email_logs table
