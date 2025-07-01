@@ -33,7 +33,7 @@ class EmailLog extends Model
         'mailer',
         'transport',
         'subject',
-        'receivable_slug',
+        'receivable_id',
         'receivable_type',
         'sendable_slug',
         'sendable_type',
@@ -147,7 +147,7 @@ class EmailLog extends Model
      */
     public function receivable(): MorphTo
     {
-        return $this->morphTo('receivable', 'receivable_type', 'receivable_slug');
+        return $this->morphTo('receivable', 'receivable_type', 'receivable_id');
     }
 
     #[Scope]

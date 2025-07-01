@@ -52,7 +52,7 @@ class EmailVisitResource extends Resource
                     ->openUrlInNewTab()
                     ->url(function ($record): string {
                         return EmailLogResource::getUrl('details', [
-                            'record' => $record->emailLogs->id,
+                            'record' => $record->emailLogs->message_id,
                         ]);
                     }),
 
@@ -62,7 +62,7 @@ class EmailVisitResource extends Resource
                     ->openUrlInNewTab()
                     ->url(function ($record): string {
                         return EmailLogResource::getUrl('details', [
-                            'record' => $record->emailLogs->id,
+                            'record' => $record->emailLogs->message_id,
                         ]);
                     }),
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Prajwal89\EmailManagement\Services;
 
 use Illuminate\Http\Request;
-use League\Uri\Uri;
+use Illuminate\Support\Uri;
 use Prajwal89\EmailManagement\Models\EmailLog;
 
 class TrackingService
@@ -29,20 +29,20 @@ class TrackingService
 
     public function trackVisit()
     {
-        // dd($this->shouldTrack());
-
-        $uri = Uri::new($this->request->url);
+        $uri = Uri::of($this->request->url);
 
         EmailLogService::update($this->emailLog, ['last_clicked_at' => now()]);
 
         $this->emailLog->increment('clicks');
 
         EmailVisitService::store([
-            'path' => $uri->getPath(),
+            'path' => $uri->path(),
             'ip' => $this->request->ip(),
-            // ...auth()->check() ? ['user_id' => auth()->user()->id] : [],
             'session_id' => $this->request->hasSession() ? $this->request->session()->getId() : null,
             'message_id' => $this->request->message_id,
+            ...auth()->check()
+                ? ['user_id' => auth()->user()->id]
+                : [],
         ]);
     }
 

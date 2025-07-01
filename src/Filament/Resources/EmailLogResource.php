@@ -92,13 +92,12 @@ class EmailLogResource extends Resource
                 // FiltersLayout::AboveContent
             )
             ->actions([
-                // Tables\Actions\EditAction::make(),
                 Action::make('preview')
                     ->label('Preview')
                     ->icon('heroicon-o-eye')
                     ->openUrlInNewTab()
                     ->url(function ($record): string {
-                        return self::getUrl('details', ['record' => $record->id]);
+                        return self::getUrl('details', ['record' => $record->message_id]);
                     }),
             ])
             ->bulkActions([
@@ -110,7 +109,7 @@ class EmailLogResource extends Resource
                 $query->with(['to']);
             })
             ->recordUrl(function ($record): string {
-                return self::getUrl('details', ['record' => $record->id]);
+                return self::getUrl('details', ['record' => $record->message_id]);
             })
             ->defaultSort('created_at', 'desc');
     }
