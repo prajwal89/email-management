@@ -93,7 +93,11 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->unique(['slug', 'sendable_type']);
+            $table->unique([
+                'slug',
+                'sendable_type',
+                'sendable_slug'
+            ], 'unique_row');
         });
 
         Schema::create('em_email_logs', function (Blueprint $table): void {
