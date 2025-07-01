@@ -95,10 +95,9 @@ class FollowUpEmailsSender
         }
     }
 
-    public static function checkIfFollowUpEmailSent(
-        EmailLog $emailLog,
-        FollowUp $followUp
-    ) {
+    protected function hasAlreadySentFollowUp(EmailLog $emailLog, $followUp): bool
+    {
+        // Check if a follow-up email has already been sent for this email log
         return EmailLog::query()
             ->where('receivable_id', $emailLog->receivable_id)
             ->where('receivable_type', $emailLog->receivable_type)
@@ -108,9 +107,15 @@ class FollowUpEmailsSender
             ->exists();
     }
 
-    public static function checkIfFollowUpEmailSentToday()
+public static function checkIfFollowUpEmailSent(EmailLog $emailLog, FollowUp $followUp): bool
     {
-        //
+        return EmailLog::query()
+            ->where('receivable_id', $emailLog->receivable_id)
+            ->where('receivable_type', $emailLog->receivable_type)
+            ->where('sendable_slug', $followUp->followup_email_event_slug)
+            ->where('sendable_type', EmailEvent::class)
+            ->where('sent_at', '>=', $emailLog->sent_at)
+            ->exists();
     }
 
     public function sendFollowUpEmail(
