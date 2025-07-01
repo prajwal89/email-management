@@ -199,10 +199,10 @@ class HeadersManager
         ];
     }
 
-    public function getEmailVariantSlug(): ?int
+    public function getEmailVariantSlug(): ?string
     {
         return $this->email->getHeaders()->has('X-Email-Variant-Slug')
-            ? (int) $this->email->getHeaders()->getHeaderBody('X-Email-Variant-Slug')
+            ? (string) $this->email->getHeaders()->getHeaderBody('X-Email-Variant-Slug')
             : null;
     }
 
