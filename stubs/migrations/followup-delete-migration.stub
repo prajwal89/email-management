@@ -11,8 +11,8 @@ return new class extends Migration
     {
         FollowUp::query()
             ->where([
-                'followup_email_event_id' => '{followup_email_event_id}',
-                'followupable_id' => '{followupable_id}',
+                'followup_email_event_slug' => '{followup_email_event_slug}',
+                'followupable_slug' => '{followupable_slug}',
                 'followupable_type' => '{followupable_type}'
             ])
             ->first()

@@ -13,12 +13,14 @@ class FollowUp extends Model
 {
     protected $table = 'em_follow_ups';
 
+    protected $keyType = 'string';
+
     public $incrementing = false;
 
     protected $fillable = [
-        'followup_email_event_id',
-        'followupable_id',
+        'followup_email_event_slug',
         'followupable_type',
+        'followupable_slug',
         'is_enabled',
         'wait_for_days',
     ];

@@ -37,8 +37,6 @@ class CreateFollowUpCommand extends Command
         // Get followupable slug from option or prompt
         $followupableSlug = $this->getFollowupableSlug($followupableType);
 
-        // Get all available follow-up email events
-        $allFollowupEmailEvents = $this->getFollowupEmailEvents();
 
         $followupable = $followupableType::query()
             ->with(['followUps' => function ($query) {
@@ -64,17 +62,20 @@ class CreateFollowUpCommand extends Command
             }
         }
 
+
+        // Get all available follow-up email events
+        $allFollowupEmailEvents = $this->getFollowupEmailEvents();
+
         // the email that will be sent
         // todo: add constraint of suffix of FollowUp
         // follow up emails are emailevents only
-        $emailEventId = select(
+        $emailEventSlug = select(
             label: 'Choose follow up email',
             hint: 'Email event for follow up email',
-            options: $allFollowupEmailEvents->pluck('name', 'id'),
+            options: $allFollowupEmailEvents->pluck('name', 'slug'),
             required: true,
             validate: [
                 'required',
-                'integer',
                 'min:1',
             ]
         );
@@ -103,9 +104,9 @@ class CreateFollowUpCommand extends Command
         // ) ? 1 : 0;
 
         $data = [
-            'followup_email_event_id' => $emailEventId,
+            'followup_email_event_slug' => $emailEventSlug,
             'followupable_type' => $followupableType,
-            'followupable_id' => $followupable->id,
+            'followupable_slug' => $followupable->slug,
             'wait_for_days' => $waitForDays,
             // 'is_enabled' => (bool) $isEnabled,
             'is_enabled' => true,
@@ -114,7 +115,7 @@ class CreateFollowUpCommand extends Command
         $filePath = (new FollowUpMigration(
             // forModel: FollowUp::class,
             modelAttributes: $data,
-            followupAbleEvent: EmailEvent::find($emailEventId),
+            followupAbleEvent: EmailEvent::where('slug', $emailEventSlug)->first(),
             followupAble: $followupable
         ))
             ->generateFile();
@@ -217,7 +218,8 @@ class CreateFollowUpCommand extends Command
             ->get();
 
         if ($allFollowupEmailEvents->isEmpty()) {
-            throw new Exception('There are no follow up emailEvents. Please create email event first.');
+            $this->error('❌ There are no follow-up email events. Please create an email event first.');
+            exit(1);
         }
 
         return $allFollowupEmailEvents;
