@@ -54,7 +54,7 @@ class EmailLogsRelationManager extends RelationManager
                     ->icon('heroicon-o-circle-stack')
                     ->openUrlInNewTab()
                     ->url(function ($record): string {
-                        return EmailLogResource::getUrl('details', ['record' => $record->id]);
+                        return EmailLogResource::getUrl('details', ['record' => $record->message_id]);
                     }),
             ])
             ->bulkActions([
