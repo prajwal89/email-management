@@ -36,8 +36,6 @@ return new class extends Migration
         });
 
         Schema::create('em_follow_ups', function (Blueprint $table): void {
-            $table->id();
-
             $table->string('followupable_slug');
             $table->string('followupable_type');
 
@@ -99,8 +97,7 @@ return new class extends Migration
         });
 
         Schema::create('em_email_logs', function (Blueprint $table): void {
-            $table->id();
-            $table->string('message_id')->unique();
+            $table->string('message_id')->primary();
             $table->string('from');
             $table->string('mailer');
             $table->string('transport');
@@ -150,6 +147,7 @@ return new class extends Migration
             $table->foreign('email_variant_slug')
                 ->references('slug')
                 ->on('em_email_variants');
+
             $table->index(['receivable_id', 'receivable_type']);
             $table->index(['sendable_slug', 'sendable_type']);
         });

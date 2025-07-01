@@ -57,7 +57,13 @@ class EmailEvent extends Model implements EmailSendable
 
     public function emailVariants(): MorphMany
     {
-        return $this->morphMany(EmailVariant::class, 'sendable', 'sendable_type', 'sendable_slug', 'slug');
+        return $this->morphMany(
+            EmailVariant::class,
+            'sendable',
+            'sendable_type',
+            'sendable_slug',
+            'slug'
+        );
     }
 
     public function defaultEmailVariant(): MorphOne

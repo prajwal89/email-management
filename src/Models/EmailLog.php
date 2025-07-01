@@ -21,6 +21,12 @@ class EmailLog extends Model
 
     protected $table = 'em_email_logs';
 
+    protected $primaryKey = 'message_id';
+
+    protected $keyType = 'string';
+
+    public $incrementing = false;
+
     protected $fillable = [
         'message_id',
         'from',
@@ -99,9 +105,15 @@ class EmailLog extends Model
         return $this->hasOne(Recipient::class, 'message_id', 'message_id')->where('type', RecipientType::TO);
     }
 
+    // ! this i not correct relation as 
+    // we need to connect with sendable_type
     public function emailVariant(): BelongsTo
     {
-        return $this->belongsTo(EmailVariant::class, 'email_variant_slug', 'slug');
+        return $this->belongsTo(
+            EmailVariant::class,
+            'email_variant_slug',
+            'slug'
+        );
     }
 
     public function followUpEmailLogs(): HasMany

@@ -13,6 +13,8 @@ class FollowUp extends Model
 {
     protected $table = 'em_follow_ups';
 
+    public $incrementing = false;
+
     protected $fillable = [
         'followup_email_event_id',
         'followupable_id',
@@ -26,7 +28,7 @@ class FollowUp extends Model
      */
     public function followupEmailEvent()
     {
-        return $this->belongsTo(EmailEvent::class, 'followup_email_event_id');
+        return $this->belongsTo(EmailEvent::class, 'followup_email_event_slug');
     }
 
     /**
