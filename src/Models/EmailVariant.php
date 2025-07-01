@@ -43,12 +43,22 @@ class EmailVariant extends Model
 
     public function getKey()
     {
-        return [$this->slug, $this->sendable_type];
+        return $this->getAttribute($this->getKeyName());
     }
 
+    public function getRouteKey()
+    {
+        return $this->getAttribute($this->getRouteKeyName());
+    }
+    
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+    
     public function getKeyName()
     {
-        return ['slug', 'sendable_type'];
+        return 'slug';
     }
 
     public function casts(): array
