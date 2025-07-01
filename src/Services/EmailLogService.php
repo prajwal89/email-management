@@ -16,6 +16,8 @@ class EmailLogService
     {
         $headersManager = new HeadersManager($message);
 
+        // dd($headersManager->getEmailVariantSlug());
+
         try {
             DB::beginTransaction();
 

@@ -303,7 +303,7 @@ abstract class EmailHandlerBase
         return EmailLog::query()
             ->where('receivable_id', $this->receivable->id)
             ->where('receivable_type', get_class($this->receivable))
-            ->where('sendable_slug', $this->sendable->id)
+            ->where('sendable_slug', $this->sendable->slug)
             ->where('sendable_type', get_class($this->sendable))
             ->when($context !== null, function ($query) use ($context) {
                 return $query->whereJsonContains('context', $context);

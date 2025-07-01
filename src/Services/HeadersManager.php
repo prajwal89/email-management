@@ -50,7 +50,8 @@ class HeadersManager
 
         $headers->addTextHeader('X-Receivable-Type', (string) get_class($receivable));
         $headers->addTextHeader('X-Receivable-Id', (string) $receivable->getKey());
-        $headers->addTextHeader('X-Email-Variant-Slug', (string) $chosenEmailVariant->getKey());
+
+        $headers->addTextHeader('X-Email-Variant-Slug', (string) $chosenEmailVariant->slug);
 
         if ($eventContext !== null) {
             $headers->addTextHeader('X-Event-Context', json_encode($eventContext));

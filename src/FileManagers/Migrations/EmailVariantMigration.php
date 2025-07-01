@@ -62,7 +62,7 @@ class EmailVariantMigration
 
         $fileContents = str(File::get($stubPath))
             ->replace('{sendable_type}', get_class($this->forModel->sendable))
-            ->replace('{sendable_slug}', $this->forModel->sendable->id)
+            ->replace('{sendable_slug}', $this->forModel->sendable->slug)
             ->replace('{slug}', $slug);
 
         $migrationFilePath = EmailVariant::getMigrationFilePath(
