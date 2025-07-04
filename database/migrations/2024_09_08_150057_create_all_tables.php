@@ -154,6 +154,7 @@ return new class extends Migration
                 ->references('slug')
                 ->on('em_email_variants');
 
+            $table->index('in_reply_to');
             $table->index(['receivable_id', 'receivable_type']);
             $table->index(['sendable_slug', 'sendable_type']);
         });
