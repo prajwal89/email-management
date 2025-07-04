@@ -7,6 +7,8 @@ namespace Prajwal89\EmailManagement\Commands;
 use Exception;
 use Illuminate\Console\Command;
 use Prajwal89\EmailManagement\FileManagers\Migrations\FollowUpMigration;
+use Prajwal89\EmailManagement\Interfaces\EmailReceivable;
+use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\Models\FollowUp;
@@ -62,7 +64,7 @@ class CreateFollowUpCommand extends Command
         }
 
         // Get all available follow-up email events
-        $allFollowupEmailEvents = $this->getFollowupEmailEvents();
+        $allFollowupEmailEvents = $this->getFollowupEmailEvents($followupable);
 
         // the email that will be sent
         // todo: add constraint of suffix of FollowUp
@@ -208,15 +210,23 @@ class CreateFollowUpCommand extends Command
     /**
      * Get all available follow-up email events
      */
-    private function getFollowupEmailEvents()
+    private function getFollowupEmailEvents(EmailSendable $followupable)
     {
         $allFollowupEmailEvents = EmailEvent::query()
             ->latest()
+            // filter out emails that are already added for the follow up
+            ->whereNotIn(
+                'slug',
+                $followupable
+                    ->followUps
+                    ->pluck(['followup_email_event_slug'])
+                    ->toArray()
+            )
             ->where('is_followup_email', 1)
             ->get();
 
         if ($allFollowupEmailEvents->isEmpty()) {
-            $this->error('❌ There are no follow-up email events. Please create an email event first.');
+            $this->error('❌ There are no follow-up email events that can be attached. Please create an email event first.');
             exit(1);
         }
 
