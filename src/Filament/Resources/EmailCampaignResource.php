@@ -13,6 +13,7 @@ use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use IbrahimBougaoua\FilaProgress\Tables\Columns\ProgressBar;
+use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 use Prajwal89\EmailManagement\Filament\Resources\EmailCampaignResource\Pages;
 use Prajwal89\EmailManagement\Filament\Resources\EmailCampaignResource\Pages\EditEmailCampaign;
 use Prajwal89\EmailManagement\Filament\Resources\EmailCampaignResource\Pages\ListEmailCampaigns;
@@ -83,9 +84,19 @@ class EmailCampaignResource extends Resource
                             'progress' => $total - $progress,
                         ];
                     }),
+                TextColumn::make('created_at')
+                    ->label('Created at')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->date(),
+                TextColumn::make('updated_at')
+                    ->label('Updated at')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->date(),
             ])
             ->filters([
-                //
+                DateRangeFilter::make('created_at'),
             ])
             ->actions([
                 EditAction::make(),
