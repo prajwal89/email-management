@@ -43,7 +43,7 @@ class FollowUpEmailsSender
         // loop through the potential emails that may require follow up email
         foreach ($emailLogs as $emailLog) {
             // Get all follow-ups for this sendable
-            $followUps = $emailLog->sendable->followUps;
+            $followUps = $emailLog->sendable->followUps->where('is_enabled', 1);
 
             foreach ($followUps as $followUp) {
                 // Calculate when this follow-up should be sent
