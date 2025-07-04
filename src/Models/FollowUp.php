@@ -15,8 +15,11 @@ class FollowUp extends Model
 
     // Use a single primary key for Filament compatibility
     protected $primaryKey = 'followup_email_event_slug';
+
     protected $keyType = 'string';
+
     public $incrementing = false;
+
     public $timestamps = true;
 
     // Store composite key components for internal use
@@ -40,7 +43,7 @@ class FollowUp extends Model
         return $query->where([
             'followupable_slug' => $this->getAttribute('followupable_slug'),
             'followupable_type' => $this->getAttribute('followupable_type'),
-            'followup_email_event_slug' => $this->getAttribute('followup_email_event_slug')
+            'followup_email_event_slug' => $this->getAttribute('followup_email_event_slug'),
         ]);
     }
 

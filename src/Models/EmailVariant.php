@@ -50,12 +50,12 @@ class EmailVariant extends Model
     {
         return $this->getAttribute($this->getRouteKeyName());
     }
-    
+
     public function getRouteKeyName()
     {
         return 'slug';
     }
-    
+
     public function getKeyName()
     {
         return 'slug';

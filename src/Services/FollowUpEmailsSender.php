@@ -82,7 +82,7 @@ class FollowUpEmailsSender
                 // dd('ds');
 
                 // Get the follow-up email event
-                $followUpEvent = EmailEvent::where('slug',$followUp->followup_email_event_slug)->first();
+                $followUpEvent = EmailEvent::where('slug', $followUp->followup_email_event_slug)->first();
 
                 if ($followUpEvent) {
                     // Send the follow-up email
@@ -107,7 +107,7 @@ class FollowUpEmailsSender
             ->exists();
     }
 
-public static function checkIfFollowUpEmailSent(EmailLog $emailLog, FollowUp $followUp): bool
+    public static function checkIfFollowUpEmailSent(EmailLog $emailLog, FollowUp $followUp): bool
     {
         return EmailLog::query()
             ->where('receivable_id', $emailLog->receivable_id)

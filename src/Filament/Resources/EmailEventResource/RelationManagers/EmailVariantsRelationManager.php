@@ -5,20 +5,17 @@ declare(strict_types=1);
 namespace Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\RelationManagers;
 
 use Exception;
-use Filament\Forms;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Tables;
 use Filament\Tables\Actions\Action as ActionsAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
-use Prajwal89\EmailManagement\Filament\SharedActions;
 use Prajwal89\EmailManagement\Models\EmailVariant;
 use Prajwal89\EmailManagement\Services\EmailVariantService;
 
@@ -105,7 +102,7 @@ class EmailVariantsRelationManager extends RelationManager
                     ->color('danger')
                     ->icon('heroicon-o-trash')
                     ->requiresConfirmation()
-                    ->disabled(fn(): bool => !app()->isLocal())
+                    ->disabled(fn (): bool => !app()->isLocal())
                     ->tooltip('Can Be deleted from local Environment only')
                     ->modalDescription('This action will email file, and all associated DB records and will create seeder file for deleting the record')
                     ->modalSubmitActionLabel('Delete')
@@ -130,7 +127,6 @@ class EmailVariantsRelationManager extends RelationManager
                             ->success()
                             ->send();
                     }),
-            ])
-        ;
+            ]);
     }
 }

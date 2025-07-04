@@ -37,7 +37,6 @@ class CreateFollowUpCommand extends Command
         // Get followupable slug from option or prompt
         $followupableSlug = $this->getFollowupableSlug($followupableType);
 
-
         $followupable = $followupableType::query()
             ->with(['followUps' => function ($query) {
                 $query->orderBy('wait_for_days', 'asc');
@@ -61,7 +60,6 @@ class CreateFollowUpCommand extends Command
                 $this->info(++$i . " : {$followUp->followupEmailEvent->name} (+{$followUp->wait_for_days} hours)");
             }
         }
-
 
         // Get all available follow-up email events
         $allFollowupEmailEvents = $this->getFollowupEmailEvents();

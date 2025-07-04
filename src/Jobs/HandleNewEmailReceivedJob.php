@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Prajwal89\EmailManagement\Jobs;
 
 use DirectoryTree\ImapEngine\MessageInterface;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Log;
 use Prajwal89\EmailManagement\BounceParser;
 use Prajwal89\EmailManagement\Dtos\BounceDataDto;
 use Prajwal89\EmailManagement\Models\EmailLog;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Queue\Queueable;
 
 class HandleNewEmailReceivedJob implements ShouldQueue
 {
@@ -59,7 +59,7 @@ class HandleNewEmailReceivedJob implements ShouldQueue
 
     public function handleBounce(BounceDataDto $bounceDataDto)
     {
-        Log::info("Email is not bounce notification", [
+        Log::info('Email is not bounce notification', [
             'message_id' => $this->message->messageId(),
             'subject' => $this->message->subject(),
         ]);
@@ -68,7 +68,7 @@ class HandleNewEmailReceivedJob implements ShouldQueue
 
         if (str($bounceDataDto->statusCode)->startsWith('5')) {
             $updateData['hard_bounced_at'] = now();
-        } else if (str($bounceDataDto->statusCode)->startsWith('4')) {
+        } elseif (str($bounceDataDto->statusCode)->startsWith('4')) {
             $updateData['soft_bounced_at'] = now();
         }
 
@@ -78,14 +78,14 @@ class HandleNewEmailReceivedJob implements ShouldQueue
             ->where('message_id', $originalMessageId)
             ->first();
 
-        if ($emailLog == null) {
+        if ($emailLog === null) {
             return;
         }
 
         $emailLog->update([
             'bounce_code' => $bounceDataDto->statusCode,
             'bounce_reason' => $bounceDataDto->reason,
-            ...$updateData
+            ...$updateData,
         ]);
     }
 }

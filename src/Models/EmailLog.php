@@ -105,7 +105,7 @@ class EmailLog extends Model
         return $this->hasOne(Recipient::class, 'message_id', 'message_id')->where('type', RecipientType::TO);
     }
 
-    // ! this i not correct relation as 
+    // ! this i not correct relation as
     // we need to connect with sendable_type
     public function emailVariant(): BelongsTo
     {

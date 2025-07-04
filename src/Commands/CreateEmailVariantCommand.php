@@ -98,7 +98,7 @@ class CreateEmailVariantCommand extends Command
             $eventSlug = search(
                 label: 'Which email event does this variant belong to?',
                 placeholder: 'Start typing to search for an event...',
-                options: fn(string $value) => strlen($value) > 0
+                options: fn (string $value) => strlen($value) > 0
                     ? $sendableModel::where('name', 'like', "%{$value}%")->pluck('name', 'slug')->all()
                     : $events->all(),
                 scroll: 10
@@ -131,7 +131,7 @@ class CreateEmailVariantCommand extends Command
                 placeholder: 'Enter a number between 0 and 100',
                 required: true,
                 default: '50',
-                validate: fn(string $value) => match (true) {
+                validate: fn (string $value) => match (true) {
                     !is_numeric($value) => 'The value must be a number.',
                     $value < 0 => 'The percentage cannot be less than 0.',
                     $value > 100 => 'The percentage cannot be greater than 100.',
@@ -145,9 +145,9 @@ class CreateEmailVariantCommand extends Command
                 })->toArray(),
                 default: EmailContentType::MARKDOWN->value,
                 required: true,
-                validate: fn(string $value) => in_array(
+                validate: fn (string $value) => in_array(
                     $value,
-                    collect(EmailContentType::cases())->map(fn($case) => $case->value)->toArray(),
+                    collect(EmailContentType::cases())->map(fn ($case) => $case->value)->toArray(),
                     true
                 ) ? null : 'Invalid content type selected.'
             ),
@@ -156,7 +156,7 @@ class CreateEmailVariantCommand extends Command
         $variantSlug = str($data['name'])->slug();
 
         if (EmailVariant::query()->where('slug', $variantSlug)->exists()) {
-            throw new Exception("Duplicate Email Variant Name");
+            throw new Exception('Duplicate Email Variant Name');
         }
 
         $filePath = (new MigrationFileManager(EmailVariant::class))
