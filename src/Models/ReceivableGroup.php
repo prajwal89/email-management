@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Prajwal89\EmailManagement\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Prajwal89\EmailManagement\Services\CampaignManager;
+use Prajwal89\EmailManagement\Services\CampaignRunner;
 use Sushi\Sushi;
 
 /**
@@ -21,6 +21,6 @@ class ReceivableGroup extends Model
 
     public function getRows(): array
     {
-        return CampaignManager::allGroupsData()->toArray();
+        return CampaignRunner::allGroupsData()->toArray();
     }
 }

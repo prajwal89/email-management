@@ -21,7 +21,7 @@ use Throwable;
 // ? should we alow each campaign to run multiple times?
 // we have to keep campaign_runs table separably
 // todo: add support for delay between emails
-class CampaignManager
+class CampaignRunner
 {
     public function __construct(
         public EmailCampaign $emailCampaign,

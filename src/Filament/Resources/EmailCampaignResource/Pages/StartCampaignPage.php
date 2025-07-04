@@ -12,7 +12,7 @@ use Prajwal89\EmailManagement\Commands\CreateReceivableGroupCommand;
 use Prajwal89\EmailManagement\Filament\Resources\EmailCampaignResource;
 use Prajwal89\EmailManagement\Helpers\Helper;
 use Prajwal89\EmailManagement\Models\EmailCampaign;
-use Prajwal89\EmailManagement\Services\CampaignManager;
+use Prajwal89\EmailManagement\Services\CampaignRunner;
 
 class StartCampaignPage extends Page
 {
@@ -32,22 +32,22 @@ class StartCampaignPage extends Page
 
     public string $createGroupCommand = '';
 
-    protected $campaignManager;
+    protected $campaignRunner;
 
     public function mount(): void
     {
-        $this->campaignManager = $this->getCampaignManager();
+        $this->campaignRunner = $this->getCampaignRunner();
 
-        $this->allReceivableGroups = $this->campaignManager->allGroupsData()->toArray();
+        $this->allReceivableGroups = $this->campaignRunner->allGroupsData()->toArray();
 
         $this->createGroupCommand = Helper::getCommandSignature(CreateReceivableGroupCommand::class);
     }
 
     public function updatedSelectedGroups(): void
     {
-        $this->campaignManager = $this->getCampaignManager();
+        $this->campaignRunner = $this->getCampaignRunner();
 
-        $this->totalReceivablesWithoutOverlapping = $this->campaignManager->allReceivablesWithUniqueEmail()->count();
+        $this->totalReceivablesWithoutOverlapping = $this->campaignRunner->allReceivablesWithUniqueEmail()->count();
     }
 
     public function startProcess(): mixed
@@ -86,7 +86,7 @@ class StartCampaignPage extends Page
                     return;
                 }
 
-                (new CampaignManager(
+                (new CampaignRunner(
                     $this->record,
                     $this->selectedGroups,
                     $this->delayBetweenJobs
@@ -103,8 +103,8 @@ class StartCampaignPage extends Page
             ->call();
     }
 
-    public function getCampaignManager()
+    public function getCampaignRunner()
     {
-        return new CampaignManager($this->record, $this->selectedGroups);
+        return new CampaignRunner($this->record, $this->selectedGroups);
     }
 }
