@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Prajwal89\EmailManagement\Services;
+namespace Prajwal89\EmailManagement;
 
 use Illuminate\Support\Facades\URL;
 use Prajwal89\EmailManagement\Interfaces\EmailReceivable;

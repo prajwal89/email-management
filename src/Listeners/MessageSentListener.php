@@ -7,7 +7,7 @@ namespace Prajwal89\EmailManagement\Listeners;
 use Illuminate\Mail\Events\MessageSent;
 use Prajwal89\EmailManagement\Models\EmailLog;
 use Prajwal89\EmailManagement\Services\EmailLogService;
-use Prajwal89\EmailManagement\Services\HeadersManager;
+use Prajwal89\EmailManagement\HeadersManager;
 
 class MessageSentListener
 {
