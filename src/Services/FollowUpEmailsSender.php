@@ -11,11 +11,7 @@ use Prajwal89\EmailManagement\Models\FollowUp;
 
 class FollowUpEmailsSender
 {
-    // it should throw an error
-    public function __construct()
-    {
-        //
-    }
+    public function __construct() {}
 
     public function send()
     {
@@ -24,7 +20,6 @@ class FollowUpEmailsSender
         // Get emails logs that may require to send follow up emails
         $emailLogs = EmailLog::query()
             ->select([
-                'id',
                 'message_id',
                 'sendable_slug',
                 'sendable_type',
@@ -43,23 +38,16 @@ class FollowUpEmailsSender
             ->where('sent_at', '>', now()->subDays(config('email-management.max_delay_for_followup_email')))
             ->get();
 
+        $followUpsToSend = [];
+
         // loop through the potential emails that may require follow up email
         foreach ($emailLogs as $emailLog) {
-
             // Get all follow-ups for this sendable
             $followUps = $emailLog->sendable->followUps;
 
-            dd($followUps->toArray());
-
-            // ch
             foreach ($followUps as $followUp) {
                 // Calculate when this follow-up should be sent
                 $followUpSendDate = $emailLog->sent_at->addDays($followUp->wait_for_days);
-
-                // dump($followUp);
-                dump($followUpSendDate->toDateString());
-
-                // continue;
 
                 // Check if it's time to send this follow-up
                 if (!$followUpSendDate->isPast()) {
@@ -77,21 +65,29 @@ class FollowUpEmailsSender
                     continue;
                 }
 
-                // todo check when was last follow up email sent
-
-                // dd('ds');
-
-                // Get the follow-up email event
-                $followUpEvent = EmailEvent::where('slug', $followUp->followup_email_event_slug)->first();
+                $followUpEvent = EmailEvent::query()
+                    ->where('slug', $followUp->followup_email_event_slug)
+                    ->first();
 
                 if ($followUpEvent) {
-                    // Send the follow-up email
-                    $this->sendFollowUpEmail($emailLog, $followUpEvent, $followUp);
+                    $followUpsToSend[] = [
+                        'emailLog' => $emailLog,
+                        'followUpEvent' => $followUpEvent,
+                        'followUp' => $followUp,
+                    ];
 
-                    //
-                    return;
+                    continue;
                 }
             }
+        }
+
+        // dd($followUpsToSend);
+
+        foreach ($followUpsToSend as $emailData) {
+            $this->sendFollowUpEmail(
+                emailLog: $emailData['emailLog'],
+                followUpEvent: $emailData['followUpEvent']
+            );
         }
     }
 
@@ -118,6 +114,7 @@ class FollowUpEmailsSender
             ->exists();
     }
 
+    // ? should i move this to the job
     public function sendFollowUpEmail(
         EmailLog $emailLog,
         EmailEvent $followUpEvent,

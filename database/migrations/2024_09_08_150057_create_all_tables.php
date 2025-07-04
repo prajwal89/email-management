@@ -136,6 +136,8 @@ return new class extends Migration
             $table->timestamp('last_clicked_at')->nullable();
             $table->timestamp('complained_at')->nullable();
 
+            $table->string('in_reply_to')->nullable();
+
             $table->string('reply_message_id')->nullable();
             $table->timestamp('replied_at')->nullable();
 

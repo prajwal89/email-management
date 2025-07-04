@@ -60,6 +60,10 @@ class EmailLog extends Model
         'last_clicked_at',
         'complained_at',
 
+        // this log is reply for the previous email log
+        'in_reply_to',
+
+        // message id of the reply email
         'reply_message_id',
 
         'replied_at',
