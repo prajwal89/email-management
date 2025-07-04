@@ -10,9 +10,9 @@ return new class extends Migration
     public function up(): void
     {
         FollowUp::create([
-            'followup_email_event_id' => '{followup_email_event_id}',
+            'followup_email_event_slug' => '{followup_email_event_slug}',
             'followupable_type' => '{followupable_type}',
-            'followupable_id' => '{followupable_id}',
+            'followupable_slug' => '{followupable_slug}',
             'wait_for_days' => '{wait_for_days}',
             'is_enabled' => true,
         ]);

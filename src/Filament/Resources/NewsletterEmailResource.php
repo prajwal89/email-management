@@ -58,6 +58,16 @@ class NewsletterEmailResource extends Resource
                     })
                     ->boolean(),
                 TextColumn::make('email_verified_at')->dateTime(),
+                TextColumn::make('created_at')
+                    ->label('Created at')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->date(),
+                TextColumn::make('updated_at')
+                    ->label('Updated at')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->date(),
             ])
             ->filters([
                 DateRangeFilter::make('email_verified_at'),

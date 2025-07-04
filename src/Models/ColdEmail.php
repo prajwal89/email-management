@@ -17,6 +17,12 @@ class ColdEmail extends Model implements EmailReceivable
 
     protected $table = 'em_cold_emails';
 
+    protected $primaryKey = 'email';
+
+    protected $keyType = 'string';
+
+    public $incrementing = false;
+
     protected $fillable = [
         'email',
         'collection_reason',

@@ -13,10 +13,44 @@ class FollowUp extends Model
 {
     protected $table = 'em_follow_ups';
 
+    // Use a single primary key for Filament compatibility
+    protected $primaryKey = 'followup_email_event_slug';
+
+    protected $keyType = 'string';
+
+    public $incrementing = false;
+
+    public $timestamps = true;
+
+    // Store composite key components for internal use
+    protected $compositeKey = ['followupable_slug', 'followupable_type', 'followup_email_event_slug'];
+
+    // For Filament compatibility
+    public function getKeyName()
+    {
+        return 'followup_email_event_slug';
+    }
+
+    // For Filament compatibility
+    public function getRouteKeyName()
+    {
+        return 'followup_email_event_slug';
+    }
+
+    // For internal composite key lookups
+    protected function setKeysForSaveQuery($query)
+    {
+        return $query->where([
+            'followupable_slug' => $this->getAttribute('followupable_slug'),
+            'followupable_type' => $this->getAttribute('followupable_type'),
+            'followup_email_event_slug' => $this->getAttribute('followup_email_event_slug'),
+        ]);
+    }
+
     protected $fillable = [
-        'followup_email_event_id',
-        'followupable_id',
+        'followup_email_event_slug',
         'followupable_type',
+        'followupable_slug',
         'is_enabled',
         'wait_for_days',
     ];
@@ -26,7 +60,7 @@ class FollowUp extends Model
      */
     public function followupEmailEvent()
     {
-        return $this->belongsTo(EmailEvent::class, 'followup_email_event_id');
+        return $this->belongsTo(EmailEvent::class, 'followup_email_event_slug');
     }
 
     /**

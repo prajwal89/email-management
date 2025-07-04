@@ -7,6 +7,7 @@ namespace Prajwal89\EmailManagement\Services;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Prajwal89\EmailManagement\Enums\RecipientType;
+use Prajwal89\EmailManagement\HeadersManager;
 use Prajwal89\EmailManagement\Models\EmailLog;
 use Symfony\Component\Mime\Email;
 
@@ -15,6 +16,8 @@ class EmailLogService
     public static function store(Email $message): EmailLog
     {
         $headersManager = new HeadersManager($message);
+
+        // dd($headersManager->getEmailVariantSlug());
 
         try {
             DB::beginTransaction();
@@ -28,12 +31,12 @@ class EmailLogService
                 'from' => $message->getFrom()[0]->getAddress(),
 
                 'sendable_type' => $headersManager->getSendable()['type'],
-                'sendable_id' => $headersManager->getSendable()['id'],
+                'sendable_slug' => $headersManager->getSendable()['slug'],
 
                 'receivable_type' => $headersManager->getReceivable()['type'],
                 'receivable_id' => $headersManager->getReceivable()['id'],
 
-                'email_variant_id' => $headersManager->getEmailVariantId(),
+                'email_variant_slug' => $headersManager->getEmailVariantSlug(),
 
                 'subject' => $message->getSubject(),
                 'html' => $message->getHtmlBody(),

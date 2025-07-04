@@ -34,6 +34,7 @@ class RunsRelationManager extends RelationManager
             // ->modifyQueryUsing(function($query){
             //     $query->withCount('emailCampaign');
             // })
+            ->defaultSort('created_at', 'desc')
             ->columns([
                 TextColumn::make('batch_id')
                     ->label('Batch ID')
@@ -53,14 +54,14 @@ class RunsRelationManager extends RelationManager
                     ->numeric()
                     ->sortable()
                     ->toggleable()
-                    ->color(fn ($state) => $state > 0 ? 'warning' : 'success'),
+                    ->color(fn($state) => $state > 0 ? 'warning' : 'success'),
 
                 TextColumn::make('jobBatch.failed_jobs')
                     ->label('Failed Jobs')
                     ->numeric()
                     ->sortable()
                     ->toggleable()
-                    ->color(fn ($state) => $state > 0 ? 'danger' : 'success'),
+                    ->color(fn($state) => $state > 0 ? 'danger' : 'success'),
 
                 // TextColumn::make('jobBatch.failed_job_ids')
                 //     ->label('Failed Jobs')

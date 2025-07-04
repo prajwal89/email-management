@@ -7,7 +7,6 @@ namespace Prajwal89\EmailManagement\Filament\Resources;
 use App\Models\User;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -92,13 +91,12 @@ class EmailLogResource extends Resource
                 // FiltersLayout::AboveContent
             )
             ->actions([
-                // Tables\Actions\EditAction::make(),
                 Action::make('preview')
                     ->label('Preview')
                     ->icon('heroicon-o-eye')
                     ->openUrlInNewTab()
                     ->url(function ($record): string {
-                        return self::getUrl('details', ['record' => $record->id]);
+                        return self::getUrl('details', ['record' => $record->message_id]);
                     }),
             ])
             ->bulkActions([
@@ -110,7 +108,7 @@ class EmailLogResource extends Resource
                 $query->with(['to']);
             })
             ->recordUrl(function ($record): string {
-                return self::getUrl('details', ['record' => $record->id]);
+                return self::getUrl('details', ['record' => $record->message_id]);
             })
             ->defaultSort('created_at', 'desc');
     }
@@ -259,20 +257,20 @@ class EmailLogResource extends Resource
                     if ($data['value'] === 'no_sendable') {
                         return $query
                             ->whereNull('sendable_type')
-                            ->whereNull('sendable_id');
+                            ->whereNull('sendable_slug');
                     }
 
-                    [$sendable_type, $sendable_id] = explode(':', $data['value']);
+                    [$sendable_type, $sendable_slug] = explode(':', $data['value']);
 
                     return $query
                         ->where('sendable_type', $sendable_type)
-                        ->where('sendable_id', $sendable_id);
+                        ->where('sendable_slug', $sendable_slug);
                 })
                 ->options(function () {
                     $result = EmailLog::query()
-                        ->select('sendable_type', 'sendable_id')
+                        ->select('sendable_type', 'sendable_slug')
                         ->with(['sendable'])
-                        ->whereNotNull('sendable_id')
+                        ->whereNotNull('sendable_slug')
                         ->whereNotNull('sendable_type')
                         ->distinct()
                         ->latest()
@@ -285,7 +283,7 @@ class EmailLogResource extends Resource
                             }
 
                             return [
-                                get_class($sendable) . ':' . $sendable->id => $sendable->name,
+                                get_class($sendable) . ':' . $sendable->slug => $sendable->name,
                             ];
                         })
                         ->mapWithKeys(fn ($data) => $data)

@@ -16,12 +16,16 @@ class TrackEmailVisitTest extends TestCase
     public function test_it_can_track_email_visits()
     {
         $log = EmailLog::factory()->create();
+
         $redirectUrl = 'https://example.com';
 
         $signedUrl = URL::temporarySignedRoute(
-            'emails.redirect',
-            now()->addMinutes(30),
-            ['message_id' => $log->message_id, 'url' => $redirectUrl]
+            name: 'emails.redirect',
+            expiration: now()->addMinutes(30),
+            parameters: [
+                'message_id' => $log->message_id,
+                'url' => $redirectUrl,
+            ]
         );
 
         $response = $this->get($signedUrl);
@@ -29,7 +33,7 @@ class TrackEmailVisitTest extends TestCase
         $response->assertRedirect($redirectUrl);
 
         $this->assertDatabaseHas('em_email_logs', [
-            'id' => $log->id,
+            'message_id' => $log->message_id,
             'clicks' => 1,
         ]);
     }
@@ -39,6 +43,7 @@ class TrackEmailVisitTest extends TestCase
         $log = EmailLog::factory()->create();
 
         $this->assertNull($log->last_opened_at);
+
         $this->assertEquals(0, $log->opens);
 
         $response = $this->get(route('emails.pixel', ['message_id' => $log->message_id]));
@@ -48,6 +53,7 @@ class TrackEmailVisitTest extends TestCase
         $log->refresh();
 
         $this->assertNotNull($log->last_opened_at);
+
         $this->assertEquals(1, $log->opens);
     }
 }

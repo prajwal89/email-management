@@ -18,9 +18,15 @@ class EmailEvent extends Model implements EmailSendable
 
     protected $table = 'em_email_events';
 
+    protected $primaryKey = 'slug';
+
+    protected $keyType = 'string';
+
+    public $incrementing = false;
+
     protected $fillable = [
-        'name',
         'slug',
+        'name',
         'description',
         'is_enabled',
         'is_followup_email',
@@ -36,7 +42,7 @@ class EmailEvent extends Model implements EmailSendable
 
     public function emailLogs(): MorphMany
     {
-        return $this->morphMany(EmailLog::class, 'sendable');
+        return $this->morphMany(EmailLog::class, 'sendable', 'sendable_type', 'sendable_slug', 'slug');
     }
 
     /**
@@ -44,17 +50,29 @@ class EmailEvent extends Model implements EmailSendable
      */
     public function sentEmails(): MorphMany
     {
-        return $this->morphMany(EmailLog::class, 'sendable')->sent();
+        return $this->morphMany(EmailLog::class, 'sendable', 'sendable_type', 'sendable_slug', 'slug')->sent();
     }
 
     public function emailVariants(): MorphMany
     {
-        return $this->morphMany(EmailVariant::class, 'sendable');
+        return $this->morphMany(
+            EmailVariant::class,
+            'sendable',
+            'sendable_type',
+            'sendable_slug',
+            'slug'
+        );
     }
 
     public function defaultEmailVariant(): MorphOne
     {
-        return $this->morphOne(EmailVariant::class, 'sendable')->where('slug', 'default');
+        return $this->morphOne(
+            EmailVariant::class,
+            'sendable',
+            'sendable_type',
+            'sendable_slug',
+            'slug'
+        )->where('slug', 'default');
     }
 
     public function emailVisits(): HasManyThrough
@@ -62,16 +80,16 @@ class EmailEvent extends Model implements EmailSendable
         return $this->hasManyThrough(
             related: EmailVisit::class,
             through: EmailLog::class,
-            firstKey: 'sendable_id',
+            firstKey: 'sendable_slug',
             secondKey: 'message_id',
-            localKey: 'id',
+            localKey: 'slug',
             secondLocalKey: 'message_id',
         )->where('sendable_type', self::class);
     }
 
     public function followUps(): MorphMany
     {
-        return $this->morphMany(FollowUp::class, 'followupable');
+        return $this->morphMany(FollowUp::class, 'followupable', 'followupable_type', 'followupable_slug', 'slug');
     }
 
     public function isEnabled(): bool

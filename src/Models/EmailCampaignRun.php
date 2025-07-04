@@ -13,9 +13,9 @@ class EmailCampaignRun extends Model
     protected $table = 'em_email_campaign_runs';
 
     protected $fillable = [
-        'email_campaign_id',
-        'receivable_groups',
         'batch_id',
+        'email_campaign_slug',
+        'receivable_groups',
     ];
 
     public function casts(): array
@@ -27,7 +27,7 @@ class EmailCampaignRun extends Model
 
     public function emailCampaign(): BelongsTo
     {
-        return $this->belongsTo(EmailCampaign::class);
+        return $this->belongsTo(EmailCampaign::class, 'slug', 'email_campaign_slug');
     }
 
     /**

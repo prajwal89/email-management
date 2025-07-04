@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\RelationManagers;
 
-use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -32,7 +32,7 @@ class FollowUpsRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('sendable.name')
+                TextInput::make('sendable.name')
                     ->required()
                     ->maxLength(255),
             ]);
@@ -73,7 +73,6 @@ class FollowUpsRelationManager extends RelationManager
                 // Tables\Actions\CreateAction::make(),
             ])
             ->actions([
-
                 Action::make('delete')
                     ->label('Delete')
                     ->color('danger')
@@ -111,11 +110,6 @@ class FollowUpsRelationManager extends RelationManager
                         ]);
                     })
                     ->openUrlInNewTab(),
-            ])
-            ->bulkActions([
-                // Tables\Actions\BulkActionGroup::make([
-                //     Tables\Actions\DeleteBulkAction::make(),
-                // ]),
             ]);
     }
 }

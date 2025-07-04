@@ -40,7 +40,7 @@ class CreateEmailEventCommand extends Command
                 validate: [
                     'required',
                     'max:40',
-                    Rule::unique('em_email_events', 'slug'),
+                    Rule::unique('em_email_events', 'name'),
                 ]
             ),
             'description' => textarea(
@@ -139,7 +139,7 @@ class CreateEmailEventCommand extends Command
     }
 
     /**
-     * laravel's default mailable class
+     * laravel's mailable class
      */
     public function createEmailClass(array $data): void
     {

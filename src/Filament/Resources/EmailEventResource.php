@@ -13,7 +13,9 @@ use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\Pages\EditEmailEvent;
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\Pages\ListEmailEvents;
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\Pages\PreviewEmailPage;
@@ -62,9 +64,25 @@ class EmailEventResource extends Resource
                     ->label('Variants')
                     ->counts('emailVariants')
                     ->sortable(),
+                TextColumn::make('created_at')
+                    ->label('Created at')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->date(),
+                TextColumn::make('updated_at')
+                    ->label('Updated at')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->date(),
             ])
             ->filters([
-                //
+                SelectFilter::make('is_followup_email')
+                    ->options([
+                        '0' => 'No',
+                        '1' => 'Yes',
+                    ])
+                    ->default(0),
+                DateRangeFilter::make('created_at'),
             ])
             ->actions([
                 EditAction::make(),

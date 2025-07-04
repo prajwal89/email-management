@@ -13,7 +13,6 @@ use Prajwal89\EmailManagement\Models\EmailLog;
 use Prajwal89\EmailManagement\Models\EmailVariant;
 use Prajwal89\EmailManagement\Services\EmailContentModifiers;
 use Prajwal89\EmailManagement\Services\EmailVariantSelector;
-use Prajwal89\EmailManagement\Services\HeadersManager;
 use ReflectionClass;
 use Symfony\Component\Mime\Email;
 
@@ -303,7 +302,7 @@ abstract class EmailHandlerBase
         return EmailLog::query()
             ->where('receivable_id', $this->receivable->id)
             ->where('receivable_type', get_class($this->receivable))
-            ->where('sendable_id', $this->sendable->id)
+            ->where('sendable_slug', $this->sendable->slug)
             ->where('sendable_type', get_class($this->sendable))
             ->when($context !== null, function ($query) use ($context) {
                 return $query->whereJsonContains('context', $context);

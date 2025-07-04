@@ -14,15 +14,15 @@ class SendableOverview extends BaseWidget
 {
     public ?string $sendableType = null;
 
-    public ?string $sendableId = null;
+    public ?string $sendableSlug = null;
 
     protected function getStats(): array
     {
         // Create a base query that conditionally filters by sendable type and ID
         $baseQuery = EmailLog::query()
-            ->when($this->sendableId, function (Builder $query) {
-                // dd($this->sendableId);
-                $query->where('sendable_id', $this->sendableId);
+            ->when($this->sendableSlug, function (Builder $query) {
+                // dd($this->sendableSlug);
+                $query->where('sendable_slug', $this->sendableSlug);
             })
             ->when($this->sendableType, function (Builder $query) {
                 $query->where('sendable_type', $this->sendableType);

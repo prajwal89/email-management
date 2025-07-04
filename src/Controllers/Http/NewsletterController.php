@@ -58,6 +58,7 @@ class NewsletterController extends Controller
             // create new subscription
             $newsletterEmail = NewsletterEmailService::store(['email' => $email]);
 
+            // todo: move this
             Mail::to($newsletterEmail)->send(new NewsletterEmailVerificationEmail($newsletterEmail));
 
             laraToast()->success('Verification email has been sent. Please check your inbox.');

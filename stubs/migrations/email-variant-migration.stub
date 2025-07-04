@@ -17,7 +17,7 @@ return new class extends Migration
                 'name' => '{name}',
                 'slug' => '{slug}',
                 'content_type' => '{content_type}',
-                'exposure_percentage' => {exposure_percentage}
+                'exposure_percentage' => {exposure_percentage},
             ]);
     }
 };

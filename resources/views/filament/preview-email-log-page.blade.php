@@ -194,12 +194,12 @@
                          <div>
                             <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Source Model</dt>
                              <dd class="mt-1 text-sm text-gray-900 dark:text-gray-200">
-                                @if ($link = getFilamentResourceLink($record->sendable_type, $record->sendable_id))
+                                @if ($link = getFilamentResourceLink($record->sendable_type, $record->sendable_slug))
                                     <a href="{{ $link }}" class="text-primary-600 hover:underline dark:text-primary-400">
-                                        {{ \Illuminate\Support\Str::afterLast($record->sendable_type, '\\') }} #{{ $record->sendable_id }}
+                                        {{ \Illuminate\Support\Str::afterLast($record->sendable_type, '\\') }} #{{ $record->sendable_slug }}
                                     </a>
                                 @else
-                                    {{ \Illuminate\Support\Str::afterLast($record->sendable_type, '\\') }} #{{ $record->sendable_id }}
+                                    {{ \Illuminate\Support\Str::afterLast($record->sendable_type, '\\') }} #{{ $record->sendable_slug }}
                                 @endif
                             </dd>
                         </div>

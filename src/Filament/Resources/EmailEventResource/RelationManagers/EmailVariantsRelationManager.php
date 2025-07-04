@@ -5,20 +5,17 @@ declare(strict_types=1);
 namespace Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\RelationManagers;
 
 use Exception;
-use Filament\Forms;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Tables;
 use Filament\Tables\Actions\Action as ActionsAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
-use Prajwal89\EmailManagement\Filament\SharedActions;
 use Prajwal89\EmailManagement\Models\EmailVariant;
 use Prajwal89\EmailManagement\Services\EmailVariantService;
 
@@ -37,7 +34,7 @@ class EmailVariantsRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                TextInput::make('name')
                     ->required()
                     ->maxLength(255),
 
@@ -50,23 +47,32 @@ class EmailVariantsRelationManager extends RelationManager
             ]);
     }
 
+    // todo: get unique page views
     public function table(Table $table): Table
     {
         return $table
             ->recordTitleAttribute('name')
+            ->modifyQueryUsing(function ($query) {
+                // $query->withCount([
+                //     'emailVisits as email_unique_visits_count' => function ($query) {
+                //         // $query->unique();
+                //     }
+                // ]);
+            })
             ->columns([
                 TextColumn::make('name'),
                 TextColumn::make('content_type'),
                 TextColumn::make('exposure_percentage')
                     ->label('Exposure')
                     ->suffix('%'),
-                IconColumn::make('is_paused')->label('Paused'),
-                IconColumn::make('is_winner')->label('Winner')
+                IconColumn::make('is_paused')
+                    ->label('Paused'),
+                IconColumn::make('is_winner')
+                    ->label('Winner')
                     ->tooltip('Winner for this AB test'),
                 TextColumn::make('email_logs_count')
                     ->label('Sent')
                     ->counts('emailLogs'),
-                // TextColumn::make('email_unique_visits_count')
                 TextColumn::make('email_visits_count')
                     ->label('Visits')
                     ->counts('emailVisits'),
@@ -89,13 +95,8 @@ class EmailVariantsRelationManager extends RelationManager
             ->filters([
                 //
             ])
-            ->headerActions([
-                // Tables\Actions\CreateAction::make(),
-                // SharedActions::createEmailVariant(),
-            ])
             ->actions([
                 EditAction::make(),
-                // Tables\Actions\DeleteAction::make(),
                 ActionsAction::make('delete')
                     ->label('Delete')
                     ->color('danger')
@@ -126,18 +127,6 @@ class EmailVariantsRelationManager extends RelationManager
                             ->success()
                             ->send();
                     }),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ])
-            ->modifyQueryUsing(function ($query) {
-                // $query->withCount([
-                //     'emailVisits as email_unique_visits_count' => function ($query) {
-                //         // $query->unique();
-                //     }
-                // ]);
-            });
+            ]);
     }
 }

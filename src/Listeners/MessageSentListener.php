@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Prajwal89\EmailManagement\Listeners;
 
 use Illuminate\Mail\Events\MessageSent;
+use Prajwal89\EmailManagement\HeadersManager;
 use Prajwal89\EmailManagement\Models\EmailLog;
 use Prajwal89\EmailManagement\Services\EmailLogService;
-use Prajwal89\EmailManagement\Services\HeadersManager;
 
 class MessageSentListener
 {

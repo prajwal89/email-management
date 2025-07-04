@@ -13,7 +13,7 @@ return new class extends Migration
       ->where([
         'slug' => '{slug}',
         'sendable_type' => '{sendable_type}',
-        'sendable_id' => '{sendable_id}'
+        'sendable_slug' => '{sendable_slug}'
       ])
       ->first()
       ->delete();

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Prajwal89\EmailManagement\Services;
+namespace Prajwal89\EmailManagement;
 
 use Illuminate\Support\Facades\URL;
 use Prajwal89\EmailManagement\Interfaces\EmailReceivable;
@@ -50,7 +50,8 @@ class HeadersManager
 
         $headers->addTextHeader('X-Receivable-Type', (string) get_class($receivable));
         $headers->addTextHeader('X-Receivable-Id', (string) $receivable->getKey());
-        $headers->addTextHeader('X-Email-Variant-Id', (string) $chosenEmailVariant->getKey());
+
+        $headers->addTextHeader('X-Email-Variant-Slug', (string) $chosenEmailVariant->slug);
 
         if ($eventContext !== null) {
             $headers->addTextHeader('X-Event-Context', json_encode($eventContext));
@@ -65,7 +66,7 @@ class HeadersManager
 
         $headers->addTextHeader('X-Sendable-Type', (string) get_class($sendable));
 
-        $headers->addTextHeader('X-Sendable-Id', (string) $sendable->getKey());
+        $headers->addTextHeader('X-Sendable-Slug', (string) $sendable->getKey());
     }
 
     public function addInReplyToHeader(string|array $inReplyTo)
@@ -99,10 +100,10 @@ class HeadersManager
 
         $customHeaders = [
             'X-Sendable-Type',
-            'X-Sendable-Id',
+            'X-Sendable-Slug',
             'X-Receivable-Type',
             'X-Receivable-Id',
-            'X-Email-Variant-Id',
+            'X-Email-Variant-Slug',
             'X-Event-Context',
         ];
 
@@ -137,7 +138,7 @@ class HeadersManager
             $messageId = self::generateNewMessageId();
         }
 
-        $this->email->getHeaders()->addIdHeader('Message-ID', $messageId);
+        $this->email->getHeaders()->addIdHeader('Message-Id', $messageId);
 
         return $messageId;
     }
@@ -148,9 +149,9 @@ class HeadersManager
 
         $messageId = null;
 
-        // Correct way to get Message-ID
-        if ($headers->has('Message-ID')) {
-            $messageIdHeader = $headers->get('Message-ID');
+        // Correct way to get Message-Id
+        if ($headers->has('Message-Id')) {
+            $messageIdHeader = $headers->get('Message-Id');
             if ($messageIdHeader instanceof IdentificationHeader) {
                 $messageId = $messageIdHeader->getId();
             }
@@ -172,13 +173,13 @@ class HeadersManager
             ? $this->email->getHeaders()->getHeaderBody('X-Sendable-Type')
             : null;
 
-        $sendableId = $this->email->getHeaders()->has('X-Sendable-Id')
-            ? $this->email->getHeaders()->getHeaderBody('X-Sendable-Id')
+        $sendableSlug = $this->email->getHeaders()->has('X-Sendable-Slug')
+            ? $this->email->getHeaders()->getHeaderBody('X-Sendable-Slug')
             : null;
 
         return [
             'type' => $sendableType,
-            'id' => $sendableId,
+            'slug' => $sendableSlug,
         ];
     }
 
@@ -198,10 +199,10 @@ class HeadersManager
         ];
     }
 
-    public function getEmailVariantId(): ?int
+    public function getEmailVariantSlug(): ?string
     {
-        return $this->email->getHeaders()->has('X-Email-Variant-Id')
-            ? (int) $this->email->getHeaders()->getHeaderBody('X-Email-Variant-Id')
+        return $this->email->getHeaders()->has('X-Email-Variant-Slug')
+            ? (string) $this->email->getHeaders()->getHeaderBody('X-Email-Variant-Slug')
             : null;
     }
 

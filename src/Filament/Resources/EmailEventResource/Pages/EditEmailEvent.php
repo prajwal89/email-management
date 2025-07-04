@@ -72,7 +72,7 @@ class EditEmailEvent extends EditRecord
         return [
             SendableOverview::make([
                 'sendableType' => EmailEvent::class,
-                'sendableId' => $this->record->id,
+                'sendableSlug' => $this->record->slug,
             ]),
         ];
     }

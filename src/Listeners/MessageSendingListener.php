@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Prajwal89\EmailManagement\Listeners;
 
 use Illuminate\Mail\Events\MessageSending;
+use Prajwal89\EmailManagement\HeadersManager;
 use Prajwal89\EmailManagement\Services\EmailContentModifiers;
 use Prajwal89\EmailManagement\Services\EmailLogService;
-use Prajwal89\EmailManagement\Services\HeadersManager;
 
 /**
  * @see https://github.com/jdavidbakr/mail-tracker/blob/master/src/MailTracker.php

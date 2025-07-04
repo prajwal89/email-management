@@ -17,11 +17,17 @@ class EmailVariant extends Model
 
     protected $table = 'em_email_variants';
 
+    protected $primaryKey = 'slug';
+
+    protected $keyType = 'string';
+
+    public $incrementing = false;
+
     protected $fillable = [
         'name',
         'slug',
         'content_type',
-        'sendable_id',
+        'sendable_slug',
         'sendable_type',
         'is_paused',
         'is_winner',
@@ -34,6 +40,26 @@ class EmailVariant extends Model
         'exposure_percentage' => 50,
         'content_type' => 'markdown',
     ];
+
+    public function getKey()
+    {
+        return $this->getAttribute($this->getKeyName());
+    }
+
+    public function getRouteKey()
+    {
+        return $this->getAttribute($this->getRouteKeyName());
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    public function getKeyName()
+    {
+        return 'slug';
+    }
 
     public function casts(): array
     {
@@ -50,22 +76,30 @@ class EmailVariant extends Model
      */
     public function sendable(): MorphTo
     {
-        return $this->morphTo();
+        // Adjust to use 'sendable_slug' as the foreign key name instead of the default 'sendable_id'.
+        return $this->morphTo(id: 'sendable_slug');
     }
 
+    /**
+     * Get the email logs associated with this variant.
+     */
     public function emailLogs()
     {
-        return $this->hasMany(EmailLog::class);
+        // Adjust to use the correct foreign key 'email_variant_slug' and local key 'slug'.
+        return $this->hasMany(EmailLog::class, 'email_variant_slug', 'slug');
     }
 
+    /**
+     * Get all the email visits for the email variant.
+     */
     public function emailVisits()
     {
         return $this->hasManyThrough(
             EmailVisit::class,
             EmailLog::class,
-            'email_variant_id', // Foreign key on em_email_logs table
+            'email_variant_slug', // Foreign key on em_email_logs table
             'message_id',       // Foreign key on em_email_visits table
-            'id',               // Local key on em_email_variants table
+            'slug',             // Local key on em_email_variants table (was 'id')
             'message_id'        // Local key on em_email_logs table
         );
     }
@@ -104,7 +138,7 @@ class EmailVariant extends Model
         string $sendableSlug,
         string $variantSlug,
         string $type = 'seed'
-    ) {
+    ): string {
         $sendableType = str($sendableType)->afterLast('\\')->lower();
 
         $microtime = microtime(true);
@@ -123,7 +157,7 @@ class EmailVariant extends Model
         EmailSendable|string $sendable,
         string $variantSlug,
         ?string $sendableSlug = null
-    ) {
+    ): string {
         if ($sendable instanceof Model) {
             if ($variantSlug !== 'default') {
                 return $sendable->slug . '-' . $variantSlug . '-email.blade.php';
@@ -143,7 +177,7 @@ class EmailVariant extends Model
         EmailSendable|string $sendable,
         string $variantSlug,
         ?string $sendableSlug = null
-    ) {
+    ): string {
         $emailViewFileName = self::getEmailViewFileName($sendable, $variantSlug, $sendableSlug);
 
         $folderName = match (is_string($sendable) ? $sendable : get_class($sendable)) {

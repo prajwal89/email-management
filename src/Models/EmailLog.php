@@ -21,6 +21,12 @@ class EmailLog extends Model
 
     protected $table = 'em_email_logs';
 
+    protected $primaryKey = 'message_id';
+
+    protected $keyType = 'string';
+
+    public $incrementing = false;
+
     protected $fillable = [
         'message_id',
         'from',
@@ -29,7 +35,7 @@ class EmailLog extends Model
         'subject',
         'receivable_id',
         'receivable_type',
-        'sendable_id',
+        'sendable_slug',
         'sendable_type',
         'context',
         'headers',
@@ -38,7 +44,11 @@ class EmailLog extends Model
         'opens',
         'clicks',
 
-        'email_variant_id',
+        'email_variant_slug',
+
+        'bounce_code',
+
+        'bounce_reason',
 
         // email has left from our app
         'sent_at',
@@ -50,8 +60,11 @@ class EmailLog extends Model
         'last_clicked_at',
         'complained_at',
 
-        // this email log is reply to the email log with following message id
+        // this log is reply for the previous email log
         'in_reply_to',
+
+        // message id of the reply email
+        'reply_message_id',
 
         'replied_at',
 
@@ -99,9 +112,15 @@ class EmailLog extends Model
         return $this->hasOne(Recipient::class, 'message_id', 'message_id')->where('type', RecipientType::TO);
     }
 
+    // ! this i not correct relation as
+    // we need to connect with sendable_type
     public function emailVariant(): BelongsTo
     {
-        return $this->belongsTo(EmailVariant::class, 'email_variant_id', 'id');
+        return $this->belongsTo(
+            EmailVariant::class,
+            'email_variant_slug',
+            'slug'
+        );
     }
 
     public function followUpEmailLogs(): HasMany
@@ -127,7 +146,7 @@ class EmailLog extends Model
      */
     public function sendable(): MorphTo
     {
-        return $this->morphTo();
+        return $this->morphTo('sendable', 'sendable_type', 'sendable_slug');
     }
 
     /**
@@ -135,7 +154,7 @@ class EmailLog extends Model
      */
     public function receivable(): MorphTo
     {
-        return $this->morphTo();
+        return $this->morphTo('receivable', 'receivable_type', 'receivable_id');
     }
 
     #[Scope]

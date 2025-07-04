@@ -18,6 +18,12 @@ class NewsletterEmail extends Model implements EmailReceivable
 
     protected $table = 'em_newsletter_emails';
 
+    protected $primaryKey = 'email';
+
+    protected $keyType = 'string';
+
+    public $incrementing = false;
+
     protected $fillable = [
         'email',
         'email_verified_at',
