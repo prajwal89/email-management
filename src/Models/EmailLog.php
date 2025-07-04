@@ -46,6 +46,10 @@ class EmailLog extends Model
 
         'email_variant_slug',
 
+        'bounce_code',
+
+        'bounce_reason',
+
         // email has left from our app
         'sent_at',
 
@@ -56,8 +60,7 @@ class EmailLog extends Model
         'last_clicked_at',
         'complained_at',
 
-        // this email log is reply to the email log with following message id
-        'in_reply_to',
+        'reply_message_id',
 
         'replied_at',
 

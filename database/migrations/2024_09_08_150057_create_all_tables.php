@@ -81,7 +81,7 @@ return new class extends Migration
             $table->enum(
                 column: 'content_type',
                 allowed: collect(EmailContentType::cases())
-                    ->map(fn ($case) => $case->value)->toArray()
+                    ->map(fn($case) => $case->value)->toArray()
             )->default('markdown');
 
             $table->string('sendable_slug')->nullable();
@@ -136,7 +136,7 @@ return new class extends Migration
             $table->timestamp('last_clicked_at')->nullable();
             $table->timestamp('complained_at')->nullable();
 
-            $table->string('in_reply_to')->nullable();
+            $table->string('reply_message_id')->nullable();
             $table->timestamp('replied_at')->nullable();
 
             $table->timestamp('soft_bounced_at')->nullable();
