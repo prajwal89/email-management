@@ -7,6 +7,7 @@ namespace Prajwal89\EmailManagement\Services;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Prajwal89\EmailManagement\Enums\RecipientType;
+use Prajwal89\EmailManagement\HeadersManager;
 use Prajwal89\EmailManagement\Models\EmailLog;
 use Symfony\Component\Mime\Email;
 
