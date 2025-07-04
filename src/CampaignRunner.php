@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Prajwal89\EmailManagement\Services;
+namespace Prajwal89\EmailManagement;
 
 use Illuminate\Bus\Batch;
 use Illuminate\Support\Collection;

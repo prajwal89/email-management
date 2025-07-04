@@ -12,7 +12,7 @@ use Prajwal89\EmailManagement\Commands\CreateReceivableGroupCommand;
 use Prajwal89\EmailManagement\Filament\Resources\EmailCampaignResource;
 use Prajwal89\EmailManagement\Helpers\Helper;
 use Prajwal89\EmailManagement\Models\EmailCampaign;
-use Prajwal89\EmailManagement\Services\CampaignRunner;
+use Prajwal89\EmailManagement\CampaignRunner;
 
 class StartCampaignPage extends Page
 {

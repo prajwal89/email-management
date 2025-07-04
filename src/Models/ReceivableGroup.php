@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Prajwal89\EmailManagement\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Prajwal89\EmailManagement\Services\CampaignRunner;
+use Prajwal89\EmailManagement\CampaignRunner;
 use Sushi\Sushi;
 
 /**
