@@ -25,7 +25,7 @@ class HandleNewEmailReceivedJob implements ShouldQueue
         // we can mock this to test
         $bounceParser = $parser->parse($this->message->__toString());
 
-        // ! remove this 
+        // ! remove this
         Log::info('Message', [
             'message' => $this->message->__toString(),
             'bounceResult' => $bounceParser,
@@ -60,7 +60,7 @@ class HandleNewEmailReceivedJob implements ShouldQueue
 
     public function handleBounce(BounceDataDto $bounceDataDto)
     {
-        // ! remove this 
+        // ! remove this
         Log::info('Email is not bounce notification', [
             'message_id' => $this->message->messageId(),
             'subject' => $this->message->subject(),

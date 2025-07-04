@@ -81,7 +81,7 @@ return new class extends Migration
             $table->enum(
                 column: 'content_type',
                 allowed: collect(EmailContentType::cases())
-                    ->map(fn($case) => $case->value)->toArray()
+                    ->map(fn ($case) => $case->value)->toArray()
             )->default('markdown');
 
             $table->string('sendable_slug')->nullable();

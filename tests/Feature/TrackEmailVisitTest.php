@@ -24,7 +24,7 @@ class TrackEmailVisitTest extends TestCase
             expiration: now()->addMinutes(30),
             parameters: [
                 'message_id' => $log->message_id,
-                'url' => $redirectUrl
+                'url' => $redirectUrl,
             ]
         );
 

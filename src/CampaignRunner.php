@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Services;
 
-use Closure;
-use Exception;
 use Illuminate\Bus\Batch;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\File;
@@ -45,7 +42,6 @@ class CampaignRunner
             return (new SendCampaignMailJob($handler, $receivable))
                 ->delay(now()->addSeconds($index * $this->delayBetweenJobs));
         });
-
 
         $campaignRun = $this->emailCampaign->runs()->create([
             'receivable_groups' => $this->receivableGroups,

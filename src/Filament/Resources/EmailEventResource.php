@@ -78,8 +78,8 @@ class EmailEventResource extends Resource
             ->filters([
                 SelectFilter::make('is_followup_email')
                     ->options([
-                        '0' => "No",
-                        '1' => "Yes",
+                        '0' => 'No',
+                        '1' => 'Yes',
                     ])
                     ->default(0),
                 DateRangeFilter::make('created_at'),

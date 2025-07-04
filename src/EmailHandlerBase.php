@@ -13,7 +13,6 @@ use Prajwal89\EmailManagement\Models\EmailLog;
 use Prajwal89\EmailManagement\Models\EmailVariant;
 use Prajwal89\EmailManagement\Services\EmailContentModifiers;
 use Prajwal89\EmailManagement\Services\EmailVariantSelector;
-use Prajwal89\EmailManagement\HeadersManager;
 use ReflectionClass;
 use Symfony\Component\Mime\Email;
 
