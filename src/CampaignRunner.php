@@ -60,8 +60,6 @@ class CampaignRunner
             })
             ->dispatch();
 
-        dd($batch);
-
         $campaignRun->update(['batch_id' => $batch->id]);
 
         return $batch;
@@ -73,14 +71,14 @@ class CampaignRunner
             ->flatMap(function ($fqn) {
                 // Get the query from the group class
                 $query = $fqn::getQuery();
-                
+
                 // Get the model instance from the query
                 $model = $query->getModel();
-                
+
                 // Ensure we select the primary key and email
                 return $query->select([
                     $model->getKeyName(), // Primary key
-                    'email'
+                    'email',
                 ])->get();
             })
             ->unique('email')
