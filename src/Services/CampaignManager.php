@@ -46,6 +46,7 @@ class CampaignManager
                 ->delay(now()->addSeconds($index * $this->delayBetweenJobs));
         });
 
+
         $campaignRun = $this->emailCampaign->runs()->create([
             'receivable_groups' => $this->receivableGroups,
         ]);
@@ -60,6 +61,8 @@ class CampaignManager
             // todo: success event
         })->dispatch();
 
+        dd($batch);
+
         $campaignRun->update(['batch_id' => $batch->id]);
 
         // dd($allReceivables);
@@ -71,7 +74,7 @@ class CampaignManager
     {
         return collect($this->receivableGroups)
             ->flatMap(function ($fqn) {
-                return $fqn::getQuery()->select(['id', 'email'])->get();
+                return $fqn::getQuery()->select(['email'])->get();
             })
             ->unique('email')
             ->values();
@@ -95,70 +98,4 @@ class CampaignManager
             ];
         });
     }
-
-    // public static function allReceivablesFroGroups(array $receivables): Collection
-    // {
-    //     // *hint use query for getting
-    //     // todo handle multiple types of receivables
-    //     // ! this can be memory intensive as we are fetching all users
-    //     $allReceivables = collect($receivables)
-    //         ->map(function ($fqn) {
-    //             return $fqn::getQuery()->get();
-    //         })
-    //         ->flatten()
-    //         ->unique('email');
-
-    //     return $allReceivables;
-    // }
-
-    /**
-     * @var array An array of fully qualified names (FQNs)
-     */
-    // public static function dispatch(EmailCampaign $emailCampaign, array $receivableGroups): bool
-    // {
-    //     // todo validate if campaign is already ran
-
-    //     // validate receivables
-    //     try {
-    //         collect($receivableGroups)->each(function ($groupFqn): void {
-    //             if (!class_exists($groupFqn) || !method_exists($groupFqn, 'getQuery')) {
-    //                 throw new Exception("Invalid group or missing `getQuery` method: {$groupFqn}");
-    //             }
-    //             $groupFqn::getQuery()->count();
-    //         });
-    //     } catch (Exception $e) {
-    //         throw new Exception('Validation failed: ' . $e->getMessage(), 0, $e);
-    //     }
-
-    //     $allReceivables = self::allReceivablesFroGroups($receivableGroups);
-
-    //     $handler = $emailCampaign->resolveEmailHandler();
-
-    //     $batch = Bus::batch(
-    //         $allReceivables->map(function (Model $receivable) use ($handler): Closure {
-    //             // this should be separate job
-    //             return function () use ($handler, $receivable): void {
-    //                 (new $handler($receivable))->send();
-    //             };
-    //         })->toArray()
-    //     )->then(function (Batch $batch): void {
-    //         // ! send notification
-    //         Log::info('All emails were successfully sent.');
-    //     })->catch(function (Batch $batch, Throwable $e): void {
-    //         // ! send notification
-    //         Log::error('Failed to send some emails: ' . $e->getMessage());
-    //     })->finally(function (Batch $batch) use ($emailCampaign): void {
-    //         $emailCampaign->update([
-    //             'ended_on' => now(),
-    //         ]);
-    //     })->dispatch();
-
-    //     $emailCampaign->update([
-    //         'receivable_groups' => $receivableGroups,
-    //         'batch_id' => $batch->id,
-    //         'started_on' => now(),
-    //     ]);
-
-    //     return true;
-    // }
 }

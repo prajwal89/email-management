@@ -53,9 +53,9 @@ class FollowUpMigration
         $stubPath = __DIR__ . '/../../../stubs/migrations/followup-delete-migration.stub';
 
         $fileContents = str(File::get($stubPath))
-            ->replace('{followup_email_event_slug}', $this->followupAbleEvent->id)
+            ->replace('{followup_email_event_slug}', $this->followupAbleEvent->slug)
             ->replace('{followupable_type}', get_class($this->followupAble))
-            ->replace('{followupable_slug}', $this->followupAble->id);
+            ->replace('{followupable_slug}', $this->followupAble->slug);
 
         $migrationFilePath = FollowUp::getMigrationFilePath(
             $this->followupAbleEvent,
