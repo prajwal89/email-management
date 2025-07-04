@@ -30,38 +30,39 @@ class CampaignRunner
 
     public function run()
     {
-        $handler = $this->emailCampaign->resolveEmailHandler();
+        $emailHandler = $this->emailCampaign->resolveEmailHandler();
 
         $allReceivables = $this->allReceivablesWithUniqueEmail();
 
-        $allEmailJobs = $allReceivables->map(function (EmailReceivable $receivable, int $index) use ($handler) {
-            if ($this->delayBetweenJobs === 0) {
-                return new SendCampaignMailJob($handler, $receivable);
-            }
+        $allEmailJobs = $allReceivables
+            ->map(function (EmailReceivable $receivable, int $index) use ($emailHandler) {
+                if ($this->delayBetweenJobs === 0) {
+                    return new SendCampaignMailJob($emailHandler, $receivable);
+                }
 
-            return (new SendCampaignMailJob($handler, $receivable))
-                ->delay(now()->addSeconds($index * $this->delayBetweenJobs));
-        });
+                return (new SendCampaignMailJob($emailHandler, $receivable))
+                    ->delay(now()->addSeconds($index * $this->delayBetweenJobs));
+            });
 
         $campaignRun = $this->emailCampaign->runs()->create([
             'receivable_groups' => $this->receivableGroups,
         ]);
 
-        $batch = Bus::batch(
-            $allEmailJobs->toArray()
-        )->then(function (Batch $batch): void {
-            Log::info('All emails were successfully sent.');
-        })->catch(function (Batch $batch, Throwable $e): void {
-            Log::error('Failed to send some emails: ' . $e->getMessage());
-        })->finally(function (Batch $batch) {
-            // todo: success event
-        })->dispatch();
+        $batch = Bus::batch($allEmailJobs->toArray())
+            ->then(function (Batch $batch): void {
+                Log::info('All emails were successfully sent.');
+            })
+            ->catch(function (Batch $batch, Throwable $e): void {
+                Log::error('Failed to send some emails: ' . $e->getMessage());
+            })
+            ->finally(function (Batch $batch) {
+                // todo: success event
+            })
+            ->dispatch();
 
         dd($batch);
 
         $campaignRun->update(['batch_id' => $batch->id]);
-
-        // dd($allReceivables);
 
         return $batch;
     }
