@@ -25,12 +25,6 @@ class HandleNewEmailReceivedJob implements ShouldQueue
         // we can mock this to test
         $bounceParser = $parser->parse($this->message->__toString());
 
-        // ! remove this
-        Log::info('Message', [
-            'message' => $this->message->__toString(),
-            'bounceResult' => $bounceParser,
-        ]);
-
         // this means email is not bounce notification
         if ($bounceParser) {
             return $this->handleBounce($bounceParser);
@@ -60,12 +54,6 @@ class HandleNewEmailReceivedJob implements ShouldQueue
 
     public function handleBounce(BounceDataDto $bounceDataDto)
     {
-        // ! remove this
-        Log::info('Email is not bounce notification', [
-            'message_id' => $this->message->messageId(),
-            'subject' => $this->message->subject(),
-        ]);
-
         $updateData = [];
 
         if (str($bounceDataDto->statusCode)->startsWith('5')) {
@@ -89,5 +77,9 @@ class HandleNewEmailReceivedJob implements ShouldQueue
             'bounce_reason' => $bounceDataDto->reason,
             ...$updateData,
         ]);
+
+        if (isset($updateData['hard_bounced_at'])) {
+            $emailLog->receivable->unsubscribeFromEmails();
+        }
     }
 }
