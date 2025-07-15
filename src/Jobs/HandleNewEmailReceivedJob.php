@@ -56,9 +56,9 @@ class HandleNewEmailReceivedJob implements ShouldQueue
     {
         $updateData = [];
 
-        if (str($bounceDataDto->statusCode)->startsWith('5')) {
+        if ($bounceDataDto->isHardBounced()) {
             $updateData['hard_bounced_at'] = now();
-        } elseif (str($bounceDataDto->statusCode)->startsWith('4')) {
+        } elseif ($bounceDataDto->isSoftBounced()) {
             $updateData['soft_bounced_at'] = now();
         }
 
@@ -78,7 +78,7 @@ class HandleNewEmailReceivedJob implements ShouldQueue
             ...$updateData,
         ]);
 
-        if (isset($updateData['hard_bounced_at'])) {
+        if ($bounceDataDto->isHardBounced()) {
             $emailLog->receivable->unsubscribeFromEmails();
         }
     }

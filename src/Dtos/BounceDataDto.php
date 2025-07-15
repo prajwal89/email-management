@@ -17,4 +17,16 @@ final readonly class BounceDataDto
         public ?string $humanReadablePart,
         public ?array $originalMessage,
     ) {}
+
+    public function isHardBounced(): bool
+    {
+        // Hard bounces usually have status codes starting with 5.x.x
+        return $this->statusCode !== null && str_starts_with($this->statusCode, '5');
+    }
+
+    public function isSoftBounced(): bool
+    {
+        // Soft bounces usually have status codes starting with 4.x.x
+        return $this->statusCode !== null && str_starts_with($this->statusCode, '4');
+    }
 }
