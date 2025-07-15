@@ -121,10 +121,10 @@ class FollowUpEmailsSender
     ) {
         // dd($emailLog->message_id);
 
-        dump(
-            // $emailLog,
-            $followUpEvent->name,
-        );
+        // dump(
+        //     // $emailLog,
+        //     $followUpEvent->name,
+        // );
 
         // todo add subject header as "Re: "
         $handler = $followUpEvent->resolveEmailHandler();
