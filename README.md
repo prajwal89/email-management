@@ -15,12 +15,10 @@ This is an **opinionated email management solution** with powerful features for 
 ## Installation
 
 - `composer require prajwal89/email-management`
-- `php artisan vendor:publish --tag=email-management-views`
 - `./vendor/prajwal89/email-management/resources/views/**/*.blade.php, add this to your filaments tailwind.config.js`
 - `php artisan make:queue-table`
 - `php artisan migrate`
 - To watch incoming emails `php artisan imap:watch default --with=flags,headers,body` This is required if you are using Cold emailing feature or it will send all follow up emails despite of user reply. also it should be restarted like queue workers to load latest app code
-
 
 ## Core Concepts
 
