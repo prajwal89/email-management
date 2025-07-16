@@ -88,6 +88,10 @@ class CampaignRunner
     /**for livewire component */
     public static function allGroupsData(): Collection
     {
+        $directory = config('email-management.receivable_groups_path');
+
+        File::ensureDirectoryExists($directory);
+
         return collect(
             File::allFiles(config('email-management.receivable_groups_path'))
         )->map(function (SplFileInfo $file): array {
