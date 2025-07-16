@@ -12,6 +12,19 @@ return new class extends Migration
 {
     public function up(): void
     {
+        // for tests
+        if (!Schema::hasTable('users')) {
+            Schema::create('users', function (Blueprint $table) {
+                $table->id();
+                $table->string('name');
+                $table->string('email')->unique();
+                $table->timestamp('email_verified_at')->nullable();
+                $table->string('password');
+                $table->rememberToken();
+                $table->timestamps();
+            });
+        }
+
         Schema::table('users', function (Blueprint $table): void {
             $table->boolean('is_subscribed_for_emails')->before('created_at')->default(1);
         });
@@ -81,7 +94,7 @@ return new class extends Migration
             $table->enum(
                 column: 'content_type',
                 allowed: collect(EmailContentType::cases())
-                    ->map(fn ($case) => $case->value)->toArray()
+                    ->map(fn($case) => $case->value)->toArray()
             )->default('markdown');
 
             $table->string('sendable_slug')->nullable();

@@ -15,6 +15,7 @@ This is an **opinionated email management solution** with powerful features for 
 ## Installation
 
 - `composer require prajwal89/email-management`
+- `php artisan vendor:publish --tag=email-management-migrations`
 - `./vendor/prajwal89/email-management/resources/views/**/*.blade.php, add this to your filaments tailwind.config.js`
 - `php artisan make:queue-table`
 - `php artisan migrate`
