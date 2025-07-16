@@ -115,7 +115,9 @@ abstract class EmailHandlerBase
             return;
         }
 
-        Mail::to($this->receivable->getEmail())->send($this->finalEmail);
+        Mail::mailer(config('email-management.mailer'))
+            ->to($this->receivable->getEmail())
+            ->send($this->finalEmail);
     }
 
     // todo: find better way to pass $inRelyToMessageId
@@ -293,7 +295,9 @@ abstract class EmailHandlerBase
         string $email,
         ?EmailVariant $emailVariant = null
     ): void {
-        Mail::to($email)->send(static::buildSampleEmail($emailVariant));
+        Mail::mailer(config('email-management.mailer'))
+            ->to($email)
+            ->send(static::buildSampleEmail($emailVariant));
     }
 
     /**

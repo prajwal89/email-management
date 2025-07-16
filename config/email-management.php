@@ -24,6 +24,9 @@ return [
      */
     'reply_to' => 'replyto@example.com',
 
+    /**
+     * Default mailer to use to send emails
+     */
     'mailer' => 'smtp',
 
     /**
