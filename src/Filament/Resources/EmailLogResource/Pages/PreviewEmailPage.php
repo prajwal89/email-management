@@ -33,13 +33,11 @@ class PreviewEmailPage extends Page
     protected function getHeaderActions(): array
     {
         return [
-            Action::make('resend')
-                ->label('Resend')
-                ->action(function ($record): void {
-                    // todo: implement this
-                    // dd($record);
-                }),
-
+            // Action::make('resend')
+            //     ->label('Resend')
+            //     ->action(function ($record): void {
+            //         // todo: implement this
+            //     }),
         ];
     }
 

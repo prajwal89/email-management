@@ -17,8 +17,10 @@ This is an **opinionated email management solution** with powerful features for 
 - `composer require prajwal89/email-management`
 - `php artisan vendor:publish --tag=email-management-migrations`
 - `php artisan vendor:publish --tag=email-management-config`
+- `php artisan vendor:publish --provider="DirectoryTree\ImapEngine\Laravel\ImapServiceProvider"`
 - Implement `EmailReceivable` interface to your User model.
 - `./vendor/prajwal89/email-management/resources/views/**/*.blade.php, add this to your filaments tailwind.config.js`
+- run `npm run build` to build css asset for filament dashboard
 - Register filament plugin `new EmailManagementFilamentPlugin`
 - `php artisan make:queue-table`
 - `php artisan migrate`
