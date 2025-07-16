@@ -30,7 +30,7 @@ abstract class EmailHandlerBase
     /**
      * Message-ID header that we are setting manually (for sample emails only)
      */
-    private static string $sampleMessageId;
+    private static ?string $sampleMessageId = null;
 
     /**
      * Message-ID header for the actual email being built
