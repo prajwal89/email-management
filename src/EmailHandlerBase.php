@@ -28,9 +28,14 @@ abstract class EmailHandlerBase
     public static $mail;
 
     /**
-     * Message-ID header that we are setting manually
+     * Message-ID header that we are setting manually (for sample emails only)
      */
-    public static string $messageId;
+    private static string $sampleMessageId;
+
+    /**
+     * Message-ID header for the actual email being built
+     */
+    public string $messageId;
 
     public $finalEmail;
 
@@ -124,7 +129,7 @@ abstract class EmailHandlerBase
 
         $this->chosenEmailVariant = (new EmailVariantSelector($this->sendable))->choose();
 
-        static::$messageId = HeadersManager::generateNewMessageId();
+        $this->messageId = HeadersManager::generateNewMessageId();
 
         // pass parent constructor args to the email class
         $this->finalEmail = new static::$mail(
@@ -136,7 +141,7 @@ abstract class EmailHandlerBase
 
         $emailContentModifiers = new EmailContentModifiers(
             $this->finalEmail,
-            static::$messageId
+            $this->messageId
         );
 
         if (config('email-management.track_visits')) {
@@ -187,7 +192,7 @@ abstract class EmailHandlerBase
         $headersManager->configureEmailHeaders(
             sendable: $this->sendable,
             receivable: $this->receivable,
-            messageId: static::$messageId,
+            messageId: $this->messageId,
             eventContext: $this->eventContext,
             chosenEmailVariant: $this->chosenEmailVariant,
         );
@@ -234,9 +239,9 @@ abstract class EmailHandlerBase
 
         $sampleBuildEmail->withSymfonyMessage([static::class, 'configureSymfonyMessageForSampleMail']);
 
-        static::$messageId = HeadersManager::generateNewMessageId();
+        static::$sampleMessageId = HeadersManager::generateNewMessageId();
 
-        $emailContentModifiers = new EmailContentModifiers($sampleBuildEmail, static::$messageId);
+        $emailContentModifiers = new EmailContentModifiers($sampleBuildEmail, static::$sampleMessageId);
 
         if (config('email-management.track_visits')) {
             $emailContentModifiers->injectTrackingUrls();
@@ -257,7 +262,7 @@ abstract class EmailHandlerBase
     {
         $headersManager = new HeadersManager($message);
 
-        $headersManager->createMessageId(static::$messageId);
+        $headersManager->createMessageId(static::$sampleMessageId);
 
         $headersManager->addSendableHeaders(static::resolveSendable());
     }
