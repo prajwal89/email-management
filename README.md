@@ -16,6 +16,7 @@ This is an **opinionated email management solution** with powerful features for 
 
 - `composer require prajwal89/email-management`
 - `php artisan vendor:publish --tag=email-management-migrations`
+- Implement `EmailReceivable` interface to your User model.
 - `./vendor/prajwal89/email-management/resources/views/**/*.blade.php, add this to your filaments tailwind.config.js`
 - Register filament plugin `new EmailManagementFilamentPlugin`
 - `php artisan make:queue-table`
