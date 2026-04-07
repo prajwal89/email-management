@@ -12,5 +12,4 @@ class SentEmailsTrendWidget extends BaseTrendChartWidget
     protected string $modelFqn = EmailLog::class;
 
     protected ?string $heading = 'Logs';
-
 }

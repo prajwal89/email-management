@@ -54,7 +54,7 @@ class BaseTrendChartWidget extends ChartWidget
             'datasets' => [
                 [
                     'label' => str($this->modelFqn)->afterLast('\\')->toString(),
-                    'data' => $results->map(fn(TrendValue $value): mixed => $value->aggregate),
+                    'data' => $results->map(fn (TrendValue $value): mixed => $value->aggregate),
                 ],
             ],
             'labels' => $results->map(function (TrendValue $value): string {

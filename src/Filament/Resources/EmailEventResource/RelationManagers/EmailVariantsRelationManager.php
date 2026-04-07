@@ -7,9 +7,6 @@ namespace Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\Relati
 use Exception;
 use Filament\Actions\Action;
 use Filament\Actions\EditAction;
-use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Columns\IconColumn;
@@ -29,7 +26,6 @@ class EmailVariantsRelationManager extends RelationManager
 
         return $total === 1 ? null : (string) $total;
     }
-
 
     // todo: get unique page views
     public function table(Table $table): Table
@@ -86,7 +82,7 @@ class EmailVariantsRelationManager extends RelationManager
                     ->color('danger')
                     ->icon('heroicon-o-trash')
                     ->requiresConfirmation()
-                    ->disabled(fn(): bool => !app()->isLocal())
+                    ->disabled(fn (): bool => !app()->isLocal())
                     ->tooltip('Can Be deleted from local Environment only')
                     ->modalDescription('This action will email file, and all associated DB records and will create seeder file for deleting the record')
                     ->modalSubmitActionLabel('Delete')

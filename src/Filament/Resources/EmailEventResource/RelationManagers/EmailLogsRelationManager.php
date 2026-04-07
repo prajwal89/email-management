@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\RelationManagers;
 
 use Filament\Actions\Action;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -18,7 +16,6 @@ use Prajwal89\EmailManagement\Interfaces\EmailSendable;
 class EmailLogsRelationManager extends RelationManager
 {
     protected static string $relationship = 'emailLogs';
-
 
     public function table(Table $table): Table
     {
@@ -37,7 +34,7 @@ class EmailLogsRelationManager extends RelationManager
                     ->visible(function () {
                         return $this->getOwnerRecord() instanceof EmailSendable;
                     })
-                    ->options(fn() => $this->getOwnerRecord()->emailVariants()->pluck('name', 'slug')->toArray()),
+                    ->options(fn () => $this->getOwnerRecord()->emailVariants()->pluck('name', 'slug')->toArray()),
             ])
             ->actions([
                 Action::make('preview')

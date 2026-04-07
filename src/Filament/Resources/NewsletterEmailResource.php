@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Filament\Resources;
 
+use Filament\Actions\EditAction;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Actions\Action;
-use Filament\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
