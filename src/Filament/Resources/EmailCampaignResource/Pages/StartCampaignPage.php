@@ -18,7 +18,7 @@ class StartCampaignPage extends Page
 {
     protected static string $resource = EmailCampaignResource::class;
 
-    protected static string $view = 'em::filament.start-campaign-page';
+    protected string $view = 'em::filament.start-campaign-page';
 
     public EmailCampaign $record;
 

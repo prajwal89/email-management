@@ -18,7 +18,7 @@ class PreviewEmailPage extends Page
 {
     protected static string $resource = EmailCampaignResource::class;
 
-    protected static string $view = 'em::filament.preview-email-page';
+    protected string $view = 'em::filament.preview-email-page';
 
     public EmailCampaign $record;
 
