@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\RelationManagers;
 
+use Filament\Actions\Action;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
-use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
@@ -26,16 +26,6 @@ class FollowUpsRelationManager extends RelationManager
         $total = $ownerRecord->followUps()->count();
 
         return $total > 0 ? (string) $total : null;
-    }
-
-    public function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                TextInput::make('sendable.name')
-                    ->required()
-                    ->maxLength(255),
-            ]);
     }
 
     public function table(Table $table): Table
@@ -79,7 +69,7 @@ class FollowUpsRelationManager extends RelationManager
                     ->outlined()
                     ->icon('heroicon-o-trash')
                     ->requiresConfirmation()
-                    ->disabled(fn (): bool => !app()->isLocal())
+                    ->disabled(fn(): bool => !app()->isLocal())
                     ->tooltip('Can Be deleted from local Environment only')
                     ->modalDescription('This action will create migration file for deleting the record')
                     ->modalSubmitActionLabel('Delete')

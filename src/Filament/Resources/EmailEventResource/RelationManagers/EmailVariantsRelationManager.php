@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\RelationManagers;
 
 use Exception;
+use Filament\Actions\Action;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Tables\Actions\Action as ActionsAction;
-use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -30,22 +30,6 @@ class EmailVariantsRelationManager extends RelationManager
         return $total === 1 ? null : (string) $total;
     }
 
-    public function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-
-                TextInput::make('exposure_percentage')
-                    ->numeric()
-                    ->minValue(1)
-                    ->maxValue(100),
-
-                Checkbox::make('is_paused'),
-            ]);
-    }
 
     // todo: get unique page views
     public function table(Table $table): Table
@@ -97,12 +81,12 @@ class EmailVariantsRelationManager extends RelationManager
             ])
             ->actions([
                 EditAction::make(),
-                ActionsAction::make('delete')
+                Action::make('delete')
                     ->label('Delete')
                     ->color('danger')
                     ->icon('heroicon-o-trash')
                     ->requiresConfirmation()
-                    ->disabled(fn (): bool => !app()->isLocal())
+                    ->disabled(fn(): bool => !app()->isLocal())
                     ->tooltip('Can Be deleted from local Environment only')
                     ->modalDescription('This action will email file, and all associated DB records and will create seeder file for deleting the record')
                     ->modalSubmitActionLabel('Delete')

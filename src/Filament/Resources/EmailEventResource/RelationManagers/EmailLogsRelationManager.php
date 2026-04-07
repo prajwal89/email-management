@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\RelationManagers;
 
+use Filament\Actions\Action;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Filters\SelectFilter;
@@ -19,15 +19,6 @@ class EmailLogsRelationManager extends RelationManager
 {
     protected static string $relationship = 'emailLogs';
 
-    public function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                TextInput::make('subject')
-                    ->required()
-                    ->maxLength(255),
-            ]);
-    }
 
     public function table(Table $table): Table
     {
@@ -46,7 +37,7 @@ class EmailLogsRelationManager extends RelationManager
                     ->visible(function () {
                         return $this->getOwnerRecord() instanceof EmailSendable;
                     })
-                    ->options(fn () => $this->getOwnerRecord()->emailVariants()->pluck('name', 'slug')->toArray()),
+                    ->options(fn() => $this->getOwnerRecord()->emailVariants()->pluck('name', 'slug')->toArray()),
             ])
             ->actions([
                 Action::make('preview')
@@ -58,9 +49,9 @@ class EmailLogsRelationManager extends RelationManager
                     }),
             ])
             ->bulkActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
+                // BulkActionGroup::make([
+                //     DeleteBulkAction::make(),
+                // ]),
             ])
             ->defaultSort('created_at', 'desc');
     }

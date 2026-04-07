@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Filament\Resources\EmailCampaignResource\Widgets;
 
+use Filament\Actions\Action;
+use Filament\Actions\DeleteAction;
 use Filament\Notifications\Notification;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
