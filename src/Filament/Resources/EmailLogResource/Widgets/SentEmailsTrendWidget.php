@@ -13,5 +13,4 @@ class SentEmailsTrendWidget extends BaseTrendChartWidget
 
     protected ?string $heading = 'Logs';
 
-    protected static ?int $sort = 6;
 }
