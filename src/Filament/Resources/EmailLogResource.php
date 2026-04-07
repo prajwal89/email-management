@@ -29,24 +29,18 @@ use Prajwal89\EmailManagement\Models\EmailCampaign;
 use Prajwal89\EmailManagement\Models\EmailEvent;
 use Prajwal89\EmailManagement\Models\EmailLog;
 use Prajwal89\EmailManagement\Models\NewsletterEmail;
+use UnitEnum;
 
 class EmailLogResource extends Resource
 {
     protected static ?string $model = EmailLog::class;
 
-    protected static ?string $navigationGroup = 'Emails';
+    protected static string | UnitEnum | null $navigationGroup = 'Emails';
 
     protected static ?string $navigationLabel = 'Email Logs';
 
     protected static ?int $navigationSort = 2;
 
-    public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                //
-            ]);
-    }
 
     public static function table(Table $table): Table
     {
@@ -162,7 +156,7 @@ class EmailLogResource extends Resource
             TextColumn::make('sendable')
                 ->label('sendable')
                 ->hidden(
-                    fn ($livewire): bool => $livewire instanceof EmailLogsRelationManager
+                    fn($livewire): bool => $livewire instanceof EmailLogsRelationManager
                 )
                 ->getStateUsing(function ($record) {
                     return $record?->sendable?->name ?? '';
@@ -286,7 +280,7 @@ class EmailLogResource extends Resource
                                 get_class($sendable) . ':' . $sendable->slug => $sendable->name,
                             ];
                         })
-                        ->mapWithKeys(fn ($data) => $data)
+                        ->mapWithKeys(fn($data) => $data)
                         ->filter();
 
                     if ($result->isEmpty()) {
@@ -300,35 +294,35 @@ class EmailLogResource extends Resource
 
             Filter::make('sent_at')
                 ->label('Sent')
-                ->query(fn (Builder $query): Builder => $query->sent()),
+                ->query(fn(Builder $query): Builder => $query->sent()),
 
             Filter::make('last_opened_at')
                 ->label('Opened')
-                ->query(fn (Builder $query): Builder => $query->opened()),
+                ->query(fn(Builder $query): Builder => $query->opened()),
 
             Filter::make('last_clicked_at')
                 ->label('Clicked')
-                ->query(fn (Builder $query): Builder => $query->clicked()),
+                ->query(fn(Builder $query): Builder => $query->clicked()),
 
             Filter::make('replied_at')
                 ->label('Replied')
-                ->query(fn (Builder $query): Builder => $query->replied()),
+                ->query(fn(Builder $query): Builder => $query->replied()),
 
             Filter::make('complained_at')
                 ->label('Complained')
-                ->query(fn (Builder $query): Builder => $query->complained()),
+                ->query(fn(Builder $query): Builder => $query->complained()),
 
             Filter::make('soft_bounced')
                 ->label('Soft Bounced')
-                ->query(fn (Builder $query): Builder => $query->softBounced()),
+                ->query(fn(Builder $query): Builder => $query->softBounced()),
 
             Filter::make('hard_bounced')
                 ->label('Hard Bounced')
-                ->query(fn (Builder $query): Builder => $query->hardBounced()),
+                ->query(fn(Builder $query): Builder => $query->hardBounced()),
 
             Filter::make('unsubscribed_at')
                 ->label('Unsubscribed')
-                ->query(fn (Builder $query): Builder => $query->unsubscribed()),
+                ->query(fn(Builder $query): Builder => $query->unsubscribed()),
         ];
     }
 }

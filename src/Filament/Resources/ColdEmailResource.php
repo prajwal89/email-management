@@ -16,32 +16,17 @@ use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 use Prajwal89\EmailManagement\Filament\Resources\ColdEmailResource\Pages;
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\RelationManagers\EmailLogsRelationManager;
 use Prajwal89\EmailManagement\Models\ColdEmail;
+use UnitEnum;
 
 class ColdEmailResource extends Resource
 {
     protected static ?string $model = ColdEmail::class;
 
-    protected static ?string $navigationGroup = 'Emails';
+    protected static string | UnitEnum | null $navigationGroup = 'Emails';
 
     protected static ?string $navigationLabel = 'Cold Emails';
 
     protected static ?int $navigationSort = 6;
-
-    public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                TextInput::make('email')
-                    ->email()->required(),
-                TextInput::make('collection_reason')
-                    ->required(),
-                TextInput::make('collected_from')
-                    ->required(),
-                DateTimePicker::make('unsubscribed_at')
-                // ->date()
-                ,
-            ]);
-    }
 
     public static function table(Table $table): Table
     {

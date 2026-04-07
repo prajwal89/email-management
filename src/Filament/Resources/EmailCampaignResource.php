@@ -27,27 +27,18 @@ use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\RelationMana
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\RelationManagers\FollowUpsRelationManager;
 use Prajwal89\EmailManagement\Filament\Widgets\SendableOverview;
 use Prajwal89\EmailManagement\Models\EmailCampaign;
+use UnitEnum;
 
 // todo to calculate conversion rate we need to calculate only unique visits
 class EmailCampaignResource extends Resource
 {
     protected static ?string $model = EmailCampaign::class;
 
-    protected static ?string $navigationGroup = 'Emails';
+    protected static string | UnitEnum | null $navigationGroup = 'Emails';
 
     protected static ?string $navigationLabel = 'Campaigns';
 
     protected static ?int $navigationSort = 2;
-
-    public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                TextInput::make('name'),
-                TextInput::make('slug')->disabled(),
-                Textarea::make('description'),
-            ]);
-    }
 
     public static function table(Table $table): Table
     {

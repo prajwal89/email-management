@@ -23,28 +23,17 @@ use Prajwal89\EmailManagement\Filament\Resources\NewsletterEmailResource\Pages\E
 use Prajwal89\EmailManagement\Filament\Resources\NewsletterEmailResource\Pages\ListNewsletterEmails;
 use Prajwal89\EmailManagement\Filament\Resources\NewsletterEmailResource\Widgets\NewsletterEmailTrendChartWidget;
 use Prajwal89\EmailManagement\Models\NewsletterEmail;
+use UnitEnum;
 
 class NewsletterEmailResource extends Resource
 {
     protected static ?string $model = NewsletterEmail::class;
 
-    protected static ?string $navigationGroup = 'Emails';
+    protected static string | UnitEnum | null $navigationGroup = 'Emails';
 
     protected static ?string $navigationLabel = 'Newsletter Emails';
 
     protected static ?int $navigationSort = 6;
-
-    public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                TextInput::make('email')
-                    ->required()
-                    ->email(),
-                DateTimePicker::make('email_verified_at'),
-                DateTimePicker::make('unsubscribed_at'),
-            ]);
-    }
 
     public static function table(Table $table): Table
     {

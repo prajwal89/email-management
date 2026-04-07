@@ -24,27 +24,17 @@ use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\RelationMana
 use Prajwal89\EmailManagement\Filament\Resources\EmailEventResource\RelationManagers\FollowUpsRelationManager;
 use Prajwal89\EmailManagement\Filament\Widgets\SendableOverview;
 use Prajwal89\EmailManagement\Models\EmailEvent;
+use UnitEnum;
 
 class EmailEventResource extends Resource
 {
     protected static ?string $model = EmailEvent::class;
 
-    protected static ?string $navigationGroup = 'Emails';
+    protected static string | UnitEnum | null $navigationGroup = 'Emails';
 
     protected static ?string $navigationLabel = 'Events';
 
     protected static ?int $navigationSort = 1;
-
-    public static function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                TextInput::make('name'),
-                TextInput::make('slug')->disabled(),
-                Textarea::make('description'),
-                Toggle::make('is_enabled'),
-            ]);
-    }
 
     public static function table(Table $table): Table
     {
