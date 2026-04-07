@@ -9,7 +9,7 @@ use Prajwal89\EmailManagement\Models\NewsletterEmail;
 
 class NewsletterEmailTrendChartWidget extends BaseTrendChartWidget
 {
-    protected static ?string $heading = 'Newsletter Emails';
+    protected ?string $heading = 'Newsletter Emails';
 
-    protected static string $modelFqn = NewsletterEmail::class;
+    protected string $modelFqn = NewsletterEmail::class;
 }

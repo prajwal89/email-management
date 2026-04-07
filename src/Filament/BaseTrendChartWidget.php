@@ -13,23 +13,23 @@ use Flowframe\Trend\TrendValue;
 // we can always copy paste in other modules
 class BaseTrendChartWidget extends ChartWidget
 {
-    protected static ?string $heading = 'Users';
+    protected ?string $heading = 'Users';
 
     protected int|string|array $columnSpan = 'full';
 
-    protected static ?string $maxHeight = '280px';
+    protected ?string $maxHeight = '280px';
 
     public ?string $filter = 'Daily';
 
     // ! overwrite this with your model FQN
-    protected static string $modelFqn = User::class;
+    protected string $modelFqn = User::class;
 
     protected function getData(): array
     {
         // This is hack do find better way to do this
-        static::$heading = str(static::$modelFqn)->afterLast('\\')->plural()->toString() . ' Trend';
+        $this->heading = str($this->modelFqn)->afterLast('\\')->plural()->toString() . ' Trend';
 
-        $query = Trend::model(static::$modelFqn);
+        $query = Trend::model($this->modelFqn);
 
         $results = match ($this->filter) {
             'Monthly' => $query->between(
@@ -53,7 +53,7 @@ class BaseTrendChartWidget extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => str(static::$modelFqn)->afterLast('\\')->toString(),
+                    'label' => str($this->modelFqn)->afterLast('\\')->toString(),
                     'data' => $results->map(fn (TrendValue $value): mixed => $value->aggregate),
                 ],
             ],

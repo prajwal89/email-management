@@ -9,5 +9,5 @@ use Prajwal89\EmailManagement\Models\EmailVisit;
 
 class EmailVisitsTrendWidget extends BaseTrendChartWidget
 {
-    protected static string $modelFqn = EmailVisit::class;
+    protected string $modelFqn = EmailVisit::class;
 }
