@@ -43,15 +43,13 @@ class EmailManagementServiceProvider extends ServiceProvider
                 __DIR__ . '/../config/email-management.php' => config_path('email-management.php'),
             ], 'email-management-config');
 
-
             $this->loadMigrationsFrom([
                 config('email-management.migrations_dir'), // user generated migrations
             ]);
 
             if ($this->app->runningInConsole()) {
                 $this->publishes([
-                    __DIR__ . '/../database/migrations/2024_09_08_150057_create_all_tables.php' =>
-                    database_path('migrations/' . date('Y_m_d_His') . '_create_email_management_tables.php'),
+                    __DIR__ . '/../database/migrations/2024_09_08_150057_create_all_tables.php' => database_path('migrations/' . date('Y_m_d_His') . '_create_email_management_tables.php'),
                 ], 'email-management-migrations');
             }
 
@@ -63,7 +61,6 @@ class EmailManagementServiceProvider extends ServiceProvider
                 CreateFollowUpCommand::class,
             ]);
         }
-
 
         Factory::guessFactoryNamesUsing(function (string $modelName) {
             if (str_starts_with($modelName, 'Prajwal89\\EmailManagement\\')) {

@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Filament\Resources;
 
-use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
@@ -22,7 +19,7 @@ class ColdEmailResource extends Resource
 {
     protected static ?string $model = ColdEmail::class;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Emails';
+    protected static string|UnitEnum|null $navigationGroup = 'Emails';
 
     protected static ?string $navigationLabel = 'Cold Emails';
 

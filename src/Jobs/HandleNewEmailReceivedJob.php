@@ -7,7 +7,6 @@ namespace Prajwal89\EmailManagement\Jobs;
 use DirectoryTree\ImapEngine\MessageInterface;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
-use Illuminate\Support\Facades\Log;
 use Prajwal89\EmailManagement\BounceParser;
 use Prajwal89\EmailManagement\Dtos\BounceDataDto;
 use Prajwal89\EmailManagement\Models\EmailLog;

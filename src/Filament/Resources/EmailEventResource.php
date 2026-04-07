@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Filament\Resources;
 
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\EditAction;
@@ -30,7 +26,7 @@ class EmailEventResource extends Resource
 {
     protected static ?string $model = EmailEvent::class;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Emails';
+    protected static string|UnitEnum|null $navigationGroup = 'Emails';
 
     protected static ?string $navigationLabel = 'Events';
 

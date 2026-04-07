@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Filament\Resources;
 
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -25,7 +24,7 @@ class EmailVisitResource extends Resource
 
     // protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static string | UnitEnum | null $navigationGroup = 'Emails';
+    protected static string|UnitEnum|null $navigationGroup = 'Emails';
 
     protected static ?string $navigationLabel = 'Visits';
 
@@ -122,7 +121,7 @@ class EmailVisitResource extends Resource
                                     get_class($sendable) . ':' . $sendable->slug => $sendable->name,
                                 ];
                             })
-                            ->mapWithKeys(fn($data) => $data)
+                            ->mapWithKeys(fn ($data) => $data)
                             ->filter();
 
                         return $result->isEmpty()

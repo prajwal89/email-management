@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Prajwal89\EmailManagement\Filament\Resources;
 
-use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
@@ -29,7 +26,7 @@ class NewsletterEmailResource extends Resource
 {
     protected static ?string $model = NewsletterEmail::class;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Emails';
+    protected static string|UnitEnum|null $navigationGroup = 'Emails';
 
     protected static ?string $navigationLabel = 'Newsletter Emails';
 
